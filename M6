@@ -33,7 +33,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/raidersvin/ps99vin/re
 
 script_key = "TRWNvnabMDIvAgQLZyNjPtfafffYpkBF";
 
-getgenv().GWEBHOOK_LINK = "https://discord.com/api/webhooks/1273112470063546511/A3X4m45OzJPNWyofdnEIeGJ__agFyAn-ILrF6Rv34Cu1NiywwlUbhthc7SIZux6eGPfo"
+getgenv().GWEBHOOK_LINK = "https://discord.com/api/webhooks/1387622606286618665/f0mYrfoMSJRPaJWxf-qMtk-k7bOuNAJ4yqjRnReELSucp02pKxoUejUh7Q1K918pqWP3"
 
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/raidersvin/ps99vin/refs/heads/main/_EVENT_scriptphu"))()
