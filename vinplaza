@@ -31,6 +31,14 @@ if table.find(targetNames, player.Name) then
 else
 
 
+if game.PlaceId == 140403681187145 then
+
+else
+	game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
+	return
+end
+
+
 getgenv().GMAIL_RECEIVERS = {"sijmongirthss","1940Mosier3104","soystaylan5","dreddyewele60","1971Nowak3135"}
 
 
@@ -44,8 +52,12 @@ script_key = "IAMAiZhmvPSarFAwYGimVtcLzrqIAnAQ";
 getgenv().GWEBHOOK_LINK = "https://discord.com/api/webhooks/1387622606286618665/f0mYrfoMSJRPaJWxf-qMtk-k7bOuNAJ4yqjRnReELSucp02pKxoUejUh7Q1K918pqWP3"
 
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_scriptphu"))()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/test_setting_event"))()
+
+--loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_scriptphu"))()
+--loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_GS_all_setting"))()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_farm_ngoai_scriptphu"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_farm_ngoai_GS_all_setting"))()
 
 
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/ba2dcad2127dcfc04301dfe52ce6c61c.lua"))()
