@@ -31,7 +31,7 @@ getgenv().Settings = {
 
 		["Titanic Disco Ball Agony"] = {Price = "6b", Priority = true },
 		["Golden Titanic Disco Ball Agony"] = {Price = "6.2b", Priority = true},
-		["Rainbow Titanic Disco Ball Agony"] = {Price = "25b", Priority = true},
+		["Rainbow Titanic Disco Ball Agony"] = {Price = "30b", Priority = true},
 
 		["Tower Nightmare Cyclops"]= { Price = "5%"},
 		["Tower Nuclear Dominus"]= { Price = "5%"},
