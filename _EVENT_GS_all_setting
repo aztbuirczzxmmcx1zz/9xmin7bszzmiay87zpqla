@@ -1,7 +1,7 @@
 
 
 getgenv().GDO_GYM_EVENT = true
-getgenv().GGYM_CLICK_DELAY = 1
+getgenv().GGYM_CLICK_DELAY = 0.1
 getgenv().GGYM_EVENT_STAT_CONFIG = {
     ["Stamina"] = 26,
     ["CritChance"] = 4,
