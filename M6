@@ -1,5 +1,4 @@
 
-_G.TAG = true
 if _G.TAG then
     warn("Script đã được chạy trước đó!")
     return -- Dừng script nếu đã chạy
