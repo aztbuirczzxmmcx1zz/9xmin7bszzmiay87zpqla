@@ -45,10 +45,6 @@ end
 
 local function BAM_E_UPDATE()
 	
-    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-    task.wait(0.1)
-    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
-	task.wait(0.5)
 end
 
 -- ⚙️ Thiết lập ban đầu
