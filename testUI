@@ -33,7 +33,7 @@ local function createCounterUI()
     local container = Instance.new("Frame", screenGui)
     container.Name = "Container"
     container.AnchorPoint = Vector2.new(0.5, 0)
-    container.Position = UDim2.new(0.5, 0, 0.06, 0) -- Trên đầu, dưới tên người chơi
+    container.Position = UDim2.new(0.5, 0, 0.2, 0) -- Trên đầu, dưới tên người chơi
     container.Size = UDim2.new(0, 75 * #booksToCheck, 0, 75)
     container.BackgroundTransparency = 1
 
