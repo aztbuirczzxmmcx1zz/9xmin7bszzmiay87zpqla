@@ -5,7 +5,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local player = Players.LocalPlayer
 while not player do
-	task.wait(2)
+	task.wait(1)
 	player = Players.LocalPlayer
 end
 
@@ -39,28 +39,30 @@ local function update_map(loai_update, map_co_update)
 end
 
 -- ⚙️ Thiết lập ban đầu
-setfpscap(5)
+setfpscap(15)
 hideMap()
 
--- ✅ Kiểm tra đúng map
 if game.PlaceId == 140403681187145 and RunService:IsRunning() then
 	task.wait(2)
 	
 	runSequence({Vector3.new(-15484.5, 20, -404.5)})
 	task.wait(2)
-	update_map("Pet Speed", "Runestone Bluff")
+	update_map("Tap Damage", "Flora Falls")
+	
 
 	runSequence({Vector3.new(-14856.5, 20, -408.5)})
 	task.wait(2)
-	update_map("Coins", "Runestone Bluff")
+	update_map("Drops", "Windmill Point")	
+	
 
 	runSequence({Vector3.new(-14261.3, 20, 193)})
 	task.wait(2)
-	update_map("Drops", "Windmill Point")
+	update_map("Coins", "Runestone Bluff")
+	
 
 	runSequence({Vector3.new(-14679, 20, 505.5)})
 	task.wait(2)
-	update_map("Tap Damage", "Flora Falls")
+	update_map("Pet Speed", "Runestone Bluff")
 
 	-- 🌍 Dịch chuyển đến World3
 	task.wait(2)
@@ -70,7 +72,7 @@ end
 if game.PlaceId == 17503543197 and RunService:IsRunning() then
 	task.wait(2)
 	
-	runSequence({Vector3.new(-2235.2, 17.5, -8536)})
+	runSequence({Vector3.new(-2235.2, 20, -8536)})
 	task.wait(2)
 	update_map("Coins", "Prison Yard")
 
@@ -80,7 +82,7 @@ if game.PlaceId == 17503543197 and RunService:IsRunning() then
 
 	runSequence({Vector3.new(-2997, 199, -22065)})
 	task.wait(2)
-	update_map("Luck", "Hacker Cave")
+	update_map("Luck", "Hacker Lab")
 
 	runSequence({Vector3.new(1011.6, 17, -14337)})
 	task.wait(2)
@@ -101,7 +103,7 @@ end
 
 if game.PlaceId == 16498369169 then
 
-runSequence({Vector3.new(-9817.5, 20, -416.6)})
+	runSequence({Vector3.new(-9817.5, 20, -416.6)})
 	task.wait(2)
 	update_map("Tap Damage", "Tech Spawn")
 
@@ -331,3 +333,4 @@ local GuildCastle_UnlockGate = ReplicatedStorage.Network.GuildCastle_UnlockGate
 GuildCastle_UnlockGate:InvokeServer()
 
 end
+
