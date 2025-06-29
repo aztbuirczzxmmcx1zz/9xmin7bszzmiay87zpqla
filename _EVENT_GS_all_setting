@@ -13,7 +13,7 @@ getgenv().GGYM_EVENT_STAT_CONFIG = {
 
 getgenv().GEVENT_FPS  = 5
 getgenv().GLOOTBOXES = {"All"}
-getgenv().GZONE_TO = 215
+getgenv().GZONE_TO = 999
 
 getgenv().GPROGRESS_MODE = "Hybrid" -- Hatch
 getgenv().GGFX_MODE = 1
