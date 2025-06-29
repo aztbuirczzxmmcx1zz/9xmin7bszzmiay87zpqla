@@ -1,0 +1,6 @@
+if game.PlaceId == 17503543197 then
+
+else
+	game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World3Teleport"):InvokeServer()
+	return
+end
