@@ -3,6 +3,7 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local VirtualInputManager = game:GetService("VirtualInputManager")
 
 local player = Players.LocalPlayer
 while not player do
@@ -40,7 +41,7 @@ local function update_map(loai_update, map_co_update)
 end
 
 local function BAM_E_UPDATE()
-	local VirtualInputManager = game:GetService("VirtualInputManager")
+	
     VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
     task.wait(0.1)
     VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
@@ -50,6 +51,16 @@ end
 -- ⚙️ Thiết lập ban đầu
 setfpscap(15)
 hideMap()
+
+	VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.F, false, game)
+    task.wait(0.1)
+    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.F, false, game)
+	task.wait(0.5)
+	
+	VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.F, false, game)
+    task.wait(0.1)
+    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.F, false, game)
+	task.wait(0.5)
 
 if game.PlaceId == 140403681187145 and RunService:IsRunning() then
 	task.wait(2)
