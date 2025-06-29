@@ -1,4 +1,3 @@
-
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
@@ -51,17 +50,34 @@ end
 setfpscap(15)
 hideMap()
 
-	VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.F, false, game)
-    task.wait(0.1)
-    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.F, false, game)
-	task.wait(0.5)
-	
-	VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.F, false, game)
-    task.wait(0.1)
-    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.F, false, game)
-	task.wait(0.5)
+VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.F, false, game)
+task.wait(0.1)
+VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.F, false, game)
+task.wait(0.5)
+
+VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.F, false, game)
+task.wait(0.1)
+VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.F, false, game)
+task.wait(0.5)
 
 if game.PlaceId == 140403681187145 and RunService:IsRunning() then
+
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local PetsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Pets")
+local Network = ReplicatedStorage:WaitForChild("Network")
+
+ 
+ Network.Pets_ToggleFavoriteMode:FireServer()
+    task.wait(1)
+
+    Network.Pets_SetTeamIndex:FireServer(2)
+    task.wait(2)
+
+    Network.Pets_SetTeamIndex:FireServer(1)
+    task.wait(2)
+
+
 	task.wait(2)
 	
 	runSequence({Vector3.new(-15484.5, 20, -404.5)})
@@ -94,20 +110,6 @@ end
 
 if game.PlaceId == 17503543197 and RunService:IsRunning() then
 
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local PetsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Pets")
-local Network = ReplicatedStorage:WaitForChild("Network")
-
- 
- Network.Pets_ToggleFavoriteMode:FireServer()
-    task.wait(1)
-
-    Network.Pets_SetTeamIndex:FireServer(2)
-    task.wait(2)
-
-    Network.Pets_SetTeamIndex:FireServer(1)
-    task.wait(2)
 
 
 
@@ -430,4 +432,5 @@ local GuildCastle_UnlockGate = ReplicatedStorage.Network.GuildCastle_UnlockGate
 GuildCastle_UnlockGate:InvokeServer()
 
 end
+
 
