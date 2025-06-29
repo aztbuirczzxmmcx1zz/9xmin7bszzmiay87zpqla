@@ -37,7 +37,10 @@ end
 
 -- 🧩 Upgrade map
 local function update_map(loai_update, map_co_update)
-	Upgrades_Purchase:InvokeServer(loai_update, map_co_update)
+	VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+    task.wait(0.1)
+    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+	task.wait(0.5)
 end
 
 local function BAM_E_UPDATE()
