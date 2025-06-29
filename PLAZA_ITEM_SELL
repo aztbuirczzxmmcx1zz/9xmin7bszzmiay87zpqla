@@ -32,12 +32,7 @@ getgenv().Settings = {
 		["Titanic Disco Ball Agony"] = {Price = "6b", Priority = true },
 		["Golden Titanic Disco Ball Agony"] = {Price = "6.2b", Priority = true},
 		["Rainbow Titanic Disco Ball Agony"] = {Price = "30b", Priority = true},
-
-		["Tower Nightmare Cyclops"]= { Price = "5%"},
-		["Tower Nuclear Dominus"]= { Price = "5%"},
-		["Tower Blurred Owl"]= { Price = "5%"},
-		["Tower Arcade Angelus"]= { Price = "5%"},
-		
+	
 
 		["Shiny Rainbow All Huges"]= { Price = "+5%"		,Min_sell = "3b", Max_sell = "8b"},
 		["Shiny Golden All Huges"]= { Price = "+5%"		,Min_sell = "300m", Max_sell = "2b"},
