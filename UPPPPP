@@ -93,6 +93,24 @@ game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World
 end
 
 if game.PlaceId == 17503543197 and RunService:IsRunning() then
+
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local PetsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Pets")
+local Network = ReplicatedStorage:WaitForChild("Network")
+
+ 
+ Network.Pets_ToggleFavoriteMode:FireServer()
+    task.wait(1)
+
+    Network.Pets_SetTeamIndex:FireServer(2)
+    task.wait(2)
+
+    Network.Pets_SetTeamIndex:FireServer(1)
+    task.wait(2)
+
+
+
 	task.wait(2)
 	
 	runSequence({Vector3.new(-2235.2, 20, -8536)})
