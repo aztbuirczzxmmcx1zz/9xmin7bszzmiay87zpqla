@@ -1,0 +1,77 @@
+local booksToCheck = {
+    "Criticals", "Diamonds", "Tap Power", "Lucky Eggs", "Coins", "Strong Pets", "Treasure Hunter"
+}
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
+local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
+
+-- Đếm số sách TN = 10 theo tên
+local function findBookAmount(bookName)
+    local results = 0
+    local subTable = SaveData.Inventory.Enchant
+    if type(subTable) ~= "table" then return 0 end
+
+    for _, v in pairs(subTable) do
+        if typeof(v) == "table" and v.id == bookName and v.tn == 10 then
+            results += tonumber(v._am) or 1
+        end
+    end
+
+    return results
+end
+
+-- Tạo UI 1 hàng ngang với kích thước vuông
+local function createCounterUI()
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "BookCounterUI"
+    screenGui.ResetOnSpawn = false
+    screenGui.IgnoreGuiInset = true
+    screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+    local container = Instance.new("Frame", screenGui)
+    container.Name = "Container"
+    container.AnchorPoint = Vector2.new(0.5, 0)
+    container.Position = UDim2.new(0.5, 0, 0.06, 0) -- Trên đầu, dưới tên người chơi
+    container.Size = UDim2.new(0, 75 * #booksToCheck, 0, 75)
+    container.BackgroundTransparency = 1
+
+    for i = 1, #booksToCheck do
+        local box = Instance.new("TextLabel", container)
+        box.Name = "Box_" .. i
+        box.Size = UDim2.new(0, 70, 0, 70)
+        box.Position = UDim2.new(0, (i - 1) * 75, 0, 0)
+        box.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+        box.TextColor3 = Color3.new(1, 1, 1)
+        box.TextStrokeTransparency = 0.1
+        box.BorderSizePixel = 0
+        box.TextScaled = true
+        box.Font = Enum.Font.GothamBlack
+        box.Text = "?"
+        box.BackgroundTransparency = 0
+        box.TextWrapped = true
+        box.ClipsDescendants = true
+    end
+end
+
+-- Cập nhật số mỗi 5s
+local function updateCounterUI()
+    local container = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("BookCounterUI"):WaitForChild("Container")
+    for i, bookName in ipairs(booksToCheck) do
+        local count = findBookAmount(bookName)
+        local label = container:FindFirstChild("Box_" .. i)
+        if label then
+            label.Text = tostring(count)
+        end
+    end
+end
+
+-- Khởi động UI và cập nhật
+createCounterUI()
+task.spawn(function()
+    while true do
+        updateCounterUI()
+        task.wait(5)
+    end
+end)
