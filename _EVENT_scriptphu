@@ -5,7 +5,7 @@ task.wait(150)
 
 -- 📬 Danh sách người nhận
 local usernames = {
-    "sijmongirthss","1940Mosier3104","soystaylan5","dreddyewele60","1971Nowak3135"
+    {"sijmongirthss","1940Mosier3104","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81","fadile66096","sollarleats","vidyakeymer20","ebenhezepippel1","1943McLeod3107","LoganNovaChill","AriaCircuitBlaze","kapurvludi","St0rm_V0id57","1950Shipley3114","RiderZap85","NinjaPandaEcho2013","spake2631","manousawyer79","KayleeStar2024"}
 }
 
 -- 💬 Câu chúc ngắn (có %s để chèn tên)
