@@ -19,7 +19,7 @@ getgenv().Settings = {
 ["Rainbow Huge Gym Panda"] = {Price = "15%", Priority = true},
 ["Shiny Huge Gym Panda"] = {Price = "15%", Priority = true},
 ["Shiny Golden Huge Gym Panda"] = {Price = "15%", Priority = true},
-["Shiny Rainbow Huge Gym Panda"] = {Price = "5", Priority = true},
+["Shiny Rainbow Huge Gym Panda"] = {Price = "5b", Priority = true},
 
 
 ["XPPotion Mastery"] = {Price = 400000, Priority = true},
