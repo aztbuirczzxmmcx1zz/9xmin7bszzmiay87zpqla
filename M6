@@ -36,7 +36,7 @@ local Players = game:GetService("Players")
 	for i = 1, #names do
 		if player.Name == names[i] then
 			local indexInGroup = ((i - 1) % groupSize) + 1
-			getgenv().GMAIL_RECEIVERS = { tostring(emails[indexInGroup]) }
+			--getgenv().GMAIL_RECEIVERS = { tostring(emails[indexInGroup]) }
 			found = true
 			break
 		end
