@@ -55,7 +55,7 @@ local function createCounterUI()
         box.TextWrapped = true
         box.ClipsDescendants = true
     end
-end
+end)
 
 -- Xem item cần tìm x 10 ở giữa cho giả lập
 
