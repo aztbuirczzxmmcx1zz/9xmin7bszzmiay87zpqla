@@ -25,7 +25,7 @@ if game.PlaceId == 140403681187145 then
 
 else
 	game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
-	return
+	
 end
 
 
