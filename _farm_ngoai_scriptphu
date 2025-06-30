@@ -55,7 +55,31 @@ local function createCounterUI()
         box.TextWrapped = true
         box.ClipsDescendants = true
     end
+end
+
+-- Cập nhật số mỗi 5s
+local function updateCounterUI()
+    local container = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("BookCounterUI"):WaitForChild("Container")
+    for i, bookName in ipairs(booksToCheck) do
+        local count = findBookAmount(bookName)
+        local label = container:FindFirstChild("Box_" .. i)
+        if label then
+            label.Text = tostring(count)
+        end
+    end
+end
+
+-- Khởi động UI và cập nhật
+createCounterUI()
+task.spawn(function()
+    while true do
+        updateCounterUI()
+        task.wait(5)
+    end
 end)
+
+end)
+
 
 -- Xem item cần tìm x 10 ở giữa cho giả lập
 
