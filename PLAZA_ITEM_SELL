@@ -14,7 +14,7 @@ getgenv().Settings = {
 ["Shiny Rainbow Gym Corgi"] = {Price = "5%", Priority = true},
 ["Shiny Golden Gym Corgi"] = {Price = "5%", Priority = true},
 
-["Huge Gym Panda"] = {Price = "+20%", Priority = true},
+["Huge Gym Panda"] = {Price = "50m", Priority = true},
 ["Golden Huge Gym Panda"] = {Price = "+15%", Priority = true},
 ["Rainbow Huge Gym Panda"] = {Price = "+15%", Priority = true},
 ["Shiny Huge Gym Panda"] = {Price = "+15%", Priority = true},
@@ -36,7 +36,7 @@ getgenv().Settings = {
 
 ["Magic Shard"] = {Price = "+1%"},		
 
-["Titanic Gym Piggy"] = {Price = "5.5b", Priority = true },
+["Titanic Gym Piggy"] = {Price = "7.5b", Priority = true },
 
 ["Titanic Disco Ball Agony"] = {Price = "5.8b", Priority = true },
 ["Golden Titanic Disco Ball Agony"] = {Price = "6b", Priority = true},
