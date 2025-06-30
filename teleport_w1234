@@ -12,7 +12,7 @@ if check_and_tele_w == 4 then
 	
 	else
 		game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
-		return
+		
 	end
 end
 
@@ -22,7 +22,7 @@ if check_and_tele_w == 3 then
 	
 	else
 		game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World3Teleport"):InvokeServer()
-		return
+		
 	end
 end
 
