@@ -27,7 +27,7 @@ getgenv().Settings = {
 
 		["Magic Shard"] = {Price = "+1%"},		
 
-		
+		["Titanic Gym Piggy"] = {Price = "5.5b", Priority = true },
 
 		["Titanic Disco Ball Agony"] = {Price = "5.8b", Priority = true },
 		["Golden Titanic Disco Ball Agony"] = {Price = "6b", Priority = true},
