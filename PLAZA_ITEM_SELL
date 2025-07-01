@@ -45,7 +45,7 @@ getgenv().Settings = {
 
 ["Titanic Gym Piggy"] = {Price = "7b", Priority = true },
 
-["Titanic Disco Ball Agony"] = {Price = "5.8b", Priority = true },
+["Titanic Disco Ball Agony"] = {Price = "5.9b", Priority = true },
 ["Golden Titanic Disco Ball Agony"] = {Price = "6b", Priority = true},
 ["Rainbow Titanic Disco Ball Agony"] = {Price = "27b", Priority = true},
 
