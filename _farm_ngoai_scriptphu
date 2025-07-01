@@ -429,3 +429,25 @@ task.spawn(monitor)
 
 
 end)
+
+-- xoá lưu pet rồi chọn pet mạnh nhất	
+task.spawn(function()
+	task.wait(150)
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local PetsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Pets")
+local Network = ReplicatedStorage:WaitForChild("Network")
+
+ 
+ Network.Pets_ToggleFavoriteMode:FireServer()
+    task.wait(1)
+
+    Network.Pets_SetTeamIndex:FireServer(2)
+    task.wait(2)
+
+    Network.Pets_SetTeamIndex:FireServer(1)
+    task.wait(2)
+
+    Network.Pets_ToggleFavoriteMode:FireServer()
+    task.wait(1)
+end)
