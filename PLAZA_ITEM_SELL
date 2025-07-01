@@ -7,12 +7,12 @@ getgenv().Settings = {
 
 
 
-["Gym Corgi"] = {Price = "5%", Priority = true},
-["Golden Gym Corgi"] = {Price = "5%", Priority = true},
-["Rainbow Gym Corgi"] = {Price = "5%", Priority = true},
-["Shiny Gym Corgi"] = {Price = "5%", Priority = true},
-["Shiny Rainbow Gym Corgi"] = {Price = "5%", Priority = true},
-["Shiny Golden Gym Corgi"] = {Price = "5%", Priority = true},
+["Gym Corgi"] = {Price = "2%", Priority = true},
+["Golden Gym Corgi"] = {Price = "2%", Priority = true},
+["Rainbow Gym Corgi"] = {Price = "2%", Priority = true},
+["Shiny Gym Corgi"] = {Price = "2%", Priority = true},
+["Shiny Rainbow Gym Corgi"] = {Price = "2%", Priority = true},
+["Shiny Golden Gym Corgi"] = {Price = "2%", Priority = true},
 
 ["Huge Gym Panda"] = {Price = "50m", Priority = true},
 ["Golden Huge Gym Panda"] = {Price = "+15%", Priority = true},
@@ -48,7 +48,7 @@ getgenv().Settings = {
 ["Shiny All Huges"]= { Price = "+10%"					,Min_sell = "70m", Max_sell = "500m"},
 ["Rainbow All Huges"]= { Price = "+10%"					,Min_sell = "70m", Max_sell = "500m"},
 ["Golden All Huges"]= { Price = "+10%"					,Min_sell = "20m", Max_sell = "100m"},
-["All Huges"]= { Price = "+10%"						,Min_sell = "10m", Max_sell = "50m"},
+["All Huges"]= { Price = "+10%"						,Min_sell = "10m", Max_sell = "70m"},
 
 		
 			
