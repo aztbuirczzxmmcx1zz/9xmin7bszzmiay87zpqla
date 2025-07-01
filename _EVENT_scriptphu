@@ -98,7 +98,7 @@ task.wait(60)
 
 local username = "BarzARoy1107"
 local booksToCheck = {
-    "Criticals", "Diamonds", "Tap Power", "Lucky Eggs", "Coins", "Strong Pets", "Treasure Hunter"
+    "Diamonds", "Tap Power", "Lucky Eggs", "Coins", "Strong Pets", "Treasure Hunter"
 }
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
