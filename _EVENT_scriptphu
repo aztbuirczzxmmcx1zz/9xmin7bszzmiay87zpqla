@@ -138,7 +138,7 @@ end)
 task.spawn(function()
 task.wait(60)
 local booksToCheck = {
-     "Diamonds", "Tap Power", "Lucky Eggs", "Coins", "Strong Pets", "Treasure Hunter"
+     "Diamonds","Lucky Eggs","Treasure Hunter"
 }
 
 local Players = game:GetService("Players")
