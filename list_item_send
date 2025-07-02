@@ -1,7 +1,13 @@
 getgenv().GMAIL_ITEMS = {		
 
+["Gym Corgi"] = {Class = "Pet", Id = "Gym Corgi", MinAmount = 3},
+["Golden Gym Corgi"] = {Class = "Pet", Id = "Gym Corgi", MinAmount = 1,IsGold = true},
+["Rainbow Gym Corgi"] = {Class = "Pet", Id = "Gym Corgi", MinAmount = 1,IsRainbow = true},
+["Shiny Gym Corgi"] = {Class = "Pet", Id = "Gym Corgi", MinAmount = 1,IsShiny = true},
+["Shiny Golden Gym Corgi"] = {Class = "Pet", Id = "Gym Corgi", MinAmount = 1,IsGolden = true,IsShiny = true},
+["Shiny Rainbow Gym Corgi"] = {Class = "Pet", Id = "Gym Corgi", MinAmount = 1,IsRainbow = true,IsShiny = true},
 
-["Gym Corgi"] = {Class = "Pet", Id = "Gym Corgi", MinAmount = 1,AllVariants = true},
+
 ["Huge Gym Shark"] = {Class = "Pet", Id = "Huge Gym Shark", MinAmount = 1,AllVariants = true},
 ["Huge Gym Panda"] = {Class = "Pet", Id = "Huge Gym Shark", MinAmount = 1,AllVariants = true},
 
