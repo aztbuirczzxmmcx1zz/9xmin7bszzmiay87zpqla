@@ -7,12 +7,8 @@ end
 -- Đánh dấu script đã được chạy
 _G.TAG = true
 
-if game.PlaceId == 140403681187145 then
-
-else
-	game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
-	return
-end
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_w1234"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/CPU-LOW"))()
 
 ---------------------------------------------------------------------------------------------------------------------------
 local Players = game:GetService("Players")
