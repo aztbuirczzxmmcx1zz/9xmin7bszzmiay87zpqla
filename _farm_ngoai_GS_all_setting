@@ -1,6 +1,6 @@
 getgenv().GEVENT_FPS  = 5
 
-getgenv().GLOOTBOXES = {"All"}
+--getgenv().GLOOTBOXES = {"All"}
 
 --getgenv().GRANK_FIRST = true
 getgenv().GZONE_TO = 999
