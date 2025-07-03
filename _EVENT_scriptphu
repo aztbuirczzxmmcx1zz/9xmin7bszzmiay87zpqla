@@ -1,3 +1,21 @@
+task.spawn(function()
+task.wait(50)
+-- Hàm kiểm tra số người và shutdown nếu cần
+local function autoShutdownIfNotAlone()
+    local playerCount = #Players:GetPlayers()
+
+    if playerCount > 1 then
+        game:Shutdown() -- ⚠️ Lệnh shutdown client
+		Players.LocalPlayer:Kick("kick")
+    end
+end
+
+-- Gọi ngay khi script chạy
+autoShutdownIfNotAlone()
+
+
+end)
+
 -- send huge event
 task.spawn(function()
 task.wait(150)
