@@ -1,6 +1,12 @@
 getgenv().Settings = {
     ["Items"] = {
 
+["Titanic Gym Piggy"] = {Price = "7.5b", Priority = true },
+["Golden Titanic Gym Piggy"] = {Price = "8b", Priority = true },
+
+["Titanic Disco Ball Agony"] = {Price = "5.9b", Priority = true },
+["Golden Titanic Disco Ball Agony"] = {Price = "6b", Priority = true},
+["Rainbow Titanic Disco Ball Agony"] = {Price = "27b", Priority = true},
 	
 
 ["Huge Machine Egg 5"] = {Price = "1%", Priority = true},
@@ -42,14 +48,6 @@ getgenv().Settings = {
 
 
 ["Magic Shard"] = {Price = "+1%"},		
-
-["Titanic Gym Piggy"] = {Price = "7.5b", Priority = true },
-["Golden Titanic Gym Piggy"] = {Price = "8b", Priority = true },
-
-["Titanic Disco Ball Agony"] = {Price = "5.9b", Priority = true },
-["Golden Titanic Disco Ball Agony"] = {Price = "6b", Priority = true},
-["Rainbow Titanic Disco Ball Agony"] = {Price = "27b", Priority = true},
-
 
 ["Shiny Rainbow All Huges"]= { Price = "5%"				,Min_sell = "3b", Max_sell = "8b"},
 ["Shiny Golden All Huges"]= { Price = "5%"				,Min_sell = "300m", Max_sell = "2b"},
