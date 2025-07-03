@@ -41,7 +41,7 @@ local function getDuration()
     local timeTrialStats = saveData.TimeTrialStats
     if not timeTrialStats then
         warn("Khong tim thay TimeTrialStats trong du lieu save\n")
-        return 80
+        return 50
     end
 
     local totalRuns = timeTrialStats.TotalRuns or timeTrialStats.RemainingRuns or 0
@@ -68,7 +68,7 @@ local function getDuration()
         end
 
         if typeof(amount) == "number" and math.floor(amount) == amount then
-            duration = 80
+            duration = 50
         else
             duration = 200
         end
