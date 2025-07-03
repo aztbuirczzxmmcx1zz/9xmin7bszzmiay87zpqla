@@ -14,7 +14,7 @@ getgenv().Settings = {
 ["Shiny Rainbow Gym Corgi"] = {Price = "2%", Priority = true},
 ["Shiny Golden Gym Corgi"] = {Price = "2%", Priority = true},
 
-["Huge Gym Shark"] = {Price = "45m", Priority = true},
+["Huge Gym Shark"] = {Price = "38m", Priority = true},
 ["Golden Huge Gym Shark"] = {Price = "+10%", Priority = true},
 ["Rainbow Huge Gym Shark"] = {Price = "+10%", Priority = true},
 ["Shiny Huge Gym Shark"] = {Price = "5%", Priority = true},
