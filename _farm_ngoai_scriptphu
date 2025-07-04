@@ -1,3 +1,24 @@
+-- phát hiện không farm ở svv thoát game
+task.spawn(function()
+task.wait(50)
+-- Hàm kiểm tra số người và shutdown nếu cần
+local function autoShutdownIfNotAlone()
+    local playerCount = #Players:GetPlayers()
+
+    if playerCount > 1 then
+        game:Shutdown() -- ⚠️ Lệnh shutdown client
+		Players.LocalPlayer:Kick("kick")
+    end
+end
+
+-- Gọi ngay khi script chạy
+autoShutdownIfNotAlone()
+
+
+end)
+
+
+
 -- map 264 time trial
 task.spawn(function()
 wait(150)
