@@ -22,7 +22,7 @@ task.wait(150)
 
 
 -- 📬 Danh sách người nhận
-local usernames =  {"sijmongirthss","1940Mosier3104","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81"}
+local usernames =  {"sijmongirthss","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81"}
 
 -- 💬 Câu chúc ngắn (có %s để chèn tên)
 local messages = {
