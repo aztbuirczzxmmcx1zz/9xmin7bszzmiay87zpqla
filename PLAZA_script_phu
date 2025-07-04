@@ -2,7 +2,6 @@ task.spawn(function()
 	task.wait(10)
 
 
-
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -17,7 +16,7 @@ local previousCounts = {}
 local itemsToTrack = {
 	
 	--{ id = "Blurred Owl", guiName = "Item3", row = 1, col = 0, color = Color3.fromRGB(0, 255, 255) },			--xanh	trái
-	--{ id = "Nightmare Cyclops", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, 		--xám
+	{ id = "MVP Key Upper Half", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, 		--xám
 	{ id = "Huge", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },		-- cam
 	{ id = "MVP Key", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },				--trang
 }
@@ -41,7 +40,7 @@ local function createItemFrame(itemConfig, itemCount)
 	local frame = Instance.new("Frame")
 	frame.Name = "ItemFrame"
 	frame.Size = UDim2.new(0, frameSize, 0, frameSize)
-	frame.Position = UDim2.new(0.75, offsetX, 1, -offsetY)
+	frame.Position = UDim2.new(0.11, offsetX, 1, -offsetY)
 	frame.AnchorPoint = Vector2.new(0.5, 1)
 	frame.BackgroundColor3 = itemConfig.color
 	frame.BorderSizePixel = 2
@@ -101,8 +100,6 @@ while true do
 	task.wait(10)
 	checkInventory()
 end
-
-
 end)
 
 
