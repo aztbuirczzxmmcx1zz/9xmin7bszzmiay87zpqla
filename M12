@@ -40,7 +40,7 @@ local Players = game:GetService("Players")
 	end
 
 	if not found then
-		getgenv().GMAIL_RECEIVERS = {"sijmongirthss","soystaylan5","dreddyewele60","1971Nowak3135"}
+		getgenv().GMAIL_RECEIVERS = {"sijmongirthss","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81"}
 		--warn("Tên người chơi không nằm trong danh sách hợp lệ.")
 	end
 ---------------------------------------------------------------------------------------------------------------------------
