@@ -219,6 +219,7 @@ local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPar
 
 		if not successEnter then
 			player:Kick("Tìm Breakables Méo Thấy")
+			game:Shutdown()  -- Thoát game
 			return
 		end
 
