@@ -11,7 +11,7 @@ getgenv().GMAIL_ITEMS = {
 ["Huge Gym Shark"] = {Class = "Pet", Id = "Huge Gym Shark", MinAmount = 1,AllVariants = true},
 ["Huge Gym Panda"] = {Class = "Pet", Id = "Huge Gym Shark", MinAmount = 1,AllVariants = true},
 
-["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 30},	
+["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 50},	
 ["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 200},	
 
 ["Daycare egg 5"] = {Class = "Egg", Id = "Huge Machine Egg 5", MinAmount = 1},
