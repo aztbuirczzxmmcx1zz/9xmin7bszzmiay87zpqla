@@ -2,27 +2,7 @@
 task.spawn(function()
 wait(150)
 
-
 	if game.PlaceId ~= 140403681187145 then return end
-
-local player = game.Players.LocalPlayer
-local character = player.Character
-local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart")
-
--- Kiểm tra nếu HumanoidRootPart tồn tại và kiểm tra tọa độ X
-
-    if humanoidRootPart then
-        local currentX = humanoidRootPart.Position.X
-
-        -- Kiểm tra tọa độ X có nằm trong phạm vi -18415 đến -18425 không
-        if currentX >= -15150 and currentX <= -15100 then
-            warn("Tọa độ X trong phạm vi, thoát vòng lặp.")
-		else
-			warn("chưa tới map 264.")
-			return
-        end
-    end
-
 
 
 	local player = game.Players.LocalPlayer
@@ -99,7 +79,7 @@ local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPar
 				if not hasNew then
 					if LeaveTeleport then
 						teleportTo(LeaveTeleport)
-						task.wait(5)
+						task.wait(10)
 						exitedManually = true
 					end
 					break
@@ -132,8 +112,19 @@ local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPar
 	while true do
 		local saveData = Save.Get()
 		local totalRuns = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.TotalRuns or 0) or 0
-
-		if totalRuns >= 10 then
+		local totalPoints = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.Points or 0) or 0
+		local Daily_run = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.DailyRuns or 0) or 0
+		
+		if totalPoints > 5000 then
+			humanoidRootPart.CFrame = CFrame.new(Vector3.new(-15115.5 , 20 , 1380.3))
+			wait(1)
+			local ReplicatedStorage = game:GetService("ReplicatedStorage")
+			local FantasyKey_Unlock = game:GetService("ReplicatedStorage").Network.TimeTrials_OpenChest 
+			FantasyKey_Unlock:InvokeServer(3)
+			wait(1)
+		end
+		
+		if totalRuns >= 10 and Daily_run >= 10 then
 			warn("🎯 Đã đủ 10 lượt chạy, dừng script.")
 			break
 		end
@@ -193,7 +184,7 @@ local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPar
 
 				if LeaveTeleport then
 					teleportTo(LeaveTeleport)
-					task.wait(3)
+					task.wait(10)
 				end
 
 				task.wait(30)
@@ -210,7 +201,7 @@ local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPar
 
 				if LeaveTeleport then
 					teleportTo(LeaveTeleport)
-					task.wait(3)
+					task.wait(10)
 				end
 
 				task.wait(30)
@@ -230,7 +221,7 @@ local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPar
 		if not exitedManually and LeaveTeleport then
 			teleportTo(LeaveTeleport)
 			warn("🚪 Đã ra khỏi Time Trial")
-			task.wait(3)
+			task.wait(10)
 		end
 
 		if savedPosition then
@@ -242,6 +233,7 @@ local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPar
 	end
 
 	warn("🎉 Đã hoàn tất Time Trial hoặc đạt 10 lượt.")
+
 end)
 
 
