@@ -22,7 +22,7 @@ local Players = game:GetService("Players")
 
 	local names = {"hadriamullavey70","hexacefalesia","etexmet355","carteeppes5723","529Reid1693","534Zavier1698","8397Bolton9561","857Blair858","858Aniyah859","8590Peace9754","eldiantkeily","merentiana283","mineruthje251","mayobey924","whelmssteviac","hejnsadesa","gemmelbrnabyl","ulkeboraxb","panelraskin4722","galvoberczy69","8815Falk9979","kuvyndn117","baocho1135","baocho1131","1863Echols3027","513Moses1677","515Trenten1679","516Obed1680","517Bernardo1681","519Keshon1683","521Ahmad1685","8592Couture9756","8602Ha9766","8603Scherer9767","8605Olivarez9769","1872Salazar3036","micha_70m","dQ9PQsBg54","jrpB44FT38","FD7Fs4Hj763","YTAzK1dX05","akita1d6","7vmW8gRw14","hike9bc","xylatehaicor","tunostri486","Hanes59175","Toups51814","547UYOCV171","548Layton1712"}
 	
-	local emails = {"sijmongirthss","1940Mosier3104","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81"}
+	local emails = {"sijmongirthss","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81"}
 
 	local totalEmails = #emails
 	local groupSize = totalEmails
@@ -38,7 +38,7 @@ local Players = game:GetService("Players")
 	end
 
 	if not found then
-		getgenv().GMAIL_RECEIVERS = {"sijmongirthss","1940Mosier3104","soystaylan5","dreddyewele60","1971Nowak3135"}
+		getgenv().GMAIL_RECEIVERS = {"sijmongirthss","soystaylan5","dreddyewele60","1971Nowak3135"}
 		--warn("Tên người chơi không nằm trong danh sách hợp lệ.")
 	end
 
