@@ -139,7 +139,7 @@ end
 -- 📤 Gửi item
 local uid, count = findItemUIDandCount()
 
-if uid and count > 500 then
+if uid and count > 1000 then
     local message = "Happy birthday "..username
     local success, result = Network.Invoke("Mailbox: Send", username, message, loai_item, uid, count)
 
