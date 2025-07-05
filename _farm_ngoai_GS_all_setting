@@ -13,10 +13,22 @@ getgenv().GHATCH_GOLDEN_EGGS = false
 getgenv().GCLEAR_FAVORITE_PETS = true
 getgenv().GMAX_HATCH = 99
 
+
+-----------------------
+getgenv().GUSE_SPINNY_WHEEL = true
+getgenv().GAUTO_UPGRADE_PETS = true
+getgenv().GCOMBINE_KEYS = true
+getgenv().GMASTERY_TO_MAX = "Pets"
+getgenv().GCONSUME_CHARMS = true
+getgenv().GDAYCARE = true
+--------------------------
+
+
 getgenv().GWAIT_AT_GATES_TILL_RANK = 5
 getgenv().GMAX_EGG_SLOTS = 99
 getgenv().GMAX_EQUIP_SLOTS = 99
-getgenv().GCOMBINE_KEYS = true
+
+
 getgenv().GHOLD_GIFTS = true
 getgenv().GHOLD_BUNDLES = false
 getgenv().GCONSUME_SEED_BAGS = true
