@@ -16,8 +16,6 @@ autoShutdownIfNotAlone()
 
 
 end)
----------------------------------------------------------------------------------------------------------------------
-
 
 -- map 264 time trial
 task.spawn(function()
@@ -388,8 +386,8 @@ end
 RunTimeTrialScript()
 
 end)
----------------------------------------------------------------------------------------------------------------------
 
+-- send sách thừa nếu nó > 2 / 1 loại
 task.spawn(function()
 task.wait(60)
 
@@ -432,6 +430,7 @@ end
 
 end)
 
+-- xem sl 7 sách thường dùng
 task.spawn(function()
 task.wait(60)
 local booksToCheck = {
@@ -514,9 +513,7 @@ end)
 
 end)
 
-
 -- Xem item cần tìm x 10 ở giữa cho giả lập
-
 task.spawn(function()
 	task.wait(1)
 
@@ -605,10 +602,6 @@ task.spawn(function()
 	end
 end)
 
-
-
-
-
 -- check toạ độ vs xút ra khi bị rơi
 task.spawn(function()
 	task.wait(150)
@@ -646,7 +639,6 @@ end)
 
 
 end)
-
 
 -- Ghép sách + thuốc nếu lv < 99 
 task.spawn(function()
@@ -741,8 +733,7 @@ end
 
 end)
 
-
-
+--xem tên nhân vật và kiểm tra gem < 10m cho giả lập
 task.spawn(function()
 	task.wait(25)
 local Players = game:GetService("Players")
@@ -843,3 +834,85 @@ local Network = ReplicatedStorage:WaitForChild("Network")
     Network.Pets_ToggleFavoriteMode:FireServer()
     task.wait(1)
 end)
+
+-- Send những huge rainbow và shiny
+task.spawn(function()
+wait(90)
+local recipients = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81"}
+
+-- 💬 Danh sách lời chúc
+local messages = {
+    "Happy Birthday %s!",
+    "Hope today brings %s!",
+    "Wishing you luck %s!",
+    "Congrats on your %s!",
+    "Give away %s!",
+    "You are amazing %s"
+}
+
+-- 📦 Load module
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local Network = require(Client.Network)
+local SaveData = require(Client.Save).Get()
+
+-- 🧠 Pet manager
+local Manager = {}
+function Manager:GetPets(name_pet)
+    local Huges = {}
+    for uid, v in pairs(SaveData.Inventory.Pet) do
+        if string.find(v.id, name_pet) then
+            -- Kiểm tra yêu cầu có TN = 2 hoặc SH = true
+            if (v.pt == 2 or v.sh == true) then
+                table.insert(Huges, {
+                    UID = uid,
+                    SH = v.sh,
+                    PT = v.pt,
+                    Count = v._am or 1
+                })
+            end
+        end
+    end
+    return Huges
+end
+
+-- 🔍 Lấy tất cả pet có "huge" trong tên và có TN = 2 hoặc SH = true
+local listPet = Manager:GetPets("Huge")
+
+-- Nếu không tìm thấy pet phù hợp
+if #listPet == 0 then
+    warn("❌ Không có pet nào phù hợp để gửi.")
+    return
+end
+
+-- Chọn ngẫu nhiên 1 người nhận trong danh sách recipients
+local randomRecipient = recipients[math.random(1, #recipients)]
+local petMsg = string.format(messages[math.random(1, #messages)], randomRecipient)
+
+-- Danh sách lỗi riêng biệt
+local failedPetList = {}
+
+-- 🚀 Gửi tất cả các pet tới người nhận được chọn
+for _, pet in ipairs(listPet) do
+    local petSuccess, petErr = Network.Invoke("Mailbox: Send", randomRecipient, petMsg, "Pet", pet.UID, 1)
+    task.wait(2)
+
+    if petSuccess then
+        warn("✅ Pet sent to " .. randomRecipient .. " (Pet UID: " .. pet.UID .. ")")
+    else
+        warn("❌ Failed to send PET to " .. randomRecipient .. ": " .. tostring(petErr))
+        table.insert(failedPetList, randomRecipient)
+    end
+	task.wait(36000)
+end
+
+-- Thông báo danh sách các người nhận thất bại
+if #failedPetList > 0 then
+    warn("❌ Pet sending failed for: " .. table.concat(failedPetList, ", "))
+else
+    warn("✅ All pets sent successfully!")
+end
+
+
+end)
+
