@@ -52,4 +52,4 @@ getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Diamonds","Treasu
 --getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Tap Power","Coins"}
 --getgenv().GENCHANTS = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter"}
 
-getgenv().GHUGE_COUNT = 99
+getgenv().GHUGE_COUNT = 50
