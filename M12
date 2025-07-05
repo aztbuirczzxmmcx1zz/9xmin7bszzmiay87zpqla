@@ -24,7 +24,7 @@ local Players = game:GetService("Players")
 
 	local names = {"Xx_BrooklynRid3rNigh","BearTurboPower","SkyAceArrow","EPIC_Starry2006","Blaz3Fusi0n2002","XxAidenNinjaPhoenixx","GlitchStormy92","XxOrbit_ViperxX2020","XxBearOmegaStarxX","N0va_Skater77","PulseDrag0nLucky2010","XxMiaCodeLionxX","ChloeHeroVenom","GalaxyCooki312","Eagl3_Danc3r2024","XxDawnSparklyHawkxX","GigaGlitch76","AvaPix3l2005","KayleeJellyDawn2006","XxSaber_Ech0xX2006","XxMate0V0rtexxX65","LuckyNinjaHyp3r","XxJamesMasterShadowx","PaisleyGiga69","Oliver_Dancer201265","Xx_ElijahLegendShado","8407Castellanos9571","VoidGalaxyChase","XxHawkRiftxX200537","RiderBlazePower","RiftBl0ck85_YT","Olivia_Pixelated25","XXGAMER_RavenxX44","EllaPhoenixRocket","HenryBaneClaw","Aubr3y_B3ar98YT","obENxTpG922","dzLCBpCO34","hasel7ut","groml7bi","kazel2ix","benke45o","westr2d6","deni8wu","SwansonRebeccap8","OlsenMiffyf7","MichaelBobbyj767","EatonShirleyr60","RosyJoev3","bows3us","8608Shafer9772","8751Hopper9915","885Darius886","agapetos52316","akkalupdovel","amanidiepertou","bertenferkin83","cancmaloyv","challhadlee87","clarigjambee","colliswurtsk","disbeld41","emettforestz","eyassamba55","glorie7096","gridedralici","knuimanadeliaww","kossevanzantv96","oliychinos6","pinataszanto51","racbracfe25","Reeder67056","syroariis","68Salvatore69","73Erika74","XxWillowSparkRid3rxX","Fury_ALPHA200764","CircuitCod394","etwitepluffyx","CHILL_Zap66","MasonSlim3Vort3x","NoahRift60","Hannah_Hunt3r2022","1952Fiore3116","NinjaStreamPixel","Her0SaberPrism96","BlastNinja22","XxG0ldenSparklyxX16","N0ahNe0n14","XxAmelia_CHAOSXX2016","1949McKnight3113","LIONBLAZEHERO2003_YT","XxMiaThunderxX26","Hero_Miner72","FireFr0stTiger2007","Fusi0nCrystal201969","HeroHawk40","pierautsundue86","AidenZeroRaven2004YT","yantungleggatt63","Dani3lPuls3Giga2011","AvaStarEagl3","XxT0xicKnightS0nicxX","EllaBane53","mayenkahan93","Charl0tteHawkByte","menkoludzer79","Pix3l_Blad384","CodeStarryDawn","lavinie91258","XxGalaxyEchoTigerxX","AidenCraft202228_YT","burchard6297","LuckyH3ro64","Layla_Dawn20","muoininfaui","XxEllie_GoldenxX2021","DarkClaw44_YT","karlo8266","ZeroFusion40","B3ast_Starry2005","wierdunseen39","Xx_ZaydenGlitchSpark","soojung48573"}
 
-	local emails = {"sijmongirthss","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81"}
+	local emails = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81"}
 
 	local totalEmails = #emails
 	local groupSize = totalEmails
@@ -40,7 +40,7 @@ local Players = game:GetService("Players")
 	end
 
 	if not found then
-		getgenv().GMAIL_RECEIVERS = {"sijmongirthss","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81"}
+		getgenv().GMAIL_RECEIVERS = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81"}
 		--warn("Tên người chơi không nằm trong danh sách hợp lệ.")
 	end
 ---------------------------------------------------------------------------------------------------------------------------
