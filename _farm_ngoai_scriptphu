@@ -25,6 +25,7 @@ end)
 task.spawn(function()
 wait(150)
 
+
 if _G.VAR_TIME_TRIAL then
 	warn("Script đã được chạy trước đó!")
 	return
@@ -151,9 +152,9 @@ local function startMonitorStuck(onStuckCallback)
 			local currentPosition = hrp.Position
 			if lastPosition and (currentPosition - lastPosition).Magnitude < 0.5 then
 				stationarySeconds += 1
-				if stationarySeconds >= 60 then
+				if stationarySeconds >= 30 then
 					warn("⚠️ Nhân vật đứng yên tại 1 vị trí 60s ⇒ xử lý stuck lần thứ " .. tostring(_stuckRetries + 1))
-					stopMonitorStuck()
+					stuckMonitorThread = nil
 
 					_stuckRetries += 1
 					if _stuckRetries >= 3 then
@@ -162,9 +163,8 @@ local function startMonitorStuck(onStuckCallback)
 						if workspace.__THINGS.Instances.TimeTrial.Teleports.Leave then
 							teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Leave)
 							task.wait(15)
-							if onStuckCallback then
-								onStuckCallback()
-							end
+							teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
+							wait(3)
 						end
 					end
 					break
@@ -178,16 +178,8 @@ local function startMonitorStuck(onStuckCallback)
 		end
 	end)
 end
-local function RunTimeTrialScript()
-	task.spawn(function()
-		if game.PlaceId ~= 140403681187145 then return end
 
-		local ZoneCmds = require(game.ReplicatedStorage.Library.Client.ZoneCmds)
-		local BreakablesFolder = workspace.__THINGS.Breakables
-		local EnterTeleport = workspace.__THINGS.Instances.TimeTrial.Teleports.Enter
-		local LeaveTeleport = workspace.__THINGS.Instances.TimeTrial.Teleports.Leave
-
-		local function teleportTo(part)
+		function teleportTo(part)
 			if part and part.CFrame then
 				local character = player.Character or player.CharacterAdded:Wait()
 				if character and character:FindFirstChild("HumanoidRootPart") then
@@ -195,6 +187,20 @@ local function RunTimeTrialScript()
 				end
 			end
 		end
+
+local function RunTimeTrialScript()
+	task.spawn(function()
+		if game.PlaceId ~= 140403681187145 then return end
+		local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+		local rank = Save.Get().Rank
+		if rank < 20 then return end
+
+		local ZoneCmds = require(game.ReplicatedStorage.Library.Client.ZoneCmds)
+		local BreakablesFolder = workspace.__THINGS.Breakables
+		local EnterTeleport = workspace.__THINGS.Instances.TimeTrial.Teleports.Enter
+		local LeaveTeleport = workspace.__THINGS.Instances.TimeTrial.Teleports.Leave
+
+		
 
 		local function isValidBreakable(instance)
 			return instance:IsA("Model") and tonumber(instance.Name) ~= nil
