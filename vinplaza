@@ -45,7 +45,7 @@ else
 		
 		
 		
-		script_key = "IAMAiZhmvPSarFAwYGimVtcLzrqIAnAQ";
+
 
 
 local Save = require(game.ReplicatedStorage.Library.Client.Save)		
@@ -69,7 +69,7 @@ end
 
 
 
-		
+		script_key = "IAMAiZhmvPSarFAwYGimVtcLzrqIAnAQ";		
 		loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/ba2dcad2127dcfc04301dfe52ce6c61c.lua"))()
 		--loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()    --key farm
 
