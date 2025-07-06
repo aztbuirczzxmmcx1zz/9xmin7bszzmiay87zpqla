@@ -6,11 +6,20 @@ getgenv().GGYM_EVENT_STAT_CONFIG = {
     ["Size"] = 1
 }
 
+getgenv().GUSE_FLAGS = {"Hasty Flag"}
 getgenv().GUSE_BOOSTS = true
 getgenv().GEVENT_FPS  = 5
 
 --getgenv().GLOOTBOXES = {"All"}
 getgenv().GLOOTBOXES = {"Locked Hype Egg","Lucky Gift","Hype Egg","Hype Egg 2","Buff Gym Gift","Gym Gift"}
+
+--getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Diamonds","Treasure Hunter","Strong Pets","Tap Power","Diamonds","Lucky Eggs"}
+--getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Strong Pets","Super Lightning","Treasure Hunter","Diamonds","Lucky Eggs"}
+--getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Coins","Strong Pets"}
+--getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Tap Power","Coins"}
+getgenv().GENCHANTS = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter"}
+
+
 
 --getgenv().GRANK_FIRST = true
 getgenv().GZONE_TO = 999
@@ -51,15 +60,11 @@ getgenv().GIGNORE_SLEDRACE = false
 
 getgenv().GUSE_SPRINKLERS = true
 getgenv().GUSE_ULTIMATES = {"Tsunami", "Tornado", "Pet Surge", "Chest Spell","Ground Pound"}
-getgenv().GUSE_FLAGS = {"Fortune Flag","Diamonds Flag","Coins Flag"}
+
 getgenv().GEVENT_ITEMS_TO_USE = {"Mini Pinata","Party Box","Mini Lucky Block"}
 getgenv().GFRUITS = {"Watermelon","Candycane","Apple","Rainbow","Pineapple","Orange","Banana"}
 getgenv().GPOTIONS = {"Coins","Lucky","The Cocktail","Huge","Treasure Hunter","Walkspeed","Diamonds","Damage"}
 getgenv().GPOTIONS_MAX_TIER = 99
-getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Diamonds","Treasure Hunter","Strong Pets","Tap Power","Diamonds","Lucky Eggs"}
---getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Strong Pets","Super Lightning","Treasure Hunter","Diamonds","Lucky Eggs"}
---getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Coins","Strong Pets"}
---getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Tap Power","Coins"}
---getgenv().GENCHANTS = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter"}
+
 
 getgenv().GHUGE_COUNT = 50
