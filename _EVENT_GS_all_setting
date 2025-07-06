@@ -11,7 +11,7 @@ getgenv().GUSE_BOOSTS = true
 getgenv().GEVENT_FPS  = 5
 
 --getgenv().GLOOTBOXES = {"All"}
-getgenv().GLOOTBOXES = {"Locked Hype Egg","Lucky Gift","Hype Egg","Hype Egg 2","Buff Gym Gift","Gym Gift","Large Gift Bag","Diamond Gift Bag","Mini Chest","Rainbow Mini Chest"}
+getgenv().GLOOTBOXES = {"Locked Hype Egg","Lucky Gift","Hype Egg","Hype Egg 2","Buff Gym Gift","Gym Gift"}
 
 --getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Diamonds","Treasure Hunter","Strong Pets","Tap Power","Diamonds","Lucky Eggs"}
 --getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Strong Pets","Super Lightning","Treasure Hunter","Diamonds","Lucky Eggs"}
