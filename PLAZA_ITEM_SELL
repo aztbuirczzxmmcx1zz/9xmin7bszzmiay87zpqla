@@ -6,19 +6,24 @@ getgenv().Settings = {
 
 ["Titanic Disco Ball Agony"] = {Price = "5.9b", Priority = true },
 ["Golden Titanic Disco Ball Agony"] = {Price = "6b", Priority = true},
-["Rainbow Titanic Disco Ball Agony"] = {Price = "27b", Priority = true},
-	
+["Rainbow Titanic Disco Ball Agony"] = {Price = "27b", Priority = true},	
 
 ["Huge Machine Egg 5"] = {Price = "1%", Priority = true},
 
+["Gym Dragon"] = {Price = "5%", Priority = true},
+["Golden Gym Dragon"] = {Price = "5%", Priority = true},
+["Rainbow Gym Dragon"] = {Price = "5%", Priority = true},
+["Shiny Gym Dragon"] = {Price = "5%", Priority = true},
+["Shiny Rainbow Gym Dragon"] = {Price = "5%", Priority = true},
+["Shiny Golden Gym Dragon"] = {Price = "5%", Priority = true},
 
+["Gym Unicorn"] = {Price = "5%", Priority = true},
+["Golden Gym Unicorn"] = {Price = "5%", Priority = true},
+["Rainbow Gym Unicorn"] = {Price = "5%", Priority = true},
+["Shiny Gym Unicorn"] = {Price = "5%", Priority = true},
+["Shiny Rainbow Gym Unicorn"] = {Price = "5%", Priority = true},
+["Shiny Golden Gym Unicorn"] = {Price = "5%", Priority = true},
 
-["Gym Corgi"] = {Price = "2%", Priority = true},
-["Golden Gym Corgi"] = {Price = "2%", Priority = true},
-["Rainbow Gym Corgi"] = {Price = "2%", Priority = true},
-["Shiny Gym Corgi"] = {Price = "2%", Priority = true},
-["Shiny Rainbow Gym Corgi"] = {Price = "2%", Priority = true},
-["Shiny Golden Gym Corgi"] = {Price = "2%", Priority = true},
 
 ["Shiny Golden Huge Gym Shark"] = {Price = "350m", Priority = true},
 ["Shiny Rainbow Huge Gym Shark"] = {Price = "3b", Priority = true},
