@@ -1,7 +1,7 @@
 getgenv().GEVENT_FPS  = 5
 
 --getgenv().GLOOTBOXES = {"All"}
-getgenv().GLOOTBOXES = {"Locked Hype Egg","Lucky Gift","Hype Egg","Hype Egg 2","Buff Gym Gift","Gym Gift","Large Gift Bag","Diamond Gift Bag","Mini Chest","Rainbow Mini Chest"}
+getgenv().GLOOTBOXES = {"Locked Hype Egg","Lucky Gift","Hype Egg","Hype Egg 2","Buff Gym Gift","Gym Gift"}
 
 --getgenv().GRANK_FIRST = true
 getgenv().GZONE_TO = 999
