@@ -19,21 +19,82 @@ end
 
 end)
 
--- thêm bạn bè
+-- xem điểm trial và lượt chơi
 task.spawn(function()
-	task.wait(300)
-
+wait(60)
 local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+local player = Players.LocalPlayer
+local Save = require(game.ReplicatedStorage.Library.Client.Save)
 
-for _, player in pairs(Players:GetPlayers()) do
-    if player ~= LocalPlayer then
-        pcall(function()
-            LocalPlayer:RequestFriendship(player)
-			task.wait(300)
-        end)
-    end
+-- Xóa GUI cũ nếu đã tồn tại
+local playerGui = player:WaitForChild("PlayerGui")
+local oldGui = playerGui:FindFirstChild("TimeTrialGui")
+if oldGui then oldGui:Destroy() end
+
+local function getRunsLeft()
+	local saveData = Save.Get()
+	if saveData and saveData.TimeTrialStats then
+		local usedRuns = saveData.TimeTrialStats.DailyRuns or 0
+		return math.max(0, 10 - usedRuns)
+	end
+	return 0
 end
+local function getTimeTrialPoints()
+	local saveData = Save.Get()
+	if saveData and saveData.TimeTrialStats and type(saveData.TimeTrialStats.Points) == "number" then
+		return saveData.TimeTrialStats.Points
+	end
+	return 0
+end
+
+-- Tạo GUI
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "TimeTrialGui"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = playerGui
+
+local function createLabel(name, position, anchor, bgColor)
+	local label = Instance.new("TextLabel")
+	label.Name = name
+	label.AnchorPoint = anchor or Vector2.new(0, 0)
+	label.Position = position
+	label.Size = UDim2.new(0, 0, 0, 38)
+	label.BackgroundColor3 = bgColor
+	label.TextColor3 = Color3.fromRGB(255, 255, 255)
+	label.Font = Enum.Font.GothamBold
+	label.TextSize = 32
+	label.Text = "..."
+	label.BackgroundTransparency = 0
+	label.BorderSizePixel = 0
+	label.TextXAlignment = Enum.TextXAlignment.Center
+	label.Parent = screenGui
+	return label
+end
+
+-- 🧭 Tạo label: Points (trái trên), TimeTrial (giữa trên)
+local pointsLabel = createLabel("PointsLabel", UDim2.new(0.65, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(0, 128, 255))
+local timeTrialLabel = createLabel("TimeTrialLabel", UDim2.new(0.79, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(128, 0, 128))
+
+-- Cập nhật kích thước theo text
+local function updateLabelSize(label)
+	label.Size = UDim2.new(0, label.TextBounds.X + 20, 0, 38)
+end
+
+-- Cập nhật GUI mỗi 10 giây
+task.spawn(function()
+	while true do
+		local runsLeft = getRunsLeft()
+		local points = getTimeTrialPoints()
+
+		pointsLabel.Text = tostring(points)
+		updateLabelSize(pointsLabel)
+
+		timeTrialLabel.Text = tostring(runsLeft)
+		updateLabelSize(timeTrialLabel)
+
+		task.wait(10)
+	end
+end)
 
 end)
 
