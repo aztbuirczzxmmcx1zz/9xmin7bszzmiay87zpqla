@@ -1,7 +1,4 @@
-
-
 getgenv().GDO_GYM_EVENT = true
-getgenv().GGYM_CLICK_DELAY = 0.1
 getgenv().GGYM_EVENT_STAT_CONFIG = {
     ["Stamina"] = 0,
     ["CritChance"] = 0,
@@ -9,7 +6,7 @@ getgenv().GGYM_EVENT_STAT_CONFIG = {
     ["Size"] = 1
 }
 
-
+getgenv().GUSE_BOOSTS = true
 getgenv().GEVENT_FPS  = 5
 
 --getgenv().GLOOTBOXES = {"All"}
