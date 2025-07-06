@@ -1,23 +1,27 @@
--- phát hiện không farm ở svv thoát game
+-- 1 giờ check daily run time trial nếu đã chạy đủ 10 lần thì thoát game để tự chạy event
 task.spawn(function()
-task.wait(50)
--- Hàm kiểm tra số người và shutdown nếu cần
-local function autoShutdownIfNotAlone()
-    local playerCount = #Players:GetPlayers()
+wait(100)
+while true do
 
-    if playerCount > 1 then
-        game:Shutdown() -- ⚠️ Lệnh shutdown client
-		Players.LocalPlayer:Kick("kick")
-    end
+
+Save = require(game.ReplicatedStorage.Library.Client.Save)		
+local function getRunsUsed()
+	local saveData = Save.Get()
+	return saveData and saveData.TimeTrialStats and saveData.TimeTrialStats.DailyRuns or 0
 end
 
--- Gọi ngay khi script chạy
-autoShutdownIfNotAlone()
+local Daily_run = getRunsUsed()
+if Daily_run >= 10 then
+		game:Shutdown() -- ⚠️ Lệnh shutdown client
+		Players.LocalPlayer:Kick("kick")
+end
 
+	wait(3600)
+end
 
 end)
 
--- map 264 time trial
+-- map 269 time trial
 task.spawn(function()
 wait(150)
 
@@ -54,6 +58,10 @@ local function getRunsUsed()
 	return saveData and saveData.TimeTrialStats and saveData.TimeTrialStats.DailyRuns or 0
 end
 
+local function getRunsTotals()
+	local saveData = Save.Get()
+	return saveData and saveData.TimeTrialStats and saveData.TimeTrialStats.TotalRuns or 0
+end
 -- Hàm lấy số điểm Time Trial
 local function getTimeTrialPoints()
 	local saveData = Save.Get()
@@ -88,7 +96,7 @@ local function createLabel(name, position, anchor, bgColor)
 end
 
 -- 🧭 Tạo label: Points (trái trên), TimeTrial (giữa trên)
-local pointsLabel = createLabel("PointsLabel", UDim2.new(0.70, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(0, 128, 255))
+local pointsLabel = createLabel("PointsLabel", UDim2.new(0.7, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(0, 128, 255))
 local timeTrialLabel = createLabel("TimeTrialLabel", UDim2.new(0.79, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(128, 0, 128))
 
 -- Cập nhật kích thước theo text
@@ -134,6 +142,9 @@ local function startMonitorStuck(onStuckCallback)
 		local lastPosition = nil
 
 		while true do
+		
+		
+		
 			local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
 			if not hrp then task.wait(1) continue end
 
@@ -170,10 +181,7 @@ end
 local function RunTimeTrialScript()
 	task.spawn(function()
 		if game.PlaceId ~= 140403681187145 then return end
-		local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-		local rank = Save.Get().Rank
-		if rank < 20 then return end
-		
+
 		local ZoneCmds = require(game.ReplicatedStorage.Library.Client.ZoneCmds)
 		local BreakablesFolder = workspace.__THINGS.Breakables
 		local EnterTeleport = workspace.__THINGS.Instances.TimeTrial.Teleports.Enter
@@ -211,7 +219,15 @@ local function RunTimeTrialScript()
 		end
 
 		local function teleportToBreakables()
+			
+			m=0
 			while true do
+
+			
+			
+			
+			
+			
 				local breakableNames = getCurrentBreakables()
 				if #breakableNames > 0 then
 					for _, name in ipairs(breakableNames) do
@@ -270,6 +286,8 @@ local function RunTimeTrialScript()
 		-- 🎯 Theo dõi 12 phút không giảm lượt
 		task.spawn(function()
 			local currentRuns = getRunsUsed()
+			local total_RUN = getRunsTotals()
+			
 			print("📊 Số lượt Time Trial đã dùng: " .. currentRuns)
 
 			if currentRuns >= 10 then
@@ -278,6 +296,7 @@ local function RunTimeTrialScript()
 			end
 
 			while currentRuns < 10 do
+				local old_total_RUN = total_RUN
 				local startRuns = currentRuns
 				local totalTime = 0
 
@@ -288,6 +307,8 @@ local function RunTimeTrialScript()
 					totalTime += 10
 
 					currentRuns = getRunsUsed()
+					total_RUN = getRunsTotals()
+					
 					if currentRuns >= 10 then
 						warn("🎉 Đã đạt 10 lượt trong khi theo dõi.")
 						return
@@ -297,19 +318,60 @@ local function RunTimeTrialScript()
 					end
 				end
 
-				if currentRuns == startRuns then
+				if total_RUN == old_total_RUN then
 					player:Kick("⏰ 12 phút rồi mà không tăng lượt Time Trial. Có thể bị AFK hoặc lỗi.")
 					return
-				end
+				end	
+				
 			end
 		end)
+		
+			local ReplicatedStorage = game:GetService("ReplicatedStorage")
+			local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+			local SaveModule = require(Client:WaitForChild("Save"))
+
+			local FantasyCoins = "FantasyCoins"  -- Đảm bảo rằng "FantasyCoins" là chuỗi
+
+			local function getCurrencyAmount()
+
+				local Inventory = SaveModule.Get().Inventory
+				-- Kiểm tra nếu Currency tồn tại và có dữ liệu
+				if Inventory and Inventory.Currency then
+					for _, v in pairs(Inventory.Currency) do 
+						if v.id == FantasyCoins then
+							return v._am or 0  -- Trả về giá trị _am nếu có, nếu không trả về 0
+						end
+					end
+				end
+				return 0
+			end
+			old_coin_fantasy = getCurrencyAmount()
+			warn(old_coin_fantasy)	
+		
 		while true do
 			local Daily_run = getRunsUsed()
 			if Daily_run >= 10 then
 				warn("🎯 Đã đủ 10 lượt chạy, dừng script.")
 				break
 			end
-
+			
+			------------------------------------------------------------------------
+			local Save = require(game.ReplicatedStorage.Library.Client.Save)
+			local saveData = Save.Get()
+			local totalPoints = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.Points or 0) or 0
+			local character = player.Character or player.CharacterAdded:Wait()
+			
+			if totalPoints > 5000 then
+				character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(-15115.5 , 20 , 1380.3))
+				wait(1)
+				local ReplicatedStorage = game:GetService("ReplicatedStorage")
+				local FantasyKey_Unlock = game:GetService("ReplicatedStorage").Network.TimeTrials_OpenChest 
+				FantasyKey_Unlock:InvokeServer(3)
+				wait(1)
+			end
+			------------------------------------------------------------------------
+			
+			
 			warn("🔁 Bắt đầu vòng Time Trial, lượt hiện tại: " .. tostring(Daily_run))
 
 			local character = player.Character or player.CharacterAdded:Wait()
@@ -738,7 +800,7 @@ end)
 
 --xem tên nhân vật và kiểm tra gem < 10m cho giả lập
 task.spawn(function()
-	task.wait(25)
+	task.wait(125)
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui")
@@ -919,3 +981,21 @@ end
 
 end)
 
+-- phát hiện không farm ở svv thoát game
+task.spawn(function()
+task.wait(50)
+-- Hàm kiểm tra số người và shutdown nếu cần
+local function autoShutdownIfNotAlone()
+    local playerCount = #Players:GetPlayers()
+
+    if playerCount > 1 then
+        game:Shutdown() -- ⚠️ Lệnh shutdown client
+		Players.LocalPlayer:Kick("kick")
+    end
+end
+
+-- Gọi ngay khi script chạy
+autoShutdownIfNotAlone()
+
+
+end)
