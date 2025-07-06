@@ -1,8 +1,8 @@
 getgenv().Settings = {
     ["Items"] = {
 
-["Titanic Gym Piggy"] = {Price = "6.2b", Priority = true },
-["Golden Titanic Gym Piggy"] = {Price = "7b", Priority = true },
+["Titanic Gym Piggy"] = {Price = "6b", Priority = true },
+["Golden Titanic Gym Piggy"] = {Price = "6.5b", Priority = true },
 
 ["Golden Titanic Disco Ball Agony"] = {Price = "6b", Priority = true},
 
@@ -21,23 +21,6 @@ getgenv().Settings = {
 ["Shiny Gym Unicorn"] = {Price = "5%", Priority = true},
 ["Shiny Golden Gym Unicorn"] = {Price = "5%", Priority = true},
 ["Shiny Rainbow Gym Unicorn"] = {Price = "5%", Priority = true},
-
-
-["Shiny Golden Huge Gym Shark"] = {Price = "350m", Priority = true},
-["Shiny Rainbow Huge Gym Shark"] = {Price = "3b", Priority = true},
-["Huge Gym Shark"] = {Price = "10%", Priority = true},
-["Golden Huge Gym Shark"] = {Price = "+10%", Priority = true},
-["Rainbow Huge Gym Shark"] = {Price = "+10%", Priority = true},
-["Shiny Huge Gym Shark"] = {Price = "5%", Priority = true},
-
-
-["Huge Gym Panda"] = {Price = "5%", Priority = true},
-["Golden Huge Gym Panda"] = {Price = "5%", Priority = true},
-["Rainbow Huge Gym Panda"] = {Price = "5%", Priority = true},
-["Shiny Huge Gym Panda"] = {Price = "5%", Priority = true},
-["Shiny Golden Huge Gym Panda"] = {Price = "1b", Priority = true},
-["Shiny Rainbow Huge Gym Panda"] = {Price = "5b", Priority = true},
-
 
 ["XPPotion Mastery"] = {Price = 400000, Priority = true},
 ["MVP Key"] = {Price = "+5%", Priority = true},
