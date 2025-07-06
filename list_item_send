@@ -3,7 +3,7 @@ getgenv().GMAIL_ITEMS = {
 ["Gym Dragon"] = {Class = "Pet", Id = "Gym Dragon", MinAmount = 1,AllVariants = true},
 ["Gym Unicorn"] = {Class = "Pet", Id = "Gym Dragon", MinAmount = 1,AllVariants = true},
 
-["Huge Honey Badger"] = {Class = "Pet", Id = "Huge Honey Badger", MinAmount = 1,AllVariants = true},
+ 
 ["Huge Scribe Squirrel"] = {Class = "Pet", Id = "Huge Scribe Squirrel", MinAmount = 1,AllVariants = true},
 ["Huge Coach Hippo"] = {Class = "Pet", Id = "Huge Coach Hippo", MinAmount = 1,AllVariants = true},
 ["Huge Tennis Squirrel"] = {Class = "Pet", Id = "Huge Tennis Squirrel", MinAmount = 1,AllVariants = true},
