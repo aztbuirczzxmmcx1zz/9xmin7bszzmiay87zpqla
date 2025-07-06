@@ -1,97 +1,23 @@
+-- 1 giờ check daily run time trial nếu đã chạy 0 lần thì thoát game để tự chạy farm ngoai
 task.spawn(function()
-task.wait(50)
--- Hàm kiểm tra số người và shutdown nếu cần
-local function autoShutdownIfNotAlone()
-    local playerCount = #Players:GetPlayers()
-
-    if playerCount > 1 then
-        game:Shutdown() -- ⚠️ Lệnh shutdown client
-		Players.LocalPlayer:Kick("kick")
-    end
-end
-
--- Gọi ngay khi script chạy
-autoShutdownIfNotAlone()
-
-
-end)
-
--- send huge event
-task.spawn(function()
-task.wait(150)
-
-
--- 📬 Danh sách người nhận
-local usernames =  {"sijmongirthss","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81"}
-
--- 💬 Câu chúc ngắn (có %s để chèn tên)
-local messages = {
-    "This is for you, %s!",
-    "Enjoy your pet, %s!",
-    "From me to you, %s!",
-    "Gift incoming, %s!",
-    "You earned this, %s!"
-}
-
--- 🐬 Tên pet cần gửi
-local targetPetName = "Huge Gym Shark"
-
--- 📦 Load module
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-local Network = require(Client.Network)
-local SaveData = require(Client.Save).Get()
-
--- 🐾 Lọc pet theo tên
-local function getHugeGymSharkPets()
-    local petsToSend = {}
-    for uid, v in pairs(SaveData.Inventory.Pet or {}) do
-        if v.id == targetPetName then
-            table.insert(petsToSend, uid)
-        end
-    end
-    return petsToSend
-end
-
--- 🔀 Chọn username và message ngẫu nhiên
-local function getRandomUser()
-    return usernames[math.random(1, #usernames)]
-end
-
-local function getRandomMessage(recipient)
-    return string.format(messages[math.random(1, #messages)], recipient)
-end
-
--- 🔁 Vòng lặp gửi pet
+wait(100)
 while true do
-    local pets = getHugeGymSharkPets()
-
-    if #pets == 0 then
-        warn(" Huge Gym .")
-    else
-        for i, uid in ipairs(pets) do
-            local recipient = getRandomUser()
-            local message = getRandomMessage(recipient)
-
-            local success, result = Network.Invoke("Mailbox: Send", recipient, message, "Pet", uid, 1)
-
-            if success then
-                warn(string.format(" Sent %s to %s with message: \"%s\"", i, #pets, uid, recipient, message))
-            else
-                warn(string.format("Failed to send %s to %s: %s", uid, recipient, tostring(result)))
-            end
-
-            task.wait(2)
-        end
-    end
-
-    task.wait(3600) -- chờ trước khi lặp tiếp lần sau
+Save = require(game.ReplicatedStorage.Library.Client.Save)		
+local function getRunsUsed()
+	local saveData = Save.Get()
+	return saveData and saveData.TimeTrialStats and saveData.TimeTrialStats.DailyRuns or 0
 end
 
+local Daily_run = getRunsUsed()
+if Daily_run == 0 then
+		game:Shutdown() -- ⚠️ Lệnh shutdown client
+		Players.LocalPlayer:Kick("kick")
+end
+
+	wait(3600)
+end
 
 end)
-
-
 
 -- thêm bạn bè
 task.spawn(function()
@@ -111,52 +37,11 @@ end
 
 end)
 
-task.spawn(function()
-task.wait(60)
-
-local username = "BarzARoy1107"
-local booksToCheck = {
-    "Diamonds", "Tap Power", "Lucky Eggs", "Coins", "Strong Pets", "Treasure Hunter"
-}
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-local Network = require(Client.Network)
-local SaveData = require(Client.Save).Get()
-local HttpService = game:GetService("HttpService")
-
--- Hàm gửi sách
-local function sendBook(uid, count)
-    local message = "free "..username
-    local success, result = Network.Invoke("Mailbox: Send", username, message, "Enchant", uid, count)
-    if success then
-        warn("Đã gửi", count, "cuốn", uid, "cho", username)
-    else
-        warn("Lỗi gửi", uid, ":", tostring(result))
-    end
-end
-
--- Lặp qua danh sách
-for _, bookName in ipairs(booksToCheck) do
-    for uid, v in pairs(SaveData.Inventory.Enchant) do
-        if v.id == bookName and v.tn == 10 then
-            local count = tonumber(v._am) or 1
-            if count > 2 then
-                local extra = count - 2
-                sendBook(uid, extra)
-                task.wait(2)
-            end
-        end
-    end
-end
-
-
-end)
-
+-- xem sl 7 sách thường dùng
 task.spawn(function()
 task.wait(60)
 local booksToCheck = {
-     "Diamonds","Lucky Eggs","Treasure Hunter"
+    "Diamonds","Lucky Eggs","Treasure Hunter"
 }
 
 local Players = game:GetService("Players")
@@ -233,11 +118,11 @@ task.spawn(function()
     end
 end)
 
-end)
 
+end)
+---------------------------------------------------------------------------------------------------------------------
 
 -- Xem item cần tìm x 10 ở giữa cho giả lập
-
 task.spawn(function()
 	task.wait(1)
 
@@ -326,10 +211,6 @@ task.spawn(function()
 	end
 end)
 
-
-
-
-
 -- check toạ độ vs xút ra khi bị rơi
 task.spawn(function()
 	task.wait(150)
@@ -350,7 +231,7 @@ coordLabel.BackgroundColor3 = Color3.new(0, 0, 0)
 coordLabel.TextColor3 = Color3.new(1, 1, 1)
 coordLabel.TextScaled = true
 coordLabel.Font = Enum.Font.SourceSansBold
-coordLabel.Text = "wait..."
+coordLabel.Text = "..."
 coordLabel.Parent = screenGui
 
 -- Cập nhật tọa độ nhân vật liên tục
@@ -367,7 +248,6 @@ end)
 
 
 end)
-
 
 -- Ghép sách + thuốc nếu lv < 99 
 task.spawn(function()
@@ -462,10 +342,9 @@ end
 
 end)
 
-
-
+--xem tên nhân vật và kiểm tra gem < 10m cho giả lập
 task.spawn(function()
-	task.wait(25)
+	task.wait(125)
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui")
@@ -542,6 +421,7 @@ task.spawn(monitor)
 
 
 end)
+---------------------------------------------------------------------------------------------------------------------
 
 -- xoá lưu pet rồi chọn pet mạnh nhất	
 task.spawn(function()
@@ -564,3 +444,24 @@ local Network = ReplicatedStorage:WaitForChild("Network")
     Network.Pets_ToggleFavoriteMode:FireServer()
     task.wait(1)
 end)
+
+-- phát hiện không farm ở svv thoát game
+task.spawn(function()
+task.wait(50)
+-- Hàm kiểm tra số người và shutdown nếu cần
+local function autoShutdownIfNotAlone()
+    local playerCount = #Players:GetPlayers()
+
+    if playerCount > 1 then
+        game:Shutdown() -- ⚠️ Lệnh shutdown client
+		Players.LocalPlayer:Kick("kick")
+    end
+end
+
+-- Gọi ngay khi script chạy
+autoShutdownIfNotAlone()
+
+
+end)
+---------------------------------------------------------------------------------------------------------------------
+
