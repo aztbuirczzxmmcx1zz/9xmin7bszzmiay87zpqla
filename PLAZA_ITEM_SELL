@@ -3,7 +3,7 @@ getgenv().Settings = {
 
 ["Titanic Gym Axolotl"] = {Price = "10.4b", Priority = true },
 ["Titanic Gym Piggy"] = {Price = "5.5b", Priority = true },
-["Golden Titanic Gym Piggy"] = {Price = "6.5b", Priority = true },
+["Golden Titanic Gym Piggy"] = {Price = "6b", Priority = true },
 ["Golden Titanic Disco Ball Agony"] = {Price = "6b", Priority = true},
 
 
