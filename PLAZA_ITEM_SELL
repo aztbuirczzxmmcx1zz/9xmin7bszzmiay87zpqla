@@ -15,7 +15,7 @@ getgenv().Settings = {
 ["Rainbow Gym Dragon"] = {Price = "5%", Priority = true},
 ["Shiny Gym Dragon"] = {Price = "5%", Priority = true},
 ["Shiny Golden Gym Dragon"] = {Price = "5%", Priority = true},
-["Shiny Rainbow Gym Dragon"] = {Price = "4b", Priority = true},
+["Shiny Rainbow Gym Dragon"] = {Price = "15%", Priority = true},
 
 ["Gym Unicorn"] = {Price = "5%", Priority = true},
 ["Golden Gym Unicorn"] = {Price = "5%", Priority = true},
