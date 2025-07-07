@@ -1,25 +1,3 @@
--- 1 giờ check daily run time trial nếu đã chạy đủ 10 lần thì thoát game để tự chạy event
-task.spawn(function()
-wait(100)
-while true do
-
-
-Save = require(game.ReplicatedStorage.Library.Client.Save)		
-local function getRunsUsed()
-	local saveData = Save.Get()
-	return saveData and saveData.TimeTrialStats and saveData.TimeTrialStats.DailyRuns or 0
-end
-
-local Daily_run = getRunsUsed()
-if Daily_run >= 10 then
-		game:Shutdown() -- ⚠️ Lệnh shutdown client
-		Players.LocalPlayer:Kick("kick")
-end
-
-	wait(3600)
-end
-
-end)
 
 -- map 269 time trial
 task.spawn(function()
