@@ -1,6 +1,6 @@
 local Fordward_1 = true
 local Fordward_2 = false
-
+war(Start_ford)
 local Players = game:GetService("Players")
 	local player = Players.LocalPlayer
 
