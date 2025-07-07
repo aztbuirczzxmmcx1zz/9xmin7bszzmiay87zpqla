@@ -16,7 +16,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9x
 
 
 
-		Start_ford = 2
+		Start_ford = 1
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/Fordward_Mail"))()	
 
 
