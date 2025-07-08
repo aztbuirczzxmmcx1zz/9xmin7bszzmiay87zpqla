@@ -1,3 +1,4 @@
+task.wait(30)
 local LocalPlayer = game.Players.LocalPlayer
 local Lighting = game:GetService("Lighting")
 local MaterialService = game:GetService("MaterialService")
