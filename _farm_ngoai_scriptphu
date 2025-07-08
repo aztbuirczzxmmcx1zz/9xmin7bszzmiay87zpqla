@@ -1,18 +1,6 @@
-
-
 -- map 269 time trial
 task.spawn(function()
 wait(150)
-
-
-if _G.VAR_TIME_TRIAL then
-	warn("Script đã được chạy trước đó!")
-	return
-end
-
-_G.VAR_TIME_TRIAL = true
-
--- Khởi tạo GUI Time Trial
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local Save = require(game.ReplicatedStorage.Library.Client.Save)
@@ -76,7 +64,7 @@ local function createLabel(name, position, anchor, bgColor)
 end
 
 -- 🧭 Tạo label: Points (trái trên), TimeTrial (giữa trên)
-local pointsLabel = createLabel("PointsLabel", UDim2.new(0.65, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(0, 128, 255))
+local pointsLabel = createLabel("PointsLabel", UDim2.new(0.7, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(0, 128, 255))
 local timeTrialLabel = createLabel("TimeTrialLabel", UDim2.new(0.79, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(128, 0, 128))
 
 -- Cập nhật kích thước theo text
@@ -162,7 +150,7 @@ end
 			if part and part.CFrame then
 				local character = player.Character or player.CharacterAdded:Wait()
 				if character and character:FindFirstChild("HumanoidRootPart") then
-					character.HumanoidRootPart.CFrame = part.CFrame + Vector3.new(0, 5, 0)
+					character.HumanoidRootPart.CFrame = part.CFrame + Vector3.new(0,10, 0)
 				end
 			end
 		end
@@ -172,7 +160,7 @@ local function RunTimeTrialScript()
 		if game.PlaceId ~= 140403681187145 then return end
 		local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 		local rank = Save.Get().Rank
-		if rank < 20 then return end
+		if rank < 20 then warn("RANK < 20") return end
 
 		local ZoneCmds = require(game.ReplicatedStorage.Library.Client.ZoneCmds)
 		local BreakablesFolder = workspace.__THINGS.Breakables
@@ -311,27 +299,7 @@ local function RunTimeTrialScript()
 			end
 		end)
 		
-			local ReplicatedStorage = game:GetService("ReplicatedStorage")
-			local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-			local SaveModule = require(Client:WaitForChild("Save"))
-
-			local FantasyCoins = "FantasyCoins"  -- Đảm bảo rằng "FantasyCoins" là chuỗi
-
-			local function getCurrencyAmount()
-
-				local Inventory = SaveModule.Get().Inventory
-				-- Kiểm tra nếu Currency tồn tại và có dữ liệu
-				if Inventory and Inventory.Currency then
-					for _, v in pairs(Inventory.Currency) do 
-						if v.id == FantasyCoins then
-							return v._am or 0  -- Trả về giá trị _am nếu có, nếu không trả về 0
-						end
-					end
-				end
-				return 0
-			end
-			old_coin_fantasy = getCurrencyAmount()
-			warn(old_coin_fantasy)	
+		
 		
 		while true do
 			local Daily_run = getRunsUsed()
@@ -341,15 +309,18 @@ local function RunTimeTrialScript()
 			end
 			
 			------------------------------------------------------------------------
+			local Players = game:GetService("Players")
+			local player = Players.LocalPlayer
+			local ReplicatedStorage = game:GetService("ReplicatedStorage")
 			local Save = require(game.ReplicatedStorage.Library.Client.Save)
 			local saveData = Save.Get()
 			local totalPoints = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.Points or 0) or 0
 			local character = player.Character or player.CharacterAdded:Wait()
 			
-			if totalPoints > 5000 then
-				character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(-15115.5 , 20 , 1380.3))
+			if tonumber(totalPoints) > 5000 then
+				character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(-14185.5 , 20 , 1389.7))
 				wait(1)
-				local ReplicatedStorage = game:GetService("ReplicatedStorage")
+				
 				local FantasyKey_Unlock = game:GetService("ReplicatedStorage").Network.TimeTrials_OpenChest 
 				FantasyKey_Unlock:InvokeServer(3)
 				wait(1)
@@ -579,7 +550,7 @@ task.spawn(function()
 
 	-- cấu hình item cần theo dõi
 	local itemsToTrack = {		
-		{ id = "Ancestor Eagle", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },	-- cam
+		{ id = "Super Lightning", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },	-- cam
 		{ id = "MVP Key Upper Half", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },		-- trang
 	}
 
@@ -969,18 +940,16 @@ end)
 -- phát hiện không farm ở svv thoát game
 task.spawn(function()
 task.wait(50)
--- Hàm kiểm tra số người và shutdown nếu cần
+
 local function autoShutdownIfNotAlone()
     local playerCount = #Players:GetPlayers()
 
     if playerCount > 1 then
-        game:Shutdown() -- ⚠️ Lệnh shutdown client
+        game:Shutdown()
 		Players.LocalPlayer:Kick("kick")
     end
 end
 
--- Gọi ngay khi script chạy
 autoShutdownIfNotAlone()
-
 
 end)
