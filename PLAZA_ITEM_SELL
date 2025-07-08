@@ -8,11 +8,11 @@ getgenv().Settings = {
 ["Time Trial Gift"] = {Price = "200k", Priority = true},
 ["Huge Machine Egg 5"] = {Price = "1%", Priority = true},
 
-["Gym Dragon"] = {Price = "5%", Priority = true},
-["Golden Gym Dragon"] = {Price = "5%", Priority = true},
-["Rainbow Gym Dragon"] = {Price = "5%", Priority = true},
-["Shiny Gym Dragon"] = {Price = "5%", Priority = true},
-["Shiny Golden Gym Dragon"] = {Price = "5%", Priority = true},
+["Gym Dragon"] = {Price = "15%", Priority = true},
+["Golden Gym Dragon"] = {Price = "15%", Priority = true},
+["Rainbow Gym Dragon"] = {Price = "15%", Priority = true},
+["Shiny Gym Dragon"] = {Price = "15%", Priority = true},
+["Shiny Golden Gym Dragon"] = {Price = "15%", Priority = true},
 ["Shiny Rainbow Gym Dragon"] = {Price = "15%", Priority = true},
 
 ["Gym Unicorn"] = {Price = "5%", Priority = true},
@@ -38,7 +38,7 @@ getgenv().Settings = {
 
 ["Shiny Rainbow All Huges"]= { Price = "5%"				,Min_sell = "2.5b", Max_sell = "8b"},
 ["Shiny Golden All Huges"]= { Price = "5%"				,Min_sell = "250m", Max_sell = "800m"},
-["Shiny All Huges"]= { Price = "5%"					,Min_sell = "70m", Max_sell = "500m"},
+["Shiny All Huges"]= { Price = "+2%"					,Min_sell = "70m", Max_sell = "500m"},
 ["Rainbow All Huges"]= { Price = "+5%"					,Min_sell = "70m", Max_sell = "500m"},
 ["Golden All Huges"]= { Price = "+5%"					,Min_sell = "12m", Max_sell = "100m"},
 ["All Huges"]= { Price = "+5%"						,Min_sell = "10m", Max_sell = "70m"},
