@@ -23,7 +23,7 @@ getgenv().Settings = {
 ["Shiny Rainbow Gym Unicorn"] = {Price = "5%", Priority = true},
 
 ["XPPotion Mastery"] = {Price = 400000, Priority = true},
-["MVP Key"] = {Price = "+5%", Priority = true},
+["MVP Key"] = {Price = "+2%", Priority = true},
 
 
 ["Tech Key"] = {Price = "35k", Priority = true},	
