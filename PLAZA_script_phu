@@ -108,8 +108,8 @@ task.spawn(function()
 task.wait(30)
 local username = "veriotiai779"
 
---local targetItemName = "MVP Key Upper Half"
-local targetItemName = "MVP Key Lower Half"
+local targetItemName = "MVP Key Upper Half"
+--local targetItemName = "MVP Key Lower Half"
 
 local loai_item = "Misc"
 
