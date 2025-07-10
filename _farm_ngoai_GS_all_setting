@@ -1,7 +1,6 @@
 getgenv().GEVENT_FPS  = 5
 
---getgenv().GLOOTBOXES = {"All"}
-getgenv().GLOOTBOXES = {"Locked Hype Egg","Lucky Gift","Hype Egg","Hype Egg 2","Buff Gym Gift","Gym Gift"}
+getgenv().GLOOTBOXES = {"All"}
 
 --getgenv().GRANK_FIRST = true
 getgenv().GZONE_TO = 999
@@ -10,7 +9,7 @@ getgenv().GPROGRESS_MODE = "Hybrid" -- Hatch
 getgenv().GGFX_MODE = 1
 
 getgenv().GHATCH_SPEED_MS = 0
-getgenv().GHATCH_CHARGED_EGGS = true
+getgenv().GHATCH_CHARGED_EGGS = false
 getgenv().GHATCH_GOLDEN_EGGS = false
 getgenv().GCLEAR_FAVORITE_PETS = true
 getgenv().GMAX_HATCH = 99
