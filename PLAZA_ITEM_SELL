@@ -1,6 +1,7 @@
 getgenv().Settings = {
     ["Items"] = {
 
+["Titanic Starlight Pony"] = {Price = "25b", Priority = true },
 ["Titanic Gym Axolotl"] = {Price = "6b", Priority = true },
 ["Titanic Gym Piggy"] = {Price = "5.4b", Priority = true },
 ["Golden Titanic Gym Piggy"] = {Price = "6b", Priority = true },
@@ -39,8 +40,8 @@ getgenv().Settings = {
 ["Shiny Rainbow All Huges"]= { Price = "5%"				,Min_sell = "2.5b", Max_sell = "8b"},
 ["Shiny Golden All Huges"]= { Price = "5%"				,Min_sell = "250m", Max_sell = "800m"},
 ["Shiny All Huges"]= { Price = "+2%"					,Min_sell = "70m", Max_sell = "500m"},
-["Rainbow All Huges"]= { Price = "+5%"					,Min_sell = "70m", Max_sell = "500m"},
-["Golden All Huges"]= { Price = "+5%"					,Min_sell = "12m", Max_sell = "100m"},
+["Rainbow All Huges"]= { Price = "+2%"					,Min_sell = "70m", Max_sell = "500m"},
+["Golden All Huges"]= { Price = "+2%"					,Min_sell = "12m", Max_sell = "100m"},
 ["All Huges"]= { Price = "+5%"						,Min_sell = "10m", Max_sell = "70m"},
 
 		
