@@ -10,6 +10,7 @@ getgenv().GPROGRESS_MODE = "Hybrid" -- Hatch
 getgenv().GGFX_MODE = 1
 
 getgenv().GHATCH_SPEED_MS = 0
+getgenv().GHATCH_CHARGED_EGGS = true
 getgenv().GHATCH_GOLDEN_EGGS = false
 getgenv().GCLEAR_FAVORITE_PETS = true
 getgenv().GMAX_HATCH = 99
