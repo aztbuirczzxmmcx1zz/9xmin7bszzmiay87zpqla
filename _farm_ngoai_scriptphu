@@ -272,11 +272,11 @@ end
 function RunTimeTrialScript()
 	task.spawn(function()
 		if game.PlaceId ~= 140403681187145 then return end
-
-local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-  local rank = Save.Get().Rank
-  if rank < 20 then warn("RANK < 20") return end
-
+		local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+		local rank = Save.Get().Rank
+		if rank < 20 then warn("RANK < 20") return end
+		
+		
 		while getRunsUsed() < 10 do
 			local used = getRunsUsed()
 			lagFlag = false
@@ -586,44 +586,6 @@ task.spawn(function()
 		task.wait(10)
 		checkInventory()
 	end
-end)
-
--- check toạ độ vs xút ra khi bị rơi
-task.spawn(function()
-	task.wait(150)
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-
-local player = Players.LocalPlayer
-
--- Tạo GUI hiển thị tọa độ
-local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = player:WaitForChild("PlayerGui")
-
-local coordLabel = Instance.new("TextLabel")
-coordLabel.Size = UDim2.new(0, 400, 0, 50)
-coordLabel.Position = UDim2.new(0.5, -200, 0.5, -25) -- Giữa màn hình
-coordLabel.BackgroundTransparency = 0.4
-coordLabel.BackgroundColor3 = Color3.new(0, 0, 0)
-coordLabel.TextColor3 = Color3.new(1, 1, 1)
-coordLabel.TextScaled = true
-coordLabel.Font = Enum.Font.SourceSansBold
-coordLabel.Text = "wait..."
-coordLabel.Parent = screenGui
-
--- Cập nhật tọa độ nhân vật liên tục
-RunService.RenderStepped:Connect(function()
-    local character = player.Character
-    if character and character:FindFirstChild("HumanoidRootPart") then
-        --local pos = character.HumanoidRootPart.Position
-        --coordLabel.Text = string.format(" X: %.1f | Y: %.1f | Z: %.1f", pos.X, pos.Y, pos.Z)
-    else
-        coordLabel.Text = "not find user!"
-		game:Shutdown()  -- Thoát game
-    end
-end)
-
-
 end)
 
 -- Ghép sách + thuốc nếu lv < 99 
