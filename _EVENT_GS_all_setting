@@ -5,6 +5,7 @@ getgenv().GGYM_EVENT_STAT_CONFIG = {
     ["Strength"] = 100,
     ["Size"] = 1
 }
+getgenv().GGYM_EVENT_STOP_AFTER_BENCH = 17
 
 getgenv().GUSE_FLAGS = {"Hasty Flag"}
 getgenv().GUSE_BOOSTS = true
