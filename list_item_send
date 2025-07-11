@@ -23,6 +23,7 @@ getgenv().GMAIL_ITEMS = {
 ["Void Key"] = {Class = "Misc", Id = "Void Key", MinAmount = 500},
 ["Tech Key"] = {Class = "Misc", Id = "Tech Key", MinAmount = 500},
 ["Crystal Key"] = {Class = "Misc", Id = "Crystal Key", MinAmount = 2500},
+["Hacker Key"] = {Class = "Misc", Id = "Hacker Key", MinAmount = 2},
 
 ["Time Trial Gift"] = {Class = "Lootbox", Id = "Time Trial Gift", MinAmount = 18},
 }
