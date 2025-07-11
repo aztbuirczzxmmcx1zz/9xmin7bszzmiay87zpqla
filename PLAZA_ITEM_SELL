@@ -15,8 +15,8 @@ getgenv().Settings = {
 ["Golden Wise Cat"] = {Price = "+2%", Priority = true},
 ["Rainbow Wise Cat"] = {Price = "+2%", Priority = true},
 ["Shiny Wise Cat"] = {Price = "+2%", Priority = true},
-["Shiny Golden Wise Cat"] = {Price = "2%", Priority = true},
-["Shiny Rainbow Wise Cat"] = {Price = "2%", Priority = true},
+["Shiny Golden Wise Cat"] = {Price = "5%", Priority = true},
+["Shiny Rainbow Wise Cat"] = {Price = "5%", Priority = true},
 
 ["Gym Dragon"] = {Price = "+2%", Priority = true},
 ["Golden Gym Dragon"] = {Price = "+2%", Priority = true},
@@ -32,10 +32,10 @@ getgenv().Settings = {
 ["Shiny Golden Gym Unicorn"] = {Price = "5%", Priority = true},
 ["Shiny Rainbow Gym Unicorn"] = {Price = "5%", Priority = true},
 
-["Quartz Fox"] = {Price = "5%", Priority = true},
-["Golden Quartz Fox"] = {Price = "5%", Priority = true},
-["Rainbow Quartz Fox"] = {Price = "5%", Priority = true},
-["Shiny Quartz Fox"] = {Price = "5%", Priority = true},
+["Quartz Fox"] = {Price = "+2%", Priority = true},
+["Golden Quartz Fox"] = {Price = "+2%", Priority = true},
+["Rainbow Quartz Fox"] = {Price = "+2%", Priority = true},
+["Shiny Quartz Fox"] = {Price = "+2%", Priority = true},
 ["Shiny Golden Quartz Fox"] = {Price = "5%", Priority = true},
 ["Shiny Rainbow Quartz Fox"] = {Price = "5%", Priority = true},
 
