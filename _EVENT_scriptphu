@@ -540,6 +540,14 @@ getgenv().Settings = {
 ["Shiny Quartz Fox"] 	= {Soluong_Yeu_cau = 0},
 ["Shiny Golden Quartz Fox"] 	= {Soluong_Yeu_cau = 0},
 ["Shiny Rainbow Quartz Fox"] 	= {Soluong_Yeu_cau = 0},
+
+["Gym Unicorn"] 	= {Soluong_Yeu_cau = 0},
+["Golden Gym Unicorn"] 	= {Soluong_Yeu_cau = 0},
+["Rainbow Gym Unicorn"] 	= {Soluong_Yeu_cau = 1},
+["Shiny Gym Unicorn"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Golden Gym Unicorn"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Rainbow Gym Unicorn"] 	= {Soluong_Yeu_cau = 0},
+
 },
    
 }
