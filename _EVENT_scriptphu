@@ -469,44 +469,44 @@ end)
 ---------------------------------------------------------------------------------------------------------------------
 
 
----- phát hiện không farm ở svv thoát game
---task.spawn(function()
---task.wait(50)
----- Hàm kiểm tra số người và shutdown nếu cần
---local function autoShutdownIfNotAlone()
---    local playerCount = #Players:GetPlayers()
---
---    if playerCount > 1 then
---        game:Shutdown() -- ⚠️ Lệnh shutdown client
---		Players.LocalPlayer:Kick("kick")
---    end
---end
---
----- Gọi ngay khi script chạy
---autoShutdownIfNotAlone()
---
---
---end)
------------------------------------------------------------------------------------------------------------------------
+-- phát hiện không farm ở svv thoát game
+task.spawn(function()
+task.wait(50)
+-- Hàm kiểm tra số người và shutdown nếu cần
+local function autoShutdownIfNotAlone()
+    local playerCount = #Players:GetPlayers()
+
+    if playerCount > 1 then
+        game:Shutdown() -- ⚠️ Lệnh shutdown client
+		Players.LocalPlayer:Kick("kick")
+    end
+end
+
+-- Gọi ngay khi script chạy
+autoShutdownIfNotAlone()
 
 
--- --1 giờ check daily run time trial nếu đã chạy 0 lần thì thoát game để tự chạy farm ngoai
---task.spawn(function()
---wait(100)
---while true do
---Save = require(game.ReplicatedStorage.Library.Client.Save)		
---local function getRunsUsed()
---	local saveData = Save.Get()
---	return saveData and saveData.TimeTrialStats and saveData.TimeTrialStats.DailyRuns or 0
---end
---
---local Daily_run = getRunsUsed()
---if Daily_run == 0 then
---		game:Shutdown() -- ⚠️ Lệnh shutdown client
---		Players.LocalPlayer:Kick("kick")
---end
---
---	wait(3600)
---end
---
---end)
+end)
+---------------------------------------------------------------------------------------------------------------------
+
+
+ --1 giờ check daily run time trial nếu đã chạy 0 lần thì thoát game để tự chạy farm ngoai
+task.spawn(function()
+wait(100)
+while true do
+Save = require(game.ReplicatedStorage.Library.Client.Save)		
+local function getRunsUsed()
+	local saveData = Save.Get()
+	return saveData and saveData.TimeTrialStats and saveData.TimeTrialStats.DailyRuns or 0
+end
+
+local Daily_run = getRunsUsed()
+if Daily_run == 0 then
+		game:Shutdown() -- ⚠️ Lệnh shutdown client
+		Players.LocalPlayer:Kick("kick")
+end
+
+	wait(3600)
+end
+
+end)
