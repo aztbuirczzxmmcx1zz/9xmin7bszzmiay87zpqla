@@ -1,14 +1,22 @@
 getgenv().Settings = {
     ["Items"] = {
 
-["Titanic Starlight Pony"] = {Price = "24b", Priority = true },
-["Golden Titanic Starlight Pony"] = {Price = "40b", Priority = true },
+["MVP Key"] = {Price = "+2%", Priority = true},
+
+["Titanic Starlight Pony"] = {Price = "23b", Priority = true },
+["Golden Titanic Starlight Pony"] = {Price = "35b", Priority = true },
 ["Titanic Gym Axolotl"] = {Price = "6b", Priority = true },
 ["Titanic Gym Piggy"] = {Price = "5.6b", Priority = true },
-["Golden Titanic Gym Piggy"] = {Price = "6b", Priority = true },
 
 ["Time Trial Gift"] = {Price = "200k", Priority = true},
 ["Huge Machine Egg 5"] = {Price = "1%", Priority = true},
+
+["Wise Cat"] = {Price = "5%", Priority = true},
+["Golden Wise Cat"] = {Price = "5%", Priority = true},
+["Rainbow Wise Cat"] = {Price = "5%", Priority = true},
+["Shiny Wise Cat"] = {Price = "5%", Priority = true},
+["Shiny Golden Wise Cat"] = {Price = "5%", Priority = true},
+["Shiny Rainbow Wise Cat"] = {Price = "5%", Priority = true},
 
 ["Gym Dragon"] = {Price = "15%", Priority = true},
 ["Golden Gym Dragon"] = {Price = "15%", Priority = true},
@@ -24,8 +32,16 @@ getgenv().Settings = {
 ["Shiny Golden Gym Unicorn"] = {Price = "5%", Priority = true},
 ["Shiny Rainbow Gym Unicorn"] = {Price = "5%", Priority = true},
 
+["Quartz Fox"] = {Price = "5%", Priority = true},
+["Golden Quartz Fox"] = {Price = "5%", Priority = true},
+["Rainbow Quartz Fox"] = {Price = "5%", Priority = true},
+["Shiny Quartz Fox"] = {Price = "5%", Priority = true},
+["Shiny Golden Quartz Fox"] = {Price = "5%", Priority = true},
+["Shiny Rainbow Quartz Fox"] = {Price = "5%", Priority = true},
+
+
 ["XPPotion Mastery"] = {Price = 400000, Priority = true},
-["MVP Key"] = {Price = "+2%", Priority = true},
+
 
 
 ["Tech Key"] = {Price = "35k", Priority = true},	
