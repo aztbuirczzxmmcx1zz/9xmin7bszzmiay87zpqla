@@ -1,12 +1,6 @@
 -- map 269 time trial
 task.spawn(function()
 
-_G.VAR_TIME_TRIAL = true
-if _G.VAR_TIME_TRIAL then
-	warn("⛔ Script đã được chạy trước đó!")
-	return
-end
-
 wait(150)
 
 _G.STOP_TIME_TRIAL = false
