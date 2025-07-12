@@ -1001,55 +1001,21 @@ end)
 
 -- Mở rương time_trial nếu > 5000
 task.spawn(function() 
-	wait(60)
-	
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local Save = require(game.ReplicatedStorage.Library.Client.Save)
+	wait(66)
+			local Players = game:GetService("Players")
+			local ReplicatedStorage = game:GetService("ReplicatedStorage")
+			local player = Players.LocalPlayer
+			local Save = require(game.ReplicatedStorage.Library.Client.Save)
+			local saveData = Save.Get()
+			local totalPoints = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.Points or 0) or 0
+			local character = player.Character or player.CharacterAdded:Wait()
 
--- ⚙️ Hàm lấy điểm Time Trial
-local function getTimeTrialPoints()
-	local saveData = Save.Get()
-	local points = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.Points or 0) or 0
-	warn("🔎 [getTimeTrialPoints] Điểm hiện tại: " .. points)
-	return points
-end
-
--- ⚙️ Hàm lấy số lượt đã dùng
 local function getRunsUsed()
 	local saveData = Save.Get()
 	local runs = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.DailyRuns or 0) or 0
 	warn("🔎 [getRunsUsed] Số lượt đã dùng: " .. runs .. "/10")
 	return runs
 end
-
--- ⚙️ Teleport đến vị trí đổi quà
-local function teleportToRewardLocation()
-	warn("🚶‍♂️ Đang teleport đến vị trí đổi quà...")
-	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-14223, 17.39, 1387)
-end
-
--- ⚙️ Hàm đổi quà
-local function openChest(chestType)
-	local args = {
-		[1] = chestType -- 1: hộp 1 (1000), 2: hộp 2 (3000), 3: hộp 3 (5000)
-	}
-	game:GetService("ReplicatedStorage").Network.TimeTrials_OpenChest:InvokeServer(unpack(args))
-end
-
--- ✅ BẮT ĐẦU
-
-local function Run_open_chest_time()
-
-
-warn("📦 Ghi lại vị trí ban đầu...")
-local originalCFrame = character:WaitForChild("HumanoidRootPart").CFrame
-
--- ⏳ Đợi đến khi hết lượt
-warn("🕒 Kiểm tra lượt Time Trial...")
-
 
 while true do
 	local runs = getRunsUsed()
@@ -1061,80 +1027,54 @@ while true do
 	task.wait(300) -- 5 phút
 end
 
--- 📊 Lấy điểm hiện tại
-warn("📊 Lấy thông tin điểm Time Trial...")
-local points = getTimeTrialPoints()
-
--- 🗓️ Kiểm tra ngày hôm nay có phải thứ 7 không
-local currentDay = os.date("*t").wday -- 1=Chủ nhật, 7=Thứ 7
-local isSaturday = (currentDay == 7)
-
--- 🧮 Tính số lượng từng loại hộp sẽ đổi
-local chest3, chest2, chest1 = 0, 0, 0
-
-if isSaturday then
-	warn("📆 Hôm nay là Thứ 7 → Đổi hết toàn bộ điểm.")
-	chest3 = math.floor(points / 5000)
-	points = points - chest3 * 5000
-
-	chest2 = math.floor(points / 3000)
-	points = points - chest2 * 3000
-
-	chest1 = math.floor(points / 1000)
-	points = points - chest1 * 1000
-else
-	warn("📆 Hôm nay KHÔNG phải Thứ 7 → Chỉ đổi hộp 3, giữ điểm dư.")
-	chest3 = math.floor(points / 5000)
-end
-
-warn("🧾 Số lần đổi quà sẽ thực hiện:")
-warn("📦 Hộp 3 (5000): " .. chest3)
-warn("📦 Hộp 2 (3000): " .. chest2)
-warn("📦 Hộp 1 (1000): " .. chest1)
-
--- 🚀 Thực hiện đổi quà nếu có ít nhất 1 hộp
-local totalChests = chest3 + chest2 + chest1
-
-if totalChests > 0 then
-	-- 🗺️ Teleport đến chỗ đổi quà
-	teleportToRewardLocation()
-	task.wait(2)
-
-	-- 🎁 Đổi lần lượt từng hộp
-	local function claimMultiple(count, chestType)
-		for i = 1, count do
-			warn("🔁 Đang thực hiện đổi hộp " .. chestType .. " - lần " .. i .. "...")
-			local success, err = pcall(function()
-				openChest(chestType)
-			end)
-			if success then
-				warn("✅ Đổi thành công hộp " .. chestType .. " - lần " .. i)
-			else
-				warn("❌ Lỗi khi đổi hộp " .. chestType .. ": " .. tostring(err))
+local function teleportToRewardLocation()
+	warn("🚶‍♂️ Đang teleport đến vị trí đổi quà...")
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-14186, 20, 1369)
+end			
+			if totalPoints > 5000 then
+				teleportToRewardLocation()
+				wait(0.5)
+				local ReplicatedStorage = game:GetService("ReplicatedStorage")
+				local FantasyKey_Unlock = game:GetService("ReplicatedStorage").Network.TimeTrials_OpenChest 
+				FantasyKey_Unlock:InvokeServer(3)
+				wait(1)
+				totalPoints = totalPoints - 5000
 			end
-			task.wait(5)
-		end
-	end
+			
+			if totalPoints > 5000 then
+				teleportToRewardLocation()
+				wait(0.5)
+				local ReplicatedStorage = game:GetService("ReplicatedStorage")
+				local FantasyKey_Unlock = game:GetService("ReplicatedStorage").Network.TimeTrials_OpenChest 
+				FantasyKey_Unlock:InvokeServer(3)
+				wait(1)
+				totalPoints = totalPoints - 5000
+			end
+			
+			
+			if totalPoints > 3000 then
+				teleportToRewardLocation()
+				wait(0.5)
+				local ReplicatedStorage = game:GetService("ReplicatedStorage")
+				local FantasyKey_Unlock = game:GetService("ReplicatedStorage").Network.TimeTrials_OpenChest 
+				FantasyKey_Unlock:InvokeServer(2)
+				wait(1)
+				totalPoints = totalPoints - 3000
+			end
+			
+			
+			if totalPoints > 1000 then
+				teleportToRewardLocation()
+				wait(0.5)
+				local ReplicatedStorage = game:GetService("ReplicatedStorage")
+				local FantasyKey_Unlock = game:GetService("ReplicatedStorage").Network.TimeTrials_OpenChest 
+				FantasyKey_Unlock:InvokeServer(1)
+				wait(1)
+				totalPoints = totalPoints - 1000
+			end
+			
+			warn(totalPoints)
 
-	claimMultiple(chest3, 3)
-	claimMultiple(chest2, 2)
-	claimMultiple(chest1, 1)
-else
-	warn("⚠️ Không có phần thưởng nào đủ điểm để đổi.")
-end
-
--- 🏁 Quay về vị trí ban đầu
-warn("🔙 Quay về vị trí cũ...")
-character:WaitForChild("HumanoidRootPart").CFrame = originalCFrame
-
-warn("🎉 Đã hoàn tất toàn bộ quá trình đổi quà Time Trial.")
-
-end
-
-while true do
-Run_open_chest_time()
-wait(3600)
-end
 
 end)
 
