@@ -1165,12 +1165,12 @@ end
 
 -- Gọi hàm mở chest cho các mốc điểm
 openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
-openChest(3000, 2)  -- Mở chest yêu cầu 3000 điểm
-openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
+--openChest(3000, 2)  -- Mở chest yêu cầu 3000 điểm
+--openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
 
 warn("Điểm còn lại: " .. totalPoints)
 
-if totalPoints < 1000 then
+if totalPoints < 5000 then
 	wait(3600)
 end
 
