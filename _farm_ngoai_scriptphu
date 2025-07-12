@@ -1104,3 +1104,84 @@ end
     
 end)
 
+-- Mở rương time_trial nếu > 5000
+task.spawn(function() 
+	wait(66)
+			local Players = game:GetService("Players")
+			local ReplicatedStorage = game:GetService("ReplicatedStorage")
+			local player = Players.LocalPlayer
+			local Save = require(game.ReplicatedStorage.Library.Client.Save)
+			local saveData = Save.Get()
+			local totalPoints = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.Points or 0) or 0
+			local character = player.Character or player.CharacterAdded:Wait()
+
+local function getRunsUsed()
+	local saveData = Save.Get()
+	local runs = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.DailyRuns or 0) or 0
+	warn("🔎 [getRunsUsed] Số lượt đã dùng: " .. runs .. "/10")
+	return runs
+end
+
+while true do
+	local runs = getRunsUsed()
+	if runs >= 10 then
+		warn("✅ Đã dùng hết lượt Time Trial: " .. runs .. "/10")
+		break
+	end
+	warn("⏳ Còn lượt Time Trial. Chờ 5 phút trước khi kiểm tra lại...")
+	task.wait(300) -- 5 phút
+end
+
+local function teleportToRewardLocation()
+	warn("🚶‍♂️ Đang teleport đến vị trí đổi quà...")
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-14186, 20, 1369)
+end			
+			if totalPoints > 5000 then
+				teleportToRewardLocation()
+				wait(0.5)
+				local ReplicatedStorage = game:GetService("ReplicatedStorage")
+				local FantasyKey_Unlock = game:GetService("ReplicatedStorage").Network.TimeTrials_OpenChest 
+				FantasyKey_Unlock:InvokeServer(3)
+				wait(1)
+				totalPoints = totalPoints - 5000
+			end
+			
+			if totalPoints > 5000 then
+				teleportToRewardLocation()
+				wait(0.5)
+				local ReplicatedStorage = game:GetService("ReplicatedStorage")
+				local FantasyKey_Unlock = game:GetService("ReplicatedStorage").Network.TimeTrials_OpenChest 
+				FantasyKey_Unlock:InvokeServer(3)
+				wait(1)
+				totalPoints = totalPoints - 5000
+			end
+
+
+			if totalPoints > 3000 then
+				teleportToRewardLocation()
+				wait(0.5)
+				local ReplicatedStorage = game:GetService("ReplicatedStorage")
+				local FantasyKey_Unlock = game:GetService("ReplicatedStorage").Network.TimeTrials_OpenChest 
+				FantasyKey_Unlock:InvokeServer(2)
+				wait(1)
+				totalPoints = totalPoints - 3000
+			end
+			
+			
+			if totalPoints > 1000 then
+				teleportToRewardLocation()
+				wait(0.5)
+				local ReplicatedStorage = game:GetService("ReplicatedStorage")
+				local FantasyKey_Unlock = game:GetService("ReplicatedStorage").Network.TimeTrials_OpenChest 
+				FantasyKey_Unlock:InvokeServer(1)
+				wait(1)
+				totalPoints = totalPoints - 1000
+			end
+			
+			warn(totalPoints)
+
+
+
+
+end)
+
