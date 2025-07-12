@@ -7,8 +7,8 @@ getgenv().GMAIL_ITEMS = {
 
 
 ["Mega Charm Chest"] = {Class = "Lootbox", Id = "Mega Charm Chest", MinAmount = 1},
-["Overload"] = {Class = "Charm", Id = "Overload", MinAmount = 5},
-["Royalty"] = {Class = "Charm", Id = "Royalty", MinAmount = 5},
+["Overload"] = {Class = "Charm", Id = "Overload", MinAmount = 2},
+["Royalty"] = {Class = "Charm", Id = "Royalty", MinAmount = 2},
 
 ["Daycare egg 5"] = {Class = "Egg", Id = "Huge Machine Egg 5", MinAmount = 1},
 ["Secret pet1"] = {Class = "Pet", Id = "Rainbow Swirl", MinAmount = 1, AllVariants = true},
@@ -25,5 +25,6 @@ getgenv().GMAIL_ITEMS = {
 ["Crystal Key"] = {Class = "Misc", Id = "Crystal Key", MinAmount = 2500},
 ["Hacker Key"] = {Class = "Misc", Id = "Hacker Key", MinAmount = 2},
 
+["Insta Plant Capsule"] = {Class = "Misc", Id = "Insta Plant Capsule", MinAmount = 400},
 ["Time Trial Gift"] = {Class = "Lootbox", Id = "Time Trial Gift", MinAmount = 18},
 }
