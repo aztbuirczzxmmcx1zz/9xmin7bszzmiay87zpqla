@@ -1040,11 +1040,17 @@ local function openChest(chestType)
 end
 
 -- ✅ BẮT ĐẦU
+
+local function Run_open_chest_time()
+
+
 warn("📦 Ghi lại vị trí ban đầu...")
 local originalCFrame = character:WaitForChild("HumanoidRootPart").CFrame
 
 -- ⏳ Đợi đến khi hết lượt
 warn("🕒 Kiểm tra lượt Time Trial...")
+
+
 while true do
 	local runs = getRunsUsed()
 	if runs >= 10 then
@@ -1122,6 +1128,13 @@ warn("🔙 Quay về vị trí cũ...")
 character:WaitForChild("HumanoidRootPart").CFrame = originalCFrame
 
 warn("🎉 Đã hoàn tất toàn bộ quá trình đổi quà Time Trial.")
+
+end
+
+while true do
+Run_open_chest_time()
+wait(3600)
+end
 
 end)
 
