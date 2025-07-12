@@ -1164,7 +1164,7 @@ openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
 warn("Điểm còn lại: " .. totalPoints)
 
 if totalPoints < 1000 then
-	break
+	wait(3600)
 end
 
 end
