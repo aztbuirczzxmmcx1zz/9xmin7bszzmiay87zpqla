@@ -1051,8 +1051,10 @@ end
 				totalPoints = totalPoints - 5000
 			end
 			
+local currentDay = os.date("*t").wday -- 1=Chủ nhật, 7=Thứ 7
+local isSaturday = (currentDay == 7)
 			
-			if totalPoints > 3000 then
+			if totalPoints > 3000 and isSaturday then
 				teleportToRewardLocation()
 				wait(0.5)
 				local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -1063,7 +1065,7 @@ end
 			end
 			
 			
-			if totalPoints > 1000 then
+			if totalPoints > 1000 and isSaturday then
 				teleportToRewardLocation()
 				wait(0.5)
 				local ReplicatedStorage = game:GetService("ReplicatedStorage")
