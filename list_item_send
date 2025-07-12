@@ -10,6 +10,7 @@ getgenv().GMAIL_ITEMS = {
 ["Overload"] = {Class = "Charm", Id = "Overload", MinAmount = 2},
 ["Royalty"] = {Class = "Charm", Id = "Royalty", MinAmount = 2},
 ["Charm Chisel"] = {Class = "Misc", Id = "Charm Chisel", MinAmount = 100},
+["Chest Spell"] = {Class = "Ultimate", Id = "Chest Spell", MinAmount = 1},
 
 ["Daycare egg 5"] = {Class = "Egg", Id = "Huge Machine Egg 5", MinAmount = 1},
 ["Secret pet1"] = {Class = "Pet", Id = "Rainbow Swirl", MinAmount = 1, AllVariants = true},
