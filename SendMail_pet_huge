@@ -17,6 +17,9 @@ getgenv().Settings = {
 ["Huge Tennis Squirrel"] 	= {Soluong_Yeu_cau = 0},
 ["Golden Huge Tennis Squirrel"] 	= {Soluong_Yeu_cau = 0},
 
+["Huge Telescope Owl"] 	= {Soluong_Yeu_cau = 0},
+["Golden Huge Telescope Owl"] 	= {Soluong_Yeu_cau = 0},
+
 },
    
 }
