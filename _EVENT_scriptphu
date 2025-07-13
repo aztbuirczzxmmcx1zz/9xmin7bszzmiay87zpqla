@@ -1,10 +1,16 @@
 
--- xem điểm trial và lượt chơi
+-- xem điểm trial và lượt chơi / nếu daily runs = 0 thì thoát game
 task.spawn(function()
 wait(60)
+local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local rank = Save.Get().Rank
+if rank < 20 then warn("RANK < 20") return end
+
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local Save = require(game.ReplicatedStorage.Library.Client.Save)
+
+
 
 -- Xóa GUI cũ nếu đã tồn tại
 local playerGui = player:WaitForChild("PlayerGui")
@@ -26,7 +32,11 @@ local function getTimeTrialPoints()
 	end
 	return 0
 end
-
+	
+local function getRunsUsed()
+	local saveData = Save.Get()
+	return saveData and saveData.TimeTrialStats and saveData.TimeTrialStats.DailyRuns or 0
+end
 -- Tạo GUI
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "TimeTrialGui"
@@ -60,7 +70,7 @@ local function updateLabelSize(label)
 	label.Size = UDim2.new(0, label.TextBounds.X + 20, 0, 38)
 end
 
--- Cập nhật GUI mỗi 10 giây
+-- Cập nhật GUI mỗi 1000 giây
 task.spawn(function()
 	while true do
 		local runsLeft = getRunsLeft()
@@ -71,8 +81,13 @@ task.spawn(function()
 
 		timeTrialLabel.Text = tostring(runsLeft)
 		updateLabelSize(timeTrialLabel)
-
-		task.wait(10)
+		
+		Daily_run = getRunsUsed()
+		if Daily_run == 0 and  then
+			game:Shutdown() -- ⚠️ Lệnh shutdown client
+			Players.LocalPlayer:Kick("kick")
+		end
+		task.wait(1000)
 	end
 end)
 
@@ -448,7 +463,6 @@ local Network = ReplicatedStorage:WaitForChild("Network")
     task.wait(1)
 end)
 
-
 -- thêm bạn bè
 task.spawn(function()
 	task.wait(300)
@@ -467,46 +481,3 @@ end
 
 end)
 ---------------------------------------------------------------------------------------------------------------------
-
-
--- phát hiện không farm ở svv thoát game
-task.spawn(function()
-task.wait(50)
--- Hàm kiểm tra số người và shutdown nếu cần
-local function autoShutdownIfNotAlone()
-    local playerCount = #Players:GetPlayers()
-
-    if playerCount > 1 then
-        game:Shutdown() -- ⚠️ Lệnh shutdown client
-		Players.LocalPlayer:Kick("kick")
-    end
-end
-
--- Gọi ngay khi script chạy
-autoShutdownIfNotAlone()
-
-
-end)
----------------------------------------------------------------------------------------------------------------------
-
- --1 giờ check daily run time trial nếu đã chạy 0 lần thì thoát game để tự chạy farm ngoai
-task.spawn(function()
-wait(100)
-while true do
-Save = require(game.ReplicatedStorage.Library.Client.Save)		
-local function getRunsUsed()
-	local saveData = Save.Get()
-	return saveData and saveData.TimeTrialStats and saveData.TimeTrialStats.DailyRuns or 0
-end
-
-local Daily_run = getRunsUsed()
-if Daily_run == 0 then
-		game:Shutdown() -- ⚠️ Lệnh shutdown client
-		Players.LocalPlayer:Kick("kick")
-end
-
-	wait(3600)
-end
-
-end)
-
