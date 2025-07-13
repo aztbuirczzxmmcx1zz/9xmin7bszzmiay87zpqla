@@ -469,7 +469,13 @@ task.spawn(function()
 		cleanupAllThreads()
 
 		warn("⏳ Theo dõi reset DailyRuns...")
-		while getRunsUsed() >= 10 do task.wait(60) end
+		while getRunsUsed() >= 10 do 
+			task.wait(600) 
+			if EVENT_or_FARM == "E" then
+				game:Shutdown()
+				Players.LocalPlayer:Kick("kick")
+			end
+		end
 
 		warn("🔁 DailyRuns reset → tiếp tục farm.")
 		if monitor12minThread then pcall(task.cancel, monitor12minThread) monitor12minThread = nil end
@@ -972,8 +978,24 @@ end
 
 end)
 
--- phát hiện không farm ở svv thoát game
+-- phát hiện không farm ở svv thoát game 
+task.spawn(function()
+task.wait(50)
 
+local function autoShutdownIfNotAlone()
+    local playerCount = #Players:GetPlayers()
+
+    if playerCount > 1 then
+        game:Shutdown()
+		Players.LocalPlayer:Kick("kick")
+    end
+end
+
+if EVENT_or_FARM == "F" then
+	autoShutdownIfNotAlone()
+end
+
+end)
 
 -- Send Huge khi có > 50 con
 task.spawn(function()
