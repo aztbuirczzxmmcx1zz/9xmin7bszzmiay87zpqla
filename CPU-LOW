@@ -1,3 +1,5 @@
+wait(30)
+
 local LocalPlayer = game.Players.LocalPlayer
 local Lighting = game:GetService("Lighting")
 local MaterialService = game:GetService("MaterialService")
@@ -48,7 +50,7 @@ local HandlePart = function(v)
         v.TextureId = ''
         v.MeshId = ''
     elseif v:IsA('ParticleEmitter') or v:IsA('Trail') then
-        --v.Lifetime = NumberRange.new(0)
+        v.Lifetime = NumberRange.new(0)
     elseif v:IsA('BlurEffect') or v:IsA('SunRaysEffect') or v:IsA('ColorCorrectionEffect') or v:IsA('BloomEffect') or v:IsA('DepthOfFieldEffect')  then
         v.Enabled = false
     elseif v:IsA('BasePart') and not v:IsA('MeshPart') then
