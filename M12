@@ -1,4 +1,4 @@
-EVENT_or_FARM = "F"
+EVENT_or_FARM = "E"
 
 if _G.TAG then
     warn("Script đã được chạy trước đó!")
@@ -11,7 +11,7 @@ _G.TAG = true
 loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_w1234"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/CPU-LOW"))()
 
-
+		
 
 ---------------------------------------------------------------------------------------------------------------------------
 
@@ -26,25 +26,32 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9x
 loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/SendMail_pet_huge"))()
 
 if EVENT_or_FARM == "E" then
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_scriptphu"))()
+		task.spawn(function() 
+			_G.ZapSettings = {
+			["PetSimulator99 - AutoTeleportToBestBlockPartyEggToggle"] = false, 
+			["PetSimulator99 - AutoBuyNearestBlockPartyEggToggle"] = false, 
+			["PetSimulator99 - AutoBuyTilesToggle"] = true, 
+			["PetSimulator99 - AutoClaimTilesRewardsToggle"] = true, 
+			["PetSimulator99 - AutoBlockPartyRebirthToggle"] = true, 
+			["PetSimulator99 - AutoCraftTropicalGiftToggle"] = true, 
+			["PetSimulator99 - AutoBlockPartyRebirthDisableEgg100MultiplierToggle"] = false, 
+			}
+			
+			script_key="JjmhlAdFeuXFWubLiuoxRyorUCfAzHwb";
+			loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
+		end)
+		wait(30)
+		--loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_scriptphu"))()
+
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_GS_all_setting"))()
+
 else
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_farm_ngoai_scriptphu"))()
+
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_farm_ngoai_GS_all_setting"))()
 end
 
 
 
-if _KEY_le == "vinx" then --key thangs
-
-		script_key = "TRWNvnabMDIvAgQLZyNjPtfafffYpkBF";
-		loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()
-
-else
-
 		script_key = "IAMAiZhmvPSarFAwYGimVtcLzrqIAnAQ";
 		loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/ba2dcad2127dcfc04301dfe52ce6c61c.lua"))()
-
-end
-
---
