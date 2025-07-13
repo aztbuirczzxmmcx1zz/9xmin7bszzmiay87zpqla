@@ -89,6 +89,79 @@ end)
 
 end)
 
+-- tìm nở tất cả trứng có ký tự > 25
+task.spawn(function()
+wait(200)
+-- Tắt animation mở trứng để tăng tốc
+local Eggs = game.Players.LocalPlayer.PlayerScripts.Scripts.Game:FindFirstChild("Egg Opening Frontend")
+if Eggs then
+    getsenv(Eggs).PlayEggAnimation = function() return end
+end
+
+local EggAmount = 50
+
+-- Hàm tìm trứng có tên dài hơn 25 ký tự (hash ID)
+local function find_hashed_eggs()
+    local eggsFolder = workspace:FindFirstChild("__THINGS") and workspace.__THINGS:FindFirstChild("CustomEggs")
+    if not eggsFolder then
+        warn("Không tìm thấy thư mục CustomEggs.")
+        return {}
+    end
+
+    local validEggs = {}
+    for _, v in pairs(eggsFolder:GetChildren()) do
+        if v:IsA("Model") and #v.Name > 25 then  -- Kiểm tra độ dài tên trứng
+            table.insert(validEggs, v.Name)
+        end
+    end
+
+    return validEggs
+end
+
+local function hatchEggs()
+    local eggIDs = find_hashed_eggs()
+
+    if #eggIDs == 0 then
+        warn("Không tìm thấy trứng với tên dài hơn 25 ký tự.")
+        return
+    end
+	m=0
+    while true do
+	m=m+1
+	if m > 100 then
+		break
+	end
+        for _, eggID in ipairs(eggIDs) do
+            local args = {
+                [1] = eggID,
+                [2] = EggAmount
+            }
+
+            local success, result = pcall(function()
+                return game:GetService("ReplicatedStorage").Network.CustomEggs_Hatch:InvokeServer(unpack(args))
+            end)
+
+            if success then
+                print("Đã nở trứng " .. eggID .. " với số lượng: " .. EggAmount)
+            else
+                warn("Lỗi khi nở trứng " .. eggID)
+            end
+
+            -- Chờ 10 giây trước khi nở trứng tiếp theo
+            wait(10)
+        end
+    end
+end
+
+-- Gọi hàm hatchEggs để bắt đầu quy trình nở trứng
+
+while true do
+	hatchEggs()
+end
+
+end)
+
+
 -- xem sl 7 sách thường dùng
 task.spawn(function()
 task.wait(60)
