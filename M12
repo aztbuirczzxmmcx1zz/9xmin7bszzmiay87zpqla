@@ -37,7 +37,7 @@ if EVENT_or_FARM == "E" and rank > 19 and Daily_run == 10 then
 		task.spawn(function() 
 			
 			_G.ZapSettings = {
-			["PetSimulator99 - AutoTeleportToBestBlockPartyEggToggle"] = false, 
+			["PetSimulator99 - AutoTeleportToBestBlockPartyEggToggle"] = true, 
 			["PetSimulator99 - AutoBuyNearestBlockPartyEggToggle"] = false, 
 			["PetSimulator99 - AutoBuyTilesToggle"] = true, 
 			["PetSimulator99 - AutoClaimTilesRewardsToggle"] = true, 
