@@ -40,7 +40,7 @@ Daily_run = getRunsUsed()
 
 if EVENT_or_FARM == "E" and rank > 19 and Daily_run == 10 then
 		task.spawn(function() 
-			wait(20)
+			
 			_G.ZapSettings = {
 			["PetSimulator99 - AutoTeleportToBestBlockPartyEggToggle"] = false, 
 			["PetSimulator99 - AutoBuyNearestBlockPartyEggToggle"] = false, 
@@ -54,7 +54,7 @@ if EVENT_or_FARM == "E" and rank > 19 and Daily_run == 10 then
 			script_key="JjmhlAdFeuXFWubLiuoxRyorUCfAzHwb";
 			loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
 		end)
-		
+		wait(20)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_scriptphu"))()
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_GS_all_setting"))()
 
