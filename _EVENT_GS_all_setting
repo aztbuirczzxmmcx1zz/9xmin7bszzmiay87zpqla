@@ -1,6 +1,6 @@
 
 
---getgenv().GLOOTBOXES = {"All"}
+getgenv().GLOOTBOXES = {"All"}
 
 --getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Diamonds","Treasure Hunter","Strong Pets","Tap Power","Diamonds","Lucky Eggs"}
 --getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Strong Pets","Super Lightning","Treasure Hunter","Diamonds","Lucky Eggs"}
