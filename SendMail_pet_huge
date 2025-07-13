@@ -11,8 +11,8 @@ getgenv().Settings = {
 ["Huge Scribe Squirrel"] 	= {Soluong_Yeu_cau = 0},
 ["Golden Huge Scribe Squirrel"] 	= {Soluong_Yeu_cau = 0},
 
-["Huge Gym Panda"] 	= {Soluong_Yeu_cau = 0},
-["Golden Huge Gym Panda"] 	= {Soluong_Yeu_cau = 0},
+["Huge Chill Bunny"] 	= {Soluong_Yeu_cau = 0},
+["Golden Chill Bunny"] 	= {Soluong_Yeu_cau = 0},
 
 ["Huge Tennis Squirrel"] 	= {Soluong_Yeu_cau = 0},
 ["Golden Huge Tennis Squirrel"] 	= {Soluong_Yeu_cau = 0},
