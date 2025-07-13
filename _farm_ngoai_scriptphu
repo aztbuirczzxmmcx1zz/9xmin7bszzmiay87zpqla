@@ -1,6 +1,5 @@
 -- map 269 time trial
 task.spawn(function()
-
 wait(150)
 
 _G.STOP_TIME_TRIAL = false
@@ -410,14 +409,15 @@ end
 
 -- ✅ VÒNG LẶP CHÍNH
 task.spawn(function()
-	waitUntilReachMaxZone()
-	startMonitor12Min()
+
 	
 		if game.PlaceId ~= 140403681187145 then return end
 		local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 		local rank = Save.Get().Rank
 		if rank < 20 then warn("RANK < 20") return end
-		
+
+	waitUntilReachMaxZone()
+	startMonitor12Min()		
 		
 		
 	while true do
@@ -1159,12 +1159,12 @@ end
 
 -- Gọi hàm mở chest cho các mốc điểm
 openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
---openChest(3000, 2)  -- Mở chest yêu cầu 3000 điểm
---openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
+openChest(3000, 2)  -- Mở chest yêu cầu 3000 điểm
+openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
 
 warn("Điểm còn lại: " .. totalPoints)
 
-if totalPoints < 5000 then
+if totalPoints < 1000 then
 	wait(3600)
 end
 
