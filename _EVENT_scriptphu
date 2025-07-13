@@ -128,7 +128,7 @@ local function hatchEggs()
 	m=0
     while true do
 	m=m+1
-	if m > 100 then
+	if m > 10 then
 		break
 	end
         for _, eggID in ipairs(eggIDs) do
