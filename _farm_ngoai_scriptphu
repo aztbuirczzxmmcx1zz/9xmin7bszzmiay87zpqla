@@ -1,3 +1,8 @@
+local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local rank = Save.Get().Rank
+if rank < 20 then warn("RANK < 20") return end
+
+
 -- map 269 time trial
 task.spawn(function()
 wait(150)
