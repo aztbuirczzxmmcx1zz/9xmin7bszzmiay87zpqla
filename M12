@@ -1,13 +1,5 @@
 EVENT_or_FARM = "E"
 
-if _G.TAG then
-    warn("Script đã được chạy trước đó!")
-    return -- Dừng script nếu đã chạy
-end
-
--- Đánh dấu script đã được chạy
-_G.TAG = true
-
 if game.PlaceId ~= 140403681187145 then 
 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
 return
