@@ -38,7 +38,7 @@ Daily_run = getRunsUsed()
 
 
 
-if EVENT_or_FARM == "E" and rank > 19 and == 10 then
+if EVENT_or_FARM == "E" and rank > 19 and Daily_run == 10 then
 		task.spawn(function() 
 			_G.ZapSettings = {
 			["PetSimulator99 - AutoTeleportToBestBlockPartyEggToggle"] = false, 
