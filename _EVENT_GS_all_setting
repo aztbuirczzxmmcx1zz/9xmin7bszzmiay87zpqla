@@ -1,17 +1,6 @@
-getgenv().GDO_GYM_EVENT = true
-getgenv().GGYM_EVENT_STAT_CONFIG = {
-    ["Stamina"] = 0,
-    ["CritChance"] = 0,
-    ["Strength"] = 100,
-    ["Size"] = 1
-}
-getgenv().GGYM_EVENT_STOP_AFTER_BENCH = 17
 
-getgenv().GUSE_FLAGS = {"Hasty Flag"}
-getgenv().GUSE_BOOSTS = true
-getgenv().GEVENT_FPS  = 5
 
-getgenv().GLOOTBOXES = {"All"}
+--getgenv().GLOOTBOXES = {"All"}
 
 --getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Diamonds","Treasure Hunter","Strong Pets","Tap Power","Diamonds","Lucky Eggs"}
 --getgenv().GENCHANTS = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Strong Pets","Super Lightning","Treasure Hunter","Diamonds","Lucky Eggs"}
