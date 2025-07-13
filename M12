@@ -25,7 +25,20 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9x
 loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/list_item_send"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/SendMail_pet_huge"))()
 
-if EVENT_or_FARM == "E" then
+-- check RANK
+local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local rank = Save.Get().Rank
+
+-- check Dailyrun
+local function getRunsUsed()
+	local saveData = Save.Get()
+	return saveData and saveData.TimeTrialStats and saveData.TimeTrialStats.DailyRuns or 0
+end
+Daily_run = getRunsUsed()
+
+
+
+if EVENT_or_FARM == "E" and rank > 19 and == 10 then
 		task.spawn(function() 
 			_G.ZapSettings = {
 			["PetSimulator99 - AutoTeleportToBestBlockPartyEggToggle"] = false, 
@@ -42,12 +55,10 @@ if EVENT_or_FARM == "E" then
 		end)
 		wait(30)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_scriptphu"))()
-
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_GS_all_setting"))()
 
 else
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_farm_ngoai_scriptphu"))()
-
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_farm_ngoai_GS_all_setting"))()
 end
 
