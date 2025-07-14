@@ -110,7 +110,7 @@ end
 local currentChance = 0
 
 local function startAutoHatchHuge()
-	local tileThreshold = 50
+	local tileThreshold = 75
 	local player = Players.LocalPlayer
 	local Network = ReplicatedStorage:WaitForChild("Network")
 	local customEggsFolder = Workspace:WaitForChild("__THINGS"):WaitForChild("CustomEggs")
@@ -389,7 +389,7 @@ local function startPreEggTeleport()
 	local player = Players.LocalPlayer
 
 	-- Chờ đến khi đủ 50 tile
-	while getTotalTileCount() < 75 do
+	while getTotalTileCount() < 50 do
 		task.wait(1)
 	end
 
