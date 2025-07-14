@@ -1,3 +1,4 @@
+
 -- 🧭 Teleport vào Block Party & đến vị trí
 local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
 hrp.CFrame = workspace.__THINGS.Instances.BlockParty.Teleports.Enter.CFrame + Vector3.new(0, 5, 0)
@@ -223,7 +224,20 @@ local function startAutoHatchHuge()
 						end
 					end
 
-					local args = {currentEgg.Name, 83}
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local Save = require(Client:WaitForChild("Save"))
+local saveData = Save.Get()
+
+local eggCount = saveData.EggHatchCount or 0
+local EggsLevel = saveData.Mastery and saveData.Mastery.Eggs
+
+if EggsLevel and EggsLevel == 13034431 then 
+    eggCount += 5
+end
+
+
+					local args = {currentEgg.Name, eggCount}
 					local success, err = pcall(function()
 					Network.CustomEggs_Hatch:InvokeServer(unpack(args))
 					end)
