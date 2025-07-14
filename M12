@@ -1,4 +1,4 @@
-EVENT_or_FARM = "F"
+EVENT_or_FARM = "E"
 
 if game.PlaceId ~= 140403681187145 then 
 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
@@ -35,21 +35,11 @@ Daily_run = getRunsUsed()
 
 if EVENT_or_FARM == "E" and rank > 19 and Daily_run == 10 then
 		task.spawn(function() 
+			wait(10)
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/EVENT_summer"))()
 			
-			_G.ZapSettings = {
-			["PetSimulator99 - AutoTeleportToBestBlockPartyEggToggle"] = true, 
-			["PetSimulator99 - AutoBuyNearestBlockPartyEggToggle"] = false, 
-			["PetSimulator99 - AutoBuyTilesToggle"] = true, 
-			["PetSimulator99 - AutoClaimTilesRewardsToggle"] = true, 
-			["PetSimulator99 - AutoBlockPartyRebirthToggle"] = true, 
-			["PetSimulator99 - AutoCraftTropicalGiftToggle"] = true, 
-			["PetSimulator99 - AutoBlockPartyRebirthDisableEgg100MultiplierToggle"] = false, 
-			}
-			
-			script_key="JjmhlAdFeuXFWubLiuoxRyorUCfAzHwb";
-			loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
 		end)
-		wait(20)
+
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_scriptphu"))()
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_GS_all_setting"))()
 
