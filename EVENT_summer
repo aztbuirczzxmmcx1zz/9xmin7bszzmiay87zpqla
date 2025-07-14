@@ -301,6 +301,7 @@ local function startTileChangeMonitor()
 			lastChangedTick = tick()
 		else
 			if tick() - lastChangedTick >= 720 then
+				game:Shutdown()
 				player:Kick("⏰ 12 phút không đổi tiles → nghi ngờ treo máy.")
 				break
 			end
@@ -389,7 +390,7 @@ local function startPreEggTeleport()
 	local player = Players.LocalPlayer
 
 	-- Chờ đến khi đủ 50 tile
-	while getTotalTileCount() < 50 do
+	while getTotalTileCount() < 75 do
 		task.wait(1)
 	end
 
@@ -401,22 +402,6 @@ local function startPreEggTeleport()
 	end
 end
 
----------------- 🧩 LUỒNG 10: Teleport một lần khi đủ 50 tile ----------------
-local function startPreEggTeleport()
-	local player = Players.LocalPlayer
-
-	-- Chờ đến khi đủ 50 tile
-	while getTotalTileCount() < 50 do
-		task.wait(1)
-	end
-
-	-- 🧭 Di chuyển tới vị trí trước khi bắt đầu xử lý egg
-	local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-	if hrp then
-		hrp.CFrame = CFrame.new(16543, 2275, -21618)
-		task.wait(5)
-	end
-end
 
 ---------------- 🚀 Kích hoạt tất cả luồng song song ----------------
 task.spawn(startAutoPurchase)
