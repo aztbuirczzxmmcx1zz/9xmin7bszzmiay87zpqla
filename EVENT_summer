@@ -1,0 +1,426 @@
+-- 🧭 Teleport vào Block Party & đến vị trí
+local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
+hrp.CFrame = workspace.__THINGS.Instances.BlockParty.Teleports.Enter.CFrame + Vector3.new(0, 5, 0)
+task.wait(9)
+
+-- ⚙️ Dịch vụ & Folder
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
+local Players = game:GetService("Players")
+local TilesFolder = Workspace:WaitForChild("__THINGS"):WaitForChild("Tiles")
+
+-- 🔢 Đếm tổng số tile
+local function getTotalTileCount()
+	return #TilesFolder:GetChildren()
+end
+
+---------------- 🧩 LUỒNG 1: Mua tiles quanh plot ----------------
+local function startAutoPurchase()
+	local plotIndex = 1
+	local radiusMax = 6
+	local delayPerTile = 0.05
+	local delayPerCycle = 0.05
+	local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
+
+	local offsets = {}
+	for dx = -radiusMax, radiusMax do
+		for dy = -radiusMax, radiusMax do
+			if not (dx == 0 and dy == 0) then
+				table.insert(offsets, {dx, dy})
+			end
+		end
+	end
+
+	while true do
+		for _, offset in ipairs(offsets) do
+			local args = {plotIndex, "PurchaseTile", offset[1], offset[2]}
+			pcall(function()
+				PlotsInvoke:InvokeServer(unpack(args))
+			end)
+			task.wait(delayPerTile)
+		end
+		task.wait(delayPerCycle)
+	end
+end
+
+---------------- 🧩 LUỒNG 2: Claim + Open ----------------
+local function startClaimAndOpen()
+	local TilesInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Invoke")
+	local delayPerTile = 0.05
+	local delayPerCycle = 0.05
+
+	while true do
+		for _, tile in ipairs(TilesFolder:GetChildren()) do
+			local tileId = tile.Name
+			pcall(function() TilesInvoke:InvokeServer(tileId, "Claim") end)
+			pcall(function() TilesInvoke:InvokeServer(tileId, "Open") end)
+			task.wait(delayPerTile)
+		end
+		task.wait(delayPerCycle)
+	end
+end
+
+---------------- 🧩 LUỒNG 3: Claim + Unlock ----------------
+local function startClaimAndUnlock()
+	local TilesFire = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Fire")
+	local delayPerTile = 0.05
+	local delayPerCycle = 0.05
+
+	while true do
+		for _, tile in ipairs(TilesFolder:GetChildren()) do
+			local tileId = tile.Name
+			pcall(function() TilesFire:FireServer(tileId, "Claimed") end)
+			pcall(function() TilesFire:FireServer(tileId, "Unlock") end)
+			task.wait(delayPerTile)
+		end
+		task.wait(delayPerCycle)
+	end
+end
+
+---------------- 🧩 LUỒNG 4: Claim Plant + Diamond ----------------
+local function startAutoPlantDiamond()
+	local TilesInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Invoke")
+
+	while true do
+		for _, tile in ipairs(TilesFolder:GetChildren()) do
+			if tile:IsA("Model") or tile:IsA("Folder") then
+				local tileId = tile.Name
+				if tile:FindFirstChild("Plant1") then
+					for i = 0, 6 do
+						pcall(function()
+							TilesInvoke:InvokeServer(tileId, "Claim", i)
+						end)
+						task.wait(0.1)
+					end
+				end
+				if tile:FindFirstChild("Diamond") then
+					pcall(function()
+						TilesInvoke:InvokeServer(tileId, "Tile_ClaimDiamonds")
+					end)
+					task.wait(0.1)
+				end
+			end
+		end
+		task.wait(30)
+	end
+end
+
+---------------- 🧩 LUỒNG 5: Hatch HUGE CHANCE ----------------
+local currentChance = 0
+
+local function startAutoHatchHuge()
+	local tileThreshold = 50
+	local player = Players.LocalPlayer
+	local Network = ReplicatedStorage:WaitForChild("Network")
+	local customEggsFolder = Workspace:WaitForChild("__THINGS"):WaitForChild("CustomEggs")
+	task.wait(20)
+
+	-- ⚙️ Tắt animation mở trứng
+	local successEggs, Eggs = pcall(function()
+		return player:WaitForChild("PlayerScripts"):WaitForChild("Scripts"):WaitForChild("Game"):WaitForChild("Egg Opening Frontend")
+	end)
+	if successEggs and Eggs then
+		pcall(function()
+			getsenv(Eggs).PlayEggAnimation = function() return end
+		end)
+	end
+
+	-- ✅ Kiểm tra tên mã hóa
+	local function isEncodedName(name)
+		return #name >= 32 and name:match("^[a-f0-9]+$") ~= nil
+	end
+
+	-- 📍 Tele tới egg (dùng Part trực tiếp)
+	local function teleportToEgg(egg)
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:FindFirstChild("HumanoidRootPart")
+		local part = egg:FindFirstChild("Part")
+		if hrp and part then
+			hrp.CFrame = part.CFrame + Vector3.new(0, 5, 0)
+			print("📦 Teleported to egg:", egg.Name)
+		end
+	end
+
+	-- 🧠 Danh sách egg đã biết
+	local knownEggs = {}
+	local function updateKnownEggs()
+		for _, egg in ipairs(customEggsFolder:GetChildren()) do
+			if isEncodedName(egg.Name) then
+				local exists = false
+				for _, e in ipairs(knownEggs) do
+					if e == egg then
+						exists = true
+						break
+					end
+				end
+				if not exists then
+					table.insert(knownEggs, egg)
+					print("🆕 Thêm egg mới vào danh sách:", egg.Name)
+				end
+			end
+		end
+	end
+
+	-- 🔁 Vòng chính
+	while true do
+		if getTotalTileCount() >= tileThreshold then
+			updateKnownEggs()
+
+			for _, egg in ipairs(knownEggs) do
+				teleportToEgg(egg)
+				task.wait(0.2)
+			end
+
+			local currentEgg = knownEggs[math.random(1, #knownEggs)]
+			currentChance = 0
+			if currentEgg then
+				teleportToEgg(currentEgg)
+				task.wait(0.5)
+
+				-- 🕔 Cập nhật egg mỗi 30 phút
+				task.spawn(function()
+					while true do
+						task.wait(1800)
+						print("🔁 [30 phút] Kiểm tra lại danh sách egg...")
+						for _, egg in ipairs(customEggsFolder:GetChildren()) do
+							if isEncodedName(egg.Name) then
+								local exists = false
+								for _, e in ipairs(knownEggs) do
+									if e == egg then
+										exists = true
+										break
+									end
+								end
+								if not exists then
+									table.insert(knownEggs, egg)
+									print("🆕 Thêm egg mới vào danh sách:", egg.Name)
+								end
+
+								teleportToEgg(egg)
+								task.wait(1)
+							end
+						end
+
+						currentEgg = knownEggs[math.random(1, #knownEggs)]
+						print("🔁 Đổi egg ngẫu nhiên:", currentEgg.Name)
+						task.wait(1)
+						teleportToEgg(currentEgg)
+					end
+				end)
+
+				-- 🥚 Vòng nở egg
+				while getTotalTileCount() >= tileThreshold do
+					local character = player.Character or player.CharacterAdded:Wait()
+					local hrp = character:FindFirstChild("HumanoidRootPart")
+					local eggPart = currentEgg:FindFirstChild("Part")
+
+					if hrp and eggPart then
+						local distance = (hrp.Position - eggPart.Position).Magnitude
+						if distance > 5 then
+							print("📍 Chưa đúng vị trí egg, teleport lại...")
+							hrp.CFrame = eggPart.CFrame + Vector3.new(0, 5, 0)
+							task.wait(1)
+						end
+					end
+
+					local args = {currentEgg.Name, 83}
+					local success, err = pcall(function()
+					Network.CustomEggs_Hatch:InvokeServer(unpack(args))
+					end)
+					if not success then
+						warn("[AutoHatch] Error:", err)
+					else
+						print("🎁 Đã mở egg:", currentEgg.Name)
+
+
+					end
+
+					task.wait(0)
+				end
+			end
+		end
+		task.wait(30)
+	end
+end
+
+---------------- 🧩 LUỒNG 6: Auto SummerGiftBag2025 ----------------
+local function startAutoGiftBag()
+	local Network = ReplicatedStorage:WaitForChild("Network")
+	while true do
+		if getTotalTileCount() >= 50 then
+			local args = { [1] = 10 }
+			pcall(function()
+				Network.SummerGiftBag2025Machine_Activate:InvokeServer(unpack(args))
+			end)
+		end
+		task.wait(1)
+	end
+end
+
+---------------- 🧩 LUỒNG 7: Auto Rebirth ----------------
+local function startAutoRebirth()
+	local threshold = 169
+	local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
+
+	while true do
+		if getTotalTileCount() >= threshold then
+			local args = {1, "Rebirth"}
+			pcall(function()
+				PlotsInvoke:InvokeServer(unpack(args))
+			end)
+		end
+		task.wait(2)
+	end
+end
+
+---------------- 🧩 LUỒNG 8: VAR theo dõi tiles không đổi trong 12 phút ----------------
+local function startTileChangeMonitor()
+	local player = Players.LocalPlayer
+	local initialCount = getTotalTileCount()
+	local previousCount = initialCount
+	local lastChangedTick = tick()
+
+	while true do
+		local currentCount = getTotalTileCount()
+
+		if currentCount ~= previousCount then
+			lastChangedTick = tick()
+			previousCount = currentCount
+			print("🔁 Số lượng tiles đã thay đổi, reset bộ đếm thời gian.")
+		else
+			local timeSinceLastChange = tick() - lastChangedTick
+			if timeSinceLastChange >= 720 then -- 12 phút = 720 giây
+				if initialCount == 169 and currentCount == 169 then
+					print("✅ Tiles vẫn 169 sau 12 phút → dừng luồng kiểm tra.")
+					break
+				else
+					warn("⚠️ Tiles không thay đổi trong 12 phút.")
+					player:Kick("⏰ 12 phút không đổi tiles → nghi ngờ treo máy.")
+					break
+				end
+			end
+		end
+
+		task.wait(30)
+	end
+end
+
+---------------- 🧩 LUỒNG 9: GUI Coins / Tiles / Tropical Gift ----------------
+local function startGuiUpdater()
+	local player = Players.LocalPlayer
+	local playerGui = player:WaitForChild("PlayerGui")
+	local SaveModule = require(ReplicatedStorage.Library.Client.Save)
+
+	local function getCurrencyAmount(currencyId)
+		local Inventory = SaveModule.Get().Inventory
+		for _, v in pairs(Inventory.Currency) do 
+			if v.id == currencyId then
+				return v._am
+			end
+		end
+		return 0
+	end
+
+	local function getItemAmount(itemId)
+		local Inventory = SaveModule.Get().Inventory
+		for _, v in pairs(Inventory.Lootbox) do
+			if v.id == itemId then
+				return v._am
+			end
+		end
+		return 0
+	end
+
+	local screenGui = playerGui:FindFirstChild("BlockPartyGui")
+	if not screenGui then
+		screenGui = Instance.new("ScreenGui")
+		screenGui.Name = "BlockPartyGui"
+		screenGui.ResetOnSpawn = false
+		screenGui.Parent = playerGui
+	end
+
+	local function createLabel(name, position, anchor, bgColor)
+		local label = Instance.new("TextLabel")
+		label.Name = name
+		label.AnchorPoint = anchor
+		label.Position = position
+		label.Size = UDim2.new(0, 0, 0, 38)
+		label.BackgroundColor3 = bgColor
+		label.TextColor3 = Color3.new(1, 1, 1)
+		label.Font = Enum.Font.GothamBold
+		label.TextSize = 32
+		label.BackgroundTransparency = 0
+		label.BorderSizePixel = 0
+		label.TextXAlignment = Enum.TextXAlignment.Center
+		label.Text = "..."
+		label.Parent = screenGui
+		return label
+	end
+
+	local function updateLabelSize(label)
+		label.Size = UDim2.new(0, label.TextBounds.X + 20, 0, 38)
+	end
+
+	local tilesLabel   = createLabel("TilesLabel",   UDim2.new(0, 0, 0.2, -10),   Vector2.new(0, 0),     Color3.fromRGB(0, 128, 0))
+	local coinsLabel   = createLabel("CoinsLabel",   UDim2.new(0.5, 0, 0.2, -10), Vector2.new(0.5, 0),   Color3.fromRGB(255, 165, 0))
+	local giftLabel    = createLabel("GiftLabel",    UDim2.new(1, 0, 0.2, -10),   Vector2.new(1, 0),     Color3.fromRGB(128, 0, 128))
+	while true do
+		tilesLabel.Text = "T: " .. tostring(getTotalTileCount())
+		updateLabelSize(tilesLabel)
+
+		coinsLabel.Text = "C: " .. tostring(getCurrencyAmount("BlockPartyCoins"))
+		updateLabelSize(coinsLabel)
+
+		local giftCount = getItemAmount("Tropical Gift")
+		giftLabel.Text = tostring(giftCount) .. " G"
+		updateLabelSize(giftLabel)
+
+		task.wait(1)
+	end
+end
+
+---------------- 🧩 LUỒNG 10: Teleport một lần khi đủ 50 tile ----------------
+local function startPreEggTeleport()
+	local player = Players.LocalPlayer
+
+	-- Chờ đến khi đủ 50 tile
+	while getTotalTileCount() < 50 do
+		task.wait(1)
+	end
+
+	-- 🧭 Di chuyển tới vị trí trước khi bắt đầu xử lý egg
+	local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+	if hrp then
+		hrp.CFrame = CFrame.new(16543, 2275, -21618)
+		task.wait(5)
+	end
+end
+
+---------------- 🧩 LUỒNG 10: Teleport một lần khi đủ 50 tile ----------------
+local function startPreEggTeleport()
+	local player = Players.LocalPlayer
+
+	-- Chờ đến khi đủ 50 tile
+	while getTotalTileCount() < 50 do
+		task.wait(1)
+	end
+
+	-- 🧭 Di chuyển tới vị trí trước khi bắt đầu xử lý egg
+	local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+	if hrp then
+		hrp.CFrame = CFrame.new(16543, 2275, -21618)
+		task.wait(5)
+	end
+end
+
+---------------- 🚀 Kích hoạt tất cả luồng song song ----------------
+task.spawn(startAutoPurchase)
+task.spawn(startClaimAndOpen)
+task.spawn(startClaimAndUnlock)
+task.spawn(startAutoPlantDiamond)
+task.spawn(startAutoHatchHuge)
+task.spawn(startAutoGiftBag)
+task.spawn(startAutoRebirth)
+task.spawn(startTileChangeMonitor)
+task.spawn(startGuiUpdater)
+task.spawn(startPreEggTeleport)
