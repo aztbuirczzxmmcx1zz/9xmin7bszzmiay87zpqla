@@ -1,3 +1,10 @@
+if _G.VAR_BLOCK_PARTY then
+	warn("⛔ Script đã được chạy trước đó!")
+	return
+end
+
+_G.VAR_BLOCK_PARTY = true
+
 -- 🧭 Teleport vào Block Party & đến vị trí
 local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
 hrp.CFrame = workspace.__THINGS.Instances.BlockParty.Teleports.Enter.CFrame + Vector3.new(0, 5, 0)
@@ -276,28 +283,19 @@ end
 ---------------- 🧩 LUỒNG 8: VAR theo dõi tiles không đổi trong 12 phút ----------------
 local function startTileChangeMonitor()
 	local player = Players.LocalPlayer
-	local initialCount = getTotalTileCount()
-	local previousCount = initialCount
+	local previousCount = getTotalTileCount()
 	local lastChangedTick = tick()
 
 	while true do
 		local currentCount = getTotalTileCount()
 
 		if currentCount ~= previousCount then
-			lastChangedTick = tick()
 			previousCount = currentCount
-			print("🔁 Số lượng tiles đã thay đổi, reset bộ đếm thời gian.")
+			lastChangedTick = tick()
 		else
-			local timeSinceLastChange = tick() - lastChangedTick
-			if timeSinceLastChange >= 720 then -- 12 phút = 720 giây
-				if initialCount == 169 and currentCount == 169 then
-					print("✅ Tiles vẫn 169 sau 12 phút → dừng luồng kiểm tra.")
-					break
-				else
-					warn("⚠️ Tiles không thay đổi trong 12 phút.")
-					player:Kick("⏰ 12 phút không đổi tiles → nghi ngờ treo máy.")
-					break
-				end
+			if tick() - lastChangedTick >= 720 then
+				player:Kick("⏰ 12 phút không đổi tiles → nghi ngờ treo máy.")
+				break
 			end
 		end
 
