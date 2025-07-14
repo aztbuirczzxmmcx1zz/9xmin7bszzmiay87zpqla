@@ -397,3 +397,27 @@ end
 
 end)
 ---------------------------------------------------------------------------------------------------------------------
+
+
+-- phát hiện không farm ở svv thoát game 
+task.spawn(function()
+task.wait(50)
+
+local function autoShutdownIfNotAlone()
+    local playerCount = #Players:GetPlayers()
+
+    if playerCount > 1 then
+        game:Shutdown()
+		Players.LocalPlayer:Kick("kick")
+    end
+end
+
+autoShutdownIfNotAlone()
+
+end)
+
+
+
+
+
+
