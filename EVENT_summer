@@ -301,7 +301,6 @@ local function startTileChangeMonitor()
 			lastChangedTick = tick()
 		else
 			if tick() - lastChangedTick >= 720 then
-				game:Shutdown()
 				player:Kick("⏰ 12 phút không đổi tiles → nghi ngờ treo máy.")
 				break
 			end
