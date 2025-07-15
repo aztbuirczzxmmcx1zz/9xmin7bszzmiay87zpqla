@@ -259,7 +259,7 @@ end
 local function startAutoGiftBag()
 	local Network = ReplicatedStorage:WaitForChild("Network")
 	while true do
-		if getTotalTileCount() >= 50 then
+		if getTotalTileCount() > 83 then
 			local args = { [1] = 10 }
 			pcall(function()
 				Network.SummerGiftBag2025Machine_Activate:InvokeServer(unpack(args))
@@ -281,7 +281,7 @@ local function startAutoRebirth()
 				PlotsInvoke:InvokeServer(unpack(args))
 			end)
 		end
-		task.wait(2)
+		task.wait(200)
 	end
 end
 
@@ -355,7 +355,11 @@ local function startPreEggTeleport()
 
 	-- Chờ đến khi đủ 83 tile
 	while getTotalTileCount() < 83 do
-		task.wait(1)
+		task.wait(10)
+		if getTotalTileCount() == 0 then
+			hrp.CFrame = workspace.__THINGS.Instances.BlockParty.Teleports.Enter.CFrame + Vector3.new(0, 5, 0)
+			task.wait(9)
+		end
 	end
 
 	-- 🧭 Di chuyển tới vị trí trước khi bắt đầu xử lý egg
