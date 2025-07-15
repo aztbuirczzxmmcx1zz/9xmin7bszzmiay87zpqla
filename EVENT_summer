@@ -95,7 +95,7 @@ end
 local currentChance = 0
 
 local function startAutoHatchHuge()
-	local tileThreshold = 83
+	local tileThreshold = 150
 	local MaxEggHatch = EggCmds.GetMaxHatch()
 	local player = Players.LocalPlayer
 	local Network = ReplicatedStorage:WaitForChild("Network")
@@ -351,10 +351,6 @@ local function startPreEggTeleport()
 	-- Chờ đến khi đủ 83 tile
 	while getTotalTileCount() < 83 do
 		task.wait(10)
-		if getTotalTileCount() == 0 then
-			hrp.CFrame = workspace.__THINGS.Instances.BlockParty.Teleports.Enter.CFrame + Vector3.new(0, 5, 0)
-			task.wait(9)
-		end
 	end
 
 	-- 🧭 Di chuyển tới vị trí trước khi bắt đầu xử lý egg
@@ -365,6 +361,26 @@ local function startPreEggTeleport()
 	end
 end
 
+local function check_joinevent_()
+	
+	m=0
+	while true do
+		task.wait(1)
+		if getTotalTileCount() == 0 then
+			m=m+1
+		end
+		if getTotalTileCount() ~= 0 then
+			m=0
+		end
+		if m > 30 then
+			Players.LocalPlayer:Kick("1 min = 0")			
+		end
+		task.wait(1)
+	end
+
+end
+
+task.spawn(check_joinevent_)
 ---------------- 🚀 Kích hoạt tất cả luồng song song ----------------
 task.spawn(startAutoPurchase)
 task.spawn(startTileHandler)
