@@ -8,14 +8,8 @@ wait(999)
 getgenv().Settings = {
     ["list_pet"] = {
 
-["Huge Scribe Squirrel"] 	= {Soluong_Yeu_cau = 0},
-["Golden Huge Scribe Squirrel"] 	= {Soluong_Yeu_cau = 0},
-
 ["Huge Chill Bunny"] 	= {Soluong_Yeu_cau = 0},
 ["Golden Huge Chill Bunny"] 	= {Soluong_Yeu_cau = 0},
-
-["Huge Lifeguard Shark"] 	= {Soluong_Yeu_cau = 0},
-["Golden Huge Lifeguard Shark"] 	= {Soluong_Yeu_cau = 0},
 
 ["Huge Telescope Owl"] 	= {Soluong_Yeu_cau = 0},
 ["Golden Huge Telescope Owl"] 	= {Soluong_Yeu_cau = 0},
