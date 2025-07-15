@@ -498,6 +498,7 @@ local booksToCheck = {
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+
 local Network = require(Client.Network)
 local SaveData = require(Client.Save).Get()
 local HttpService = game:GetService("HttpService")
@@ -629,6 +630,7 @@ task.spawn(function()
 
 	-- cấu hình item cần theo dõi
 	local itemsToTrack = {		
+		{ id = "Chest Breaker", guiName = "Item3", row = 0, col = 0, color = Color3.fromRGB(192,192,192) },	-- xams
 		{ id = "Super Lightning", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },	-- cam
 		{ id = "MVP Key Upper Half", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },		-- trang
 	}
