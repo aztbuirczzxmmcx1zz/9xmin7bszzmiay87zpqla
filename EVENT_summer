@@ -275,6 +275,16 @@ local function startAutoRebirth()
 	local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
 
 	while true do
+		wait(20)
+		local ReplicatedStorage = game:GetService("ReplicatedStorage")
+		local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+		local Save = require(Client:WaitForChild("Save"))
+		local saveData = Save.Get()
+		local TileRebirth = saveData.TileRebirth or 0
+		if TileRebirth == 10 then
+			break
+		end
+		
 		if getTotalTileCount() >= threshold then
 			local args = {1, "Rebirth"}
 			pcall(function()
