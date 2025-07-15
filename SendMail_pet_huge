@@ -1,9 +1,4 @@
-
 task.spawn(function() 
-
-wait(999)
-
-
 
 getgenv().Settings = {
     ["list_pet"] = {
@@ -21,9 +16,8 @@ getgenv().Settings = {
    
 }
 
+
 ds_nguoi_nhan_pet = {"sijmongirthss", "Ash3rP0w3rPanda2018", "soystaylan5", "dreddyewele60", "1971Nowak3135", "mcconchifredjeyo", "ecclweltst", "killedsanthi85", "tamuleviazulayv", "hegemangaltieri81"}
-
-
 
 
 -- Hàm kiểm tra tên có chứa từ khóa
@@ -191,9 +185,9 @@ local function sendExcessPets()
 						--warn("Huge chi send 1")
 						totalCount = 1
 					end
-					if requiredAmount == 1 then
-						--warn("Giữ lại 1 con")
-						totalCount = totalCount - 1
+					if requiredAmount > 0 then
+						--warn("Giữ lại bn con")
+						totalCount = totalCount - requiredAmount
 					end
                     local success, err = pcall(function()
                         return Network.Invoke("Mailbox: Send", randomRecipient, message, "Pet", item.UID, totalCount)
@@ -213,9 +207,54 @@ local function sendExcessPets()
 end
 
 -- Gọi hàm gửi pet
+
+
+local function _check_time_resetmail()
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local SaveData = require(Client.Save).Get()
+
+local mailboxResetTime = SaveData.MailboxResetTime
+local mailLog = SaveData.MailLog
+local sentCount = 0
+
+-- Mốc 24h trước reset
+local windowStart = mailboxResetTime - 86400
+local currentTime = os.time()
+
+-- Đếm số thư đã gửi trong khoảng 24h trước thời điểm reset
+for _, entry in pairs(mailLog or {}) do
+    if entry.Type == "Sent" and entry.Timestamp >= windowStart and entry.Timestamp <= mailboxResetTime then
+        sentCount = sentCount + 1
+    end
+end
+
+-- Tính thời gian còn lại đến lúc reset
+local secondsRemaining = math.max(0, mailboxResetTime - currentTime)
+local hours = math.floor(secondsRemaining / 3600)
+local minutes = math.floor((secondsRemaining % 3600) / 60)
+local seconds = math.floor(secondsRemaining % 60)
+
+warn(string.format("⏳ Còn %02dh %02dm %02ds nữa sẽ reset lượt gửi thư.", hours, minutes, seconds))
+warn("📮 Số thư đã gửi trong 24h trước reset:", sentCount)
+
+-- Nếu quá giới hạn -> chờ đến khi reset
+if sentCount >= 10 then
+    warn("⚠️ Đã gửi quá giới hạn 10 thư! Đang chờ đến khi reset...")
+    task.wait(secondsRemaining + 1)  -- đợi đến khi reset + 1 giây an toàn
+    warn("✅ Đã qua thời điểm reset, có thể gửi tiếp.")
+end
+
+end
+
+_check_time_resetmail()
+
+
 while true do
 sendExcessPets()
 wait(3600)
 end
+
 
 end)
