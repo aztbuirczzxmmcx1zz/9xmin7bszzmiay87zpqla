@@ -191,7 +191,7 @@ task.spawn(function()
 
 	-- cấu hình item cần theo dõi
 	local itemsToTrack = {		
-		{ id = "Ancestor Eagle", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },	-- cam
+		{ id = "Chest Breaker", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },	-- cam
 		{ id = "MVP Key Upper Half", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },		-- trang
 	}
 
