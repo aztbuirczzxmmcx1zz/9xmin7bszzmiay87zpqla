@@ -14,7 +14,7 @@ getgenv().GENCHANTS = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","D
 getgenv().GZONE_TO = 999
 
 getgenv().GPROGRESS_MODE = "Hybrid" -- Hatch
-getgenv().GGFX_MODE = 1
+getgenv().GGFX_MODE = 3
 
 getgenv().GHATCH_SPEED_MS = 0
 getgenv().GHATCH_GOLDEN_EGGS = false
