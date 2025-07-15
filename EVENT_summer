@@ -3,7 +3,7 @@ local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
 hrp.CFrame = workspace.__THINGS.Instances.BlockParty.Teleports.Enter.CFrame + Vector3.new(0, 5, 0)
 task.wait(9)
 
--- ⚙️ Dịch vụ & Folder
+--⚙️ Dịch vụ & Folder
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
@@ -45,56 +45,37 @@ local function startAutoPurchase()
 	end
 end
 
----------------- 🧩 LUỒNG 2: Claim + Open ----------------
-local function startClaimAndOpen()
+---------------- 🧩 GỘP LUỒNG: Claim + Open + Unlock + Plant + Diamond ----------------
+local function startTileHandler()
 	local TilesInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Invoke")
-	local delayPerTile = 0.05
-	local delayPerCycle = 0.05
-
-	while true do
-		for _, tile in ipairs(TilesFolder:GetChildren()) do
-			local tileId = tile.Name
-			pcall(function() TilesInvoke:InvokeServer(tileId, "Claim") end)
-			pcall(function() TilesInvoke:InvokeServer(tileId, "Open") end)
-			task.wait(delayPerTile)
-		end
-		task.wait(delayPerCycle)
-	end
-end
-
----------------- 🧩 LUỒNG 3: Claim + Unlock ----------------
-local function startClaimAndUnlock()
 	local TilesFire = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Fire")
 	local delayPerTile = 0.05
-	local delayPerCycle = 0.05
+	local delayPerCycle = 0.5
 
 	while true do
 		for _, tile in ipairs(TilesFolder:GetChildren()) do
 			local tileId = tile.Name
+
+			-- ✅ Claim + Open (Tiles_Invoke)
+			pcall(function() TilesInvoke:InvokeServer(tileId, "Claim") end)
+			pcall(function() TilesInvoke:InvokeServer(tileId, "Open") end)
+
+			-- ✅ Claim + Unlock (Tiles_Fire)
 			pcall(function() TilesFire:FireServer(tileId, "Claimed") end)
 			pcall(function() TilesFire:FireServer(tileId, "Unlock") end)
-			task.wait(delayPerTile)
-		end
-		task.wait(delayPerCycle)
-	end
-end
 
----------------- 🧩 LUỒNG 4: Claim Plant + Diamond ----------------
-local function startAutoPlantDiamond()
-	local TilesInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Invoke")
-
-	while true do
-		for _, tile in ipairs(TilesFolder:GetChildren()) do
+			-- ✅ Claim Plant[i] (1 -> 6)
 			if tile:IsA("Model") or tile:IsA("Folder") then
-				local tileId = tile.Name
 				if tile:FindFirstChild("Plant1") then
-					for i = 0, 6 do
+					for i = 1, 6 do
 						pcall(function()
 							TilesInvoke:InvokeServer(tileId, "Claim", i)
 						end)
-						task.wait(0.1)
+						task.wait(0.05)
 					end
 				end
+
+				-- ✅ Claim Diamond
 				if tile:FindFirstChild("Diamond") then
 					pcall(function()
 						TilesInvoke:InvokeServer(tileId, "Tile_ClaimDiamonds")
@@ -102,8 +83,11 @@ local function startAutoPlantDiamond()
 					task.wait(0.1)
 				end
 			end
+
+			task.wait(delayPerTile)
 		end
-		task.wait(30)
+
+		task.wait(delayPerCycle)
 	end
 end
 
@@ -115,7 +99,7 @@ local function startAutoHatchHuge()
 	local MaxEggHatch = EggCmds.GetMaxHatch()
 	local player = Players.LocalPlayer
 	local Network = ReplicatedStorage:WaitForChild("Network")
-	local customEggsFolder = Workspace:WaitForChild("__THINGS"):WaitForChild("CustomEggs")
+	local CustomEggsFolder = Workspace:WaitForChild("__THINGS"):WaitForChild("CustomEggs")
 	task.wait(20)
 
 	-- ⚙️ Tắt animation mở trứng
@@ -128,130 +112,128 @@ local function startAutoHatchHuge()
 		end)
 	end
 
-	-- ✅ Kiểm tra tên mã hóa
-	local function isEncodedName(name)
-		return #name >= 32 and name:match("^[a-f0-9]+$") ~= nil
+	-- ✅ Rút giá trị từ text kiểu "12x Huge Luck!"
+	local function extractHugeLuckValue(text)
+		local value = text:match("(%d+)x%s+Huge%s+Luck!?")
+		return tonumber(value or "0")
 	end
 
-	-- 🔍 Rút trích HUGE CHANCE
-	local function extractChanceValue(text)
-		local num = text:match("(%d+)x%s+HUGE%s+CHANCE!?")
-		return tonumber(num or "0")
-	end
+	-- 🧠 Tìm tile có Huge Luck cao nhất
+	local function findBestHugeTile()
+		local bestTile, bestValue = nil, -1
 
-	-- 📍 Tele tới egg (dùng Part trực tiếp)
-	local function teleportToEgg(egg)
-		local character = player.Character or player.CharacterAdded:Wait()
-		local hrp = character:FindFirstChild("HumanoidRootPart")
-		local part = egg:FindFirstChild("Part")
-		if hrp and part then
-			hrp.CFrame = part.CFrame + Vector3.new(0, 5, 0)
-			print("📦 Teleported to egg:", egg.Name)
-		end
-	end
+		for _, tile in pairs(TilesFolder:GetChildren()) do
+			local label = tile:FindFirstChild("Sign")
+				and tile.Sign:FindFirstChild("SurfaceGui")
+				and tile.Sign.SurfaceGui:FindFirstChild("Frame")
+				and tile.Sign.SurfaceGui.Frame:FindFirstChild("Frame")
+				and tile.Sign.SurfaceGui.Frame.Frame:FindFirstChild("TextLabel")
 
-	-- 🏆 Tìm egg HUGE CHANCE cao nhất
-	local function findBestHugeChanceEgg(eggList)
-		local bestEgg, bestValue = nil, -1
-		for _, egg in ipairs(eggList) do
-			local label = egg:FindFirstChild("Egg")
-				and egg.Egg:FindFirstChild("EggInfo")
-				and egg.Egg.EggInfo:FindFirstChild("Frame")
-				and egg.Egg.EggInfo.Frame:FindFirstChild("Title")
 			if label and label:IsA("TextLabel") then
-				local value = extractChanceValue(label.ContentText)
+				local value = extractHugeLuckValue(label.Text)
 				if value > bestValue then
-					bestEgg, bestValue = egg, value
+					bestTile, bestValue = tile, value
 				end
 			end
 		end
-		return bestEgg, bestValue
+
+		return bestTile, bestValue
 	end
 
-	-- 🧠 Danh sách egg đã biết
-	local knownEggs = {}
-	local function updateKnownEggs()
-		for _, egg in ipairs(customEggsFolder:GetChildren()) do
-			if isEncodedName(egg.Name) then
-				local exists = false
-				for _, e in ipairs(knownEggs) do
-					if e == egg then
-						exists = true
-						break
-					end
-				end
-				if not exists then
-					table.insert(knownEggs, egg)
-					print("🆕 Thêm egg mới vào danh sách:", egg.Name)
+	-- 🥚 Tìm egg gần một tile
+	local function findEggNearTile(tile)
+		local closestEgg, minDistance = nil, math.huge
+		for _, egg in pairs(CustomEggsFolder:GetChildren()) do
+			if #egg.Name == 32 and egg:IsA("Model") and egg:FindFirstChild("Part") then
+				local dist = (egg.Part.Position - tile.PrimaryPart.Position).Magnitude
+				if dist < minDistance then
+					closestEgg, minDistance = egg, dist
 				end
 			end
+		end
+		return closestEgg
+	end
+
+	-- 📍 Teleport tới tile
+	local function teleportToTile(tile)
+		local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+		if hrp and tile and tile:IsA("Model") and tile.PrimaryPart then
+			hrp.CFrame = tile.PrimaryPart.CFrame + Vector3.new(0, 5, 0)
+			print("📍 Teleport đến tile:", tile.Name)
 		end
 	end
 
 	-- 🔁 Vòng chính
 	while true do
 		if getTotalTileCount() >= tileThreshold then
-			updateKnownEggs()
+			local bestTile, bestChance = findBestHugeTile()
+			if bestTile and bestChance > 0 and bestTile.PrimaryPart then
+				currentChance = bestChance
+				print("🎯 Tìm thấy tile Huge:", bestTile.Name, "|", bestChance .. "x")
 
-			for _, egg in ipairs(knownEggs) do
-				teleportToEgg(egg)
-				task.wait(0.2)
-			end
+				-- 1️⃣ Tele đến tile
+				teleportToTile(bestTile)
+				task.wait(1)
 
-			local currentEgg, currentValue = findBestHugeChanceEgg(knownEggs)
-			if currentEgg then
-				currentChance = currentValue
-				teleportToEgg(currentEgg)
-				task.wait(0.5)
+				-- 2️⃣ Tìm egg gần tile
+				local bestEgg = findEggNearTile(bestTile)
+				if not bestEgg or not bestEgg:IsA("Model") then
+					warn("❌ Không tìm thấy egg gần tile!")
+					task.wait(5)
+					continue
+				end
 
-				-- 🕔 Cập nhật egg mỗi 10 phút
+				print("🥚 Dùng egg:", bestEgg.Name)
+
+				-- 3️⃣ Cập nhật tile mỗi 10 phút
 				task.spawn(function()
 					while true do
 						task.wait(600)
-						print("🔁 [10 phút] Kiểm tra cập nhật egg...")
+						print("🔁 [10 phút] Kiểm tra tile mới...")
+						local newTile, newChance = findBestHugeTile()
+						if newTile and newTile.PrimaryPart and newChance > currentChance then
+							currentChance = newChance
+							print("🔁 Tile mới tốt hơn:", newTile.Name, "|", newChance .. "x")
 
-						updateKnownEggs()
+							teleportToTile(newTile)
+							task.wait(1)
+							bestTile = newTile
+							bestEgg = findEggNearTile(newTile)
 
-						local bestEgg, bestValue = findBestHugeChanceEgg(knownEggs)
-						if bestEgg and bestValue > currentChance then
-							currentEgg = bestEgg
-							currentValue = bestValue
-							currentChance = bestValue
-							print("🔁 [10 phút] Đổi sang egg mới:", currentEgg.Name, "Chance:", currentChance)
-							teleportToEgg(currentEgg)
+							if bestEgg then
+								print("✅ Egg mới:", bestEgg.Name)
+							else
+								warn("❌ Không tìm thấy egg mới!")
+							end
+						else
+							print("⏸ Vẫn giữ tile:", bestTile.Name, "|", currentChance .. "x")
 						end
 					end
 				end)
 
-				-- 🥚 Vòng nở egg
+				-- 4️⃣ Hatch liên tục
 				while getTotalTileCount() >= tileThreshold do
-					local character = player.Character or player.CharacterAdded:Wait()
-					local hrp = character:FindFirstChild("HumanoidRootPart")
-					local eggPart = currentEgg:FindFirstChild("Part")
-
-					if hrp and eggPart then
-						local distance = (hrp.Position - eggPart.Position).Magnitude
-						if distance > 5 then
-							print("📍 Chưa đúng vị trí egg, teleport lại...")
-							hrp.CFrame = eggPart.CFrame + Vector3.new(0, 5, 0)
-							task.wait(1)
+					if bestEgg and bestEgg:IsA("Model") then
+						local args = {bestEgg.Name, MaxEggHatch}
+						local success, err = pcall(function()
+							Network.CustomEggs_Hatch:InvokeServer(unpack(args))
+						end)
+						if not success then
+							warn("❌ Hatch lỗi:", err)
 						end
-					end
-
-					local args = {currentEgg.Name, MaxEggHatch}
-					local success, err = pcall(function()
-						Network.CustomEggs_Hatch:InvokeServer(unpack(args))
-					end)
-					if not success then
-						warn("[AutoHatch] Error:", err)
 					else
-						print("🎁 Đã mở egg:", currentEgg.Name)
+						warn("❌ Egg không hợp lệ!")
 					end
 					task.wait(0)
 				end
+			else
+				print("⚠️ Không tìm thấy tile Huge hợp lệ.")
 			end
+		else
+			print("⏳ Chờ đủ tile (" .. getTotalTileCount() .. "/" .. tileThreshold .. ")...")
 		end
-		task.wait(30)
+
+		task.wait(5)
 	end
 end
 
@@ -259,7 +241,7 @@ end
 local function startAutoGiftBag()
 	local Network = ReplicatedStorage:WaitForChild("Network")
 	while true do
-		if getTotalTileCount() > 83 then
+		if getTotalTileCount() >= 50 then
 			local args = { [1] = 10 }
 			pcall(function()
 				Network.SummerGiftBag2025Machine_Activate:InvokeServer(unpack(args))
@@ -271,27 +253,30 @@ end
 
 ---------------- 🧩 LUỒNG 7: Auto Rebirth ----------------
 local function startAutoRebirth()
-	local threshold = 169
+	local Save = require(ReplicatedStorage.Library.Client.Save)
 	local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
+	local threshold = 169
+	local maxTileRebirth = 10
 
 	while true do
-		wait(20)
-		local ReplicatedStorage = game:GetService("ReplicatedStorage")
-		local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-		local Save = require(Client:WaitForChild("Save"))
+		task.wait(20)
 		local saveData = Save.Get()
-		local TileRebirth = saveData.TileRebirth or 0
-		if TileRebirth == 10 then
+		local tileRebirth = saveData.TileRebirth or 0
+
+		if tileRebirth >= maxTileRebirth then
+			warn("🛑 Đã đạt TileRebirth =", tileRebirth, "- Dừng Auto Rebirth.")
 			break
 		end
-		
+
 		if getTotalTileCount() >= threshold then
 			local args = {1, "Rebirth"}
 			pcall(function()
 				PlotsInvoke:InvokeServer(unpack(args))
+				print("🔁 Đã gửi yêu cầu Rebirth | TileRebirth hiện tại:", tileRebirth)
 			end)
 		end
-		task.wait(200)
+
+		task.wait(20)
 	end
 end
 
@@ -382,9 +367,7 @@ end
 
 ---------------- 🚀 Kích hoạt tất cả luồng song song ----------------
 task.spawn(startAutoPurchase)
-task.spawn(startClaimAndOpen)
-task.spawn(startClaimAndUnlock)
-task.spawn(startAutoPlantDiamond)
+task.spawn(startTileHandler)
 task.spawn(startAutoHatchHuge)
 task.spawn(startAutoGiftBag)
 task.spawn(startAutoRebirth)
