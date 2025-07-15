@@ -1,4 +1,3 @@
-
 -- 🧭 Teleport vào Block Party & đến vị trí
 local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
 hrp.CFrame = workspace.__THINGS.Instances.BlockParty.Teleports.Enter.CFrame + Vector3.new(0, 5, 0)
@@ -9,6 +8,8 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
 local TilesFolder = Workspace:WaitForChild("__THINGS"):WaitForChild("Tiles")
+local NLibrary = game.ReplicatedStorage.Library
+local EggCmds = require(NLibrary.Client.EggCmds)
 
 -- 🔢 Đếm tổng số tile
 local function getTotalTileCount()
@@ -110,7 +111,8 @@ end
 local currentChance = 0
 
 local function startAutoHatchHuge()
-	local tileThreshold = 75
+	local tileThreshold = 83
+	local MaxEggHatch = EggCmds.GetMaxHatch()
 	local player = Players.LocalPlayer
 	local Network = ReplicatedStorage:WaitForChild("Network")
 	local customEggsFolder = Workspace:WaitForChild("__THINGS"):WaitForChild("CustomEggs")
@@ -131,6 +133,12 @@ local function startAutoHatchHuge()
 		return #name >= 32 and name:match("^[a-f0-9]+$") ~= nil
 	end
 
+	-- 🔍 Rút trích HUGE CHANCE
+	local function extractChanceValue(text)
+		local num = text:match("(%d+)x%s+HUGE%s+CHANCE!?")
+		return tonumber(num or "0")
+	end
+
 	-- 📍 Tele tới egg (dùng Part trực tiếp)
 	local function teleportToEgg(egg)
 		local character = player.Character or player.CharacterAdded:Wait()
@@ -140,6 +148,24 @@ local function startAutoHatchHuge()
 			hrp.CFrame = part.CFrame + Vector3.new(0, 5, 0)
 			print("📦 Teleported to egg:", egg.Name)
 		end
+	end
+
+	-- 🏆 Tìm egg HUGE CHANCE cao nhất
+	local function findBestHugeChanceEgg(eggList)
+		local bestEgg, bestValue = nil, -1
+		for _, egg in ipairs(eggList) do
+			local label = egg:FindFirstChild("Egg")
+				and egg.Egg:FindFirstChild("EggInfo")
+				and egg.Egg.EggInfo:FindFirstChild("Frame")
+				and egg.Egg.EggInfo.Frame:FindFirstChild("Title")
+			if label and label:IsA("TextLabel") then
+				local value = extractChanceValue(label.ContentText)
+				if value > bestValue then
+					bestEgg, bestValue = egg, value
+				end
+			end
+		end
+		return bestEgg, bestValue
 	end
 
 	-- 🧠 Danh sách egg đã biết
@@ -172,40 +198,28 @@ local function startAutoHatchHuge()
 				task.wait(0.2)
 			end
 
-			local currentEgg = knownEggs[math.random(1, #knownEggs)]
-			currentChance = 0
+			local currentEgg, currentValue = findBestHugeChanceEgg(knownEggs)
 			if currentEgg then
+				currentChance = currentValue
 				teleportToEgg(currentEgg)
 				task.wait(0.5)
 
-				-- 🕔 Cập nhật egg mỗi 30 phút
+				-- 🕔 Cập nhật egg mỗi 10 phút
 				task.spawn(function()
 					while true do
-						task.wait(1800)
-						print("🔁 [30 phút] Kiểm tra lại danh sách egg...")
-						for _, egg in ipairs(customEggsFolder:GetChildren()) do
-							if isEncodedName(egg.Name) then
-								local exists = false
-								for _, e in ipairs(knownEggs) do
-									if e == egg then
-										exists = true
-										break
-									end
-								end
-								if not exists then
-									table.insert(knownEggs, egg)
-									print("🆕 Thêm egg mới vào danh sách:", egg.Name)
-								end
+						task.wait(600)
+						print("🔁 [10 phút] Kiểm tra cập nhật egg...")
 
-								teleportToEgg(egg)
-								task.wait(1)
-							end
+						updateKnownEggs()
+
+						local bestEgg, bestValue = findBestHugeChanceEgg(knownEggs)
+						if bestEgg and bestValue > currentChance then
+							currentEgg = bestEgg
+							currentValue = bestValue
+							currentChance = bestValue
+							print("🔁 [10 phút] Đổi sang egg mới:", currentEgg.Name, "Chance:", currentChance)
+							teleportToEgg(currentEgg)
 						end
-
-						currentEgg = knownEggs[math.random(1, #knownEggs)]
-						print("🔁 Đổi egg ngẫu nhiên:", currentEgg.Name)
-						task.wait(1)
-						teleportToEgg(currentEgg)
 					end
 				end)
 
@@ -224,31 +238,15 @@ local function startAutoHatchHuge()
 						end
 					end
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-local Save = require(Client:WaitForChild("Save"))
-local saveData = Save.Get()
-
-local eggCount = saveData.EggHatchCount or 0
-local EggsLevel = saveData.Mastery and saveData.Mastery.Eggs
-
-if EggsLevel and EggsLevel == 13034431 then 
-    eggCount += 5
-end
-
-
-					local args = {currentEgg.Name, eggCount}
+					local args = {currentEgg.Name, MaxEggHatch}
 					local success, err = pcall(function()
-					Network.CustomEggs_Hatch:InvokeServer(unpack(args))
+						Network.CustomEggs_Hatch:InvokeServer(unpack(args))
 					end)
 					if not success then
 						warn("[AutoHatch] Error:", err)
 					else
 						print("🎁 Đã mở egg:", currentEgg.Name)
-
-
 					end
-
 					task.wait(0)
 				end
 			end
@@ -287,30 +285,7 @@ local function startAutoRebirth()
 	end
 end
 
----------------- 🧩 LUỒNG 8: VAR theo dõi tiles không đổi trong 12 phút ----------------
-local function startTileChangeMonitor()
-	local player = Players.LocalPlayer
-	local previousCount = getTotalTileCount()
-	local lastChangedTick = tick()
-
-	while true do
-		local currentCount = getTotalTileCount()
-
-		if currentCount ~= previousCount then
-			previousCount = currentCount
-			lastChangedTick = tick()
-		else
-			if tick() - lastChangedTick >= 720 then
-				player:Kick("⏰ 12 phút không đổi tiles → nghi ngờ treo máy.")
-				break
-			end
-		end
-
-		task.wait(30)
-	end
-end
-
----------------- 🧩 LUỒNG 9: GUI Coins / Tiles / Tropical Gift ----------------
+---------------- 🧩 LUỒNG 8: GUI Coins / Tiles / Chance ----------------
 local function startGuiUpdater()
 	local player = Players.LocalPlayer
 	local playerGui = player:WaitForChild("PlayerGui")
@@ -320,16 +295,6 @@ local function startGuiUpdater()
 		local Inventory = SaveModule.Get().Inventory
 		for _, v in pairs(Inventory.Currency) do 
 			if v.id == currencyId then
-				return v._am
-			end
-		end
-		return 0
-	end
-
-	local function getItemAmount(itemId)
-		local Inventory = SaveModule.Get().Inventory
-		for _, v in pairs(Inventory.Lootbox) do
-			if v.id == itemId then
 				return v._am
 			end
 		end
@@ -366,30 +331,30 @@ local function startGuiUpdater()
 		label.Size = UDim2.new(0, label.TextBounds.X + 20, 0, 38)
 	end
 
-	local tilesLabel   = createLabel("TilesLabel",   UDim2.new(0, 0, 0.2, -10),   Vector2.new(0, 0),     Color3.fromRGB(0, 128, 0))
-	local coinsLabel   = createLabel("CoinsLabel",   UDim2.new(0.5, 0, 0.2, -10), Vector2.new(0.5, 0),   Color3.fromRGB(255, 165, 0))
-	local giftLabel    = createLabel("GiftLabel",    UDim2.new(1, 0, 0.2, -10),   Vector2.new(1, 0),     Color3.fromRGB(128, 0, 128))
+	local tilesLabel  = createLabel("TilesLabel",  UDim2.new(0, -10, 0.2, -10), Vector2.new(0, 0), Color3.fromRGB(0, 128, 0))
+	local coinsLabel  = createLabel("CoinsLabel",  UDim2.new(0.5, -15, 0.2, -10), Vector2.new(0.5, 0), Color3.fromRGB(255, 165, 0))
+	local chanceLabel = createLabel("ChanceLabel", UDim2.new(1, -30, 0.2, -10), Vector2.new(1, 0), Color3.fromRGB(0, 102, 204))
+
 	while true do
-		tilesLabel.Text = "T: " .. tostring(getTotalTileCount())
+		tilesLabel.Text  = "T: " .. tostring(getTotalTileCount())
 		updateLabelSize(tilesLabel)
 
-		coinsLabel.Text = "C: " .. tostring(getCurrencyAmount("BlockPartyCoins"))
+		coinsLabel.Text  = "C: " .. tostring(getCurrencyAmount("BlockPartyCoins"))
 		updateLabelSize(coinsLabel)
 
-		local giftCount = getItemAmount("Tropical Gift")
-		giftLabel.Text = tostring(giftCount) .. " G"
-		updateLabelSize(giftLabel)
+		chanceLabel.Text = tostring(currentChance) .. "x HUGE"
+		updateLabelSize(chanceLabel)
 
 		task.wait(1)
 	end
 end
 
----------------- 🧩 LUỒNG 10: Teleport một lần khi đủ 50 tile ----------------
+---------------- 🧩 LUỒNG 9: Teleport một lần khi đủ 83 tile ----------------
 local function startPreEggTeleport()
 	local player = Players.LocalPlayer
 
-	-- Chờ đến khi đủ 50 tile
-	while getTotalTileCount() < 50 do
+	-- Chờ đến khi đủ 83 tile
+	while getTotalTileCount() < 83 do
 		task.wait(1)
 	end
 
@@ -401,7 +366,6 @@ local function startPreEggTeleport()
 	end
 end
 
-
 ---------------- 🚀 Kích hoạt tất cả luồng song song ----------------
 task.spawn(startAutoPurchase)
 task.spawn(startClaimAndOpen)
@@ -410,6 +374,5 @@ task.spawn(startAutoPlantDiamond)
 task.spawn(startAutoHatchHuge)
 task.spawn(startAutoGiftBag)
 task.spawn(startAutoRebirth)
-task.spawn(startTileChangeMonitor)
 task.spawn(startGuiUpdater)
 task.spawn(startPreEggTeleport)
