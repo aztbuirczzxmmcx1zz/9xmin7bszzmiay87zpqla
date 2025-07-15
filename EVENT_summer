@@ -401,7 +401,7 @@ while true do
 	if data and data.EggsHatched then
 		local current = data.EggsHatched
 
-		if current == lastEggsHatched then
+		if current == lastEggsHatched and getTotalTileCount() == 169 then
 			Players.LocalPlayer:Kick("EggsHatched = 0")
 			break
 		else
