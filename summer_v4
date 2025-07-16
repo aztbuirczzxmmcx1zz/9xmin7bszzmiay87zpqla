@@ -50,15 +50,16 @@ local function startAutoPurchase()
 		end
 	end
 	
-	
+	local Save = require(ReplicatedStorage.Library.Client.Save)
 	local saveData = Save.Get()
 	local tileRebirth = saveData.TileRebirth or 0
-	
+	if getTotalTileCount() == 169 and tileRebirth == 10 then
+		warn("NGAO")
+		return tileRebirth
+	end
 	
 	while true do
-		if getTotalTileCount() == 169 and tileRebirth == 10 then
-			break
-		end
+		
 		waitUntilAllowed()
 		for _, offset in ipairs(offsets) do
 			local args = {plotIndex, "PurchaseTile", offset[1], offset[2]}
@@ -123,7 +124,7 @@ end
 local currentChance = 0
 
 local function startAutoHatchHuge()
-	local tileThreshold = 140
+	local tileThreshold = 130
 	local MaxEggHatch = EggCmds.GetMaxHatch()
 	local player = Players.LocalPlayer
 	local Save = require(ReplicatedStorage.Library.Client.Save)
