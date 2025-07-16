@@ -418,7 +418,7 @@ task.spawn(function()
 	
 		if game.PlaceId ~= 140403681187145 then return end
 
-	waitUntilReachMaxZone()
+	--waitUntilReachMaxZone()
 	startMonitor12Min()		
 		
 		
@@ -1074,4 +1074,3 @@ end
 Ghep_pet_len_gold_rainbow(NamePet_ep)
 
 end)
----------------------------------------------------------------------------------------------------------------------
