@@ -1,20 +1,57 @@
--- 🧭 Teleport vào Block Party & đến vị trí
-local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
-hrp.CFrame = workspace.__THINGS.Instances.BlockParty.Teleports.Enter.CFrame + Vector3.new(0, 5, 0)
-task.wait(9)
+if _G.VAR_BLOCK_PARTY then
+	warn("⛔ Script đã được chạy trước đó!")
+	return
+end
 
---⚙️ Dịch vụ & Folder
+_G.VAR_BLOCK_PARTY = true
+local isRunning = false
+
+-- ⚙️ Dịch vụ & Folder
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
+local player = game.Players.LocalPlayer
 local TilesFolder = Workspace:WaitForChild("__THINGS"):WaitForChild("Tiles")
-local NLibrary = game.ReplicatedStorage.Library
+local NLibrary = ReplicatedStorage.Library
 local EggCmds = require(NLibrary.Client.EggCmds)
+local Save = require(ReplicatedStorage.Library.Client.Save)
+local Network = ReplicatedStorage:WaitForChild("Network")
+local CustomEggsFolder = Workspace:WaitForChild("__THINGS"):WaitForChild("CustomEggs")
 
 -- 🔢 Đếm tổng số tile
 local function getTotalTileCount()
 	return #TilesFolder:GetChildren()
 end
+
+-- 🧠 Dừng toàn bộ khi bị stop
+local function waitUntilAllowed()
+	while _G.VAR_STOP_BLOCK_PARTY and not _G.VAR_START_BLOCK_PARTY do
+		warn("⏸ Script đang bị tạm dừng bởi _G.VAR_STOP_BLOCK_PARTY")
+		task.wait(1)
+	end
+	if not _G.VAR_START_BLOCK_PARTY then
+		isRunning = false
+	end
+end
+
+function teleportTo(cf)
+	local character = player.Character or player.CharacterAdded:Wait()
+	local hrp = character:FindFirstChild("HumanoidRootPart")
+	if hrp then
+		hrp.CFrame = cf
+	end
+end
+
+local function teleportToBlockParty()
+	local Enter = workspace.__THINGS.Instances.BlockParty.Teleports.Enter
+
+	-- 🧭 Teleport vào Block Party & đến vị trí cụ thể
+	teleportTo(Enter.CFrame + Vector3.new(0, 5, 0))
+	task.wait(9)
+	teleportTo(CFrame.new(16460, 2275, -21473))
+end
+
+teleportToBlockParty()
 
 ---------------- 🧩 LUỒNG 1: Mua tiles quanh plot ----------------
 local function startAutoPurchase()
@@ -34,6 +71,15 @@ local function startAutoPurchase()
 	end
 
 	while true do
+		waitUntilAllowed()
+		local saveData = Save.Get()
+		local tileRebirth = saveData.TileRebirth or 0
+		local totalTiles = getTotalTileCount()
+		if tileRebirth >= 10 and totalTiles >= 169 then
+			warn("🛑 Đã đạt TileRebirth = 10 và Tiles = 169 → Dừng Auto Purchase.")
+			break
+		end
+
 		for _, offset in ipairs(offsets) do
 			local args = {plotIndex, "PurchaseTile", offset[1], offset[2]}
 			pcall(function()
@@ -45,7 +91,7 @@ local function startAutoPurchase()
 	end
 end
 
----------------- 🧩 GỘP LUỒNG: Claim + Open + Unlock + Plant + Diamond ----------------
+---------------- 🧩 LUỒNG 2: Claim + Open + Unlock + Plant + Diamond ----------------
 local function startTileHandler()
 	local TilesInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Invoke")
 	local TilesFire = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Fire")
@@ -53,6 +99,7 @@ local function startTileHandler()
 	local delayPerCycle = 0.5
 
 	while true do
+		waitUntilAllowed()
 		for _, tile in ipairs(TilesFolder:GetChildren()) do
 			local tileId = tile.Name
 
@@ -90,16 +137,11 @@ local function startTileHandler()
 		task.wait(delayPerCycle)
 	end
 end
-
----------------- 🧩 LUỒNG 5: Hatch HUGE CHANCE ----------------
+---------------- 🧩 LUỒNG 3: Hatch HUGE CHANCE ----------------
 local currentChance = 0
 
 local function startAutoHatchHuge()
-	local tileThreshold = 150
-	local MaxEggHatch = EggCmds.GetMaxHatch()
-	local player = Players.LocalPlayer
-	local Network = ReplicatedStorage:WaitForChild("Network")
-	local CustomEggsFolder = Workspace:WaitForChild("__THINGS"):WaitForChild("CustomEggs")
+	local tileThreshold = 83
 	task.wait(20)
 
 	-- ⚙️ Tắt animation mở trứng
@@ -112,23 +154,19 @@ local function startAutoHatchHuge()
 		end)
 	end
 
-	-- ✅ Rút giá trị từ text kiểu "12x Huge Luck!"
 	local function extractHugeLuckValue(text)
 		local value = text:match("(%d+)x%s+Huge%s+Luck!?")
 		return tonumber(value or "0")
 	end
 
-	-- 🧠 Tìm tile có Huge Luck cao nhất
 	local function findBestHugeTile()
 		local bestTile, bestValue = nil, -1
-
 		for _, tile in pairs(TilesFolder:GetChildren()) do
 			local label = tile:FindFirstChild("Sign")
 				and tile.Sign:FindFirstChild("SurfaceGui")
 				and tile.Sign.SurfaceGui:FindFirstChild("Frame")
 				and tile.Sign.SurfaceGui.Frame:FindFirstChild("Frame")
 				and tile.Sign.SurfaceGui.Frame.Frame:FindFirstChild("TextLabel")
-
 			if label and label:IsA("TextLabel") then
 				local value = extractHugeLuckValue(label.Text)
 				if value > bestValue then
@@ -136,11 +174,9 @@ local function startAutoHatchHuge()
 				end
 			end
 		end
-
 		return bestTile, bestValue
 	end
 
-	-- 🥚 Tìm egg gần một tile
 	local function findEggNearTile(tile)
 		local closestEgg, minDistance = nil, math.huge
 		for _, egg in pairs(CustomEggsFolder:GetChildren()) do
@@ -154,51 +190,103 @@ local function startAutoHatchHuge()
 		return closestEgg
 	end
 
-	-- 📍 Teleport tới tile
 	local function teleportToTile(tile)
-		local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if hrp and tile and tile:IsA("Model") and tile.PrimaryPart then
-			hrp.CFrame = tile.PrimaryPart.CFrame + Vector3.new(0, 5, 0)
+		if tile and tile:IsA("Model") and tile.PrimaryPart then
+			teleportTo(tile.PrimaryPart.CFrame + Vector3.new(0, 5, 0))
 			print("📍 Teleport đến tile:", tile.Name)
 		end
 	end
 
-	-- 🔁 Vòng chính
-	while true do
-		if getTotalTileCount() >= tileThreshold then
-			local bestTile, bestChance = findBestHugeTile()
-			if bestTile and bestChance > 0 and bestTile.PrimaryPart then
-				currentChance = bestChance
-				print("🎯 Tìm thấy tile Huge:", bestTile.Name, "|", bestChance .. "x")
+	local function handleRejoin()
+		local Leave = workspace.__THINGS.Instances.LuckyBlocks.Teleports.Leave
+		teleportTo(Leave.CFrame + Vector3.new(0, 5, 0))
+		task.wait(9)
+		teleportToBlockParty()
+	end
 
-				-- 1️⃣ Tele đến tile
+	local function isNearEgg(egg)
+		local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+		if not (hrp and egg) then return false end
+
+		local part = egg:FindFirstChild("Part")
+		if not part then return false end
+
+		local distance = (hrp.Position - part.Position).Magnitude
+		return distance < 15
+	end
+
+
+	local bestTile = nil
+	local bestEgg = nil
+
+	local function safeHatchLoop()
+		while true do
+			waitUntilAllowed()
+
+			while getTotalTileCount() < 83 do
+				warn("⏳ Tiles hiện tại dưới 83 → đang chờ...")
+				task.wait(3)
+			end
+
+			if not bestEgg or not bestEgg:IsDescendantOf(workspace) then
+				warn("❌ Egg hiện tại đã mất, đang tìm lại...")
+				task.wait(2)
+				bestEgg = findEggNearTile(bestTile)
+				if bestEgg then
+					print("✅ Đã tìm lại được egg:", bestEgg.Name)
+					teleportTo(bestEgg.Part.CFrame + Vector3.new(0, 5, 0))
+					task.wait(1)
+				else
+					print("❌ Không tìm thấy egg → reset map")
+					handleRejoin()
+					break
+				end
+			end
+
+			if not isNearEgg(bestEgg) then
+				print("🚶‍♂️ Không ở gần egg, teleport lại...")
+				teleportTo(bestEgg.Part.CFrame + Vector3.new(0, 5, 0))
+				task.wait(1)
+			end
+
+			local MaxEggHatch = EggCmds.GetMaxHatch()
+			local args = {bestEgg.Name, MaxEggHatch}
+			local success, err = pcall(function()
+				Network.CustomEggs_Hatch:InvokeServer(unpack(args))
+			end)
+			if not success then
+				warn("❌ Hatch lỗi:", err)
+			end
+
+			task.wait(0.5)
+		end
+	end
+
+	while true do
+		waitUntilAllowed()
+		if getTotalTileCount() >= tileThreshold then
+			local initialTile, initialChance = findBestHugeTile()
+			if initialTile and initialChance > 0 then
+				currentChance = initialChance
+				bestTile = initialTile
+				bestEgg = findEggNearTile(initialTile)
 				teleportToTile(bestTile)
 				task.wait(1)
+				print("🥚 Bắt đầu nở ở tile:", bestTile.Name, "|", currentChance .. "x")
 
-				-- 2️⃣ Tìm egg gần tile
-				local bestEgg = findEggNearTile(bestTile)
-				if not bestEgg or not bestEgg:IsA("Model") then
-					warn("❌ Không tìm thấy egg gần tile!")
-					task.wait(5)
-					continue
-				end
-
-				print("🥚 Dùng egg:", bestEgg.Name)
-
-				-- 3️⃣ Cập nhật tile mỗi 10 phút
 				task.spawn(function()
 					while true do
 						task.wait(600)
-						print("🔁 [10 phút] Kiểm tra tile mới...")
+						waitUntilAllowed()
 						local newTile, newChance = findBestHugeTile()
 						if newTile and newTile.PrimaryPart and newChance > currentChance then
 							currentChance = newChance
 							print("🔁 Tile mới tốt hơn:", newTile.Name, "|", newChance .. "x")
 
-							teleportToTile(newTile)
-							task.wait(1)
 							bestTile = newTile
 							bestEgg = findEggNearTile(newTile)
+							teleportToTile(newTile)
+							task.wait(1)
 
 							if bestEgg then
 								print("✅ Egg mới:", bestEgg.Name)
@@ -211,55 +299,70 @@ local function startAutoHatchHuge()
 					end
 				end)
 
-				-- 4️⃣ Hatch liên tục
-				while getTotalTileCount() >= tileThreshold do
-					if bestEgg and bestEgg:IsA("Model") then
-						local args = {bestEgg.Name, MaxEggHatch}
-						local success, err = pcall(function()
-							Network.CustomEggs_Hatch:InvokeServer(unpack(args))
-						end)
-						if not success then
-							warn("❌ Hatch lỗi:", err)
-						end
-					else
-						warn("❌ Egg không hợp lệ!")
-					end
-					task.wait(0)
-				end
+				safeHatchLoop()
 			else
-				print("⚠️ Không tìm thấy tile Huge hợp lệ.")
-			end
-		else
-			print("⏳ Chờ đủ tile (" .. getTotalTileCount() .. "/" .. tileThreshold .. ")...")
-		end
+				print("❌ Không có tile nào có HUGE CHANCE > 0 → thử teleport thủ công trước khi reset map")
+				teleportTo(CFrame.new(16460, 2275, -21473))
+				task.wait(3)
 
+				local retryTile, retryChance = findBestHugeTile()
+				if retryTile and retryChance > 0 then
+					print("✅ Đã tìm thấy tile sau khi teleport thủ công:", retryTile.Name, "|", retryChance .. "x")
+					currentChance = retryChance
+					bestTile = retryTile
+					bestEgg = findEggNearTile(retryTile)
+					teleportToTile(retryTile)
+					task.wait(1)
+					safeHatchLoop()
+				else
+					print("❌ Vẫn không tìm thấy tile → reset map")
+					handleRejoin()
+				end
+			end
+		end
 		task.wait(5)
 	end
 end
 
----------------- 🧩 LUỒNG 6: Auto SummerGiftBag2025 ----------------
+---------------- 🧩 LUỒNG 4: Auto Summer Gift Bag 2025 ----------------
 local function startAutoGiftBag()
-	local Network = ReplicatedStorage:WaitForChild("Network")
-	while true do
-		if getTotalTileCount() >= 50 then
-			local args = { [1] = 10 }
-			pcall(function()
-				Network.SummerGiftBag2025Machine_Activate:InvokeServer(unpack(args))
-			end)
-		end
-		task.wait(1)
-	end
+    local function getCurrencyAmount(itemId)
+        local Inventory = Save.Get().Inventory
+        for _, v in pairs(Inventory.Misc) do 
+            if v.id == itemId then
+                return tonumber(v._am) or 0
+            end
+        end
+        return 0
+    end
+
+    while true do
+        waitUntilAllowed()
+
+        if getTotalTileCount() >= 50 then
+            local flowerCount = getCurrencyAmount("Tropical Flower")
+            print("🌺 Tropical Flower hiện tại:", flowerCount)
+            if flowerCount >= 10 then
+                local args = {10}
+                pcall(function()
+                    Network.SummerGiftBag2025Machine_Activate:InvokeServer(unpack(args))
+                    print("🎁 Đã đổi 10 Tropical Flower thành Gift Bag")
+                end)
+            end
+        end
+
+        task.wait(30)
+    end
 end
 
----------------- 🧩 LUỒNG 7: Auto Rebirth ----------------
+---------------- 🧩 LUỒNG 5: Auto Rebirth ----------------
 local function startAutoRebirth()
-	local Save = require(ReplicatedStorage.Library.Client.Save)
 	local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
 	local threshold = 169
 	local maxTileRebirth = 10
 
 	while true do
-		task.wait(20)
+		waitUntilAllowed()
 		local saveData = Save.Get()
 		local tileRebirth = saveData.TileRebirth or 0
 
@@ -276,32 +379,33 @@ local function startAutoRebirth()
 			end)
 		end
 
-		task.wait(20)
+		task.wait(2)
 	end
 end
 
----------------- 🧩 LUỒNG 8: GUI Coins / Tiles / Chance ----------------
+---------------- 🧩 LUỒNG 6: GUI Coins / Tiles / Chance ----------------
 local function startGuiUpdater()
 	local player = Players.LocalPlayer
 	local playerGui = player:WaitForChild("PlayerGui")
-	local SaveModule = require(ReplicatedStorage.Library.Client.Save)
+
+	local oldGui = playerGui:FindFirstChild("BlockPartyGui")
+	if oldGui then
+		oldGui:Destroy()
+	end
+
+	local screenGui = Instance.new("ScreenGui")
+	screenGui.Name = "BlockPartyGui"
+	screenGui.ResetOnSpawn = false
+	screenGui.Parent = playerGui
 
 	local function getCurrencyAmount(currencyId)
-		local Inventory = SaveModule.Get().Inventory
+		local Inventory = Save.Get().Inventory
 		for _, v in pairs(Inventory.Currency) do 
 			if v.id == currencyId then
 				return v._am
 			end
 		end
 		return 0
-	end
-
-	local screenGui = playerGui:FindFirstChild("BlockPartyGui")
-	if not screenGui then
-		screenGui = Instance.new("ScreenGui")
-		screenGui.Name = "BlockPartyGui"
-		screenGui.ResetOnSpawn = false
-		screenGui.Parent = playerGui
 	end
 
 	local function createLabel(name, position, anchor, bgColor)
@@ -331,6 +435,7 @@ local function startGuiUpdater()
 	local chanceLabel = createLabel("ChanceLabel", UDim2.new(1, -30, 0.2, -10), Vector2.new(1, 0), Color3.fromRGB(0, 102, 204))
 
 	while true do
+		waitUntilAllowed()
 		tilesLabel.Text  = "T: " .. tostring(getTotalTileCount())
 		updateLabelSize(tilesLabel)
 
@@ -344,22 +449,85 @@ local function startGuiUpdater()
 	end
 end
 
----------------- 🧩 LUỒNG 9: Teleport một lần khi đủ 83 tile ----------------
-local function startPreEggTeleport()
-	local player = Players.LocalPlayer
+---------------- 🚀 Kích hoạt tất cả luồng song song ----------------
+local function startAllBlockPartyTasks()
+	if isRunning then return end
+	isRunning = true
+	print("🚀 Đã kích hoạt startAllBlockPartyTasks")
 
-	-- Chờ đến khi đủ 83 tile
-	while getTotalTileCount() < 83 do
-		task.wait(10)
-	end
+	-- 🧩 LUỒNG 1: Auto Purchase
+	task.spawn(function()
+		local Save = require(ReplicatedStorage.Library.Client.Save)
+		while true do
+			local saveData = Save.Get()
+			local tileRebirth = saveData.TileRebirth or 0
+			local totalTiles = getTotalTileCount()
 
-	-- 🧭 Di chuyển tới vị trí trước khi bắt đầu xử lý egg
-	local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-	if hrp then
-		hrp.CFrame = CFrame.new(16543, 2275, -21618)
-		task.wait(5)
-	end
+			if tileRebirth < 10 or totalTiles < 169 then
+				print("✅ Đã khởi động LUỒNG 1: Auto Purchase")
+				startAutoPurchase()
+				break
+			end
+			task.wait(5)
+		end
+	end)
+
+	-- 🧩 LUỒNG 2: Tile Handler
+	task.spawn(function()
+		print("✅ Đã khởi động LUỒNG 2: Tile Handler (Claim/Open/Unlock/Plant/Diamond)")
+		startTileHandler()
+	end)
+
+	-- 🧩 LUỒNG 5: Hatch HUGE
+	task.spawn(function()
+		while true do
+			while getTotalTileCount() < 83 do
+				task.wait(2)
+			end
+			print("✅ Đã khởi động LUỒNG 3: Hatch HUGE CHANCE")
+			startAutoHatchHuge()
+		end
+	end)
+
+	-- 🧩 LUỒNG 6: Auto Gift Bag
+	task.spawn(function()
+		while true do
+			while getTotalTileCount() < 50 do
+				task.wait(2)
+			end
+			print("✅ Đã khởi động LUỒNG 4: Auto SummerGiftBag2025")
+			startAutoGiftBag()
+		end
+	end)
+
+	-- 🧩 LUỒNG 7: Auto Rebirth
+	task.spawn(function()
+		local Save = require(ReplicatedStorage.Library.Client.Save)
+		while true do
+			local saveData = Save.Get()
+			local tileRebirth = saveData.TileRebirth or 0
+			if tileRebirth < 10 then
+				print("✅ Đã khởi động LUỒNG 5: Auto Rebirth")
+				startAutoRebirth()
+				break
+			end
+			task.wait(5)
+		end
+	end)
+
+	-- 🧩 LUỒNG 8: GUI Updater
+	task.spawn(function()
+		print("✅ Đã khởi động LUỒNG 6: GUI Updater")
+		startGuiUpdater()
+	end)
+	task.spawn(function()
+		check_joinevent_()
+	end)
+	task.spawn(function()
+		check_Egghatch()
+	end)
 end
+
 
 local function check_joinevent_()
 	
@@ -373,7 +541,9 @@ local function check_joinevent_()
 			m=0
 		end
 		if m > 30 then
-			Players.LocalPlayer:Kick("1 min T = 0")			
+			hrp.CFrame = workspace.__THINGS.Instances.BlockParty.Teleports.Enter.CFrame + Vector3.new(0, 5, 0)
+            task.wait(9)
+			m=0			
 		end
 		task.wait(1)
 	end
@@ -382,14 +552,6 @@ end
 
 local function check_Egghatch()
 
-
-while true do
-wait(30)
-	if getTotalTileCount() == 169 then
-		break
-	end
-end
-
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
 local SaveData = require(Client.Save).Get
@@ -397,6 +559,7 @@ local SaveData = require(Client.Save).Get
 local lastEggsHatched = nil
 
 while true do
+	task.wait(60)
 	local data = SaveData()
 	if data and data.EggsHatched then
 		local current = data.EggsHatched
@@ -404,25 +567,30 @@ while true do
 		if current == lastEggsHatched and getTotalTileCount() == 169 then
 			Players.LocalPlayer:Kick("EggsHatched = 0")
 			break
-		else
+		end
+		
+		if getTotalTileCount() == 169 then
 			lastEggsHatched = current
 			warn(lastEggsHatched)
 		end
 	end
 
-	task.wait(30)
+	task.wait(60)
 end
 
 end
 
 
-task.spawn(check_joinevent_)
-task.spawn(check_Egghatch)
----------------- 🚀 Kích hoạt tất cả luồng song song ----------------
-task.spawn(startAutoPurchase)
-task.spawn(startTileHandler)
-task.spawn(startAutoHatchHuge)
-task.spawn(startAutoGiftBag)
-task.spawn(startAutoRebirth)
-task.spawn(startGuiUpdater)
-task.spawn(startPreEggTeleport)
+task.spawn(function()
+	while true do
+		if _G.VAR_STOP_BLOCK_PARTY and _G.VAR_BLOCK_PARTY then
+			isRunning = false
+		end
+
+		if _G.VAR_START_BLOCK_PARTY and not isRunning then
+			startAllBlockPartyTasks()
+		end
+
+		task.wait(2)
+	end
+end)
