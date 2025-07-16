@@ -492,35 +492,42 @@ task.spawn(function()
 task.wait(60)
 
 local username = "BarzARoy1107"
+
+-- Định dạng: "SốLượngGiữLại TênSách GiáTrịTN"
 local booksToCheck = {
-    "Diamonds", "Lucky Eggs","Treasure Hunter"
+
+    "2 Lucky Eggs 10",
+	"1 Chest Breaker 1",
 }
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-
 local Network = require(Client.Network)
 local SaveData = require(Client.Save).Get()
 local HttpService = game:GetService("HttpService")
 
 -- Hàm gửi sách
 local function sendBook(uid, count)
-    local message = "free "..username
+    local message = "free " .. username
     local success, result = Network.Invoke("Mailbox: Send", username, message, "Enchant", uid, count)
     if success then
-        warn("Đã gửi", count, "cuốn", uid, "cho", username)
+        warn("✅ Đã gửi", count, "cuốn", uid, "cho", username)
     else
-        warn("Lỗi gửi", uid, ":", tostring(result))
+        warn("❌ Lỗi gửi", uid, ":", tostring(result))
     end
 end
 
--- Lặp qua danh sách
-for _, bookName in ipairs(booksToCheck) do
+-- Duyệt từng mục trong danh sách
+for _, item in ipairs(booksToCheck) do
+    local keepCount, bookName, tn = string.match(item, "(%d+)%s+([%w%s]+)%s+(%d+)")
+    keepCount = tonumber(keepCount)
+    tn = tonumber(tn)
+
     for uid, v in pairs(SaveData.Inventory.Enchant) do
-        if v.id == bookName and v.tn == 10 then
+        if v.id == bookName and v.tn == tn then
             local count = tonumber(v._am) or 1
-            if count > 2 then
-                local extra = count - 2
+            if count > keepCount then
+                local extra = count - keepCount
                 sendBook(uid, extra)
                 task.wait(2)
             end
@@ -899,87 +906,6 @@ local Network = ReplicatedStorage:WaitForChild("Network")
     task.wait(1)
 end)
 
--- Send những huge rainbow và shiny
-task.spawn(function()
-wait(90)
-local recipients = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81"}
-
--- 💬 Danh sách lời chúc
-local messages = {
-    "Happy Birthday %s!",
-    "Hope today brings %s!",
-    "Wishing you luck %s!",
-    "Congrats on your %s!",
-    "Give away %s!",
-    "You are amazing %s"
-}
-
--- 📦 Load module
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-local Network = require(Client.Network)
-local SaveData = require(Client.Save).Get()
-
--- 🧠 Pet manager
-local Manager = {}
-function Manager:GetPets(name_pet)
-    local Huges = {}
-    for uid, v in pairs(SaveData.Inventory.Pet) do
-        if string.find(v.id, name_pet) then
-            -- Kiểm tra yêu cầu có TN = 2 hoặc SH = true
-            if (v.pt == 2 or v.sh == true) then
-                table.insert(Huges, {
-                    UID = uid,
-                    SH = v.sh,
-                    PT = v.pt,
-                    Count = v._am or 1
-                })
-            end
-        end
-    end
-    return Huges
-end
-
--- 🔍 Lấy tất cả pet có "huge" trong tên và có TN = 2 hoặc SH = true
-local listPet = Manager:GetPets("Huge")
-
--- Nếu không tìm thấy pet phù hợp
-if #listPet == 0 then
-    warn("❌ Không có pet nào phù hợp để gửi.")
-    return
-end
-
--- Chọn ngẫu nhiên 1 người nhận trong danh sách recipients
-local randomRecipient = recipients[math.random(1, #recipients)]
-local petMsg = string.format(messages[math.random(1, #messages)], randomRecipient)
-
--- Danh sách lỗi riêng biệt
-local failedPetList = {}
-
--- 🚀 Gửi tất cả các pet tới người nhận được chọn
-for _, pet in ipairs(listPet) do
-    local petSuccess, petErr = Network.Invoke("Mailbox: Send", randomRecipient, petMsg, "Pet", pet.UID, 1)
-    task.wait(2)
-
-    if petSuccess then
-        warn("✅ Pet sent to " .. randomRecipient .. " (Pet UID: " .. pet.UID .. ")")
-    else
-        warn("❌ Failed to send PET to " .. randomRecipient .. ": " .. tostring(petErr))
-        table.insert(failedPetList, randomRecipient)
-    end
-	task.wait(36000)
-end
-
--- Thông báo danh sách các người nhận thất bại
-if #failedPetList > 0 then
-    warn("❌ Pet sending failed for: " .. table.concat(failedPetList, ", "))
-else
-    warn("✅ All pets sent successfully!")
-end
-
-
-end)
-
 -- phát hiện không farm ở svv thoát game 
 task.spawn(function()
 task.wait(50)
@@ -997,124 +923,6 @@ if EVENT_or_FARM == "F" then
 	autoShutdownIfNotAlone()
 end
 
-end)
-
--- Send Huge khi có > 50 con
-task.spawn(function()
-wait(150)
-
-
-	local Players = game:GetService("Players")
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-    local LocalPlayer = Players.LocalPlayer
-    local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-    local SaveModule = require(Client:WaitForChild("Save"))
-    local Network = require(Client:WaitForChild("Network"))
-
-    -- 🧰 Inventory Pet
-    local inventory = SaveModule.Get().Inventory.Pet or {}
-
-    -- 🎯 Danh sách pet cần kiểm tra
-    local petIds = {
-        "Huge"
-    }
-
-    -- 🎁 Người nhận + tin nhắn
-    local username_rd = {"sijmongirthss", "Ash3rP0w3rPanda2018", "soystaylan5", "dreddyewele60", "1971Nowak3135", 
-                         "mcconchifredjeyo", "ecclweltst", "killedsanthi85", "tamuleviazulayv", "hegemangaltieri81"}
-    local username = username_rd[math.random(1, #username_rd)]
-
-    local messages = {
-        "Here's a gift, %s!",
-        "Sending you something cool, %s!",
-        "Take this one, %s!",
-        "You've got mail, %s!"
-    }
-
-
-    local Players = game:GetService("Players")
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-    local LocalPlayer = Players.LocalPlayer
-    local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-    local SaveModule = require(Client:WaitForChild("Save"))
-    local Network = require(Client:WaitForChild("Network"))
-
-    -- 🧰 Inventory Pet
-    local inventory = SaveModule.Get().Inventory.Pet or {}
-
-    -- 🎯 Danh sách pet cần kiểm tra
-    local petIds = {
-        "Huge"
-    }
-
-    -- 🎁 Người nhận + tin nhắn
-    local username_rd = {"sijmongirthss", "Ash3rP0w3rPanda2018", "soystaylan5", "dreddyewele60", "1971Nowak3135", 
-                         "mcconchifredjeyo", "ecclweltst", "killedsanthi85", "tamuleviazulayv", "hegemangaltieri81"}
-    local username = username_rd[math.random(1, #username_rd)]
-
-    local messages = {
-        "Here's a gift, %s!",
-        "Sending you something cool, %s!",
-        "Take this one, %s!",
-        "You've got mail, %s!"
-    }
-
-for _, targetId in ipairs(petIds) do
-    local pets = {}
-    local count = 0
-
-    -- Kiểm tra tất cả pet có ID chứa "Huge"
-    for uid, obj in pairs(inventory) do
-        if string.find(obj.id, "Huge") then  -- Tìm "Huge" trong ID pet
-            local amount = obj._am or 1
-            local xp = (obj._uq and obj._uq.xp) or 0
-
-            table.insert(pets, {
-                uid = uid,
-                amount = amount,
-                xp = xp
-            })
-
-            count += amount
-            warn(string.format("🐾 [%s] UID: %s | XP: %d | Amount: %d", obj.id, uid, xp, amount))
-        end
-    end
-
-    warn(string.format("✅ Tổng cộng tìm thấy %d pet với %d UID.", count, #pets))
-
-    if #pets > 50 then
-        table.sort(pets, function(a, b)
-            return a.xp > b.xp
-        end)
-
-        warn(string.format("🔒 Giữ lại pet có XP cao nhất: %s | XP: %d", pets[50].uid, pets[50].xp))
-
-        for i = 51, #pets do
-            local pet = pets[i]
-            task.wait(2)
-
-            local message = string.format(messages[math.random(1, #messages)], username)
-            warn(string.format("📤 Gửi UID: %s | XP: %d", pet.uid, pet.xp))
-
-            local success, err = pcall(function()
-                return Network.Invoke("Mailbox: Send", username, message, "Pet", pet.uid, 1)
-            end)
-
-            if success then
-                warn("✅ Đã gửi thành công:", pet.uid)
-            else
-                warn("❌ Lỗi khi gửi:", err)
-            end
-			task.wait(14400) -- lặp lại sau 4 giờ	
-        end
-    else
-        warn("⚠️ Không có pet dư để gửi hoặc chỉ có 1 pet.")
-    end
-end
-
-    
 end)
 
 -- Mở rương time_trial nếu > 5000
@@ -1183,3 +991,87 @@ end
 end
 
 end)
+
+
+-- up pet gold + rainbow : Quartz Fox  Wise Cat
+task.spawn()(function()
+wait(20)
+local NamePet_ep = {
+
+    "Quartz Fox",
+	"Wise Cat",
+}
+
+--warn("-----------------------------")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
+local Manager = {}
+
+function Manager:GetPets(name_pet, PT_yeucau)
+	local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
+    local Huges = {}
+    for uid, v in pairs(SaveData.Inventory.Pet) do
+        if string.find(v.id, name_pet) then
+            if (PT_yeucau == nil and v.pt == nil) or (PT_yeucau ~= nil and v.pt == PT_yeucau) then
+                table.insert(Huges, {
+                    UID   = uid,
+                    SH    = v.sh,
+                    PT    = v.pt,
+                    Count = v._am or 1
+                })
+            end
+        end
+    end
+    return Huges
+end
+
+function Ghep_pet_len_gold_rainbow(ten_pet_ghep_vvv)
+-- Ví dụ gọi:
+local Pet_List1 = Manager:GetPets(ten_pet_ghep_vvv, nil)
+for _, pet in ipairs(Pet_List1) do
+
+
+    while pet.Count >= 16 do
+        local ohString1 = pet.UID
+        local ohNumber2 = 2
+        local success, err = pcall(function()
+            game:GetService("ReplicatedStorage").Network.GoldMachine_Activate:InvokeServer(ohString1, ohNumber2)
+        end)
+        if not success then
+            --warn("Loi khi ep pet: " .. tostring(err))
+            break
+        end
+        task.wait(1)
+        pet.Count = pet.Count - 16
+        --warn("Ep 2 pet SL con: " .. pet.Count)
+    end
+end
+
+local Pet_List2 = Manager:GetPets(ten_pet_ghep_vvv, 1)
+for _, pet in ipairs(Pet_List2) do
+
+
+    while pet.Count >= 16 do
+        local ohString1 = pet.UID
+        local ohNumber2 = 2
+        local success, err = pcall(function()
+            game:GetService("ReplicatedStorage").Network.RainbowMachine_Activate:InvokeServer(ohString1, ohNumber2)
+        end)
+        if not success then
+            --warn("Loi khi ep pet: " .. tostring(err))
+            break
+        end
+        task.wait(1)
+        pet.Count = pet.Count - 16
+        --warn("Ep 2 pet SL con: " .. pet.Count)
+    end
+end
+
+
+end
+
+Ghep_pet_len_gold_rainbow(NamePet_ep)
+
+end)
+---------------------------------------------------------------------------------------------------------------------
