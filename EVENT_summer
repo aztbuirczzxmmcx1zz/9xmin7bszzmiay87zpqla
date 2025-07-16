@@ -1,6 +1,11 @@
 _G.VAR_STOP_BLOCK_PARTY = false
 _G.VAR_START_BLOCK_PARTY = true
 
+if _G.VAR_BLOCK_PARTY then
+	warn("⛔ Script đã được chạy trước đó!")
+	return
+end
+
 _G.VAR_BLOCK_PARTY = true
 local isRunning = false
 
@@ -428,16 +433,16 @@ local function startGuiUpdater()
 		label.Size = UDim2.new(0, label.TextBounds.X + 20, 0, 38)
 	end
 
-	local tilesLabel  = createLabel("TilesLabel",  UDim2.new(0, -10, 0.2, -10), Vector2.new(0, 0), Color3.fromRGB(0, 128, 0))
-	local coinsLabel  = createLabel("CoinsLabel",  UDim2.new(0.5, -15, 0.2, -10), Vector2.new(0.5, 0), Color3.fromRGB(255, 165, 0))
-	local chanceLabel = createLabel("ChanceLabel", UDim2.new(1, -30, 0.2, -10), Vector2.new(1, 0), Color3.fromRGB(0, 102, 204))
+	local tilesLabel  = createLabel("TilesLabel",  UDim2.new(0, -10, 0, -10), Vector2.new(0, 0), Color3.fromRGB(0, 128, 0))
+	local coinsLabel  = createLabel("CoinsLabel",  UDim2.new(0.5, -15, 0, -10), Vector2.new(0.5, 0), Color3.fromRGB(255, 165, 0))
+	local chanceLabel = createLabel("ChanceLabel", UDim2.new(1, -30, 0, -10), Vector2.new(1, 0), Color3.fromRGB(0, 102, 204))
 
 	while true do
 		waitUntilAllowed()
-		tilesLabel.Text  = "T: " .. tostring(getTotalTileCount())
+		tilesLabel.Text  = "TILES: " .. tostring(getTotalTileCount())
 		updateLabelSize(tilesLabel)
 
-		coinsLabel.Text  = "C: " .. tostring(getCurrencyAmount("BlockPartyCoins"))
+		coinsLabel.Text  = "COINS: " .. tostring(getCurrencyAmount("BlockPartyCoins"))
 		updateLabelSize(coinsLabel)
 
 		chanceLabel.Text = tostring(currentChance) .. "x HUGE"
@@ -446,6 +451,60 @@ local function startGuiUpdater()
 		task.wait(1)
 	end
 end
+
+
+function check_joinevent_()
+	
+	m=0
+	while true do
+		task.wait(1)
+		if getTotalTileCount() == 0 then
+			m=m+1
+		end
+		if getTotalTileCount() ~= 0 then
+			m=0
+		end
+		if m > 30 then
+			local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
+			hrp.CFrame = workspace.__THINGS.Instances.BlockParty.Teleports.Enter.CFrame + Vector3.new(0, 5, 0)
+            task.wait(9)
+			m=0			
+		end
+		task.wait(1)
+	end
+
+end
+
+function check_Egghatch()
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local SaveData = require(Client.Save).Get
+
+local lastEggsHatched = nil
+
+while true do
+	task.wait(60)
+	local data = SaveData()
+	if data and data.EggsHatched then
+		local current = data.EggsHatched
+
+		if current == lastEggsHatched and getTotalTileCount() == 169 then
+			Players.LocalPlayer:Kick("EggsHatched = 0")
+			break
+		end
+		
+		if getTotalTileCount() == 169 then
+			lastEggsHatched = current
+			warn(lastEggsHatched)
+		end
+	end
+
+	task.wait(60)
+end
+
+end
+
 
 ---------------- 🚀 Kích hoạt tất cả luồng song song ----------------
 local function startAllBlockPartyTasks()
@@ -518,73 +577,25 @@ local function startAllBlockPartyTasks()
 		print("✅ Đã khởi động LUỒNG 6: GUI Updater")
 		startGuiUpdater()
 	end)
-	
 	task.spawn(function()
+		print("✅ Đã khởi check_joinevent_")
 		check_joinevent_()
 	end)
 	task.spawn(function()
+		print("✅ Đã khởi check_Egghatch")
 		check_Egghatch()
 	end)
 end
 
-
-local function check_joinevent_()
-	
-	m=0
-	while true do
-		task.wait(1)
-		if getTotalTileCount() == 0 then
-			m=m+1
-		end
-		if getTotalTileCount() ~= 0 then
-			m=0
-		end
-		if m > 30 then
-			hrp.CFrame = workspace.__THINGS.Instances.BlockParty.Teleports.Enter.CFrame + Vector3.new(0, 5, 0)
-            task.wait(9)
-			m=0			
-		end
-		task.wait(1)
-	end
-
-end
-
-local function check_Egghatch()
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-local SaveData = require(Client.Save).Get
-
-local lastEggsHatched = nil
-
-while true do
-	task.wait(60)
-	local data = SaveData()
-	if data and data.EggsHatched then
-		local current = data.EggsHatched
-
-		if current == lastEggsHatched and getTotalTileCount() == 169 then
-			Players.LocalPlayer:Kick("EggsHatched = 0")
-			break
-		end
-		
-		if getTotalTileCount() == 169 then
-			lastEggsHatched = current
-			warn(lastEggsHatched)
-		end
-	end
-
-	task.wait(60)
-end
-
-end
-
-
 task.spawn(function()
 	while true do
+		if _G.VAR_STOP_BLOCK_PARTY and _G.VAR_BLOCK_PARTY then
+			isRunning = false
+		end
 
+		if _G.VAR_START_BLOCK_PARTY and not isRunning then
 			startAllBlockPartyTasks()
-
+		end
 
 		task.wait(2)
 	end
