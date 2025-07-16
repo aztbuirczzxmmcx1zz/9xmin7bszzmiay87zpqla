@@ -1,4 +1,8 @@
-EVENT_or_FARM = "F"
+
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/1234_setting_E_F"))()	
+
+
 
 if _G.TAG then
     warn("Script đã được chạy trước đó!")
