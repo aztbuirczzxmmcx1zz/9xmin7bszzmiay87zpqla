@@ -376,6 +376,8 @@ local function startGuiUpdater()
 	end
 end
 
+
+
 local function check_joinevent_()
 	
 	m=0
@@ -397,32 +399,6 @@ local function check_joinevent_()
 
 end
 
-local function check_Egghatch()
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-local SaveData = require(Client.Save).Get
-
-local lastEggsHatched = nil
-
-while true do
-	local data = SaveData()
-	if data and data.EggsHatched then
-		local current = data.EggsHatched
-
-		if current == lastEggsHatched and getTotalTileCount() > 151 then
-			Players.LocalPlayer:Kick("EggsHatched = 0")
-			break
-		else
-			lastEggsHatched = current
-			warn(lastEggsHatched)
-		end
-	end
-
-	task.wait(30)
-end
-
-end
 
 
 ---------------- 🚀 Kích hoạt tất cả luồng song song ----------------
@@ -438,6 +414,7 @@ local function startAllBlockPartyTasks()
 	task.spawn(startAutoGiftBag)
 	task.spawn(startAutoRebirth)
 	task.spawn(startGuiUpdater)
+	task.spawn(check_joinevent_)
 	
 end
 
@@ -455,3 +432,5 @@ task.spawn(function()
 		task.wait(2)
 	end
 end)
+
+
