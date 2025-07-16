@@ -994,7 +994,7 @@ end)
 
 
 -- up pet gold + rainbow : Quartz Fox  Wise Cat
-task.spawn()(function()
+task.spawn(function() 
 wait(20)
 local NamePet_ep = {
 
