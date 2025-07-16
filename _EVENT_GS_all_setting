@@ -1,4 +1,4 @@
-getgenv().GMIN_EGGS_TO_HATCH = 9999999999999
+--getgenv().GMIN_EGGS_TO_HATCH = 9999999999999
 
 getgenv().GLOOTBOXES = {"All"}
 
