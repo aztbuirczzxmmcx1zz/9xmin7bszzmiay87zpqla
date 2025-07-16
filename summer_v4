@@ -439,9 +439,6 @@ local function startAllBlockPartyTasks()
 	task.spawn(startAutoRebirth)
 	task.spawn(startGuiUpdater)
 	
-	task.spawn(check_joinevent_)
-	task.spawn(check_Egghatch)
-	
 end
 
 -- 🧪 Theo dõi _G để auto khởi động lại nếu START được bật
