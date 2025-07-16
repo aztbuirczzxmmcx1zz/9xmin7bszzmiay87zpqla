@@ -1,7 +1,5 @@
-if _G.VAR_BLOCK_PARTY then
-	warn("⛔ Script đã được chạy trước đó!")
-	return
-end
+_G.VAR_STOP_BLOCK_PARTY = false
+_G.VAR_START_BLOCK_PARTY = true
 
 _G.VAR_BLOCK_PARTY = true
 local isRunning = false
@@ -520,6 +518,7 @@ local function startAllBlockPartyTasks()
 		print("✅ Đã khởi động LUỒNG 6: GUI Updater")
 		startGuiUpdater()
 	end)
+	
 	task.spawn(function()
 		check_joinevent_()
 	end)
@@ -583,13 +582,9 @@ end
 
 task.spawn(function()
 	while true do
-		if _G.VAR_STOP_BLOCK_PARTY and _G.VAR_BLOCK_PARTY then
-			isRunning = false
-		end
 
-		if _G.VAR_START_BLOCK_PARTY and not isRunning then
 			startAllBlockPartyTasks()
-		end
+
 
 		task.wait(2)
 	end
