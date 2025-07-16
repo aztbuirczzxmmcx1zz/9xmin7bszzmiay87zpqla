@@ -114,7 +114,7 @@ end
 local currentChance = 0
 
 local function startAutoHatchHuge()
-	local tileThreshold = 83
+	local tileThreshold = 140
 	local MaxEggHatch = EggCmds.GetMaxHatch()
 	local player = Players.LocalPlayer
 	local Save = require(ReplicatedStorage.Library.Client.Save)
