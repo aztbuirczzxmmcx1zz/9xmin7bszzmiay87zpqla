@@ -7,7 +7,7 @@ getgenv().Settings = {
 ["Titanic Parrot"] = {Price = "11b", Priority = true },
 ["Titanic Sandcastle Kraken"] = {Price = "9b", Priority = true },
 ["Titanic Starlight Pony"] = {Price = "18b", Priority = true },
-["Golden Titanic Starlight Pony"] = {Price = "22b", Priority = true },
+["Golden Titanic Starlight Pony"] = {Price = "20b", Priority = true },
 ["Titanic Gym Piggy"] = {Price = "5.6b", Priority = true },
 
 ["Time Trial Gift"] = {Price = "200k", Priority = true},
@@ -19,20 +19,6 @@ getgenv().Settings = {
 ["Shiny Wise Cat"] = {Price = "+2%", Priority = true},
 ["Shiny Golden Wise Cat"] = {Price = "5%", Priority = true},
 ["Shiny Rainbow Wise Cat"] = {Price = "5%", Priority = true},
-
-["Gym Dragon"] = {Price = "+2%", Priority = true},
-["Golden Gym Dragon"] = {Price = "+2%", Priority = true},
-["Rainbow Gym Dragon"] = {Price = "+2%", Priority = true},
-["Shiny Gym Dragon"] = {Price = "+2%", Priority = true},
-["Shiny Golden Gym Dragon"] = {Price = "5%", Priority = true},
-["Shiny Rainbow Gym Dragon"] = {Price = "5%", Priority = true},
-
-["Gym Unicorn"] = {Price = "+2%", Priority = true},
-["Golden Gym Unicorn"] = {Price = "+2%", Priority = true},
-["Rainbow Gym Unicorn"] = {Price = "+2%", Priority = true},
-["Shiny Gym Unicorn"] = {Price = "+2%", Priority = true},
-["Shiny Golden Gym Unicorn"] = {Price = "5%", Priority = true},
-["Shiny Rainbow Gym Unicorn"] = {Price = "5%", Priority = true},
 
 ["Quartz Fox"] = {Price = "+2%", Priority = true},
 ["Golden Quartz Fox"] = {Price = "+2%", Priority = true},
@@ -59,7 +45,7 @@ getgenv().Settings = {
 
 ["Magic Shard"] = {Price = "+1%"},		
 
-["All Huges"]= { Price = "+5%"						,Min_sell = "10m", Max_sell = "70m",sold_by_convention = true},
+["All Huges"]= { Price = "+5%"						,Min_sell = "10m", Max_sell = "70m",sold_by_convention = true, Priority = true},
 ["Shiny Rainbow All Huges"]= { Price = "5%"				,Min_sell = "1.5b", Max_sell = "8b",sold_by_convention = true},
 ["Shiny Golden All Huges"]= { Price = "5%"				,Min_sell = "250m", Max_sell = "800m",sold_by_convention = true},
 ["Shiny All Huges"]= { Price = "+2%"					,Min_sell = "70m", Max_sell = "500m",sold_by_convention = true},
