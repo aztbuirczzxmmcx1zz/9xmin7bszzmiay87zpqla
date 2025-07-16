@@ -3,6 +3,7 @@ getgenv().Settings = {
 
 ["MVP Key"] = {Price = "+2%", Priority = true},
 
+["Titanic Sun Griffin"] = {Price = "7.5b", Priority = true },
 ["Titanic Parrot"] = {Price = "11b", Priority = true },
 ["Titanic Sandcastle Kraken"] = {Price = "9b", Priority = true },
 ["Titanic Starlight Pony"] = {Price = "18b", Priority = true },
