@@ -59,11 +59,11 @@ getgenv().Settings = {
 
 ["Magic Shard"] = {Price = "+1%"},		
 
-["Shiny Rainbow All Huges"]= { Price = "5%"				,Min_sell = "2b", Max_sell = "8b"},
+["Shiny Rainbow All Huges"]= { Price = "5%"				,Min_sell = "1.5b", Max_sell = "8b"},
 ["Shiny Golden All Huges"]= { Price = "5%"				,Min_sell = "250m", Max_sell = "800m"},
 ["Shiny All Huges"]= { Price = "+2%"					,Min_sell = "70m", Max_sell = "500m"},
 ["Rainbow All Huges"]= { Price = "+2%"					,Min_sell = "70m", Max_sell = "500m"},
-["Golden All Huges"]= { Price = "+2%"					,Min_sell = "12m", Max_sell = "100m"},
+["Golden All Huges"]= { Price = "+2%"					,Min_sell = "12m", Max_sell = "75m"},
 ["All Huges"]= { Price = "+5%"						,Min_sell = "10m", Max_sell = "70m"},
 
 		
