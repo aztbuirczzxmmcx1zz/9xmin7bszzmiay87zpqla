@@ -12,12 +12,7 @@ getgenv().Settings = {
 ["Time Trial Gift"] = {Price = "200k", Priority = true},
 ["Huge Machine Egg 5"] = {Price = "1%", Priority = true},
 
-["Wise Cat"] = {Price = "+2%", Priority = true},
-["Golden Wise Cat"] = {Price = "+2%", Priority = true},
-["Rainbow Wise Cat"] = {Price = "+2%", Priority = true},
-["Shiny Wise Cat"] = {Price = "+2%", Priority = true},
-["Shiny Golden Wise Cat"] = {Price = "5%", Priority = true},
-["Shiny Rainbow Wise Cat"] = {Price = "5%", Priority = true},
+
 
 ["Quartz Fox"] = {Price = "+2%", Priority = true},
 ["Golden Quartz Fox"] = {Price = "+2%", Priority = true},
