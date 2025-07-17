@@ -49,7 +49,7 @@ getgenv().Settings = {
 ["Shiny Golden All Huges"]= { Price = "5%"				,Min_sell = "250m", Max_sell = "800m",sold_by_convention = true},
 ["Shiny All Huges"]= { Price = "+2%"					,Min_sell = "70m", Max_sell = "500m",sold_by_convention = true},
 ["Rainbow All Huges"]= { Price = "+2%"					,Min_sell = "70m", Max_sell = "500m",sold_by_convention = true},
-["Golden All Huges"]= { Price = "+2%"					,Min_sell = "12m", Max_sell = "45m",sold_by_convention = true},
+["Golden All Huges"]= { Price = "2%"					,Min_sell = "12m", Max_sell = "45m",sold_by_convention = true},
 
 
 		
