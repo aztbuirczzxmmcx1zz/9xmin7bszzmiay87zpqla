@@ -33,7 +33,7 @@ getgenv().Settings = {
 ["Overload TN1"] = {Price = "8m", Priority = true},
 ["Charm Chisel"] = {Price = "150k", Priority = true},	
 
-["Chest Spell"] = {Price = "100m", Priority = true},	
+["Chest Spell"] = {Price = "95m", Priority = true},	
 
 ["Crystal Key"] = {Price = "10k", Priority = true},
 ["Tech Key"] = {Price = "33k", Priority = true},	
