@@ -39,7 +39,7 @@ Daily_run = getRunsUsed()
 
 
 
-if EVENT_or_FARM == "E" and rank > 19 and Daily_run == 10 then
+if EVENT_or_FARM == "E" and rank > 19 then
 		task.spawn(function() 
 			wait(60)
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/summer_v5"))()
