@@ -36,7 +36,7 @@ getgenv().Settings = {
 ["Chest Spell"] = {Price = "100m", Priority = true},	
 
 ["Crystal Key"] = {Price = "10k", Priority = true},
-["Tech Key"] = {Price = "35k", Priority = true},	
+["Tech Key"] = {Price = "33k", Priority = true},	
 ["Secret Key"] = {Price = "33k", Priority = true},	
 ["Void Key"] = {Price = "45k"},
 ["Hacker Key"] = {Price = "70k"},
