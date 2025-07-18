@@ -222,7 +222,7 @@ local function startAutoHatchHuge()
 				warn("❌ Hatch lỗi:", err)
 			end
 
-			task.wait(0.5)
+			task.wait(1.1)
 		end
 	end
 
