@@ -1,3 +1,4 @@
+wait(100)
 _G.VAR_BLOCK_PARTY = true
 local isRunning = false
 
