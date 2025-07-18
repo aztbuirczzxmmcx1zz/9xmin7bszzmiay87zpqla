@@ -82,7 +82,7 @@ end
 		
 
 
-		getgenv().GGFX_MODE = 3
+		--getgenv().GGFX_MODE = 3
 		script_key = "IAMAiZhmvPSarFAwYGimVtcLzrqIAnAQ";		
 		loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/ba2dcad2127dcfc04301dfe52ce6c61c.lua"))()
 
