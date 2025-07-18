@@ -1,13 +1,5 @@
-if _G.VAR_BLOCK_PARTY then
-	warn("⛔ Script đã được chạy trước đó!")
-	return
-end
-
 _G.VAR_BLOCK_PARTY = true
 local isRunning = false
-_G.VAR_STOP_BLOCK_PARTY = false
-_G.VAR_START_BLOCK_PARTY = true
-
 
 -- ⚙️ Dịch vụ & Folder
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -30,7 +22,7 @@ end
 local function waitUntilAllowed()
 	while _G.VAR_STOP_BLOCK_PARTY and not _G.VAR_START_BLOCK_PARTY do
 		warn("⏸ Script đang bị tạm dừng bởi _G.VAR_STOP_BLOCK_PARTY")
-		task.wait(1)
+		task.wait(10)
 	end
 	if not _G.VAR_START_BLOCK_PARTY then
 		isRunning = false
@@ -54,44 +46,9 @@ local function teleportToBlockParty()
 	teleportTo(CFrame.new(16460, 2275, -21473))
 end
 
-teleportToBlockParty()
-
 ---------------- 🧩 LUỒNG 1: Mua tiles quanh plot ----------------
 local function startAutoPurchase()
-	local plotIndex = 1
-	local radiusMax = 6
-	local delayPerTile = 0.05
-	local delayPerCycle = 0.05
-	local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
 
-	local offsets = {}
-	for dx = -radiusMax, radiusMax do
-		for dy = -radiusMax, radiusMax do
-			if not (dx == 0 and dy == 0) then
-				table.insert(offsets, {dx, dy})
-			end
-		end
-	end
-
-	while true do
-		waitUntilAllowed()
-		local saveData = Save.Get()
-		local tileRebirth = saveData.TileRebirth or 0
-		local totalTiles = getTotalTileCount()
-		if tileRebirth >= 10 and totalTiles >= 169 then
-			warn("🛑 Đã đạt TileRebirth = 10 và Tiles = 169 → Dừng Auto Purchase.")
-			break
-		end
-
-		for _, offset in ipairs(offsets) do
-			local args = {plotIndex, "PurchaseTile", offset[1], offset[2]}
-			pcall(function()
-				PlotsInvoke:InvokeServer(unpack(args))
-			end)
-			task.wait(delayPerTile)
-		end
-		task.wait(delayPerCycle)
-	end
 end
 
 ---------------- 🧩 LUỒNG 2: Claim + Open + Unlock + Plant + Diamond ----------------
@@ -196,6 +153,7 @@ local function teleportToTile(tile)
 end
 
 local function handleRejoin()
+	local Workspace = game:GetService("Workspace")
 	local Leave = workspace.__THINGS.Instances.LuckyBlocks.Teleports.Leave
 	teleportTo(Leave.CFrame + Vector3.new(0, 5, 0))
 	task.wait(9)
@@ -459,7 +417,7 @@ local function startAllBlockPartyTasks()
 	if isRunning then return end
 	isRunning = true
 	print("🚀 Đã kích hoạt startAllBlockPartyTasks")
-
+	teleportToBlockParty()
 	-- 🧩 LUỒNG 1: Auto Purchase
 	task.spawn(function()
 		local Save = require(ReplicatedStorage.Library.Client.Save)
