@@ -1,7 +1,5 @@
 _G.VAR_BLOCK_PARTY = true
 local isRunning = false
-_G.VAR_STOP_BLOCK_PARTY = false
-_G.VAR_START_BLOCK_PARTY = true
 
 -- ⚙️ Dịch vụ & Folder
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -102,7 +100,7 @@ end
 
 ---------------- 🧩 LUỒNG 3: Hatch HUGE CHANCE ----------------
 local currentChance = 0
-local tileThreshold = 83
+local tileThreshold = 161
 
 local function extractHugeLuckValue(text)
 	local value = text:match("(%d+)x%s+Huge%s+Luck!?")
@@ -416,10 +414,11 @@ end
 
 ---------------- 🚀 Kích hoạt tất cả luồng song song ----------------
 local function startAllBlockPartyTasks()
+	teleportToBlockParty()
 	if isRunning then return end
 	isRunning = true
 	print("🚀 Đã kích hoạt startAllBlockPartyTasks")
-	teleportToBlockParty()
+	
 	-- 🧩 LUỒNG 1: Auto Purchase
 	task.spawn(function()
 		local Save = require(ReplicatedStorage.Library.Client.Save)
