@@ -1,6 +1,6 @@
 -- xem điểm trial và lượt chơi / nếu daily runs = 0 thì thoát game
 task.spawn(function()
-wait(30)
+wait(6)
 _G.VAR_STOP_BLOCK_PARTY = false
 _G.VAR_START_BLOCK_PARTY = true
 
@@ -710,6 +710,9 @@ end
 
 -- 🎁 Đổi quà
 local function claimReward()
+
+if getRunsUsed() == 10 then
+
 	warn("🎁 Bắt đầu đổi quà...")
 
 	-- 📊 Lấy điểm Time Trial
@@ -801,6 +804,9 @@ local function claimReward()
 
 	task.wait(9)
 	teleportToLocation()
+	
+end	
+
 end
 
 -- ✅ VÒNG LẶP CHÍNH
@@ -861,8 +867,6 @@ task.spawn(function()
 
 		warn("⏳ Theo dõi reset DailyRuns...")
 		while getRunsUsed() >= 10 do 
-			
-
 				_G.VAR_STOP_BLOCK_PARTY = false
 				_G.VAR_START_BLOCK_PARTY = true
 			task.wait(600) 
