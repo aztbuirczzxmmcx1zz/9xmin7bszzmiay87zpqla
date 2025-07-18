@@ -1,399 +1,7 @@
--- xem điểm trial và lượt chơi / nếu daily runs = 0 thì thoát game
-task.spawn(function()
-wait(30)
-Players = game:GetService("Players")
-player = Players.LocalPlayer
-local Save = require(game.ReplicatedStorage.Library.Client.Save)
-
-
-
--- Xóa GUI cũ nếu đã tồn tại
-local playerGui = player:WaitForChild("PlayerGui")
-local oldGui = playerGui:FindFirstChild("TimeTrialGui")
-if oldGui then oldGui:Destroy() end
-
-local function getRunsLeft()
-	local saveData = Save.Get()
-	if saveData and saveData.TimeTrialStats then
-		local usedRuns = saveData.TimeTrialStats.DailyRuns or 0
-		return math.max(0, 10 - usedRuns)
-	end
-	return 0
-end
-local function getTimeTrialPoints()
-	local saveData = Save.Get()
-	if saveData and saveData.TimeTrialStats and type(saveData.TimeTrialStats.Points) == "number" then
-		return saveData.TimeTrialStats.Points
-	end
-	return 0
-end
-	
-local function getRunsUsed()
-	local saveData = Save.Get()
-	return saveData and saveData.TimeTrialStats and saveData.TimeTrialStats.DailyRuns or 0
-end
--- Tạo GUI
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "TimeTrialGui"
-screenGui.ResetOnSpawn = false
-screenGui.Parent = playerGui
-
-local function createLabel(name, position, anchor, bgColor)
-	local label = Instance.new("TextLabel")
-	label.Name = name
-	label.AnchorPoint = anchor or Vector2.new(0, 0)
-	label.Position = position
-	label.Size = UDim2.new(0, 0, 0, 38)
-	label.BackgroundColor3 = bgColor
-	label.TextColor3 = Color3.fromRGB(255, 255, 255)
-	label.Font = Enum.Font.GothamBold
-	label.TextSize = 32
-	label.Text = "..."
-	label.BackgroundTransparency = 0
-	label.BorderSizePixel = 0
-	label.TextXAlignment = Enum.TextXAlignment.Center
-	label.Parent = screenGui
-	return label
-end
-
--- 🧭 Tạo label: Points (trái trên), TimeTrial (giữa trên)
-local pointsLabel = createLabel("PointsLabel", UDim2.new(0.65, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(0, 128, 255))
-local timeTrialLabel = createLabel("TimeTrialLabel", UDim2.new(0.79, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(128, 0, 128))
-
--- Cập nhật kích thước theo text
-local function updateLabelSize(label)
-	label.Size = UDim2.new(0, label.TextBounds.X + 20, 0, 38)
-end
-
--- Cập nhật GUI mỗi 1000 giây
-task.spawn(function()
-	while true do
-		local runsLeft = getRunsLeft()
-		local points = getTimeTrialPoints()
-
-		pointsLabel.Text = tostring(points)
-		updateLabelSize(pointsLabel)
-
-		timeTrialLabel.Text = tostring(runsLeft)
-		updateLabelSize(timeTrialLabel)
-		
-		Daily_run = getRunsUsed()
-		if Daily_run < 10 and _G.VAR_STOP_BLOCK_PARTY == false then
-			_G.VAR_STOP_BLOCK_PARTY = true
-			_G.VAR_START_BLOCK_PARTY = false
-			wait(5)
-			warn("Stop event block")
-			function teleportTo(cf)
-				local character = player.Character or player.CharacterAdded:Wait()
-				local hrp = character:FindFirstChild("HumanoidRootPart")
-				if hrp then
-					hrp.CFrame = cf
-				end
-			end
-
-			
-			local Workspace = game:GetService("Workspace")
-			local Leave = workspace.__THINGS.Instances.LuckyBlocks.Teleports.Leave
-			teleportTo(Leave.CFrame + Vector3.new(0, 5, 0))
-			task.wait(9)
-		end
-		wait(1000)
-	end
-end)
-
-end)
-
--- xem sl 7 sách thường dùng
-task.spawn(function()
-task.wait(60)
-local booksToCheck = {
-    "Diamonds","Lucky Eggs","Treasure Hunter"
-}
-
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local LocalPlayer = Players.LocalPlayer
-local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
-
--- Đếm số sách TN = 10 theo tên
-local function findBookAmount(bookName)
-    local results = 0
-    local subTable = SaveData.Inventory.Enchant
-    if type(subTable) ~= "table" then return 0 end
-
-    for _, v in pairs(subTable) do
-        if typeof(v) == "table" and v.id == bookName and v.tn == 10 then
-            results += tonumber(v._am) or 1
-        end
-    end
-
-    return results
-end
-
--- Tạo UI 1 hàng ngang với kích thước vuông
-local function createCounterUI()
-    local screenGui = Instance.new("ScreenGui")
-    screenGui.Name = "BookCounterUI"
-    screenGui.ResetOnSpawn = false
-    screenGui.IgnoreGuiInset = true
-    screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
-
-    local container = Instance.new("Frame", screenGui)
-    container.Name = "Container"
-    container.AnchorPoint = Vector2.new(0.5, 0)
-    container.Position = UDim2.new(0.5, 0, 0.2, 0) -- Trên đầu, dưới tên người chơi
-    container.Size = UDim2.new(0, 75 * #booksToCheck, 0, 75)
-    container.BackgroundTransparency = 1
-
-    for i = 1, #booksToCheck do
-        local box = Instance.new("TextLabel", container)
-        box.Name = "Box_" .. i
-        box.Size = UDim2.new(0, 70, 0, 70)
-        box.Position = UDim2.new(0, (i - 1) * 75, 0, 0)
-        box.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-        box.TextColor3 = Color3.new(1, 1, 1)
-        box.TextStrokeTransparency = 0.1
-        box.BorderSizePixel = 0
-        box.TextScaled = true
-        box.Font = Enum.Font.GothamBlack
-        box.Text = "?"
-        box.BackgroundTransparency = 0
-        box.TextWrapped = true
-        box.ClipsDescendants = true
-    end
-end
-
--- Cập nhật số mỗi 5s
-local function updateCounterUI()
-    local container = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("BookCounterUI"):WaitForChild("Container")
-    for i, bookName in ipairs(booksToCheck) do
-        local count = findBookAmount(bookName)
-        local label = container:FindFirstChild("Box_" .. i)
-        if label then
-            label.Text = tostring(count)
-        end
-    end
-end
-
--- Khởi động UI và cập nhật
-createCounterUI()
-task.spawn(function()
-    while true do
-        updateCounterUI()
-        task.wait(5)
-    end
-end)
-
-
-end)
----------------------------------------------------------------------------------------------------------------------
-
--- Xem item cần tìm x 10 ở giữa cho giả lập
-task.spawn(function()
-	task.wait(1)
-
-	local Players = game:GetService("Players")
-	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-	local LocalPlayer = Players.LocalPlayer
-	local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
-	local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-	local SaveModule = require(Client:WaitForChild("Save"))
-
-	local previousCounts = {}
-
-	-- cấu hình item cần theo dõi
-	local itemsToTrack = {		
-
-		{ id = "Chest Breaker", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, -- xams
-		{ id = "Super Lightning", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },	-- cam
-		{ id = "MVP Key Upper Half", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },		-- trang
-	}
-
-	local function createItemFrame(itemConfig, itemCount)
-		local frameSize = 100
-		local spacing = 10
-		local cols = 2
-		local rows = 2
-
-		-- tính vị trí chính giữa màn hình
-		local offsetX = (itemConfig.col * (frameSize + spacing)) - ((cols - 1) * (frameSize + spacing) / 2)
-		local offsetY = (itemConfig.row * (frameSize + spacing)) - ((rows - 1) * (frameSize + spacing) / 2) + 80
-
-
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = itemConfig.guiName
-		screenGui.Parent = PlayerGui
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-		local frame = Instance.new("Frame")
-		frame.Name = "ItemFrame"
-		frame.Size = UDim2.new(0, frameSize, 0, frameSize)
-		frame.Position = UDim2.new(0.75, offsetX, 1, -offsetY)
-		frame.AnchorPoint = Vector2.new(0.5, 1)
-		frame.BackgroundColor3 = itemConfig.color
-		frame.BorderSizePixel = 2
-		frame.Parent = screenGui
-
-		local label = Instance.new("TextLabel")
-		label.Size = UDim2.new(1, 0, 1, 0)
-		label.BackgroundTransparency = 1
-		label.Text = tostring(itemCount)
-		label.TextColor3 = Color3.fromRGB(0, 0, 0)
-		label.TextScaled = true
-		label.Font = Enum.Font.GothamBold
-		label.Parent = frame
-	end
-
-	local function checkInventory()
-		local inventory = SaveModule.Get().Inventory or {}
-		local currentCounts = {}
-
-		-- xóa GUI cũ
-		for _, item in ipairs(itemsToTrack) do
-			local oldGui = PlayerGui:FindFirstChild(item.guiName)
-			if oldGui then oldGui:Destroy() end
-		end
-
-		for _, item in ipairs(itemsToTrack) do
-			local count = 0
-			for _, group in pairs(inventory) do
-				for _, obj in pairs(group) do
-					if obj.id == item.id then
-						count += (obj._am or 1)
-					end
-				end
-			end
-			currentCounts[item.id] = count
-			createItemFrame(item, count)
-		end
-
-		previousCounts = currentCounts
-	end
-
-	checkInventory()
-	while true do
-		task.wait(10)
-		checkInventory()
-	end
-end)
-
--- Ghép sách + thuốc nếu lv < 99 
-task.spawn(function()
-	task.wait(150)
-local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-local level = Save.Get().Mastery and Save.Get().Mastery.Potions
-
-if level and level < 13034430 then
-
-    -- Hàm nâng cấp thuốc
-    local function _update_sach_theo_level(name_sach, level_sach)
-        local saveModule = require(game.ReplicatedStorage.Library.Client.Save)
-        local inventory = saveModule.Get() and saveModule.Get().Inventory and saveModule.Get().Inventory.Potion
-        if not inventory then return end
-
-        local count = 0
-        local uid_sach = nil
-
-        for itemUID, itemData in pairs(inventory) do
-            if itemData.id == name_sach and itemData.tn == level_sach then
-                count += (itemData._am or 1)
-                uid_sach = tostring(itemUID)
-            end
-        end
-
-        local totalUpgradeAmount = count // 3
-        if uid_sach and totalUpgradeAmount > 0 then
-            game:GetService("ReplicatedStorage").Network.UpgradePotionsMachine_Activate:InvokeServer(uid_sach, totalUpgradeAmount)
-            warn("Upgrade: " .. name_sach .. " UID : " .. uid_sach .. " x" .. totalUpgradeAmount .. "\n")
-        end
-    end
-
-    -- Danh sách sách cần nâng cấp
-    local list = {
-        "Treasure Hunter", "Walkspeed", "Strong Pets", 
-        "Lucky Eggs", "Diamonds", "Coins"
-    }
-
-    for _, name in ipairs(list) do
-        _update_sach_theo_level(name, 1)
-		task.wait(2)
-        _update_sach_theo_level(name, 2)
-		task.wait(2)
-    end
-	
-end
-
-
------------------------
-local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-local level = Save.Get().Mastery and Save.Get().Mastery.Enchants
-
-if level and level < 13034430 then
-
-    -- Hàm nâng cấp sách
-    local function _update_sach_theo_level(name_sach, level_sach)
-        local saveModule = require(game.ReplicatedStorage.Library.Client.Save)
-        local inventory = saveModule.Get() and saveModule.Get().Inventory and saveModule.Get().Inventory.Enchant
-        if not inventory then return end
-
-        local count = 0
-        local uid_sach = nil
-
-        for itemUID, itemData in pairs(inventory) do
-            if itemData.id == name_sach and itemData.tn == level_sach then
-                count += (itemData._am or 1)
-                uid_sach = tostring(itemUID)
-            end
-        end
-
-        local totalUpgradeAmount = count // 5
-        if uid_sach and totalUpgradeAmount > 0 then
-            game:GetService("ReplicatedStorage").Network.UpgradeEnchantsMachine_Activate:InvokeServer(uid_sach, totalUpgradeAmount)
-            warn("Upgrade: " .. name_sach .. " lv" .. level_sach .. " x" .. totalUpgradeAmount .. "\n")
-        end
-    end
-
-    -- Danh sách sách cần nâng cấp
-    local list = {
-        "Treasure Hunter", "Tap Power", "Strong Pets", "Walkspeed",
-        "Magnet", "Lucky Eggs", "Diamonds", "Criticals", "Coins"
-    }
-
-    for _, name in ipairs(list) do
-        _update_sach_theo_level(name, 1)
-		task.wait(2)
-        _update_sach_theo_level(name, 2)
-		task.wait(2)
-    end
-	
-end
-
-end)
-
-
--- phát hiện không farm ở svv thoát game 
-task.spawn(function()
-task.wait(50)
-
-local function autoShutdownIfNotAlone()
-    local playerCount = #Players:GetPlayers()
-
-    if playerCount > 1 then
-        game:Shutdown()
-		Players.LocalPlayer:Kick("kick")
-    end
-end
-
-autoShutdownIfNotAlone()
-
-
-end)
  
 -- map 269 time trial
 task.spawn(function()
-wait(100)
+wait(30)
 
 _G.STOP_TIME_TRIAL = false
 
@@ -817,7 +425,11 @@ task.spawn(function()
 		
 		
 	while true do
+		
 		while getRunsUsed() < 10 do
+			_G.VAR_STOP_BLOCK_PARTY = true
+			_G.VAR_START_BLOCK_PARTY = false
+			
 			local used = getRunsUsed()
 			lagFlag = false
 			endFlag = false
@@ -861,11 +473,10 @@ task.spawn(function()
 		claimReward()
 		task.wait(30)
 		cleanupAllThreads()
-
+		_G.VAR_STOP_BLOCK_PARTY = false
+		_G.VAR_START_BLOCK_PARTY = true
 		warn("⏳ Theo dõi reset DailyRuns...")
-		while getRunsUsed() >= 10 do 
-				_G.VAR_STOP_BLOCK_PARTY = false
-				_G.VAR_START_BLOCK_PARTY = true
+		while getRunsUsed() >= 10 do 				
 			task.wait(600) 
 		end
 
@@ -875,6 +486,297 @@ task.spawn(function()
 	end
 end)
 
+
+
+end)
+
+
+
+
+-- xem sl 7 sách thường dùng
+task.spawn(function()
+task.wait(60)
+local booksToCheck = {
+    "Diamonds","Lucky Eggs","Treasure Hunter"
+}
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
+local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
+
+-- Đếm số sách TN = 10 theo tên
+local function findBookAmount(bookName)
+    local results = 0
+    local subTable = SaveData.Inventory.Enchant
+    if type(subTable) ~= "table" then return 0 end
+
+    for _, v in pairs(subTable) do
+        if typeof(v) == "table" and v.id == bookName and v.tn == 10 then
+            results += tonumber(v._am) or 1
+        end
+    end
+
+    return results
+end
+
+-- Tạo UI 1 hàng ngang với kích thước vuông
+local function createCounterUI()
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "BookCounterUI"
+    screenGui.ResetOnSpawn = false
+    screenGui.IgnoreGuiInset = true
+    screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+    local container = Instance.new("Frame", screenGui)
+    container.Name = "Container"
+    container.AnchorPoint = Vector2.new(0.5, 0)
+    container.Position = UDim2.new(0.5, 0, 0.2, 0) -- Trên đầu, dưới tên người chơi
+    container.Size = UDim2.new(0, 75 * #booksToCheck, 0, 75)
+    container.BackgroundTransparency = 1
+
+    for i = 1, #booksToCheck do
+        local box = Instance.new("TextLabel", container)
+        box.Name = "Box_" .. i
+        box.Size = UDim2.new(0, 70, 0, 70)
+        box.Position = UDim2.new(0, (i - 1) * 75, 0, 0)
+        box.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+        box.TextColor3 = Color3.new(1, 1, 1)
+        box.TextStrokeTransparency = 0.1
+        box.BorderSizePixel = 0
+        box.TextScaled = true
+        box.Font = Enum.Font.GothamBlack
+        box.Text = "?"
+        box.BackgroundTransparency = 0
+        box.TextWrapped = true
+        box.ClipsDescendants = true
+    end
+end
+
+-- Cập nhật số mỗi 5s
+local function updateCounterUI()
+    local container = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("BookCounterUI"):WaitForChild("Container")
+    for i, bookName in ipairs(booksToCheck) do
+        local count = findBookAmount(bookName)
+        local label = container:FindFirstChild("Box_" .. i)
+        if label then
+            label.Text = tostring(count)
+        end
+    end
+end
+
+-- Khởi động UI và cập nhật
+createCounterUI()
+task.spawn(function()
+    while true do
+        updateCounterUI()
+        task.wait(5)
+    end
+end)
+
+
+end)
+---------------------------------------------------------------------------------------------------------------------
+
+-- Xem item cần tìm x 10 ở giữa cho giả lập
+task.spawn(function()
+	task.wait(1)
+
+	local Players = game:GetService("Players")
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+	local LocalPlayer = Players.LocalPlayer
+	local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+	local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+	local SaveModule = require(Client:WaitForChild("Save"))
+
+	local previousCounts = {}
+
+	-- cấu hình item cần theo dõi
+	local itemsToTrack = {		
+
+		{ id = "Chest Breaker", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, -- xams
+		{ id = "Super Lightning", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },	-- cam
+		{ id = "MVP Key Upper Half", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },		-- trang
+	}
+
+	local function createItemFrame(itemConfig, itemCount)
+		local frameSize = 100
+		local spacing = 10
+		local cols = 2
+		local rows = 2
+
+		-- tính vị trí chính giữa màn hình
+		local offsetX = (itemConfig.col * (frameSize + spacing)) - ((cols - 1) * (frameSize + spacing) / 2)
+		local offsetY = (itemConfig.row * (frameSize + spacing)) - ((rows - 1) * (frameSize + spacing) / 2) + 80
+
+
+		local screenGui = Instance.new("ScreenGui")
+		screenGui.Name = itemConfig.guiName
+		screenGui.Parent = PlayerGui
+		screenGui.ResetOnSpawn = false
+		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+		local frame = Instance.new("Frame")
+		frame.Name = "ItemFrame"
+		frame.Size = UDim2.new(0, frameSize, 0, frameSize)
+		frame.Position = UDim2.new(0.75, offsetX, 1, -offsetY)
+		frame.AnchorPoint = Vector2.new(0.5, 1)
+		frame.BackgroundColor3 = itemConfig.color
+		frame.BorderSizePixel = 2
+		frame.Parent = screenGui
+
+		local label = Instance.new("TextLabel")
+		label.Size = UDim2.new(1, 0, 1, 0)
+		label.BackgroundTransparency = 1
+		label.Text = tostring(itemCount)
+		label.TextColor3 = Color3.fromRGB(0, 0, 0)
+		label.TextScaled = true
+		label.Font = Enum.Font.GothamBold
+		label.Parent = frame
+	end
+
+	local function checkInventory()
+		local inventory = SaveModule.Get().Inventory or {}
+		local currentCounts = {}
+
+		-- xóa GUI cũ
+		for _, item in ipairs(itemsToTrack) do
+			local oldGui = PlayerGui:FindFirstChild(item.guiName)
+			if oldGui then oldGui:Destroy() end
+		end
+
+		for _, item in ipairs(itemsToTrack) do
+			local count = 0
+			for _, group in pairs(inventory) do
+				for _, obj in pairs(group) do
+					if obj.id == item.id then
+						count += (obj._am or 1)
+					end
+				end
+			end
+			currentCounts[item.id] = count
+			createItemFrame(item, count)
+		end
+
+		previousCounts = currentCounts
+	end
+
+	checkInventory()
+	while true do
+		task.wait(10)
+		checkInventory()
+	end
+end)
+
+-- Ghép sách + thuốc nếu lv < 99 
+task.spawn(function()
+	task.wait(150)
+local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local level = Save.Get().Mastery and Save.Get().Mastery.Potions
+
+if level and level < 13034430 then
+
+    -- Hàm nâng cấp thuốc
+    local function _update_sach_theo_level(name_sach, level_sach)
+        local saveModule = require(game.ReplicatedStorage.Library.Client.Save)
+        local inventory = saveModule.Get() and saveModule.Get().Inventory and saveModule.Get().Inventory.Potion
+        if not inventory then return end
+
+        local count = 0
+        local uid_sach = nil
+
+        for itemUID, itemData in pairs(inventory) do
+            if itemData.id == name_sach and itemData.tn == level_sach then
+                count += (itemData._am or 1)
+                uid_sach = tostring(itemUID)
+            end
+        end
+
+        local totalUpgradeAmount = count // 3
+        if uid_sach and totalUpgradeAmount > 0 then
+            game:GetService("ReplicatedStorage").Network.UpgradePotionsMachine_Activate:InvokeServer(uid_sach, totalUpgradeAmount)
+            warn("Upgrade: " .. name_sach .. " UID : " .. uid_sach .. " x" .. totalUpgradeAmount .. "\n")
+        end
+    end
+
+    -- Danh sách sách cần nâng cấp
+    local list = {
+        "Treasure Hunter", "Walkspeed", "Strong Pets", 
+        "Lucky Eggs", "Diamonds", "Coins"
+    }
+
+    for _, name in ipairs(list) do
+        _update_sach_theo_level(name, 1)
+		task.wait(2)
+        _update_sach_theo_level(name, 2)
+		task.wait(2)
+    end
+	
+end
+
+
+-----------------------
+local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local level = Save.Get().Mastery and Save.Get().Mastery.Enchants
+
+if level and level < 13034430 then
+
+    -- Hàm nâng cấp sách
+    local function _update_sach_theo_level(name_sach, level_sach)
+        local saveModule = require(game.ReplicatedStorage.Library.Client.Save)
+        local inventory = saveModule.Get() and saveModule.Get().Inventory and saveModule.Get().Inventory.Enchant
+        if not inventory then return end
+
+        local count = 0
+        local uid_sach = nil
+
+        for itemUID, itemData in pairs(inventory) do
+            if itemData.id == name_sach and itemData.tn == level_sach then
+                count += (itemData._am or 1)
+                uid_sach = tostring(itemUID)
+            end
+        end
+
+        local totalUpgradeAmount = count // 5
+        if uid_sach and totalUpgradeAmount > 0 then
+            game:GetService("ReplicatedStorage").Network.UpgradeEnchantsMachine_Activate:InvokeServer(uid_sach, totalUpgradeAmount)
+            warn("Upgrade: " .. name_sach .. " lv" .. level_sach .. " x" .. totalUpgradeAmount .. "\n")
+        end
+    end
+
+    -- Danh sách sách cần nâng cấp
+    local list = {
+        "Treasure Hunter", "Tap Power", "Strong Pets", "Walkspeed",
+        "Magnet", "Lucky Eggs", "Diamonds", "Criticals", "Coins"
+    }
+
+    for _, name in ipairs(list) do
+        _update_sach_theo_level(name, 1)
+		task.wait(2)
+        _update_sach_theo_level(name, 2)
+		task.wait(2)
+    end
+	
+end
+
+end)
+
+
+-- phát hiện không farm ở svv thoát game 
+task.spawn(function()
+task.wait(50)
+
+local function autoShutdownIfNotAlone()
+    local playerCount = #Players:GetPlayers()
+
+    if playerCount > 1 then
+        game:Shutdown()
+		Players.LocalPlayer:Kick("kick")
+    end
+end
+
+autoShutdownIfNotAlone()
 
 
 end)
