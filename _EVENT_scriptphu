@@ -403,7 +403,7 @@ while true do
 	openChest(3000, 2)  -- Mở chest yêu cầu 3000 điểm	
 	openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
 	
-	if  () < 1000 then
+	if getTimeTrialPoints() < 1000 then
 		break
 	end
 
