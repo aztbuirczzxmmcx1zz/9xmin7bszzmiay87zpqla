@@ -45,7 +45,7 @@ getgenv().GPOTIONS_MAX_TIER = 99
 getgenv().GENCHANTS = {}
 
 
-getgenv().GHUGE_COUNT = 50
+getgenv().GHUGE_COUNT = 50999
 
 getgenv().GMAIL_ITEMS = {		
 
