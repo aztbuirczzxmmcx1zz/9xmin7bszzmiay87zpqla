@@ -316,8 +316,6 @@ end
 -- 🎁 Đổi quà
 local function claimReward()
 
-if _G.VAR_STOP_BLOCK_PARTY == true then
-
 	warn("🎁 Bắt đầu đổi quà...")
 
 	-- 📊 Lấy điểm Time Trial
@@ -326,7 +324,7 @@ if _G.VAR_STOP_BLOCK_PARTY == true then
 	local isSaturday = (currentDay == 7)
 
 	local chest3, chest2, chest1 = 0, 0, 0
-	if isSaturday then
+
 		warn("📆 Hôm nay là Thứ 7 → Đổi hết toàn bộ điểm.")
 		chest3 = math.floor(points / 5000)
 		points = points - chest3 * 5000
@@ -335,10 +333,10 @@ if _G.VAR_STOP_BLOCK_PARTY == true then
 		points = points - chest2 * 3000
 
 		chest1 = math.floor(points / 1000)
-	else
-		warn("📆 Hôm nay KHÔNG phải Thứ 7 → Chỉ đổi hộp 3, giữ điểm dư.")
-		chest3 = math.floor(points / 5000)
-	end
+
+		--warn("📆 Hôm nay KHÔNG phải Thứ 7 → Chỉ đổi hộp 3, giữ điểm dư.")
+		--chest3 = math.floor(points / 5000)
+
 
 	warn("🧾 Số lần đổi quà sẽ thực hiện:")
 	warn("📦 Hộp 3 (5000): " .. chest3)
@@ -409,8 +407,6 @@ if _G.VAR_STOP_BLOCK_PARTY == true then
 
 	task.wait(9)
 	teleportToLocation()
-	
-end	
 
 end
 
@@ -427,8 +423,6 @@ task.spawn(function()
 	while true do
 		
 		while getRunsUsed() < 10 do
-			_G.VAR_STOP_BLOCK_PARTY = true
-			_G.VAR_START_BLOCK_PARTY = false
 			
 			local used = getRunsUsed()
 			lagFlag = false
@@ -475,11 +469,16 @@ task.spawn(function()
 		cleanupAllThreads()
 		_G.VAR_STOP_BLOCK_PARTY = false
 		_G.VAR_START_BLOCK_PARTY = true
+		
+		
+		
 		warn("⏳ Theo dõi reset DailyRuns...")
 		while getRunsUsed() >= 10 do 				
 			task.wait(600) 
 		end
-
+		_G.VAR_STOP_BLOCK_PARTY = true
+		_G.VAR_START_BLOCK_PARTY = false
+			
 		warn("🔁 DailyRuns reset → tiếp tục farm.")
 		if monitor12minThread then pcall(task.cancel, monitor12minThread) monitor12minThread = nil end
 		startMonitor12Min()
@@ -489,9 +488,6 @@ end)
 
 
 end)
-
-
-
 
 -- xem sl 7 sách thường dùng
 task.spawn(function()
@@ -782,7 +778,6 @@ autoShutdownIfNotAlone()
 end)
 
 ---------------------------------------------------------------------------------------------------------------------
-
 -- up pet gold + rainbow : Quartz Fox  Wise Cat
 task.spawn(function() 
 wait(20)
@@ -878,8 +873,14 @@ local Network = ReplicatedStorage:WaitForChild("Network")
     task.wait(1)
 end)
 
+-- Chạy 8 tiếng out 1 lần
+task.spawn(function()
 
+wait(8*3600)
+game:Shutdown()
+Players.LocalPlayer:Kick("kick")
 
+end)
 
 
 
