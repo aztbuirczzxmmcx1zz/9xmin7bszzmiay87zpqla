@@ -48,15 +48,15 @@ function autoEquipEnchantBooks(...)
     end
 end
 
+task.spawn(function()
 -- Ví dụ sử dụng:
 -- sách trial time
 autoEquipEnchantBooks("Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power")
-
 --Enchants_Equip_compo = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Strong Pets","Super Lightning","Treasure Hunter","Diamonds","Lucky Eggs"}
 --Enchants_Equip_compo = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Coins","Strong Pets"}
 --Enchants_Equip_compo = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Tap Power","Coins"}
 --Enchants_Equip_compo = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter"}
- 
+ end)
  
 -- map 269 event time trial
 task.spawn(function()
@@ -1414,10 +1414,3 @@ game:Shutdown()
 Players.LocalPlayer:Kick("kick")
 
 end)
-
-
-
-
-
-
-
