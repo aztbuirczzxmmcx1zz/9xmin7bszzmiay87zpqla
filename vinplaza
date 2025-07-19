@@ -55,14 +55,6 @@ else
 local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local rank = Save.Get().Rank
 
--- check Dailyrun
-local function getRunsUsed()
-	local saveData = Save.Get()
-	return saveData and saveData.TimeTrialStats and saveData.TimeTrialStats.DailyRuns or 0
-end
-Daily_run = getRunsUsed()
-
-
 
 if EVENT_or_FARM == "E" and rank > 19 then
 
