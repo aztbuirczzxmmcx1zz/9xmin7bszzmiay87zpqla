@@ -377,18 +377,6 @@ local function isInCustomTimeWindow()
     return now_gmt7 >= friday and now_gmt7 <= saturday
 end
 
--- Test:
-if isInCustomTimeWindow() then
-    print("✅ Đang trong khoảng 23:10 Thứ 6 → 15:00 Thứ 7 (GMT+7)")
-else
-    print("❌ Không nằm trong khoảng đó")
-end
-
-
-
-
-
-warn("Điểm còn lại: " .. totalPoints)
 while true do
 
 openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
@@ -414,7 +402,6 @@ end
 
 end
 
-end
 
 -- ✅ VÒNG LẶP CHÍNH
 task.spawn(function()
