@@ -395,16 +395,16 @@ local function startGuiUpdater()
 		label.Size = UDim2.new(0, label.TextBounds.X + 20, 0, 38)
 	end
 
-	local tilesLabel  = createLabel("TilesLabel",  UDim2.new(0, -10, 0, -10), Vector2.new(0, 0), Color3.fromRGB(0, 128, 0))
-	local coinsLabel  = createLabel("CoinsLabel",  UDim2.new(0.5, -15, 0, -10), Vector2.new(0.5, 0), Color3.fromRGB(255, 165, 0))
-	local chanceLabel = createLabel("ChanceLabel", UDim2.new(1, -30, 0, -10), Vector2.new(1, 0), Color3.fromRGB(0, 102, 204))
+	local tilesLabel  = createLabel("TilesLabel",  UDim2.new(0, -10, 0.2, -10), Vector2.new(0, 0), Color3.fromRGB(0, 128, 0))
+	local coinsLabel  = createLabel("CoinsLabel",  UDim2.new(0.5, -15, 0.2, -10), Vector2.new(0.5, 0), Color3.fromRGB(255, 165, 0))
+	local chanceLabel = createLabel("ChanceLabel", UDim2.new(1, -30, 0.2, -10), Vector2.new(1, 0), Color3.fromRGB(0, 102, 204))
 
 	while true do
 		waitUntilAllowed()
-		tilesLabel.Text  = "TILES: " .. tostring(getTotalTileCount())
+		tilesLabel.Text  = "T: " .. tostring(getTotalTileCount())
 		updateLabelSize(tilesLabel)
 
-		coinsLabel.Text  = "COINS: " .. tostring(getCurrencyAmount("BlockPartyCoins"))
+		coinsLabel.Text  = "C: " .. tostring(getCurrencyAmount("BlockPartyCoins"))
 		updateLabelSize(coinsLabel)
 
 		chanceLabel.Text = tostring(currentChance) .. "x HUGE"
