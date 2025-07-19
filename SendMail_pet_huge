@@ -40,9 +40,9 @@ end
 
 -- send all item
 task.spawn(function()
-wait(100)
-
-if NAME_USER_SEND == nil then
+wait(50)
+warn(_G.NAME_USER_SEND)
+if _G.NAME_USER_SEND == nil then
 	return
 end
 
@@ -53,31 +53,8 @@ _check_time_resetmail()
 
 getgenv().Settings = {		
 
-["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 50},	--ok
-["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 200},	
-
-["Mega Charm Chest"] = {Class = "Lootbox", Id = "Mega Charm Chest", MinAmount = 1},
-["Overload"] = {Class = "Charm", Id = "Overload", MinAmount = 2},
-["Royalty"] = {Class = "Charm", Id = "Royalty", MinAmount = 2},
-["Charm Chisel"] = {Class = "Misc", Id = "Charm Chisel", MinAmount = 100},
-
-["Chest Spell"] = {Class = "Ultimate", Id = "Chest Spell", MinAmount = 1}, 
-["Tsunami"] = {Class = "Ultimate", Id = "Tsunami", KeepAmount = 1, MinAmount = 2}, 
-
-["Daycare egg 5"] = {Class = "Egg", Id = "Huge Machine Egg 5", MinAmount = 1}, -- chưa
-
-["Send all Diamonds"] = {Class = "Currency", Id = "Diamonds", KeepAmount = "100m", MinAmount = "300m"},	--ok
-
-["Secret Key"] = {Class = "Misc", Id = "Secret Key", MinAmount = 1000},
-["Fantasy Key"] = {Class = "Misc", Id = "Fantasy Key", MinAmount = 500},
-["Void Key"] = {Class = "Misc", Id = "Void Key", MinAmount = 500},
-["Tech Key"] = {Class = "Misc", Id = "Tech Key", MinAmount = 500},
-["Crystal Key"] = {Class = "Misc", Id = "Crystal Key", MinAmount = 2500},
-["Hacker Key"] = {Class = "Misc", Id = "Hacker Key", MinAmount = 2},
-
-
 ["Insta Plant Capsule"] = {Class = "Misc", Id = "Insta Plant Capsule", MinAmount = 1},
-["Time Trial Gift"] = {Class = "Lootbox", Id = "Time Trial Gift", MinAmount = 18}, --ok
+["Tropical Gift"] = {Class = "Lootbox", Id = "Tropical Gift", MinAmount = 18}, --ok
 }
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -92,7 +69,7 @@ local Inventory = SaveData.Inventory
 local itemsFound = {} -- Kết quả tìm được
 
 -- ⚙️ Tùy chỉnh: người nhận
-local randomRecipient = NAME_USER_SEND
+local randomRecipient = _G.NAME_USER_SEND
 
 -- 💬 Danh sách lời chúc
 local messages = {
@@ -104,7 +81,7 @@ local messages = {
     "You are amazing %s"
 }
 
-local message = string.format(messages[math.random(1, #messages)], username)	
+local message = string.format(messages[math.random(1, #messages)], randomRecipient)	
 
 -- 🔢 Hàm chuyển đơn vị "100m", "1b" thành số
 local function parseNumber(str)
@@ -172,6 +149,7 @@ for key, config in pairs(getgenv().Settings) do
 				if not success then
 					warn("❌ Gửi currency lỗi:", err)
 				end
+				task.wait(2)
 			end
 		end
 	end
@@ -195,7 +173,7 @@ for key, config in pairs(getgenv().Settings) do
 				if not success then
 					warn("❌ Gửi item lỗi:", err)
 				end
-				task.wait(0.5)
+				task.wait(2)
 			end
 		end
 	end
