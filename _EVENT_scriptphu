@@ -1,7 +1,7 @@
  
 -- map 269 time trial
 task.spawn(function()
-wait(100)
+wait(70)
 
 _G.STOP_TIME_TRIAL = false
 
@@ -58,14 +58,6 @@ local function teleportTo(part)
 	local hrp = getHumanoidRootPart()
 	if hrp and part and part.CFrame then
 		hrp.CFrame = part.CFrame + Vector3.new(0, 10, 0)
-	end
-end
-
-local function teleportToRewardLocation()
-	warn("🚶‍♂️ Đang teleport đến vị trí đổi quà...")
-	local hrp = getHumanoidRootPart()
-	if hrp then
-		hrp.CFrame = CFrame.new(-14223, 20, 1387)
 	end
 end
 
@@ -316,97 +308,56 @@ end
 -- 🎁 Đổi quà
 local function claimReward()
 
-	warn("🎁 Bắt đầu đổi quà...")
-
-	-- 📊 Lấy điểm Time Trial
-	local points = getTimeTrialPoints()
-	local currentDay = os.date("*t").wday
-	local isSaturday = (currentDay == 7)
-
-	local chest3, chest2, chest1 = 0, 0, 0
-
-		warn("📆 Hôm nay là Thứ 7 → Đổi hết toàn bộ điểm.")
-		chest3 = math.floor(points / 5000)
-		points = points - chest3 * 5000
-
-		chest2 = math.floor(points / 3000)
-		points = points - chest2 * 3000
-
-		chest1 = math.floor(points / 1000)
-
-		--warn("📆 Hôm nay KHÔNG phải Thứ 7 → Chỉ đổi hộp 3, giữ điểm dư.")
-		--chest3 = math.floor(points / 5000)
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local player = Players.LocalPlayer
+local Save = require(ReplicatedStorage.Library.Client.Save)
+local saveData = Save.Get()
+local totalPoints = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.Points or 0) or 0
+local character = player.Character or player.CharacterAdded:Wait()
 
 
-	warn("🧾 Số lần đổi quà sẽ thực hiện:")
-	warn("📦 Hộp 3 (5000): " .. chest3)
-	warn("📦 Hộp 2 (3000): " .. chest2)
-	warn("📦 Hộp 1 (1000): " .. chest1)
 
-	local totalChests = chest3 + chest2 + chest1
-	if totalChests == 0 then
-		warn("⚠️ Không có phần thưởng nào đủ điểm để đổi.")
-		return
-	end
+-- Hàm teleport đến vị trí nhận thưởng
+local function teleportToRewardLocation()
+    warn("🚶‍♂️ Đang teleport đến vị trí đổi quà...")
+    player.Character.HumanoidRootPart.CFrame = CFrame.new(-14186, 20, 1369)
+end
 
-	-- 📦 Gọi server để đổi hộp
-	local function openChest(chestType)
-		local args = { [1] = chestType }
-		return ReplicatedStorage.Network.TimeTrials_OpenChest:InvokeServer(unpack(args))
-	end
+-- Hàm mở chest với số điểm nhất định
+local function openChest(pointsRequired, chestId)
+    if totalPoints >= pointsRequired then
+        teleportToRewardLocation()
+        wait(0.5)
+        local FantasyKey_Unlock = ReplicatedStorage.Network.TimeTrials_OpenChest
+        FantasyKey_Unlock:InvokeServer(chestId)
+        wait(1)
+        totalPoints = totalPoints - pointsRequired
+        warn("Đã sử dụng " .. pointsRequired .. " điểm, còn lại: " .. totalPoints)
+    end
+end
 
-	-- 🔁 Đổi nhiều hộp 1 loại
-	local function claimMultiple(count, chestType)
-		for i = 1, count do
-			warn("🔁 Đang thực hiện đổi hộp " .. chestType .. " - lần " .. i .. "...")
-			local success, err = pcall(function()
-				openChest(chestType)
-			end)
-			if success then
-				warn("✅ Đổi thành công hộp " .. chestType .. " - lần " .. i)
-			else
-				warn("❌ Lỗi khi đổi hộp " .. chestType .. ": " .. tostring(err))
-			end
-			task.wait(5)
-		end
-	end
+-- Gọi hàm mở chest cho các mốc điểm
 
-	-- 🗺️ Teleport tới đổi + kiểm tra vị trí bằng khoảng cách
-	local function isAtExactRewardPosition()
-		local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if not hrp then return false end
-		local pos = hrp.Position
-		local target = Vector3.new(-14223, 17.39, 1387)
-		local tolerance = 2
-		return (pos - target).Magnitude <= tolerance
-	end
 
-	local retry = 0
-	while retry < 3 do
-		retry += 1
-		warn("🚶‍♂️ Teleport tới vị trí đổi quà (lần " .. retry .. ")...")
-		teleportToRewardLocation()
-		task.wait(9)
-		if isAtExactRewardPosition() then
-			warn("✅ Vị trí chính xác → bắt đầu đổi quà.")
-			break
-		else
-			warn("❌ Vị trí sai → thử lại.")
-		end
-	end
+warn("Điểm còn lại: " .. totalPoints)
+while true do
 
-	if not isAtExactRewardPosition() then
-		warn("⛔ Không thể đến đúng vị trí sau 3 lần thử → bỏ qua đổi quà.")
-		return
-	end
+openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
+openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
+openChest(3000, 2)  -- Mở chest yêu cầu 3000 điểm
+openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
 
-	-- 🧧 Đổi quà
-	claimMultiple(chest3, 3)
-	claimMultiple(chest2, 2)
-	claimMultiple(chest1, 1)
 
-	task.wait(9)
-	teleportToLocation()
+if totalPoints < 1000 then
+	break
+end
+
+
+end
+
+
+end
 
 end
 
