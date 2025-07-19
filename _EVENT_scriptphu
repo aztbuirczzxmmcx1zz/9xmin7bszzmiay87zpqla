@@ -372,9 +372,6 @@ local function claimReward()
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local player = Players.LocalPlayer
-local Save = require(ReplicatedStorage.Library.Client.Save)
-local saveData = Save.Get()
-local totalPoints = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.Points or 0) or 0
 local character = player.Character or player.CharacterAdded:Wait()
 
 
@@ -387,15 +384,14 @@ end
 
 -- Hàm mở chest với số điểm nhất định
 local function openChest(pointsRequired, chestId)
-    if totalPoints >= pointsRequired then
+    if getTimeTrialPoints() >= pointsRequired then
         teleportToRewardLocation()
         wait(0.5)
         local FantasyKey_Unlock = ReplicatedStorage.Network.TimeTrials_OpenChest
         FantasyKey_Unlock:InvokeServer(chestId)
         wait(1)
-        local saveData = Save.Get()
-		local totalPoints = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.Points or 0) or 0
-        warn("Đã sử dụng " .. pointsRequired .. " điểm, còn lại: " .. totalPoints)
+  
+  
     end
 end
 
@@ -406,9 +402,8 @@ while true do
 	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
 	openChest(3000, 2)  -- Mở chest yêu cầu 3000 điểm	
 	openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
-
-
-	if totalPoints < 1000 then
+	
+	if  () < 1000 then
 		break
 	end
 
