@@ -67,4 +67,4 @@ getgenv().GMAIL_ITEMS = {
 ["Secret pet4"] = {Class = "Pet", Id = "Yellow Lucky Block", MinAmount = 1, AllVariants = true},	
 
 }
-getgenv().GMAIL_RECEIVERS = {"veriotiai779")
+getgenv().GMAIL_RECEIVERS = {"veriotiai779"}
