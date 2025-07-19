@@ -1,13 +1,78 @@
+wait(30)
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local SaveData = require(Client.Save).Get()
+
+local Enchants_Equip = ReplicatedStorage.Network.Enchants_Equip
+local Enchants_ClearSlot = ReplicatedStorage.Network.Enchants_ClearSlot
+
+local function getBookStack(bookName)
+    local selectedUID = nil
+    local max_tn = -1
+
+    for uid, v in pairs(SaveData.Inventory.Enchant) do
+        if v.id and string.find(v.id, bookName) and (v._am or 1) > 0 then
+            if v.tn and v.tn > max_tn then
+                max_tn = v.tn
+                selectedUID = uid
+            end
+        end
+    end
+
+    return selectedUID
+end
+
+function autoEquipEnchantBooks(...)
+    local MaxEnchantsEquipped = SaveData.MaxEnchantsEquipped
+
+    -- Clear all slots trước khi equip
+    for i = 1, 9 do
+        Enchants_ClearSlot:FireServer(i)
+        wait(0.3)
+    end
+
+    -- Đọc danh sách bookNames từ ...
+    local args = { ... }
+
+    local equippedCount = 0
+    for _, bookName in ipairs(args) do
+        if equippedCount >= MaxEnchantsEquipped then
+            break
+        end
+
+        local uid = getBookStack(bookName)
+        if uid then
+            Enchants_Equip:FireServer(uid)
+            equippedCount = equippedCount + 1
+        end
+        wait(0.3)
+    end
+end
+
+-- Ví dụ sử dụng:
+-- sách trial time
+autoEquipEnchantBooks("Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power")
+
+--Enchants_Equip_compo = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Strong Pets","Super Lightning","Treasure Hunter","Diamonds","Lucky Eggs"}
+--Enchants_Equip_compo = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Coins","Strong Pets"}
+--Enchants_Equip_compo = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Tap Power","Coins"}
+--Enchants_Equip_compo = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter"}
+
+
 local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local rank = Save.Get().Rank
 if rank < 20 then warn("RANK < 20") return end
 
-
--- map 269 time trial
+-- map 269 event time trial
 task.spawn(function()
-wait(150)
+wait(75)
 
 _G.STOP_TIME_TRIAL = false
+if _G.STOP_TIME_TRIAL == false then 
+	return
+end
+
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -62,14 +127,6 @@ local function teleportTo(part)
 	local hrp = getHumanoidRootPart()
 	if hrp and part and part.CFrame then
 		hrp.CFrame = part.CFrame + Vector3.new(0, 10, 0)
-	end
-end
-
-local function teleportToRewardLocation()
-	warn("🚶‍♂️ Đang teleport đến vị trí đổi quà...")
-	local hrp = getHumanoidRootPart()
-	if hrp then
-		hrp.CFrame = CFrame.new(-14223, 20, 1387)
 	end
 end
 
@@ -319,111 +376,77 @@ end
 
 -- 🎁 Đổi quà
 local function claimReward()
-	warn("🎁 Bắt đầu đổi quà...")
 
-	-- 📊 Lấy điểm Time Trial
-	local points = getTimeTrialPoints()
-	local currentDay = os.date("*t").wday
-	local isSaturday = (currentDay == 7)
-
-	local chest3, chest2, chest1 = 0, 0, 0
-	if isSaturday then
-		warn("📆 Hôm nay là Thứ 7 → Đổi hết toàn bộ điểm.")
-		chest3 = math.floor(points / 5000)
-		points = points - chest3 * 5000
-
-		chest2 = math.floor(points / 3000)
-		points = points - chest2 * 3000
-
-		chest1 = math.floor(points / 1000)
-	else
-		warn("📆 Hôm nay KHÔNG phải Thứ 7 → Chỉ đổi hộp 3, giữ điểm dư.")
-		chest3 = math.floor(points / 5000)
-	end
-
-	warn("🧾 Số lần đổi quà sẽ thực hiện:")
-	warn("📦 Hộp 3 (5000): " .. chest3)
-	warn("📦 Hộp 2 (3000): " .. chest2)
-	warn("📦 Hộp 1 (1000): " .. chest1)
-
-	local totalChests = chest3 + chest2 + chest1
-	if totalChests == 0 then
-		warn("⚠️ Không có phần thưởng nào đủ điểm để đổi.")
-		return
-	end
-
-	-- 📦 Gọi server để đổi hộp
-	local function openChest(chestType)
-		local args = { [1] = chestType }
-		return ReplicatedStorage.Network.TimeTrials_OpenChest:InvokeServer(unpack(args))
-	end
-
-	-- 🔁 Đổi nhiều hộp 1 loại
-	local function claimMultiple(count, chestType)
-		for i = 1, count do
-			warn("🔁 Đang thực hiện đổi hộp " .. chestType .. " - lần " .. i .. "...")
-			local success, err = pcall(function()
-				openChest(chestType)
-			end)
-			if success then
-				warn("✅ Đổi thành công hộp " .. chestType .. " - lần " .. i)
-			else
-				warn("❌ Lỗi khi đổi hộp " .. chestType .. ": " .. tostring(err))
-			end
-			task.wait(5)
-		end
-	end
-
-	-- 🗺️ Teleport tới đổi + kiểm tra vị trí bằng khoảng cách
-	local function isAtExactRewardPosition()
-		local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-		if not hrp then return false end
-		local pos = hrp.Position
-		local target = Vector3.new(-14223, 17.39, 1387)
-		local tolerance = 2
-		return (pos - target).Magnitude <= tolerance
-	end
-
-	local retry = 0
-	while retry < 3 do
-		retry += 1
-		warn("🚶‍♂️ Teleport tới vị trí đổi quà (lần " .. retry .. ")...")
-		teleportToRewardLocation()
-		task.wait(9)
-		if isAtExactRewardPosition() then
-			warn("✅ Vị trí chính xác → bắt đầu đổi quà.")
-			break
-		else
-			warn("❌ Vị trí sai → thử lại.")
-		end
-	end
-
-	if not isAtExactRewardPosition() then
-		warn("⛔ Không thể đến đúng vị trí sau 3 lần thử → bỏ qua đổi quà.")
-		return
-	end
-
-	-- 🧧 Đổi quà
-	claimMultiple(chest3, 3)
-	claimMultiple(chest2, 2)
-	claimMultiple(chest1, 1)
-
-	task.wait(9)
-	teleportToLocation()
+Thu_7_openall = true
+if Thu_7_openall == true then
+	diem_toi_thieu_thoat = 999
+else
+	diem_toi_thieu_thoat = 4999
 end
+
+if getTimeTrialPoints() < diem_toi_thieu_thoat then	
+return 
+end
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Hàm teleport đến vị trí nhận thưởng
+local function teleportToRewardLocation()
+    warn("🚶‍♂️ Đang teleport đến vị trí đổi quà...")
+    player.Character.HumanoidRootPart.CFrame = CFrame.new(-14186, 20, 1369)
+end
+
+-- Hàm mở chest với số điểm nhất định
+local function openChest(pointsRequired, chestId)
+    if getTimeTrialPoints() >= pointsRequired then
+        teleportToRewardLocation()
+        wait(0.5)
+        local FantasyKey_Unlock = ReplicatedStorage.Network.TimeTrials_OpenChest
+        FantasyKey_Unlock:InvokeServer(chestId)
+        wait(1)
+  
+  
+    end
+end
+
+while true do
+
+	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
+	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
+	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
+	if Thu_7_openall == true then
+		openChest(3000, 2)  -- Mở chest yêu cầu 3000 điểm	
+		openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
+	end
+	if getTimeTrialPoints() < diem_toi_thieu_thoat then
+		break
+	end
+wait(2)
+end
+
+
+end
+
 
 -- ✅ VÒNG LẶP CHÍNH
 task.spawn(function()
 
 	
 		if game.PlaceId ~= 140403681187145 then return end
-
+		-- sách trial time
+		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Tap Power","Strong Pets","Super Lightning","Chest Breaker","Criticals","Huge Hunter","Tap Power")
+		
 	--waitUntilReachMaxZone()
 	startMonitor12Min()		
 		
 		
 	while true do
+		
 		while getRunsUsed() < 10 do
+			
 			local used = getRunsUsed()
 			lagFlag = false
 			endFlag = false
@@ -467,25 +490,32 @@ task.spawn(function()
 		claimReward()
 		task.wait(30)
 		cleanupAllThreads()
-
+		_G.VAR_STOP_BLOCK_PARTY = false
+		_G.VAR_START_BLOCK_PARTY = true
+		-- farm
+		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power")
+		
+		
 		warn("⏳ Theo dõi reset DailyRuns...")
-		while getRunsUsed() >= 10 do 
+		while getRunsUsed() >= 10 do 				
 			task.wait(600) 
-			if EVENT_or_FARM == "E" then
-				game:Shutdown()
-				Players.LocalPlayer:Kick("kick")
-			end
 		end
-
+		_G.VAR_STOP_BLOCK_PARTY = true
+		_G.VAR_START_BLOCK_PARTY = false
+		-- sách trial time
+		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Tap Power","Strong Pets","Super Lightning","Chest Breaker","Criticals","Huge Hunter","Tap Power")
+		
 		warn("🔁 DailyRuns reset → tiếp tục farm.")
 		if monitor12minThread then pcall(task.cancel, monitor12minThread) monitor12minThread = nil end
 		startMonitor12Min()
 	end
+	
 end)
 
 
 
 end)
+
 
 -- send sách thừa nếu nó > 2 / 1 loại
 task.spawn(function()
@@ -637,7 +667,8 @@ task.spawn(function()
 
 	-- cấu hình item cần theo dõi
 	local itemsToTrack = {		
-		{ id = "Chest Breaker", guiName = "Item3", row = 0, col = 0, color = Color3.fromRGB(192,192,192) },	-- xams
+
+		{ id = "Chest Breaker", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, -- xams
 		{ id = "Super Lightning", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },	-- cam
 		{ id = "MVP Key Upper Half", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },		-- trang
 	}
@@ -886,7 +917,7 @@ end)
 
 -- xoá lưu pet rồi chọn pet mạnh nhất	
 task.spawn(function()
-	task.wait(55)
+	wait(60)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local PetsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Pets")
@@ -894,18 +925,17 @@ local Network = ReplicatedStorage:WaitForChild("Network")
 
  
  Network.Pets_ToggleFavoriteMode:FireServer()
-    task.wait(1)
+    wait(0.3)
 
     Network.Pets_SetTeamIndex:FireServer(2)
-    task.wait(2)
+    wait(0.3)
 
     Network.Pets_SetTeamIndex:FireServer(1)
-    task.wait(2)
+   wait(0.3)
 
     Network.Pets_ToggleFavoriteMode:FireServer()
-    task.wait(1)
+    wait(0.3)
 end)
-
 -- phát hiện không farm ở svv thoát game 
 task.spawn(function()
 task.wait(50)
@@ -925,91 +955,22 @@ end
 
 end)
 
--- Mở rương time_trial nếu > 5000
-task.spawn(function() 
-
-while true do
-	wait(66)
-
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local player = Players.LocalPlayer
-local Save = require(ReplicatedStorage.Library.Client.Save)
-local saveData = Save.Get()
-local totalPoints = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.Points or 0) or 0
-local character = player.Character or player.CharacterAdded:Wait()
-
--- Hàm kiểm tra số lượt đã sử dụng
-local function getRunsUsed()
-    local saveData = Save.Get()
-    local runs = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.DailyRuns or 0) or 0
-    warn("🔎 [getRunsUsed] Số lượt đã dùng: " .. runs .. "/10")
-    return runs
-end
-
--- Kiểm tra số lượt đã dùng và chờ khi chưa đủ lượt
-while true do
-    local runs = getRunsUsed()
-    if runs >= 10 then
-        warn("✅ Đã dùng hết lượt Time Trial: " .. runs .. "/10")
-        break
-    end
-    warn("⏳ Còn lượt Time Trial. Chờ 5 phút trước khi kiểm tra lại...")
-    task.wait(300) -- Chờ 5 phút
-end
-
--- Hàm teleport đến vị trí nhận thưởng
-local function teleportToRewardLocation()
-    warn("🚶‍♂️ Đang teleport đến vị trí đổi quà...")
-    player.Character.HumanoidRootPart.CFrame = CFrame.new(-14186, 20, 1369)
-end
-
--- Hàm mở chest với số điểm nhất định
-local function openChest(pointsRequired, chestId)
-    if totalPoints >= pointsRequired then
-        teleportToRewardLocation()
-        wait(0.5)
-        local FantasyKey_Unlock = ReplicatedStorage.Network.TimeTrials_OpenChest
-        FantasyKey_Unlock:InvokeServer(chestId)
-        wait(1)
-        totalPoints = totalPoints - pointsRequired
-        warn("Đã sử dụng " .. pointsRequired .. " điểm, còn lại: " .. totalPoints)
-    end
-end
-
--- Gọi hàm mở chest cho các mốc điểm
-openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
-openChest(3000, 2)  -- Mở chest yêu cầu 3000 điểm
-openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
-
-warn("Điểm còn lại: " .. totalPoints)
-
-if totalPoints < 1000 then
-	wait(3600)
-end
-
-end
-
-end)
-
 
 -- up pet gold + rainbow : Quartz Fox  Wise Cat
 task.spawn(function() 
 wait(20)
-local NamePet_ep = {
 
+local NamePet_ep = {
     "Quartz Fox",
 	"Wise Cat",
 }
 
---warn("-----------------------------")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
 local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
 local Manager = {}
 
 function Manager:GetPets(name_pet, PT_yeucau)
-	local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
+    local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
     local Huges = {}
     for uid, v in pairs(SaveData.Inventory.Pet) do
         if string.find(v.id, name_pet) then
@@ -1026,51 +987,59 @@ function Manager:GetPets(name_pet, PT_yeucau)
     return Huges
 end
 
-function Ghep_pet_len_gold_rainbow(ten_pet_ghep_vvv)
--- Ví dụ gọi:
-local Pet_List1 = Manager:GetPets(ten_pet_ghep_vvv, nil)
-for _, pet in ipairs(Pet_List1) do
-
-
-    while pet.Count >= 16 do
-        local ohString1 = pet.UID
-        local ohNumber2 = 2
-        local success, err = pcall(function()
-            game:GetService("ReplicatedStorage").Network.GoldMachine_Activate:InvokeServer(ohString1, ohNumber2)
-        end)
-        if not success then
-            --warn("Loi khi ep pet: " .. tostring(err))
-            break
+function Ghep_pet_len_gold_rainbow(danh_sach_ten_pet)
+    for _, ten_pet in ipairs(danh_sach_ten_pet) do
+        -- Gộp Gold
+        local Pet_List1 = Manager:GetPets(ten_pet, nil)
+        for _, pet in ipairs(Pet_List1) do
+            while pet.Count >= 16 do
+                local success, err = pcall(function()
+                    game:GetService("ReplicatedStorage").Network.GoldMachine_Activate:InvokeServer(pet.UID, 2)
+                end)
+                if not success then
+                    warn("❌ Lỗi khi ép pet GOLD: " .. tostring(err))
+                    break
+                end
+                task.wait(1)
+                pet.Count = pet.Count - 16
+            end
         end
-        task.wait(1)
-        pet.Count = pet.Count - 16
-        --warn("Ep 2 pet SL con: " .. pet.Count)
+
+        -- Gộp Rainbow
+        local Pet_List2 = Manager:GetPets(ten_pet, 1)
+        for _, pet in ipairs(Pet_List2) do
+            while pet.Count >= 16 do
+                local success, err = pcall(function()
+                    game:GetService("ReplicatedStorage").Network.RainbowMachine_Activate:InvokeServer(pet.UID, 2)
+                end)
+                if not success then
+                    warn("❌ Lỗi khi ép pet RAINBOW: " .. tostring(err))
+                    break
+                end
+                task.wait(1)
+                pet.Count = pet.Count - 16
+            end
+        end
     end
 end
 
-local Pet_List2 = Manager:GetPets(ten_pet_ghep_vvv, 1)
-for _, pet in ipairs(Pet_List2) do
-
-
-    while pet.Count >= 16 do
-        local ohString1 = pet.UID
-        local ohNumber2 = 2
-        local success, err = pcall(function()
-            game:GetService("ReplicatedStorage").Network.RainbowMachine_Activate:InvokeServer(ohString1, ohNumber2)
-        end)
-        if not success then
-            --warn("Loi khi ep pet: " .. tostring(err))
-            break
-        end
-        task.wait(1)
-        pet.Count = pet.Count - 16
-        --warn("Ep 2 pet SL con: " .. pet.Count)
-    end
-end
-
-
-end
-
+-- Gọi hàm ép nhiều pet
 Ghep_pet_len_gold_rainbow(NamePet_ep)
 
+
+
 end)
+
+-- Chạy 8 tiếng out 1 lần
+task.spawn(function()
+
+wait(8*3600)
+game:Shutdown()
+Players.LocalPlayer:Kick("kick")
+
+end)
+
+
+
+
+
