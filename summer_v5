@@ -1,4 +1,5 @@
 wait(100)
+
 _G.VAR_BLOCK_PARTY = true
 local isRunning = false
 
@@ -485,6 +486,22 @@ local function startAllBlockPartyTasks()
 		print("✅ Đã khởi động LUỒNG 6: GUI Updater")
 		startGuiUpdater()
 	end)
+	-- 🧩 LUỒNG 9: check join event
+	task.spawn(function()
+		print("✅ Đã khởi động check join event")
+		wait(99)
+		while true do
+			waitUntilAllowed()
+			if getTotalTileCount() == 0 then
+				handleRejoin()
+			end
+			wait(33)
+		end
+		
+		
+	end)
+	
+	
 end
 
 task.spawn(function()
