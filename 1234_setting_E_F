@@ -4,7 +4,7 @@ if name_vps == "vin2" then
 end
 
 if name_vps == "vin3" then
-  EVENT_or_FARM = "E"
+  EVENT_or_FARM = "F"
   Start_ford = 2
 end
 
