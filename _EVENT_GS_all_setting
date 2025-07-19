@@ -50,7 +50,7 @@ getgenv().GPOTIONS = {"Coins","Lucky","The Cocktail","Huge","Treasure Hunter","W
 getgenv().GPOTIONS_MAX_TIER = 99
 
 
-getgenv().GHUGE_COUNT = 50
+getgenv().GHUGE_COUNT = 50000
 
 getgenv().GMAIL_ITEMS = {		
 ["Secret pet1"] = {Class = "Pet", Id = "Rainbow Swirl", MinAmount = 1, AllVariants = true},
