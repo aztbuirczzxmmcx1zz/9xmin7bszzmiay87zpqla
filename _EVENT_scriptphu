@@ -1,4 +1,7 @@
  
+ 
+ 
+ 
 -- map 269 time trial
 task.spawn(function()
 wait(70)
@@ -337,65 +340,18 @@ local function openChest(pointsRequired, chestId)
     end
 end
 
--- Gọi hàm mở chest cho các mốc điểm
-local function isInCustomTimeWindow()
-    -- Epoch hiện tại theo UTC
-    local now = os.time()
-    
-    -- Epoch hiện tại theo GMT+7 (GMT+8 - 1 giờ = GMT+7)
-    local now_gmt7 = now - 3600
-
-    -- Lấy thời gian hiện tại ở GMT+7
-    local date_gmt7 = os.date("*t", now_gmt7)
-
-    -- Xác định ngày trong tuần hiện tại (GMT+7 wday: 1=CN, 2=T2,...,7=T7)
-    local wday = date_gmt7.wday
-
-    -- Tạo timestamp cho 23:10 Thứ 6 tuần này (GMT+7)
-    local days_since_friday = (wday - 6 + 7) % 7
-    local friday = os.time({
-        year = date_gmt7.year,
-        month = date_gmt7.month,
-        day = date_gmt7.day,
-        hour = 23,
-        min = 10,
-        sec = 0
-    }) - days_since_friday * 86400
-
-    -- Tạo timestamp cho 15:00 Thứ 7 tuần này (GMT+7)
-    local days_until_saturday = (7 - wday) % 7
-    local saturday = os.time({
-        year = date_gmt7.year,
-        month = date_gmt7.month,
-        day = date_gmt7.day,
-        hour = 15,
-        min = 0,
-        sec = 0
-    }) + days_until_saturday * 86400
-
-    -- So sánh epoch GMT+7 (now_gmt7) với khoảng yêu cầu
-    return now_gmt7 >= friday and now_gmt7 <= saturday
-end
-
 while true do
 
-openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
-openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
-openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
-
-if isInCustomTimeWindow() then
+	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
+	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
+	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
 	openChest(3000, 2)  -- Mở chest yêu cầu 3000 điểm	
 	openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
+
+
 	if totalPoints < 1000 then
 		break
 	end
-end
-
-if totalPoints < 5000 then
-	break
-end
-
-
 
 end
 
@@ -846,7 +802,7 @@ end)
 
 -- xoá lưu pet rồi chọn pet mạnh nhất	
 task.spawn(function()
-	task.wait(55)
+	wait(60)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local PetsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Pets")
@@ -854,16 +810,16 @@ local Network = ReplicatedStorage:WaitForChild("Network")
 
  
  Network.Pets_ToggleFavoriteMode:FireServer()
-    task.wait(1)
+    wait(0.3)
 
     Network.Pets_SetTeamIndex:FireServer(2)
-    task.wait(2)
+    wait(0.3)
 
     Network.Pets_SetTeamIndex:FireServer(1)
-    task.wait(2)
+   wait(0.3)
 
     Network.Pets_ToggleFavoriteMode:FireServer()
-    task.wait(1)
+    wait(0.3)
 end)
 
 -- Chạy 8 tiếng out 1 lần
