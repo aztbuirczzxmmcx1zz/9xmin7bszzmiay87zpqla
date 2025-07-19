@@ -393,7 +393,8 @@ local function openChest(pointsRequired, chestId)
         local FantasyKey_Unlock = ReplicatedStorage.Network.TimeTrials_OpenChest
         FantasyKey_Unlock:InvokeServer(chestId)
         wait(1)
-        totalPoints = totalPoints - pointsRequired
+        local saveData = Save.Get()
+		local totalPoints = saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.Points or 0) or 0
         warn("Đã sử dụng " .. pointsRequired .. " điểm, còn lại: " .. totalPoints)
     end
 end
@@ -423,7 +424,7 @@ task.spawn(function()
 	
 		if game.PlaceId ~= 140403681187145 then return end
 		-- sách trial time
-		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Chest Breaker","Huge Hunter","Tap Power")
+		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Tap Power","Strong Pets","Super Lightning","Chest Breaker","Criticals","Huge Hunter","Tap Power")
 		
 	--waitUntilReachMaxZone()
 	startMonitor12Min()		
@@ -478,7 +479,7 @@ task.spawn(function()
 		cleanupAllThreads()
 		_G.VAR_STOP_BLOCK_PARTY = false
 		_G.VAR_START_BLOCK_PARTY = true
-		-- sách trial time
+		-- Event
 		autoEquipEnchantBooks("Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter","Huge Hunter","Treasure Hunter","Lucky Eggs")
 		
 		
@@ -489,7 +490,7 @@ task.spawn(function()
 		_G.VAR_STOP_BLOCK_PARTY = true
 		_G.VAR_START_BLOCK_PARTY = false
 		-- sách trial time
-		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Chest Breaker","Huge Hunter","Tap Power")
+		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Tap Power","Strong Pets","Super Lightning","Chest Breaker","Criticals","Huge Hunter","Tap Power")
 		
 		warn("🔁 DailyRuns reset → tiếp tục farm.")
 		if monitor12minThread then pcall(task.cancel, monitor12minThread) monitor12minThread = nil end
