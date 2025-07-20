@@ -19,11 +19,9 @@ getgenv().Settings = {
 
 
 ["Rainbow Palace Pooka"] = {Price = "5%", Priority = true},
-["Shiny Golden Palace Pooka"] = {Price = "5%", Priority = true},
 ["Shiny Rainbow Palace Pooka"] = {Price = "5%", Priority = true},
 
 ["Rainbow Rose Pooka"] = {Price = "5%", Priority = true},
-["Shiny Golden Rose Pooka"] = {Price = "5%", Priority = true},
 ["Shiny Rainbow Rose Pooka"] = {Price = "5%", Priority = true},
 
 
