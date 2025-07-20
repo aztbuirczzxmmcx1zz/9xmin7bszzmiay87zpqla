@@ -1,4 +1,4 @@
-EVENT_or_FARM = "F"
+EVENT_or_FARM = "E"
 
 
 if _G.TAG then
