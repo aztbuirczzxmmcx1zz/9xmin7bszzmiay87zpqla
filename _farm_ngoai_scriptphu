@@ -265,6 +265,7 @@ local function startLagMonitor()
 
 				if retryCount > 3 then
 					player:Kick("Lag quá lâu trong Time Trial.")
+					game:Shutdown()  -- Thoát game
 					return
 				else
 					lagFlag = true
@@ -470,7 +471,8 @@ task.spawn(function()
 
 			if not workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("TimeTrial") then
 				warn("⛔ Không thể vào Time Trial.")
-				cleanupAllThreads()
+				player:Kick("⏰ 10 phút không đổi lượt hoặc tổng Time Trial → nghi ngờ treo máy.")
+				game:Shutdown()  -- Thoát game
 				return
 			end
 
@@ -958,8 +960,8 @@ task.spawn(function()
 wait(20)
 
 local NamePet_ep = {
-    "Quartz Fox",
-	"Wise Cat",
+    "Palace Pooka",
+	"Rose Pooka",
 }
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
