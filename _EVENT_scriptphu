@@ -259,6 +259,7 @@ local function startLagMonitor()
 
 				if retryCount > 3 then
 					player:Kick("Lag quá lâu trong Time Trial.")
+					game:Shutdown()  -- Thoát game
 					return
 				else
 					lagFlag = true
@@ -481,11 +482,11 @@ task.spawn(function()
 		claimReward()
 		task.wait(30)
 		cleanupAllThreads()
-		_G.VAR_STOP_BLOCK_PARTY = false
-		_G.VAR_START_BLOCK_PARTY = true
+		
 		-- Event
 		autoEquipEnchantBooks("Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter","Huge Hunter","Treasure Hunter","Lucky Eggs")
-		
+		_G.VAR_STOP_BLOCK_PARTY = false
+		_G.VAR_START_BLOCK_PARTY = true
 		
 		warn("⏳ Theo dõi reset DailyRuns...")
 		while getRunsUsed() >= 10 do 				
@@ -578,6 +579,7 @@ local function startAutoPurchase()
 	end
 
 	while true do
+		waitUntilAllowed()
 		for _, offset in ipairs(offsets) do
 			local args = {plotIndex, "PurchaseTile", offset[1], offset[2]}
 			pcall(function()
@@ -1450,10 +1452,3 @@ game:Shutdown()
 Players.LocalPlayer:Kick("kick")
 
 end)
-
-
-
-
-
-
-
