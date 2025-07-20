@@ -18,13 +18,16 @@ getgenv().Settings = {
 ["Huge Machine Egg 5"] = {Price = "1%", Priority = true},
 
 
+["Rainbow Palace Pooka"] = {Price = "5%", Priority = true},
+["Shiny Palace Pooka"] = {Price = "5%", Priority = true},
+["Shiny Golden Palace Pooka"] = {Price = "5%", Priority = true},
+["Shiny Rainbow Palace Pooka"] = {Price = "5%", Priority = true},
 
-["Quartz Fox"] = {Price = "+2%", Priority = true},
-["Golden Quartz Fox"] = {Price = "+2%", Priority = true},
-["Rainbow Quartz Fox"] = {Price = "+2%", Priority = true},
-["Shiny Quartz Fox"] = {Price = "+2%", Priority = true},
-["Shiny Golden Quartz Fox"] = {Price = "5%", Priority = true},
-["Shiny Rainbow Quartz Fox"] = {Price = "5%", Priority = true},
+["Rainbow Rose Pooka"] = {Price = "5%", Priority = true},
+["Shiny Rose Pooka"] = {Price = "5%", Priority = true},
+["Shiny Golden Rose Pooka"] = {Price = "5%", Priority = true},
+["Shiny Rainbow Rose Pooka"] = {Price = "5%", Priority = true},
+
 
 
 ["Insta Plant Capsule"] = {Price = 27000, Priority = true},
