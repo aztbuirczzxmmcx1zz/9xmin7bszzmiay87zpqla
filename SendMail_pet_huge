@@ -431,7 +431,7 @@ end
 while true do
 
 sendExcessPets()
-wait(3600)
+wait(21600)
 end
 
 
