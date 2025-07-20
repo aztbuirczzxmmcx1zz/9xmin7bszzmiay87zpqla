@@ -75,7 +75,7 @@ getgenv().Settings = {
 ["Crystal Key"] = {Class = "Misc", Id = "Crystal Key", MinAmount = 2500},
 ["Hacker Key"] = {Class = "Misc", Id = "Hacker Key", MinAmount = 2},
 
-["Insta Plant Capsule"] = {Class = "Misc", Id = "Insta Plant Capsule", MinAmount = 1},
+["Insta Plant Capsule"] = {Class = "Misc", Id = "Insta Plant Capsule", MinAmount = 500},
 ["Time Trial Gift"] = {Class = "Lootbox", Id = "Time Trial Gift", MinAmount = 18}, --ok
 
 }
