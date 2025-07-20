@@ -1,4 +1,4 @@
-EVENT_or_FARM = "F"
+EVENT_or_FARM = "E"
 
 if game.PlaceId ~= 140403681187145 then 
 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
