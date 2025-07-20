@@ -160,7 +160,7 @@ for key, config in pairs(getgenv().Settings) do
 	local allVariants = config.AllVariants or false
 	wait(2)
 	if class == "Currency" then
-	warn("Currency")
+
 	for uid, v in pairs(Inventory.Currency) do
 		if v.id == id then
 			local current = tonumber(v._am) or 0
@@ -488,11 +488,11 @@ for _, targetId in ipairs(petIds) do
             })
 
             count += amount
-            warn(string.format("🐾 [%s] UID: %s | XP: %d | Amount: %d", obj.id, uid, xp, amount))
+            --warn(string.format("🐾 [%s] UID: %s | XP: %d | Amount: %d", obj.id, uid, xp, amount))
         end
     end
 
-    warn(string.format("✅ Tổng cộng tìm thấy %d pet với %d UID.", count, #pets))
+    --warn(string.format("✅ Tổng cộng tìm thấy %d pet với %d UID.", count, #pets))
 
     if #pets > 50 then
         table.sort(pets, function(a, b)
