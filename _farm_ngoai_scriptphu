@@ -51,20 +51,18 @@ end
 -- Ví dụ sử dụng:
 -- sách trial time
 autoEquipEnchantBooks("Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power")
-
---Enchants_Equip_compo = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Strong Pets","Super Lightning","Treasure Hunter","Diamonds","Lucky Eggs"}
---Enchants_Equip_compo = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Coins","Strong Pets"}
---Enchants_Equip_compo = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Tap Power","Coins"}
---Enchants_Equip_compo = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter"}
-
-
-local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-local rank = Save.Get().Rank
-if rank < 20 then warn("RANK < 20") return end
+--autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Strong Pets","Super Lightning","Treasure Hunter","Diamonds","Lucky Eggs"}
+--autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Coins","Strong Pets"}
+--autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Tap Power","Coins"}
+--autoEquipEnchantBooks = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter"}
 
 -- map 269 event time trial
 task.spawn(function()
 wait(75)
+local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local rank = Save.Get().Rank
+if rank < 20 then warn("RANK < 20") return end
+
 
 _G.STOP_TIME_TRIAL = false
 if _G.STOP_TIME_TRIAL == false then 
@@ -375,7 +373,7 @@ end
 -- 🎁 Đổi quà
 local function claimReward()
 
-Thu_7_openall = true
+Thu_7_openall = false
 if Thu_7_openall == true then
 	diem_toi_thieu_thoat = 999
 else
@@ -394,7 +392,7 @@ local character = player.Character or player.CharacterAdded:Wait()
 -- Hàm teleport đến vị trí nhận thưởng
 local function teleportToRewardLocation()
     warn("🚶‍♂️ Đang teleport đến vị trí đổi quà...")
-    player.Character.HumanoidRootPart.CFrame = CFrame.new(-14186, 20, 1369)
+    player.Character.HumanoidRootPart.CFrame = CFrame.new(-14186, 20, 2206)
 end
 
 -- Hàm mở chest với số điểm nhất định
