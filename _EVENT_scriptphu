@@ -489,12 +489,25 @@ task.spawn(function()
 		autoEquipEnchantBooks("Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter","Huge Hunter","Treasure Hunter","Lucky Eggs")
 		
 		
+		local player = game.Players.LocalPlayer
+			
+		-- 🧭 Teleport vào Block Party & đến vị trí cụ thể
+		function teleportTo(cf)
+			local character = player.Character or player.CharacterAdded:Wait()
+			local hrp = character:FindFirstChild("HumanoidRootPart")
+			if hrp then
+				hrp.CFrame = cf
+			end
+		end
+		local Enter = workspace.__THINGS.Instances.BlockParty.Teleports.Enter	
+		teleportTo(Enter.CFrame + Vector3.new(0, 5, 0))
+		task.wait(9)
+		
 		warn("⏳ Theo dõi reset DailyRuns...")
 		while getRunsUsed() >= 10 do 				
 			task.wait(600) 
 		end
-		_G.VAR_STOP_BLOCK_PARTY = true
-		_G.VAR_START_BLOCK_PARTY = false
+		
 		-- sách trial time
 		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Tap Power","Strong Pets","Super Lightning","Chest Breaker","Criticals","Huge Hunter","Tap Power")
 		
@@ -512,6 +525,12 @@ end)
 -- event block patry
 task.spawn(function()
 
+_G.VAR_STOP_BLOCK_PARTY = true
+_G.VAR_START_BLOCK_PARTY = false
+
+if _G.VAR_STOP_BLOCK_PARTY == true then
+	return
+end		
 wait(150)
 
 _G.VAR_BLOCK_PARTY = true
