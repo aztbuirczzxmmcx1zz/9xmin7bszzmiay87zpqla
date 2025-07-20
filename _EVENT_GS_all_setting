@@ -1,9 +1,14 @@
---getgenv().GMIN_EGGS_TO_HATCH = 9999999999999
+
+getgenv().GDO_BLOCK_PARTY = true
+getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_TITANIC = false
+getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_MULTIPLIER = 100 -- add & change this if you want, to disable put value above 100
+
+
 
 getgenv().GLOOTBOXES = {"All"}
 
 getgenv().GENCHANTS = {}
-
+--getgenv().GMIN_EGGS_TO_HATCH = 9999999999999
 --getgenv().GRANK_FIRST = true
 getgenv().GZONE_TO = 999
 
