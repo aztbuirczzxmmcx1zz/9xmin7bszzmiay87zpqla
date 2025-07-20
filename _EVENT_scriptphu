@@ -48,15 +48,15 @@ function autoEquipEnchantBooks(...)
     end
 end
 
-task.spawn(function()
 -- Ví dụ sử dụng:
 -- sách trial time
 autoEquipEnchantBooks("Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power")
---Enchants_Equip_compo = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Strong Pets","Super Lightning","Treasure Hunter","Diamonds","Lucky Eggs"}
---Enchants_Equip_compo = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Coins","Strong Pets"}
---Enchants_Equip_compo = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Tap Power","Coins"}
---Enchants_Equip_compo = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter"}
- end)
+
+--autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Strong Pets","Super Lightning","Treasure Hunter","Diamonds","Lucky Eggs"}
+--autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Coins","Strong Pets"}
+--autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Tap Power","Coins"}
+--autoEquipEnchantBooks = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter"}
+ 
  
 -- map 269 event time trial
 task.spawn(function()
@@ -367,17 +367,26 @@ end
 -- 🎁 Đổi quà
 local function claimReward()
 
+Thu_7_openall = true
+if Thu_7_openall == true then
+	diem_toi_thieu_thoat = 999
+else
+	diem_toi_thieu_thoat = 4999
+end
+
+if getTimeTrialPoints() < diem_toi_thieu_thoat then	
+return 
+end
+
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
-
-
 -- Hàm teleport đến vị trí nhận thưởng
 local function teleportToRewardLocation()
     warn("🚶‍♂️ Đang teleport đến vị trí đổi quà...")
-    player.Character.HumanoidRootPart.CFrame = CFrame.new(-14186, 20, 1369)
+    player.Character.HumanoidRootPart.CFrame = CFrame.new(-14186, 20, 2206)
 end
 
 -- Hàm mở chest với số điểm nhất định
@@ -398,10 +407,11 @@ while true do
 	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
 	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
 	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
-	openChest(3000, 2)  -- Mở chest yêu cầu 3000 điểm	
-	openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
-	
-	if getTimeTrialPoints() < 1000 then
+	if Thu_7_openall == true then
+		openChest(3000, 2)  -- Mở chest yêu cầu 3000 điểm	
+		openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
+	end
+	if getTimeTrialPoints() < diem_toi_thieu_thoat then
 		break
 	end
 wait(2)
@@ -1414,3 +1424,10 @@ game:Shutdown()
 Players.LocalPlayer:Kick("kick")
 
 end)
+
+
+
+
+
+
+
