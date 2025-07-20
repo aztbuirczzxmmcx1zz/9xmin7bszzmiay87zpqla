@@ -157,6 +157,12 @@ end)
 -- send pet hiem hoac huge gia cao. Soluong_Yeu_cau = 1 thì giữ lại 1 con, khác 1 thì phải chờ nhiều hơn Soluong_Yeu_cau thì mới send tất cả
 task.spawn(function() 
 
+_G.STOP_SEND=true
+if _G.STOP_SEND == true then
+	return
+end
+
+
 getgenv().Settings = {
     ["list_pet"] = {
 
