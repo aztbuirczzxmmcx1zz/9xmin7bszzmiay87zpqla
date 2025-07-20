@@ -558,7 +558,7 @@ local function teleportToBlockParty()
 	-- 🧭 Teleport vào Block Party & đến vị trí cụ thể
 	teleportTo(Enter.CFrame + Vector3.new(0, 5, 0))
 	task.wait(9)
-	teleportTo(CFrame.new(16460, 2275, -21473))
+	--teleportTo(CFrame.new(16460, 2275, -21473))
 end
 
 ---------------- 🧩 LUỒNG 1: Mua tiles quanh plot ----------------
@@ -640,7 +640,7 @@ end
 
 ---------------- 🧩 LUỒNG 3: Hatch HUGE CHANCE ----------------
 local currentChance = 0
-local tileThreshold = 120
+local tileThreshold = 169
 
 local function extractHugeLuckValue(text)
 	local value = text:match("(%d+)x%s+Huge%s+Luck!?")
@@ -729,7 +729,7 @@ local function startAutoHatchHuge()
 
 			while getTotalTileCount() < tileThreshold do
 				warn("⏳ Tiles hiện tại dưới " .. tileThreshold .. " → đang chờ...")
-				task.wait(3)
+				task.wait(30)
 			end
 
 			if not bestEgg or not bestEgg:IsDescendantOf(workspace) then
