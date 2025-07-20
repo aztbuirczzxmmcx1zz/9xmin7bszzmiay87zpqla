@@ -207,7 +207,7 @@ for key, config in pairs(getgenv().Settings) do
 end
 
 
-wait(4000)
+wait(21000)
 end
 
 
@@ -598,7 +598,7 @@ for _, pet in ipairs(listPet) do
         warn("❌ Failed to send PET to " .. randomRecipient .. ": " .. tostring(petErr))
         table.insert(failedPetList, randomRecipient)
     end
-	task.wait(36000)
+	task.wait(21000)
 end
 
 -- Thông báo danh sách các người nhận thất bại
