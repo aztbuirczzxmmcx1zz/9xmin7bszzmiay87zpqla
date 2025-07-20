@@ -29,7 +29,7 @@ getgenv().Settings = {
 
 ["Insta Plant Capsule"] = {Price = 27000, Priority = true},
 ["XPPotion Mastery"] = {Price = 400000, Priority = true},
-["Royalty TN1"] = {Price = "6m", Priority = true},
+["Royalty TN1"] = {Price = "7m", Priority = true},
 ["Overload TN1"] = {Price = "8m", Priority = true},
 ["Charm Chisel"] = {Price = "150k", Priority = true},	
 
