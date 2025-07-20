@@ -561,7 +561,31 @@ end
 
 ---------------- 🧩 LUỒNG 1: Mua tiles quanh plot ----------------
 local function startAutoPurchase()
+	local plotIndex = 1
+	local radiusMax = 6
+	local delayPerTile = 0.05
+	local delayPerCycle = 0.05
+	local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
 
+	local offsets = {}
+	for dx = -radiusMax, radiusMax do
+		for dy = -radiusMax, radiusMax do
+			if not (dx == 0 and dy == 0) then
+				table.insert(offsets, {dx, dy})
+			end
+		end
+	end
+
+	while true do
+		for _, offset in ipairs(offsets) do
+			local args = {plotIndex, "PurchaseTile", offset[1], offset[2]}
+			pcall(function()
+				PlotsInvoke:InvokeServer(unpack(args))
+			end)
+			task.wait(delayPerTile)
+		end
+		task.wait(delayPerCycle)
+	end
 end
 
 ---------------- 🧩 LUỒNG 2: Claim + Open + Unlock + Plant + Diamond ----------------
@@ -613,7 +637,7 @@ end
 
 ---------------- 🧩 LUỒNG 3: Hatch HUGE CHANCE ----------------
 local currentChance = 0
-local tileThreshold = 161
+local tileThreshold = 120
 
 local function extractHugeLuckValue(text)
 	local value = text:match("(%d+)x%s+Huge%s+Luck!?")
@@ -741,7 +765,9 @@ local function startAutoHatchHuge()
 
 	while true do
 		waitUntilAllowed()
+		warn("while ")
 		if getTotalTileCount() >= tileThreshold then
+			warn("Đủ getTotalTileCount")
 			local initialTile, initialChance = findBestHugeTile()
 			if initialTile and initialChance > 0 then
 				currentChance = initialChance
@@ -835,7 +861,7 @@ end
 local function startAutoRebirth()
 	local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
 	local threshold = 169
-	local maxTileRebirth = 10
+	local maxTileRebirth = 15
 
 	while true do
 		waitUntilAllowed()
@@ -940,7 +966,7 @@ local function startAllBlockPartyTasks()
 			local tileRebirth = saveData.TileRebirth or 0
 			local totalTiles = getTotalTileCount()
 
-			if tileRebirth < 10 or totalTiles < 169 then
+			if tileRebirth < 15 or totalTiles < 169 then
 				print("✅ Đã khởi động LUỒNG 1: Auto Purchase")
 				startAutoPurchase()
 				break
@@ -958,7 +984,7 @@ local function startAllBlockPartyTasks()
 	-- 🧩 LUỒNG 5: Hatch HUGE
 	task.spawn(function()
 		while true do
-			while getTotalTileCount() < 83 do
+			while getTotalTileCount() < 120 do
 				task.wait(2)
 			end
 			print("✅ Đã khởi động LUỒNG 3: Hatch HUGE CHANCE")
@@ -983,7 +1009,7 @@ local function startAllBlockPartyTasks()
 		while true do
 			local saveData = Save.Get()
 			local tileRebirth = saveData.TileRebirth or 0
-			if tileRebirth < 10 then
+			if tileRebirth < 15 then
 				print("✅ Đã khởi động LUỒNG 5: Auto Rebirth")
 				startAutoRebirth()
 				break
@@ -1028,7 +1054,6 @@ task.spawn(function()
 		task.wait(2)
 	end
 end)
-
 
 end)
 
