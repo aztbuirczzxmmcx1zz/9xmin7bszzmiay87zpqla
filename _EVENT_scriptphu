@@ -224,15 +224,16 @@ local function startMonitor12Min()
 			local startUsed = getRunsUsed()
 			local startTotal = getTotalRuns()
 			local t = 0
-			while t < 720 do
+			while t < 600 do
 				task.wait(10)
 				t += 10
 				if getRunsUsed() ~= startUsed or getTotalRuns() ~= startTotal then break end
 				if getRunsUsed() >= 10 then return end
 			end
 
-			if getRunsUsed() == startUsed and getTotalRuns() == startTotal then
-				player:Kick("⏰ 12 phút không đổi lượt hoặc tổng Time Trial → nghi ngờ treo máy.")
+			if getRunsUsed() == startUsed and getTotalRuns() == startTotal then				
+				player:Kick("⏰ 10 phút không đổi lượt hoặc tổng Time Trial → nghi ngờ treo máy.")
+				game:Shutdown()  -- Thoát game
 				return
 			end
 		end
