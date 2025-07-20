@@ -31,7 +31,7 @@ warn("📮 Số thư đã gửi trong 24h trước reset:", sentCount)
 -- Nếu quá giới hạn -> chờ đến khi reset
 if sentCount >= 10 then
     warn("⚠️ Đã gửi quá giới hạn 10 thư! Đang chờ đến khi reset...")
-    task.wait(secondsRemaining + 1)  -- đợi đến khi reset + 1 giây an toàn
+    wait(secondsRemaining + 1)  -- đợi đến khi reset + 1 giây an toàn
     warn("✅ Đã qua thời điểm reset, có thể gửi tiếp.")
 end
 
@@ -211,18 +211,26 @@ end
 end)
 
 
--- send pet hiem hoac huge gia cao
+-- send pet hiem hoac huge gia cao. Soluong_Yeu_cau = 1 thì giữ lại 1 con, khác 1 thì phải chờ nhiều hơn Soluong_Yeu_cau thì mới send tất cả
 task.spawn(function() 
 
 getgenv().Settings = {
     ["list_pet"] = {
 
-["Huge Chill Bunny"] 	= {Soluong_Yeu_cau = 0},
-["Golden Huge Chill Bunny"] 	= {Soluong_Yeu_cau = 0},
+["Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 
 
-["Huge Runebound Bobcat"] 	= {Soluong_Yeu_cau = 0},
-["Golden Huge Runebound Bobcat"] 	= {Soluong_Yeu_cau = 0},
+["Rose Pooka"] 	= {Soluong_Yeu_cau = 5},
+["Golden Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Rainbow Rose Pooka"] 	= {Soluong_Yeu_cau = 1},
+["Shiny Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Golden Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Rainbow Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
 
 },
    
@@ -397,7 +405,7 @@ local function sendExcessPets()
 						--warn("Huge chi send 1")
 						totalCount = 1
 					end
-					if requiredAmount > 0 then
+					if requiredAmount == 1 then
 						--warn("Giữ lại bn con")
 						totalCount = totalCount - requiredAmount
 					end
