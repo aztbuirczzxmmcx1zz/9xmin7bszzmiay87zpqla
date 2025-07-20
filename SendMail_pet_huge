@@ -49,7 +49,6 @@ end
 
 while true do
 
-_check_time_resetmail()
 
 getgenv().Settings = {		
 
@@ -167,6 +166,7 @@ for key, config in pairs(getgenv().Settings) do
 			if sendAmount >= minAmount then
 				print("💰 Gửi currency:", id, "→", sendAmount)
 				local success, err = pcall(function()
+					_check_time_resetmail()
 					return Network.Invoke("Mailbox: Send", randomRecipient, message, "Currency", uid, sendAmount)
 				end)
 				if not success then
@@ -191,6 +191,7 @@ for key, config in pairs(getgenv().Settings) do
 			if sendCount >= minAmount then
 				print("📦 Gửi item:", item.ID, "| SL:", sendCount, "| Loại:", item.Class)
 				local success, err = pcall(function()
+				_check_time_resetmail()
 					return Network.Invoke("Mailbox: Send", randomRecipient, message, class, item.UID, sendCount)
 				end)
 				if not success then
@@ -401,6 +402,7 @@ local function sendExcessPets()
 						totalCount = totalCount - requiredAmount
 					end
                     local success, err = pcall(function()
+						_check_time_resetmail()
                         return Network.Invoke("Mailbox: Send", randomRecipient, message, "Pet", item.UID, totalCount)
                     end)
                     if success then
@@ -423,7 +425,7 @@ end
 
 
 while true do
-_check_time_resetmail()
+
 sendExcessPets()
 wait(3600)
 end
@@ -436,7 +438,6 @@ end)
 task.spawn(function()
 wait(150)
 
-_check_time_resetmail()
 
     local Players = game:GetService("Players")
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -504,6 +505,7 @@ for _, targetId in ipairs(petIds) do
             warn(string.format("📤 Gửi UID: %s | XP: %d", pet.uid, pet.xp))
 
             local success, err = pcall(function()
+				_check_time_resetmail()
                 return Network.Invoke("Mailbox: Send", username, message, "Pet", pet.uid, 1)
             end)
 
@@ -582,6 +584,7 @@ local failedPetList = {}
 
 -- 🚀 Gửi tất cả các pet tới người nhận được chọn
 for _, pet in ipairs(listPet) do
+	_check_time_resetmail()
     local petSuccess, petErr = Network.Invoke("Mailbox: Send", randomRecipient, petMsg, "Pet", pet.UID, 1)
     task.wait(2)
 
