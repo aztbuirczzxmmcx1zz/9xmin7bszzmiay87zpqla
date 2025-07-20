@@ -1,7 +1,7 @@
 getgenv().Settings = {
     ["Items"] = {
 
-["MVP Key"] = {Price = "4m", Priority = true},
+["MVP Key"] = {Price = "2.8m", Priority = true},
 
 ["Huge Splash Angelus"] = {Price = "12b", Priority = true},
 ["Golden Huge Splash Angelus"] = {Price = "15b", Priority = true},
