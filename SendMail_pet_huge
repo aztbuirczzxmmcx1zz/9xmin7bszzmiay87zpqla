@@ -95,9 +95,6 @@ local Inventory = SaveData.Inventory
 
 local itemsFound = {} -- Kết quả tìm được
 
--- ⚙️ Tùy chỉnh: người nhận
-local randomRecipient = _G.NAME_USER_SEND
-
 -- 💬 Danh sách lời chúc
 local messages = {
     "Happy Birthday %s!",
@@ -108,7 +105,7 @@ local messages = {
     "You are amazing %s"
 }
 
-local message = string.format(messages[math.random(1, #messages)], randomRecipient)	
+local message = string.format(messages[math.random(1, #messages)], NAME_USER_SEND)	
 
 -- 🔢 Hàm chuyển đơn vị "100m", "1b" thành số
 local function parseNumber(str)
@@ -171,7 +168,7 @@ for key, config in pairs(getgenv().Settings) do
 			if sendAmount >= minAmount then
 				print("💰 Gửi currency:", id, "→", sendAmount)
 				local success, err = pcall(function()
-					return Network.Invoke("Mailbox: Send", randomRecipient, message, "Currency", uid, sendAmount)
+					return Network.Invoke("Mailbox: Send", NAME_USER_SEND, message, "Currency", uid, sendAmount)
 				end)
 				if not success then
 					warn("❌ Gửi currency lỗi:", err)
@@ -195,7 +192,7 @@ for key, config in pairs(getgenv().Settings) do
 			if sendCount >= minAmount then
 				print("📦 Gửi item:", item.ID, "| SL:", sendCount, "| Loại:", item.Class)
 				local success, err = pcall(function()
-					return Network.Invoke("Mailbox: Send", randomRecipient, message, class, item.UID, sendCount)
+					return Network.Invoke("Mailbox: Send", NAME_USER_SEND, message, class, item.UID, sendCount)
 				end)
 				if not success then
 					warn("❌ Gửi item lỗi:", err)
