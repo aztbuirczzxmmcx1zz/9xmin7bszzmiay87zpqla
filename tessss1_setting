@@ -1,0 +1,62 @@
+
+getgenv().GDO_BLOCK_PARTY = true
+
+getgenv().GLOOTBOXES = {"All"}
+
+getgenv().GENCHANTS = {}
+getgenv().GMIN_EGGS_TO_HATCH = 9999999999999
+--getgenv().GRANK_FIRST = true
+getgenv().GZONE_TO = 999
+
+getgenv().GPROGRESS_MODE = "Hatch" -- Hatch  Hybrid
+getgenv().GGFX_MODE = 1
+
+getgenv().GHATCH_SPEED_MS = 0
+getgenv().GHATCH_GOLDEN_EGGS = false
+getgenv().GCLEAR_FAVORITE_PETS = true
+getgenv().GMAX_HATCH = 99
+
+
+-----------------------
+getgenv().GUSE_SPINNY_WHEEL = true
+getgenv().GAUTO_UPGRADE_PETS = true
+getgenv().GCOMBINE_KEYS = true
+getgenv().GMASTERY_TO_MAX = "Pets"
+getgenv().GCONSUME_CHARMS = true
+getgenv().GDAYCARE = true
+--------------------------
+
+
+getgenv().GWAIT_AT_GATES_TILL_RANK = 5
+getgenv().GMAX_EGG_SLOTS = 99
+getgenv().GMAX_EQUIP_SLOTS = 99
+
+
+getgenv().GHOLD_GIFTS = true
+getgenv().GHOLD_BUNDLES = false
+getgenv().GCONSUME_SEED_BAGS = true
+getgenv().GOPEN_ITEMS_IN_BULK = true
+getgenv().GMAX_ZONE_UPGRADE_COST = 30000000
+
+getgenv().GCOLLECT_FREE_ITEMS = true
+getgenv().GIGNORE_ALL_INSTANCES = true
+getgenv().GIGNORE_SLEDRACE = false
+
+getgenv().GUSE_SPRINKLERS = true
+getgenv().GUSE_ULTIMATES = {"Tsunami", "Tornado", "Pet Surge", "Chest Spell","Ground Pound"}
+
+getgenv().GEVENT_ITEMS_TO_USE = {"Mini Pinata","Party Box","Mini Lucky Block"}
+getgenv().GFRUITS = {"Watermelon","Candycane","Apple","Rainbow","Pineapple","Orange","Banana"}
+getgenv().GPOTIONS = {"Coins","Lucky","The Cocktail","Huge","Treasure Hunter","Walkspeed","Diamonds","Damage"}
+getgenv().GPOTIONS_MAX_TIER = 99
+
+
+getgenv().GHUGE_COUNT = 50000
+
+getgenv().GMAIL_ITEMS = {		
+["Secret pet1"] = {Class = "Pet", Id = "Rainbow Swirl", MinAmount = 1, AllVariants = true},
+["Secret pet2"] = {Class = "Pet", Id = "Banana", MinAmount = 1, AllVariants = true},
+["Secret pet3"] = {Class = "Pet", Id = "Coin", MinAmount = 1, AllVariants = true},
+["Secret pet4"] = {Class = "Pet", Id = "Yellow Lucky Block", MinAmount = 1, AllVariants = true},	
+}
+getgenv().GMAIL_RECEIVERS = {"veriotiai779"}
