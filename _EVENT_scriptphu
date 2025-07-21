@@ -663,7 +663,7 @@ end
 
 ---------------- 🧩 LUỒNG 3: Hatch HUGE CHANCE ----------------
 local currentChance = 0
-local tileThreshold = 169
+local tileThreshold = 160
 
 local function extractHugeLuckValue(text)
 	local value = text:match("(%d+)x%s+Huge%s+Luck!?")
@@ -766,7 +766,6 @@ local function startAutoHatchHuge()
 				else
 					print("❌ Không tìm thấy egg → reset map")
 					handleRejoin()
-					startAutoPurchase()
 					break
 				end
 			end
@@ -847,7 +846,6 @@ local function startAutoHatchHuge()
 				else
 					print("❌ Vẫn không tìm thấy tile → reset map")
 					handleRejoin()
-					startAutoPurchase()
 				end
 			end
 		end
@@ -995,6 +993,7 @@ while true do
 
 		if current == lastEggsHatched and getTotalTileCount() == 169 then
 			Players.LocalPlayer:Kick("EggsHatched = 0")
+			game:Shutdown()
 			break
 		end
 		
@@ -1042,7 +1041,7 @@ local function startAllBlockPartyTasks()
 	-- 🧩 LUỒNG 5: Hatch HUGE
 	task.spawn(function()
 		while true do
-			while getTotalTileCount() < 169 do
+			while getTotalTileCount() < 160 do
 				task.wait(2)
 			end
 			print("✅ Đã khởi động LUỒNG 3: Hatch HUGE CHANCE")
@@ -1053,7 +1052,7 @@ local function startAllBlockPartyTasks()
 	-- 🧩 LUỒNG 6: Auto Gift Bag
 	task.spawn(function()
 		while true do
-			while getTotalTileCount() < 169 do
+			while getTotalTileCount() < 160 do
 				task.wait(2)
 			end
 			print("✅ Đã khởi động LUỒNG 4: Auto SummerGiftBag2025")
@@ -1089,7 +1088,6 @@ local function startAllBlockPartyTasks()
 			waitUntilAllowed()
 			if getTotalTileCount() == 0 then
 				handleRejoin()
-				startAutoPurchase()
 			end
 			wait(33)
 		end
