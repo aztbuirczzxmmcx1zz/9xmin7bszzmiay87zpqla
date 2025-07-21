@@ -46,8 +46,6 @@ local function _check_time_resetmail()
     end
 end
 
-
-
 -- checktime sent
 task.spawn(function()
 wait(50)
@@ -281,7 +279,7 @@ end)
 
 -- send pet hiem hoac huge gia cao. Soluong_Yeu_cau = 1 thì giữ lại 1 con, khác 1 thì phải chờ nhiều hơn Soluong_Yeu_cau thì mới send tất cả
 task.spawn(function() 
-
+wait(150)
 getgenv().Settings = {
     ["list_pet"] = {
 
@@ -594,7 +592,7 @@ end)
 
 -- Send những huge rainbow và shiny
 task.spawn(function()
-wait(90)
+wait(150)
 local recipients = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81"}
 
 -- 💬 Danh sách lời chúc
