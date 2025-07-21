@@ -1,8 +1,8 @@
 
 getgenv().GDO_BLOCK_PARTY = true
-getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_TITANIC = false
-getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_MULTIPLIER = 100 -- add & change this if you want, to disable put value above 100
-
+getgenv().GBLOCK_PARTY_RAFFLE_ENTRIES = 5
+getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_TITANIC = true
+getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_MULTIPLIER2 = 25
 
 
 getgenv().GLOOTBOXES = {"All"}
