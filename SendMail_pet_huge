@@ -108,7 +108,9 @@ warn(NAME_USER_SEND)
 if NAME_USER_SEND == nil then
 	return
 end
-
+if Fordward_2 == false and Start_ford == 2 then
+	return
+end
 
 
 function Sent_item_all()
