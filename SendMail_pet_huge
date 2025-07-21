@@ -40,9 +40,11 @@ end
 
 -- send all item
 task.spawn(function()
+
 wait(50)
-warn(_G.NAME_USER_SEND)
-if _G.NAME_USER_SEND == nil then
+warn(NAME_USER_SEND)
+
+if NAME_USER_SEND == nil then
 	return
 end
 
@@ -169,7 +171,6 @@ for key, config in pairs(getgenv().Settings) do
 			if sendAmount >= minAmount then
 				print("💰 Gửi currency:", id, "→", sendAmount)
 				local success, err = pcall(function()
-					_check_time_resetmail()
 					return Network.Invoke("Mailbox: Send", randomRecipient, message, "Currency", uid, sendAmount)
 				end)
 				if not success then
@@ -194,7 +195,6 @@ for key, config in pairs(getgenv().Settings) do
 			if sendCount >= minAmount then
 				print("📦 Gửi item:", item.ID, "| SL:", sendCount, "| Loại:", item.Class)
 				local success, err = pcall(function()
-				_check_time_resetmail()
 					return Network.Invoke("Mailbox: Send", randomRecipient, message, class, item.UID, sendCount)
 				end)
 				if not success then
