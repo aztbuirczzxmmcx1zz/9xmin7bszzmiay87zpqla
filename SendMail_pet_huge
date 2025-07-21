@@ -1,47 +1,110 @@
 local function _check_time_resetmail()
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-local SaveData = require(Client.Save).Get()
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+    local SaveData = require(Client.Save).Get()
 
-local mailboxResetTime = SaveData.MailboxResetTime
-local mailLog = SaveData.MailLog
-local sentCount = 0
+    local mailboxResetTime = SaveData.MailboxResetTime
+    local mailLog = SaveData.MailLog or {}
+    local currentTime = os.time()
 
--- Mốc 24h trước reset
-local windowStart = mailboxResetTime - 86400
-local currentTime = os.time()
+    -- Auto cộng 1 ngày nếu mailboxResetTime đã qua
+    if mailboxResetTime and mailboxResetTime <= currentTime then
+        mailboxResetTime = mailboxResetTime + 86400
+    end
 
--- Đếm số thư đã gửi trong khoảng 24h trước thời điểm reset
-for _, entry in pairs(mailLog or {}) do
-    if entry.Type == "Sent" and entry.Timestamp >= windowStart and entry.Timestamp <= mailboxResetTime then
-        sentCount = sentCount + 1
+    -- Đếm số thư gửi trong 24h gần nhất tính từ thời điểm hiện tại
+    local sentCount = 0
+    local windowStart = currentTime - 86400
+
+    for _, entry in pairs(mailLog) do
+        if entry.Type == "Sent" and entry.Timestamp >= windowStart and entry.Timestamp <= currentTime then
+            sentCount = sentCount + 1
+        end
+    end
+
+    -- Tính thời gian còn lại đến lúc reset
+    local secondsRemaining = 0
+    if mailboxResetTime then
+        secondsRemaining = math.max(0, mailboxResetTime - currentTime)
+    end
+
+    local hours = math.floor(secondsRemaining / 3600)
+    local minutes = math.floor((secondsRemaining % 3600) / 60)
+    local seconds = math.floor(secondsRemaining % 60)
+
+    warn(string.format("⏳ Còn %02dh %02dm %02ds nữa sẽ reset lượt gửi thư.", hours, minutes, seconds))
+    warn("📮 Số thư đã gửi trong 24h gần nhất:", sentCount)
+
+    -- Nếu quá giới hạn -> chờ đến khi reset
+    if sentCount >= 11 then
+        warn("⚠️ Đã gửi quá giới hạn 10 thư! Đang chờ đến khi reset...")
+		secondsRemaining=math.floor(secondsRemaining)+10
+		warn(secondsRemaining)
+        wait(secondsRemaining)  -- đợi đến khi reset + 1 giây an toàn
+        warn("✅ Đã qua thời điểm reset, có thể gửi tiếp.")
     end
 end
 
--- Tính thời gian còn lại đến lúc reset
-local secondsRemaining = math.max(0, mailboxResetTime - currentTime)
-local hours = math.floor(secondsRemaining / 3600)
-local minutes = math.floor((secondsRemaining % 3600) / 60)
-local seconds = math.floor(secondsRemaining % 60)
 
-warn(string.format("⏳ Còn %02dh %02dm %02ds nữa sẽ reset lượt gửi thư.", hours, minutes, seconds))
-warn("📮 Số thư đã gửi trong 24h trước reset:", sentCount)
 
--- Nếu quá giới hạn -> chờ đến khi reset
-if sentCount >= 10 then
-    warn("⚠️ Đã gửi quá giới hạn 10 thư! Đang chờ đến khi reset...")
-    wait(secondsRemaining + 1)  -- đợi đến khi reset + 1 giây an toàn
-    warn("✅ Đã qua thời điểm reset, có thể gửi tiếp.")
-end
+-- checktime sent
+task.spawn(function()
+wait(50)
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local player = Players.LocalPlayer
+local PlayerGui = player:WaitForChild("PlayerGui")
 
-end
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local SaveData = require(Client.Save).Get()
 
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "MailStatusGui"
+    screenGui.ResetOnSpawn = false
+    screenGui.Parent = PlayerGui
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(0, 300, 0, 50)
+    label.Position = UDim2.new(0, 0, 1, -50)  -- Góc dưới trái
+    label.BackgroundTransparency = 0.5
+    label.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.TextScaled = true
+    label.Font = Enum.Font.SourceSansBold
+    label.Parent = screenGui
+
+    while true do
+        local SaveData = require(Client.Save).Get()
+        local mailLog = SaveData.MailLog or {}
+        local currentTime = os.time()
+
+        -- Đếm số thư gửi trong 24h gần nhất
+        local sentCount = 0
+        for _, entry in pairs(mailLog) do
+            if entry.Type == "Sent" and entry.Timestamp >= (currentTime - 86400) and entry.Timestamp <= currentTime then
+                sentCount = sentCount + 1
+            end
+        end
+
+        -- Tính thời gian đến reset (nếu vẫn muốn hiển thị)
+        local mailboxResetTime = SaveData.MailboxResetTime or 0
+        if mailboxResetTime <= currentTime then
+            mailboxResetTime = mailboxResetTime + 86400
+        end
+        local secondsRemaining = math.max(0, mailboxResetTime - currentTime)
+
+        -- Hiển thị lên GUI
+        label.Text = string.format("Sent: %d | Time left: %ds", sentCount, secondsRemaining)
+
+        task.wait(10)
+    end
+end)
 
 -- send all item
 task.spawn(function()
 
-wait(50)
+wait(60)
 warn(NAME_USER_SEND)
 
 if NAME_USER_SEND == nil then
@@ -49,8 +112,8 @@ if NAME_USER_SEND == nil then
 end
 
 
-while true do
 
+function Sent_item_all()
 
 getgenv().Settings = {		
 
@@ -164,8 +227,9 @@ for key, config in pairs(getgenv().Settings) do
 		if v.id == id then
 			local current = tonumber(v._am) or 0
 			local sendAmount = current - keepAmount
-
+			
 			if sendAmount >= minAmount then
+				_check_time_resetmail()
 				print("💰 Gửi currency:", id, "→", sendAmount)
 				local success, err = pcall(function()
 					return Network.Invoke("Mailbox: Send", NAME_USER_SEND, message, "Currency", uid, sendAmount)
@@ -190,6 +254,7 @@ for key, config in pairs(getgenv().Settings) do
 			end
 
 			if sendCount >= minAmount then
+				_check_time_resetmail()
 				print("📦 Gửi item:", item.ID, "| SL:", sendCount, "| Loại:", item.Class)
 				local success, err = pcall(function()
 					return Network.Invoke("Mailbox: Send", NAME_USER_SEND, message, class, item.UID, sendCount)
@@ -203,8 +268,11 @@ for key, config in pairs(getgenv().Settings) do
 	end
 end
 
+end
 
-wait(21000)
+while true do
+Sent_item_all()
+wait(21600)
 end
 
 
@@ -217,7 +285,7 @@ task.spawn(function()
 getgenv().Settings = {
     ["list_pet"] = {
 
-["Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Palace Pooka"] 	= {Soluong_Yeu_cau = 3},
 ["Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 ["Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 1},
 ["Shiny Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
@@ -391,7 +459,7 @@ local function sendExcessPets()
             for _, item in pairs(itemsFound) do
 				
                 if item.ID == itemName and petSent < totalCount then
-                    
+                    _check_time_resetmail()
                     -- Gửi pet
 					wait(3)
 					if string.find(itemName,"Huge") then
@@ -402,8 +470,7 @@ local function sendExcessPets()
 						--warn("Giữ lại bn con")
 						totalCount = totalCount - requiredAmount
 					end
-                    local success, err = pcall(function()
-						_check_time_resetmail()
+                    local success, err = pcall(function()						
                         return Network.Invoke("Mailbox: Send", randomRecipient, message, "Pet", item.UID, totalCount)
                     end)
                     if success then
@@ -501,12 +568,11 @@ for _, targetId in ipairs(petIds) do
         for i = 51, #pets do
             local pet = pets[i]
             task.wait(2)
-
+			
             local message = string.format(messages[math.random(1, #messages)], username)
-            warn(string.format("📤 Gửi UID: %s | XP: %d", pet.uid, pet.xp))
-
-            local success, err = pcall(function()
-				_check_time_resetmail()
+            --warn(string.format("📤 Gửi UID: %s | XP: %d", pet.uid, pet.xp))
+			_check_time_resetmail()
+            local success, err = pcall(function()				
                 return Network.Invoke("Mailbox: Send", username, message, "Pet", pet.uid, 1)
             end)
 
@@ -515,7 +581,7 @@ for _, targetId in ipairs(petIds) do
             else
                 warn("❌ Lỗi khi gửi:", err)
             end
-			task.wait(14400) -- lặp lại sau 4 giờ	
+			task.wait(21600) -- lặp lại sau 4 giờ	
         end
     else
         warn("⚠️ Không có pet dư để gửi hoặc chỉ có 1 pet.")
@@ -595,7 +661,7 @@ for _, pet in ipairs(listPet) do
         warn("❌ Failed to send PET to " .. randomRecipient .. ": " .. tostring(petErr))
         table.insert(failedPetList, randomRecipient)
     end
-	task.wait(21000)
+	task.wait(21600)
 end
 
 -- Thông báo danh sách các người nhận thất bại
