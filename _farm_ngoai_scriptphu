@@ -768,7 +768,7 @@ if level and level < 13034430 then
         local totalUpgradeAmount = count // 3
         if uid_sach and totalUpgradeAmount > 0 then
             game:GetService("ReplicatedStorage").Network.UpgradePotionsMachine_Activate:InvokeServer(uid_sach, totalUpgradeAmount)
-            warn("Upgrade: " .. name_sach .. " UID : " .. uid_sach .. " x" .. totalUpgradeAmount .. "\n")
+            --warn("Upgrade: " .. name_sach .. " UID : " .. uid_sach .. " x" .. totalUpgradeAmount .. "\n")
         end
     end
 
@@ -813,7 +813,7 @@ if level and level < 13034430 then
         local totalUpgradeAmount = count // 5
         if uid_sach and totalUpgradeAmount > 0 then
             game:GetService("ReplicatedStorage").Network.UpgradeEnchantsMachine_Activate:InvokeServer(uid_sach, totalUpgradeAmount)
-            warn("Upgrade: " .. name_sach .. " lv" .. level_sach .. " x" .. totalUpgradeAmount .. "\n")
+            --warn("Upgrade: " .. name_sach .. " lv" .. level_sach .. " x" .. totalUpgradeAmount .. "\n")
         end
     end
 
