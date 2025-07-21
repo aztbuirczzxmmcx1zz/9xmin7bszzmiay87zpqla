@@ -979,6 +979,36 @@ local function startGuiUpdater()
 	end
 end
 
+function check_Egghatch()
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local SaveData = require(Client.Save).Get
+
+local lastEggsHatched = nil
+
+while true do
+	task.wait(120)
+	local data = SaveData()
+	if data and data.EggsHatched then
+		local current = data.EggsHatched
+
+		if current == lastEggsHatched and getTotalTileCount() == 169 then
+			Players.LocalPlayer:Kick("EggsHatched = 0")
+			break
+		end
+		
+		if getTotalTileCount() == 169 then
+			lastEggsHatched = current
+			warn(lastEggsHatched)
+		end
+	end
+
+	task.wait(120)
+end
+
+end
+
 ---------------- 🚀 Kích hoạt tất cả luồng song song ----------------
 local function startAllBlockPartyTasks()
 	teleportToBlockParty()
@@ -1066,6 +1096,24 @@ local function startAllBlockPartyTasks()
 		
 		
 	end)
+	
+	task.spawn(function()
+		local Save = require(ReplicatedStorage.Library.Client.Save)
+		while true do
+			local saveData = Save.Get()
+			local tileRebirth = saveData.TileRebirth or 0			
+			while getTotalTileCount() < 169 and tileRebirth < 15 do
+				task.wait(2)
+			end
+			print("✅ Đã khởi động check_Egghatch")
+			check_Egghatch()
+			wait(4)
+			waitUntilAllowed()
+		end
+	end)
+	
+	
+	
 	
 	
 end
