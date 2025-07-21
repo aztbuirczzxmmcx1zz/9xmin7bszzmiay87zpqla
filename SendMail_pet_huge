@@ -53,7 +53,7 @@ while true do
 getgenv().Settings = {		
 
 
-["Summer Block Party Ticket"] = {Class = "Misc", Id = "Summer Block Party Ticket", MinAmount = 10},
+["Summer Block Party Ticket"] = {Class = "Misc", Id = "Summer Block Party Ticket", MinAmount = 40},
 
 ["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 50},	--ok
 ["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 200},	
