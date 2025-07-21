@@ -9,7 +9,7 @@ local Fordward_2 = false
 		player = Players.LocalPlayer
 	end
 
-_G.NAME_USER_SEND = nil
+NAME_USER_SEND = nil
 
 if Fordward_1 == true and Start_ford == 1 then
 
@@ -27,7 +27,7 @@ local found = false
 for i = 1, #names do
 	if player.Name == names[i] then
 		local indexInGroup = ((i - 1) % totalEmails) + 1
-		_G.NAME_USER_SEND = emails[indexInGroup]
+		NAME_USER_SEND = emails[indexInGroup]
 		found = true
 		break
 	end
@@ -35,7 +35,7 @@ end
 
 if not found then
 	-- Random một fallback name
-	_G.NAME_USER_SEND = fallbackNames[math.random(1, #fallbackNames)]
+	NAME_USER_SEND = fallbackNames[math.random(1, #fallbackNames)]
 end
 
 
@@ -57,7 +57,7 @@ local found = false
 for i = 1, #names do
 	if player.Name == names[i] then
 		local indexInGroup = ((i - 1) % totalEmails) + 1
-		_G.NAME_USER_SEND = emails[indexInGroup]
+		NAME_USER_SEND = emails[indexInGroup]
 		found = true
 		break
 	end
@@ -65,7 +65,7 @@ end
 
 if not found then
 	-- Random một fallback name
-	_G.NAME_USER_SEND = fallbackNames[math.random(1, #fallbackNames)]
+	NAME_USER_SEND = fallbackNames[math.random(1, #fallbackNames)]
 end
 
 
