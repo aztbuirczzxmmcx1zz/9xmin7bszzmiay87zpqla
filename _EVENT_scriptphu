@@ -592,8 +592,17 @@ local function startAutoPurchase()
 			end
 		end
 	end
-
+	
+		local saveData = Save.Get()
+		local tileRebirth = saveData.TileRebirth or 0
+		local totalTiles = getTotalTileCount()
+		if tileRebirth >= 15 and totalTiles >= 169 then
+			warn("🛑 Đã đạt TileRebirth = 15 và Tiles = 169 → Dừng Auto Purchase.")
+			return
+		end	
+	
 	while true do
+		
 		for _, offset in ipairs(offsets) do
 			local args = {plotIndex, "PurchaseTile", offset[1], offset[2]}
 			pcall(function()
@@ -757,6 +766,7 @@ local function startAutoHatchHuge()
 				else
 					print("❌ Không tìm thấy egg → reset map")
 					handleRejoin()
+					startAutoPurchase()
 					break
 				end
 			end
@@ -837,6 +847,7 @@ local function startAutoHatchHuge()
 				else
 					print("❌ Vẫn không tìm thấy tile → reset map")
 					handleRejoin()
+					startAutoPurchase()
 				end
 			end
 		end
@@ -1048,6 +1059,7 @@ local function startAllBlockPartyTasks()
 			waitUntilAllowed()
 			if getTotalTileCount() == 0 then
 				handleRejoin()
+				startAutoPurchase()
 			end
 			wait(33)
 		end
@@ -1279,7 +1291,7 @@ if level and level < 13034430 then
         local totalUpgradeAmount = count // 3
         if uid_sach and totalUpgradeAmount > 0 then
             game:GetService("ReplicatedStorage").Network.UpgradePotionsMachine_Activate:InvokeServer(uid_sach, totalUpgradeAmount)
-            warn("Upgrade: " .. name_sach .. " UID : " .. uid_sach .. " x" .. totalUpgradeAmount .. "\n")
+            --warn("Upgrade: " .. name_sach .. " UID : " .. uid_sach .. " x" .. totalUpgradeAmount .. "\n")
         end
     end
 
@@ -1324,7 +1336,7 @@ if level and level < 13034430 then
         local totalUpgradeAmount = count // 5
         if uid_sach and totalUpgradeAmount > 0 then
             game:GetService("ReplicatedStorage").Network.UpgradeEnchantsMachine_Activate:InvokeServer(uid_sach, totalUpgradeAmount)
-            warn("Upgrade: " .. name_sach .. " lv" .. level_sach .. " x" .. totalUpgradeAmount .. "\n")
+            --warn("Upgrade: " .. name_sach .. " lv" .. level_sach .. " x" .. totalUpgradeAmount .. "\n")
         end
     end
 
