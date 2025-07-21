@@ -157,29 +157,21 @@ end)
 -- send pet hiem hoac huge gia cao. Soluong_Yeu_cau = 1 thì giữ lại 1 con, khác 1 thì phải chờ nhiều hơn Soluong_Yeu_cau thì mới send tất cả
 task.spawn(function() 
 
-_G.STOP_SEND=true
-if _G.STOP_SEND == true then
-	return
-end
-
 
 getgenv().Settings = {
     ["list_pet"] = {
 
 ["Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 ["Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
-["Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 ["Shiny Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 ["Shiny Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
-["Shiny Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 
 
-["Rose Pooka"] 	= {Soluong_Yeu_cau = 5},
+
+["Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
 ["Golden Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
-["Rainbow Rose Pooka"] 	= {Soluong_Yeu_cau = 1},
 ["Shiny Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
 ["Shiny Golden Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
-["Shiny Rainbow Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
 
 },
    
@@ -389,4 +381,3 @@ end
 
 
 end)
-
