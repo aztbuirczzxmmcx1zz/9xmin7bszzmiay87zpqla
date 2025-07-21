@@ -63,9 +63,6 @@ task.spawn(function()
 wait(75)
 
 _G.STOP_TIME_TRIAL = false
-if _G.STOP_TIME_TRIAL == false then
-	return
-end
 
 
 local Players = game:GetService("Players")
@@ -531,8 +528,7 @@ task.spawn(function()
 
 
 wait(150)
-		_G.VAR_STOP_BLOCK_PARTY = false
-		_G.VAR_START_BLOCK_PARTY = true
+
 		
 _G.VAR_BLOCK_PARTY = true
 local isRunning = false
