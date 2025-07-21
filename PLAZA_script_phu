@@ -1,1530 +1,383 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-local SaveData = require(Client.Save).Get()
-
-local Enchants_Equip = ReplicatedStorage.Network.Enchants_Equip
-local Enchants_ClearSlot = ReplicatedStorage.Network.Enchants_ClearSlot
-
-local function getBookStack(bookName)
-    local selectedUID = nil
-    local max_tn = -1
-
-    for uid, v in pairs(SaveData.Inventory.Enchant) do
-        if v.id and string.find(v.id, bookName) and (v._am or 1) > 0 then
-            if v.tn and v.tn > max_tn then
-                max_tn = v.tn
-                selectedUID = uid
-            end
-        end
-    end
-
-    return selectedUID
-end
-
-function autoEquipEnchantBooks(...)
-    local MaxEnchantsEquipped = SaveData.MaxEnchantsEquipped
-
-    -- Clear all slots trước khi equip
-    for i = 1, 9 do
-        Enchants_ClearSlot:FireServer(i)
-        wait(0.3)
-    end
-
-    -- Đọc danh sách bookNames từ ...
-    local args = { ... }
-
-    local equippedCount = 0
-    for _, bookName in ipairs(args) do
-        if equippedCount >= MaxEnchantsEquipped then
-            break
-        end
-
-        local uid = getBookStack(bookName)
-        if uid then
-            Enchants_Equip:FireServer(uid)
-            equippedCount = equippedCount + 1
-        end
-        wait(0.3)
-    end
-end
-
--- Ví dụ sử dụng:
--- sách trial time
-autoEquipEnchantBooks("Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power")
-
---autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Strong Pets","Super Lightning","Treasure Hunter","Diamonds","Lucky Eggs"}
---autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Coins","Strong Pets"}
---autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Tap Power","Coins"}
---autoEquipEnchantBooks = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter"}
- 
- 
--- map 269 event time trial
 task.spawn(function()
-wait(75)
+	task.wait(10)
 
-_G.STOP_TIME_TRIAL = false
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local player = Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
 
-local Save = require(ReplicatedStorage.Library.Client.Save)
-local ZoneCmds = require(ReplicatedStorage.Library.Client.ZoneCmds)
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local SaveModule = require(Client:WaitForChild("Save"))
 
-local lagFlag = false
-local endFlag = false
-local lagMonitorThread, increaseMonitorThread, monitor12minThread
+local previousCounts = {}
 
--- 🛡️ Lấy HumanoidRootPart an toàn
-local function getHumanoidRootPart()
-	local character = player.Character or player.CharacterAdded:Wait()
-	if not character then return nil end
+-- cấu hình item cần theo dõi
+local itemsToTrack = {
+	
+	{ id = "Crystal Key", guiName = "Item3", row = 1, col = 0, color = Color3.fromRGB(0, 255, 255) },			--xanh	trái
+	{ id = "MVP Key Upper Half", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, 		--xám
+	{ id = "Huge", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },		-- cam
+	{ id = "MVP Key", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },				--trang
+}
 
-	local hrp = character:FindFirstChild("HumanoidRootPart")
-	local waitTime = 0
-	while not hrp and waitTime < 5 do
-		task.wait(0.5)
-		waitTime += 0.5
-		hrp = character:FindFirstChild("HumanoidRootPart")
-	end
+local function createItemFrame(itemConfig, itemCount)
+	local frameSize = 100
+	local spacing = 10
+	local cols = 2
+	local rows = 2
 
-	return hrp
-end
+	local offsetX = (itemConfig.col * (frameSize + spacing)) - ((cols - 1) * (frameSize + spacing) / 2)
+	local offsetY = (itemConfig.row * (frameSize + spacing)) - ((rows - 1) * (frameSize + spacing) / 2) + 80
 
--- 📊 Hàm tiện ích
-local function getRunsUsed()
-	local saveData = Save.Get()
-	return saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.DailyRuns or 0) or 0
-end
 
-local function getRunsLeft()
-	return 10 - getRunsUsed()
-end
-
-local function getTimeTrialPoints()
-	local saveData = Save.Get()
-	return saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.Points or 0) or 0
-end
-
-local function getTotalRuns()
-	local saveData = Save.Get()
-	return saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.TotalRuns or 0) or 0
-end
-
--- 🗺️ Teleport hỗ trợ
-local function teleportTo(part)
-	local hrp = getHumanoidRootPart()
-	if hrp and part and part.CFrame then
-		hrp.CFrame = part.CFrame + Vector3.new(0, 10, 0)
-	end
-end
-
-local function teleportToLocation()
-	warn("🚶‍♂️ Đang teleport về vị trí map 269...")
-	local hrp = getHumanoidRootPart()
-	if hrp then
-		hrp.CFrame = CFrame.new(-14251, 20, 1336)
-	end
-end
-
-local function safeTeleportOut()
-	teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Leave)
-	task.wait(9)
-	if increaseMonitorThread then pcall(task.cancel, increaseMonitorThread) increaseMonitorThread = nil end
-	if lagMonitorThread then pcall(task.cancel, lagMonitorThread) lagMonitorThread = nil end
-end
-
--- 📺 GUI hiển thị điểm và lượt
-local screenGui = playerGui:FindFirstChild("TimeTrialGui")
-if not screenGui then
-	screenGui = Instance.new("ScreenGui")
-	screenGui.Name = "TimeTrialGui"
+	local screenGui = Instance.new("ScreenGui")
+	screenGui.Name = itemConfig.guiName
+	screenGui.Parent = PlayerGui
 	screenGui.ResetOnSpawn = false
-	screenGui.Parent = playerGui
-end
+	screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-local function createLabel(name, position, anchor, bgColor)
+	local frame = Instance.new("Frame")
+	frame.Name = "ItemFrame"
+	frame.Size = UDim2.new(0, frameSize, 0, frameSize)
+	frame.Position = UDim2.new(0.11, offsetX, 1, -offsetY)
+	frame.AnchorPoint = Vector2.new(0.5, 1)
+	frame.BackgroundColor3 = itemConfig.color
+	frame.BorderSizePixel = 2
+	frame.Parent = screenGui
+
 	local label = Instance.new("TextLabel")
-	label.Name = name
-	label.AnchorPoint = anchor
-	label.Position = position
-	label.Size = UDim2.new(0, 0, 0, 38)
-	label.BackgroundColor3 = bgColor
-	label.TextColor3 = Color3.new(1, 1, 1)
+	label.Size = UDim2.new(1, 0, 1, 0)
+	label.BackgroundTransparency = 1
+	label.Text = tostring(itemCount)
+	label.TextColor3 = Color3.fromRGB(0, 0, 0)
+	label.TextScaled = true
 	label.Font = Enum.Font.GothamBold
-	label.TextSize = 32
-	label.BackgroundTransparency = 0
-	label.BorderSizePixel = 0
-	label.TextXAlignment = Enum.TextXAlignment.Center
-	label.Text = "..."
-	label.Parent = screenGui
-	return label
+	label.Parent = frame
 end
 
-local function updateLabelSize(label)
-	label.Size = UDim2.new(0, label.TextBounds.X + 20, 0, 38)
-end
+local function checkInventory()
+	local inventory = SaveModule.Get().Inventory or {}
+	local currentCounts = {}
 
-local pointsLabel = screenGui:FindFirstChild("PointsLabel") or createLabel("PointsLabel", UDim2.new(0.3, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(0, 128, 255))
-local timeTrialLabel = screenGui:FindFirstChild("TimeTrialLabel") or createLabel("TimeTrialLabel", UDim2.new(0.79, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(128, 0, 128))
-
-task.spawn(function()
-	while true do
-		pointsLabel.Text = tostring(getTimeTrialPoints())
-		updateLabelSize(pointsLabel)
-		timeTrialLabel.Text = tostring(getRunsLeft())
-		updateLabelSize(timeTrialLabel)
-		task.wait(10)
+	-- xóa GUI cũ
+	for _, item in ipairs(itemsToTrack) do
+		local oldGui = PlayerGui:FindFirstChild(item.guiName)
+		if oldGui then oldGui:Destroy() end
 	end
-end)
 
--- 🔍 Chờ đến khi đạt MaxZone ở map 4
-local function getMaxZoneFromMap4()
-	local mapFolder = workspace:FindFirstChild("Map4")
-	if not mapFolder then return 0 end
-	local maxZone = 0
-	for _, folder in ipairs(mapFolder:GetChildren()) do
-		if folder:IsA("Folder") then
-			local zoneNumber = tonumber(folder.Name:match("^(%d+)"))
-			if zoneNumber and zoneNumber > maxZone then
-				maxZone = zoneNumber
-			end
-		end
-	end
-	return maxZone
-end
-
-local function waitUntilReachMaxZone()
-	local maxMapZone = getMaxZoneFromMap4()
-	while true do
-		local success, data = pcall(function()
-			local _, zoneData = ZoneCmds.GetMaxOwnedZone()
-			return zoneData
-		end)
-		local current = success and data and data.ZoneNumber or 0
-		if current >= maxMapZone then
-			warn("✅ Đã đạt Zone tối đa (" .. tostring(current) .. ")")
-			break
-		end
-		warn("⏳ Chưa đạt Zone tối đa (" .. tostring(current) .. "/" .. tostring(maxMapZone) .. "), đợi 60s...")
-		task.wait(6000)
-	end
-end
-
--- ⏱️ Monitor 12 phút không tăng lượt
-local function startMonitor12Min()
-	monitor12minThread = task.spawn(function()
-		while true do
-			if getRunsUsed() >= 10 then
-				warn("🛑 Đã đủ 10 lượt → dừng theo dõi 12 phút.")
-				return
-			end
-
-			local startUsed = getRunsUsed()
-			local startTotal = getTotalRuns()
-			local t = 0
-			while t < 600 do
-				task.wait(10)
-				t += 10
-				if getRunsUsed() ~= startUsed or getTotalRuns() ~= startTotal then break end
-				if getRunsUsed() >= 10 then return end
-			end
-
-			if getRunsUsed() == startUsed and getTotalRuns() == startTotal then				
-				player:Kick("⏰ 10 phút không đổi lượt hoặc tổng Time Trial → nghi ngờ treo máy.")
-				game:Shutdown()  -- Thoát game
-				return
-			end
-		end
-	end)
-end
-
--- 📌 Theo dõi đứng yên
-local function startLagMonitor()
-	lagMonitorThread = task.spawn(function()
-		local retryCount = 0
-		local lastPosition = nil
-		while true do
-			local hrp = getHumanoidRootPart()
-			if not hrp then task.wait(5) continue end
-
-			lastPosition = hrp.Position
-			task.wait(60)
-
-			local currentPos = hrp.Position
-			if (lastPosition - currentPos).Magnitude < 1 then
-				retryCount += 1
-				warn("⚠️ Đứng im " .. retryCount .. " lần")
-
-				if retryCount > 3 then
-					player:Kick("Lag quá lâu trong Time Trial.")
-					game:Shutdown()  -- Thoát game
-					return
-				else
-					lagFlag = true
-					safeTeleportOut()
-				end
-			else
-				retryCount = 0
-			end
-			task.wait(5)
-		end
-	end)
-end
-
--- 🧠 Theo dõi tăng điểm
-local function startIncreaseMonitor(startPoints, startRuns)
-	increaseMonitorThread = task.spawn(function()
-		warn("⏳ Theo dõi tăng Điểm/TotalRuns")
-		while true do
-			if lagFlag then return end
-			if getTimeTrialPoints() > startPoints or getTotalRuns() > startRuns then
-				warn("✅ Điểm hoặc TotalRuns tăng → Thoát Time Trial")
-				endFlag = true
-				safeTeleportOut()
-				return
-			end
-			task.wait(1)
-		end
-	end)
-end
-
--- 🔁 Teleport farm breakables
-local function teleportFarmLoop(startPoints, startRuns)
-	while true do
-		if lagFlag or endFlag or _G.STOP_TIME_TRIAL then
-			warn("⚠️ Dừng teleportFarmLoop")
-			return
-		end
-
-		-- 🔍 Kiểm tra nhân vật đã hồi sinh và có HRP chưa
-		local hrp = getHumanoidRootPart()
-		if not hrp then
-			warn("⚠️ Không tìm thấy HumanoidRootPart → đợi hồi sinh...")
-			task.wait(3)
-			continue
-		end
-
-		local names = {}
-		for _, c in ipairs(workspace.__THINGS.Breakables:GetChildren()) do
-			if c:IsA("Model") and tonumber(c.Name) then
-				table.insert(names, c.Name)
-			end
-		end
-
-		if #names > 0 then
-			for _, n in ipairs(names) do
-				if lagFlag or endFlag or _G.STOP_TIME_TRIAL then return end
-				local b = workspace.__THINGS.Breakables:FindFirstChild(n)
-				if b then
-					local p = b:FindFirstChildWhichIsA("BasePart")
-					if p then
-						teleportTo(p)
-						while workspace.__THINGS.Breakables:FindFirstChild(n) do
-							if lagFlag or endFlag or _G.STOP_TIME_TRIAL then return end
-							task.wait(0.1)
-						end
-					end
+	for _, item in ipairs(itemsToTrack) do
+		local count = 0
+		if item.id == "Huge" then
+			local pets = inventory.Pet
+			for _, pet in pairs(pets) do
+				if string.find(pet.id, "Huge") then
+					local amount = pet._am or 1
+					count = count + amount
 				end
 			end
 		else
-			warn("⏳ Không có rương, chờ 20s...")
-			local found = false
-			for i = 1, 200 do
-				if lagFlag or endFlag or _G.STOP_TIME_TRIAL then return end
-				task.wait(0.1)
-				for _, c in ipairs(workspace.__THINGS.Breakables:GetChildren()) do
-					if c:IsA("Model") and tonumber(c.Name) then
-						found = true
-						break
-					end
-				end
-				if found then break end
-			end
-			if not found then
-				warn("❌ Hết rương → kết thúc lượt")
-				endFlag = true
-				safeTeleportOut()
-				return
-			end
-		end
-
-		task.wait(0.1)
-	end
-end
-
--- 🧹 Cleanup toàn bộ threads
-local function cleanupAllThreads()
-	warn("🧹 Cleanup toàn bộ thread & trạng thái")
-	if lagMonitorThread then pcall(task.cancel, lagMonitorThread) lagMonitorThread = nil end
-	if increaseMonitorThread then pcall(task.cancel, increaseMonitorThread) increaseMonitorThread = nil end
-	if monitor12minThread then pcall(task.cancel, monitor12minThread) monitor12minThread = nil end
-	lagFlag = false
-	endFlag = false
-	_G.STOP_TIME_TRIAL = false
-	_G.VAR_TIME_TRIAL = nil
-end
-
--- 🎁 Đổi quà
-local function claimReward()
-
-Thu_7_openall = false
-if Thu_7_openall == true then
-	diem_toi_thieu_thoat = 999
-else
-	diem_toi_thieu_thoat = 4999
-end
-
-if getTimeTrialPoints() < diem_toi_thieu_thoat then	
-return 
-end
-
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-
--- Hàm teleport đến vị trí nhận thưởng
-local function teleportToRewardLocation()
-    warn("🚶‍♂️ Đang teleport đến vị trí đổi quà...")
-    player.Character.HumanoidRootPart.CFrame = CFrame.new(-14186, 20, 2206)
-end
-
--- Hàm mở chest với số điểm nhất định
-local function openChest(pointsRequired, chestId)
-    if getTimeTrialPoints() >= pointsRequired then
-        teleportToRewardLocation()
-        wait(0.5)
-        local FantasyKey_Unlock = ReplicatedStorage.Network.TimeTrials_OpenChest
-        FantasyKey_Unlock:InvokeServer(chestId)
-        wait(1)
-  
-  
-    end
-end
-
-while true do
-
-	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
-	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
-	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
-	if Thu_7_openall == true then
-		openChest(3000, 2)  -- Mở chest yêu cầu 3000 điểm	
-		openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
-	end
-	if getTimeTrialPoints() < diem_toi_thieu_thoat then
-		break
-	end
-wait(2)
-end
-
-
-end
-
-
--- ✅ VÒNG LẶP CHÍNH
-task.spawn(function()
-
-	
-		if game.PlaceId ~= 140403681187145 then return end
-		-- sách trial time
-		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Tap Power","Strong Pets","Super Lightning","Chest Breaker","Criticals","Huge Hunter","Tap Power")
-		
-	--waitUntilReachMaxZone()
-	startMonitor12Min()		
-		
-		
-	while true do
-		
-		while getRunsUsed() < 10 do
-			
-			local used = getRunsUsed()
-			lagFlag = false
-			endFlag = false
-
-			if used > 0 then
-				warn("⏸️ Nghỉ 30s trước lượt tiếp theo...")
-				task.wait(30)
-			end
-
-			local startPoints = getTimeTrialPoints()
-			local startRuns = getTotalRuns()
-
-			warn("🔁 Bắt đầu lượt: " .. tostring(used))
-			teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
-			task.wait(5)
-
-			local retry = 0
-			while not workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("TimeTrial") and retry < 3 do
-				retry += 1
-				warn("❌ Vào thất bại, thử lại...")
-				teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
-				task.wait(5)
-			end
-
-			if not workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("TimeTrial") then
-				warn("⛔ Không thể vào Time Trial.")
-				player:Kick("⏰ 10 phút không đổi lượt hoặc tổng Time Trial → nghi ngờ treo máy.")
-				game:Shutdown()  -- Thoát game
-				return
-			end
-
-			startLagMonitor()
-			startIncreaseMonitor(startPoints, startRuns)
-			teleportFarmLoop(startPoints, startRuns)
-			task.wait(5)
-
-			if lagMonitorThread then pcall(task.cancel, lagMonitorThread) lagMonitorThread = nil end
-			if increaseMonitorThread then pcall(task.cancel, increaseMonitorThread) increaseMonitorThread = nil end
-		end
-
-		warn("🎉 Hoàn tất 10/10 lượt Time Trial.")
-		claimReward()
-		task.wait(30)
-		cleanupAllThreads()
-		_G.VAR_STOP_BLOCK_PARTY = false
-		_G.VAR_START_BLOCK_PARTY = true
-		-- Event
-		autoEquipEnchantBooks("Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter","Huge Hunter","Treasure Hunter","Lucky Eggs")
-		
-		
-		--local player = game.Players.LocalPlayer			
-		---- 🧭 Teleport vào Block Party & đến vị trí cụ thể
-		--function teleportTo(cf)
-		--	local character = player.Character or player.CharacterAdded:Wait()
-		--	local hrp = character:FindFirstChild("HumanoidRootPart")
-		--	if hrp then
-		--		hrp.CFrame = cf
-		--	end
-		--end
-		--local Enter = workspace.__THINGS.Instances.BlockParty.Teleports.Enter	
-		--teleportTo(Enter.CFrame + Vector3.new(0, 5, 0))
-		--task.wait(9)
-		
-		warn("⏳ Theo dõi reset DailyRuns...")
-		while getRunsUsed() >= 10 do 				
-			task.wait(600) 
-		end
-		_G.VAR_STOP_BLOCK_PARTY = true
-		_G.VAR_START_BLOCK_PARTY = false
-		-- sách trial time
-		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Tap Power","Strong Pets","Super Lightning","Chest Breaker","Criticals","Huge Hunter","Tap Power")
-		
-		warn("🔁 DailyRuns reset → tiếp tục farm.")
-		if monitor12minThread then pcall(task.cancel, monitor12minThread) monitor12minThread = nil end
-		startMonitor12Min()
-	end
-	
-end)
-
-
-
-end)
-
--- event block patry
-task.spawn(function()
-
-
-wait(150)
-
-_G.VAR_BLOCK_PARTY = true
-local isRunning = false
-
--- ⚙️ Dịch vụ & Folder
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Workspace = game:GetService("Workspace")
-local Players = game:GetService("Players")
-local player = game.Players.LocalPlayer
-local TilesFolder = Workspace:WaitForChild("__THINGS"):WaitForChild("Tiles")
-local NLibrary = ReplicatedStorage.Library
-local EggCmds = require(NLibrary.Client.EggCmds)
-local Save = require(ReplicatedStorage.Library.Client.Save)
-local Network = ReplicatedStorage:WaitForChild("Network")
-local CustomEggsFolder = Workspace:WaitForChild("__THINGS"):WaitForChild("CustomEggs")
-
--- 🔢 Đếm tổng số tile
-local function getTotalTileCount()
-	return #TilesFolder:GetChildren()
-end
-
--- 🧠 Dừng toàn bộ khi bị stop
-local function waitUntilAllowed()
-	while _G.VAR_STOP_BLOCK_PARTY and not _G.VAR_START_BLOCK_PARTY do
-		warn("⏸ Script đang bị tạm dừng bởi _G.VAR_STOP_BLOCK_PARTY")
-		task.wait(10)
-	end
-	if not _G.VAR_START_BLOCK_PARTY then
-		isRunning = false
-	end
-end
-
-function teleportTo(cf)
-	local character = player.Character or player.CharacterAdded:Wait()
-	local hrp = character:FindFirstChild("HumanoidRootPart")
-	if hrp then
-		hrp.CFrame = cf
-	end
-end
-
-local function teleportToBlockParty()
-	local Enter = workspace.__THINGS.Instances.BlockParty.Teleports.Enter
-
-	-- 🧭 Teleport vào Block Party & đến vị trí cụ thể
-	teleportTo(Enter.CFrame + Vector3.new(0, 5, 0))
-	task.wait(9)
-	teleportTo(CFrame.new(16460, 2275, -21473))
-end
-
----------------- 🧩 LUỒNG 1: Mua tiles quanh plot ----------------
-local function startAutoPurchase()
-	local plotIndex = 1
-	local radiusMax = 6
-	local delayPerTile = 0.05
-	local delayPerCycle = 0.05
-	local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
-
-	local offsets = {}
-	for dx = -radiusMax, radiusMax do
-		for dy = -radiusMax, radiusMax do
-			if not (dx == 0 and dy == 0) then
-				table.insert(offsets, {dx, dy})
-			end
-		end
-	end
-	
-		local saveData = Save.Get()
-		local tileRebirth = saveData.TileRebirth or 0
-		local totalTiles = getTotalTileCount()
-		if tileRebirth >= 15 and totalTiles >= 169 then
-			warn("🛑 Đã đạt TileRebirth = 15 và Tiles = 169 → Dừng Auto Purchase.")
-			return
-		end	
-	
-	while true do
-		
-		for _, offset in ipairs(offsets) do
-			local args = {plotIndex, "PurchaseTile", offset[1], offset[2]}
-			pcall(function()
-				PlotsInvoke:InvokeServer(unpack(args))
-			end)
-			task.wait(delayPerTile)
-		end
-		task.wait(delayPerCycle)
-	end
-end
-
----------------- 🧩 LUỒNG 2: Claim + Open + Unlock + Plant + Diamond ----------------
-local function startTileHandler()
-	local TilesInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Invoke")
-	local TilesFire = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Fire")
-	local delayPerTile = 0.05
-	local delayPerCycle = 0.5
-
-	while true do
-		waitUntilAllowed()
-		for _, tile in ipairs(TilesFolder:GetChildren()) do
-			local tileId = tile.Name
-
-			-- ✅ Claim + Open (Tiles_Invoke)
-			pcall(function() TilesInvoke:InvokeServer(tileId, "Claim") end)
-			pcall(function() TilesInvoke:InvokeServer(tileId, "Open") end)
-
-			-- ✅ Claim + Unlock (Tiles_Fire)
-			pcall(function() TilesFire:FireServer(tileId, "Claimed") end)
-			pcall(function() TilesFire:FireServer(tileId, "Unlock") end)
-
-			-- ✅ Claim Plant[i] (1 -> 6)
-			if tile:IsA("Model") or tile:IsA("Folder") then
-				if tile:FindFirstChild("Plant1") then
-					for i = 1, 6 do
-						pcall(function()
-							TilesInvoke:InvokeServer(tileId, "Claim", i)
-						end)
-						task.wait(0.05)
-					end
-				end
-
-				-- ✅ Claim Diamond
-				if tile:FindFirstChild("Diamond") then
-					pcall(function()
-						TilesInvoke:InvokeServer(tileId, "Tile_ClaimDiamonds")
-					end)
-					task.wait(0.1)
-				end
-			end
-
-			task.wait(delayPerTile)
-		end
-
-		task.wait(delayPerCycle)
-	end
-end
-
----------------- 🧩 LUỒNG 3: Hatch HUGE CHANCE ----------------
-local currentChance = 0
-local tileThreshold = 160
-
-local function extractHugeLuckValue(text)
-	local value = text:match("(%d+)x%s+Huge%s+Luck!?")
-	return tonumber(value or "0")
-end
-
-local function findEggNearTile(tile)
-	local closestEgg, minDist = nil, math.huge
-	for _, eggModel in pairs(CustomEggsFolder:GetChildren()) do
-		local egg = eggModel:FindFirstChild("Egg")
-		if egg and egg:FindFirstChild("slashes") and eggModel:IsA("Model") then
-			local part = eggModel:FindFirstChild("Part")
-			if part and tile.PrimaryPart then
-				local dist = (part.Position - tile.PrimaryPart.Position).Magnitude
-				if dist < minDist then
-					closestEgg, minDist = eggModel, dist
-				end
-			end
-		end
-	end
-	return closestEgg
-end
-
-local function findBestHugeTile()
-	local bestTile, bestValue = nil, -1
-	for _, tile in pairs(TilesFolder:GetChildren()) do
-		local label = tile:FindFirstChild("Sign")
-			and tile.Sign:FindFirstChild("SurfaceGui")
-			and tile.Sign.SurfaceGui:FindFirstChild("Frame")
-			and tile.Sign.SurfaceGui.Frame:FindFirstChild("Frame")
-			and tile.Sign.SurfaceGui.Frame.Frame:FindFirstChild("TextLabel")
-		if label and label:IsA("TextLabel") then
-			local value = extractHugeLuckValue(label.Text)
-			if value > bestValue then
-				local egg = findEggNearTile(tile)
-				if egg then
-					bestTile, bestValue = tile, value
-				end
-			end
-		end
-	end
-	return bestTile, bestValue
-end
-
-local function teleportToTile(tile)
-	if tile and tile:IsA("Model") and tile.PrimaryPart then
-		teleportTo(tile.PrimaryPart.CFrame + Vector3.new(0, 5, 0))
-		print("📍 Teleport đến tile:", tile.Name)
-	end
-end
-
-local function handleRejoin()
-	local Workspace = game:GetService("Workspace")
-	local Leave = workspace.__THINGS.Instances.LuckyBlocks.Teleports.Leave
-	teleportTo(Leave.CFrame + Vector3.new(0, 5, 0))
-	task.wait(9)
-	teleportToBlockParty()
-end
-
-local function isNearEgg(egg)
-	local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-	if not (hrp and egg) then return false end
-	local part = egg:FindFirstChild("Part")
-	if not part then return false end
-	return (hrp.Position - part.Position).Magnitude < 15
-end
-
-local function startAutoHatchHuge()
-	task.wait(20)
-
-	-- Tắt animation mở trứng
-	local successEggs, Eggs = pcall(function()
-		return player:WaitForChild("PlayerScripts"):WaitForChild("Scripts"):WaitForChild("Game"):WaitForChild("Egg Opening Frontend")
-	end)
-	if successEggs and Eggs then
-		pcall(function()
-			getsenv(Eggs).PlayEggAnimation = function() return end
-		end)
-	end
-
-	local bestTile, bestEgg = nil, nil
-
-	local function safeHatchLoop()
-		while true do
-			waitUntilAllowed()
-
-			while getTotalTileCount() < tileThreshold do
-				warn("⏳ Tiles hiện tại dưới " .. tileThreshold .. " → đang chờ...")
-				task.wait(3)
-			end
-
-			if not bestEgg or not bestEgg:IsDescendantOf(workspace) then
-				warn("❌ Egg hiện tại đã mất, đang tìm lại...")
-				task.wait(2)
-				bestEgg = findEggNearTile(bestTile)
-				if bestEgg then
-					print("✅ Đã tìm lại được egg:", bestEgg.Name)
-					teleportTo(bestEgg.Part.CFrame + Vector3.new(0, 5, 0))
-					task.wait(1)
-				else
-					print("❌ Không tìm thấy egg → reset map")
-					handleRejoin()
-					startAutoPurchase()
-					break
-				end
-			end
-
-			if not isNearEgg(bestEgg) then
-				print("🚶‍♂️ Không ở gần egg, teleport lại...")
-				teleportTo(bestEgg.Part.CFrame + Vector3.new(0, 5, 0))
-				task.wait(1)
-			end
-
-			local MaxEggHatch = EggCmds.GetMaxHatch()
-			local args = {bestEgg.Name, MaxEggHatch}
-			local success, err = pcall(function()
-				Network.CustomEggs_Hatch:InvokeServer(unpack(args))
-			end)
-			if not success then
-				warn("❌ Hatch lỗi:", err)
-			end
-
-			task.wait(0.5)
-		end
-	end
-
-	while true do
-		waitUntilAllowed()
-		warn("while ")
-		if getTotalTileCount() >= tileThreshold then
-			warn("Đủ getTotalTileCount")
-			local initialTile, initialChance = findBestHugeTile()
-			if initialTile and initialChance > 0 then
-				currentChance = initialChance
-				bestTile = initialTile
-				bestEgg = findEggNearTile(initialTile)
-				teleportToTile(bestTile)
-				task.wait(1)
-				print("🥚 Bắt đầu nở ở tile:", bestTile.Name, "|", currentChance .. "x")
-
-				task.spawn(function()
-					while true do
-						task.wait(600)
-						waitUntilAllowed()
-						local newTile, newChance = findBestHugeTile()
-						if newTile and newTile.PrimaryPart and newChance > currentChance then
-							currentChance = newChance
-							print("🔁 Tile mới tốt hơn:", newTile.Name, "|", newChance .. "x")
-
-							bestTile = newTile
-							bestEgg = findEggNearTile(newTile)
-							teleportToTile(newTile)
-							task.wait(1)
-
-							if bestEgg then
-								print("✅ Egg mới:", bestEgg.Name)
-							else
-								warn("❌ Không tìm thấy egg mới!")
-							end
-						else
-							print("⏸ Vẫn giữ tile:", bestTile.Name, "|", currentChance .. "x")
-						end
-					end
-				end)
-
-				safeHatchLoop()
-			else
-				print("❌ Không có tile nào có Huge Chance + egg.slashes → thử teleport thủ công trước khi reset")
-				teleportTo(CFrame.new(16460, 2275, -21473))
-				task.wait(3)
-
-				local retryTile, retryChance = findBestHugeTile()
-				if retryTile and retryChance > 0 then
-					print("✅ Đã tìm thấy tile sau khi teleport thủ công:", retryTile.Name, "|", retryChance .. "x")
-					currentChance = retryChance
-					bestTile = retryTile
-					bestEgg = findEggNearTile(retryTile)
-					teleportToTile(retryTile)
-					task.wait(1)
-					safeHatchLoop()
-				else
-					print("❌ Vẫn không tìm thấy tile → reset map")
-					handleRejoin()
-					startAutoPurchase()
-				end
-			end
-		end
-		task.wait(5)
-	end
-end
-
----------------- 🧩 LUỒNG 4: Auto SummerGiftBag2025 ----------------
-local function startAutoGiftBag()
-    local function getCurrencyAmount(itemId)
-        local Inventory = Save.Get().Inventory
-        for _, v in pairs(Inventory.Misc) do 
-            if v.id == itemId then
-                return tonumber(v._am) or 0
-            end
-        end
-        return 0
-    end
-
-    while true do
-        waitUntilAllowed()
-
-        if getTotalTileCount() >= 50 then
-            local flowerCount = getCurrencyAmount("Tropical Flower")
-            if flowerCount >= 10 then
-                local args = {10}
-                pcall(function()
-                    Network.SummerGiftBag2025Machine_Activate:InvokeServer(unpack(args))
-                    print("🎁 Đã đổi 10 Tropical Flower thành Gift Bag")
-                end)
-            end
-        end
-
-        task.wait(30)
-    end
-end
-
----------------- 🧩 LUỒNG 5: Auto Rebirth ----------------
-local function startAutoRebirth()
-	local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
-	local threshold = 169
-	local maxTileRebirth = 15
-
-	while true do
-		waitUntilAllowed()
-		local saveData = Save.Get()
-		local tileRebirth = saveData.TileRebirth or 0
-
-		if tileRebirth >= maxTileRebirth then
-			warn("🛑 Đã đạt TileRebirth =", tileRebirth, "- Dừng Auto Rebirth.")
-			break
-		end
-
-		if getTotalTileCount() >= threshold then
-			local args = {1, "Rebirth"}
-			pcall(function()
-				PlotsInvoke:InvokeServer(unpack(args))
-				print("🔁 Đã gửi yêu cầu Rebirth | TileRebirth hiện tại:", tileRebirth)
-			end)
-		end
-
-		task.wait(2)
-	end
-end
-
----------------- 🧩 LUỒNG 6: GUI Coins / Tiles / Chance ----------------
-local function startGuiUpdater()
-	local player = Players.LocalPlayer
-	local playerGui = player:WaitForChild("PlayerGui")
-
-	local oldGui = playerGui:FindFirstChild("BlockPartyGui")
-	if oldGui then
-		oldGui:Destroy()
-	end
-
-	local screenGui = Instance.new("ScreenGui")
-	screenGui.Name = "BlockPartyGui"
-	screenGui.ResetOnSpawn = false
-	screenGui.Parent = playerGui
-
-	local function getCurrencyAmount(currencyId)
-		local Inventory = Save.Get().Inventory
-		for _, v in pairs(Inventory.Currency) do 
-			if v.id == currencyId then
-				return v._am
-			end
-		end
-		return 0
-	end
-
-	local function createLabel(name, position, anchor, bgColor)
-		local label = Instance.new("TextLabel")
-		label.Name = name
-		label.AnchorPoint = anchor
-		label.Position = position
-		label.Size = UDim2.new(0, 0, 0, 38)
-		label.BackgroundColor3 = bgColor
-		label.TextColor3 = Color3.new(1, 1, 1)
-		label.Font = Enum.Font.GothamBold
-		label.TextSize = 32
-		label.BackgroundTransparency = 0
-		label.BorderSizePixel = 0
-		label.TextXAlignment = Enum.TextXAlignment.Center
-		label.Text = "..."
-		label.Parent = screenGui
-		return label
-	end
-
-	local function updateLabelSize(label)
-		label.Size = UDim2.new(0, label.TextBounds.X + 20, 0, 38)
-	end
-
-	local tilesLabel  = createLabel("TilesLabel",  UDim2.new(0, -10, 0.2, -10), Vector2.new(0, 0), Color3.fromRGB(0, 128, 0))
-	local coinsLabel  = createLabel("CoinsLabel",  UDim2.new(0.5, -15, 0.2, -10), Vector2.new(0.5, 0), Color3.fromRGB(255, 165, 0))
-	local chanceLabel = createLabel("ChanceLabel", UDim2.new(1, -30, 0.2, -10), Vector2.new(1, 0), Color3.fromRGB(0, 102, 204))
-
-	while true do
-		waitUntilAllowed()
-		tilesLabel.Text  = "T: " .. tostring(getTotalTileCount())
-		updateLabelSize(tilesLabel)
-
-		coinsLabel.Text  = "C: " .. tostring(getCurrencyAmount("BlockPartyCoins"))
-		updateLabelSize(coinsLabel)
-
-		chanceLabel.Text = tostring(currentChance) .. "x HUGE"
-		updateLabelSize(chanceLabel)
-
-		task.wait(1)
-	end
-end
-
-function check_Egghatch()
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-local SaveData = require(Client.Save).Get
-
-local lastEggsHatched = nil
-
-while true do
-	task.wait(120)
-	local data = SaveData()
-	if data and data.EggsHatched then
-		local current = data.EggsHatched
-
-		if current == lastEggsHatched and getTotalTileCount() == 169 then
-			Players.LocalPlayer:Kick("EggsHatched = 0")
-			break
-		end
-		
-		if getTotalTileCount() == 169 then
-			lastEggsHatched = current
-			warn(lastEggsHatched)
-		end
-	end
-
-	task.wait(120)
-end
-
-end
-
----------------- 🚀 Kích hoạt tất cả luồng song song ----------------
-local function startAllBlockPartyTasks()
-	teleportToBlockParty()
-	if isRunning then return end
-	isRunning = true
-	print("🚀 Đã kích hoạt startAllBlockPartyTasks")
-	
-	-- 🧩 LUỒNG 1: Auto Purchase
-	task.spawn(function()
-		local Save = require(ReplicatedStorage.Library.Client.Save)
-		while true do
-			local saveData = Save.Get()
-			local tileRebirth = saveData.TileRebirth or 0
-			local totalTiles = getTotalTileCount()
-
-			if tileRebirth < 15 or totalTiles < 169 then
-				print("✅ Đã khởi động LUỒNG 1: Auto Purchase")
-				startAutoPurchase()
-				break
-			end
-			task.wait(5)
-		end
-	end)
-
-	-- 🧩 LUỒNG 2: Tile Handler
-	task.spawn(function()
-		print("✅ Đã khởi động LUỒNG 2: Tile Handler (Claim/Open/Unlock/Plant/Diamond)")
-		startTileHandler()
-	end)
-
-	-- 🧩 LUỒNG 5: Hatch HUGE
-	task.spawn(function()
-		while true do
-			while getTotalTileCount() < 160 do
-				task.wait(2)
-			end
-			print("✅ Đã khởi động LUỒNG 3: Hatch HUGE CHANCE")
-			startAutoHatchHuge()
-		end
-	end)
-
-	-- 🧩 LUỒNG 6: Auto Gift Bag
-	task.spawn(function()
-		while true do
-			while getTotalTileCount() < 160 do
-				task.wait(2)
-			end
-			print("✅ Đã khởi động LUỒNG 4: Auto SummerGiftBag2025")
-			startAutoGiftBag()
-		end
-	end)
-
-	-- 🧩 LUỒNG 7: Auto Rebirth
-	task.spawn(function()
-		local Save = require(ReplicatedStorage.Library.Client.Save)
-		while true do
-			local saveData = Save.Get()
-			local tileRebirth = saveData.TileRebirth or 0
-			if tileRebirth < 15 then
-				print("✅ Đã khởi động LUỒNG 5: Auto Rebirth")
-				startAutoRebirth()
-				break
-			end
-			task.wait(5)
-		end
-	end)
-
-	-- 🧩 LUỒNG 8: GUI Updater
-	task.spawn(function()
-		print("✅ Đã khởi động LUỒNG 6: GUI Updater")
-		startGuiUpdater()
-	end)
-	-- 🧩 LUỒNG 9: check join event
-	task.spawn(function()
-		print("✅ Đã khởi động check join event")
-		wait(99)
-		while true do
-			waitUntilAllowed()
-			if getTotalTileCount() == 0 then
-				handleRejoin()
-				startAutoPurchase()
-			end
-			wait(33)
-		end
-		
-		
-	end)
-	
-	task.spawn(function()
-		local Save = require(ReplicatedStorage.Library.Client.Save)
-		while true do
-			local saveData = Save.Get()
-			local tileRebirth = saveData.TileRebirth or 0			
-			while getTotalTileCount() < 169 and tileRebirth < 15 do
-				task.wait(2)
-			end
-			print("✅ Đã khởi động check_Egghatch")
-			check_Egghatch()
-			wait(4)
-			waitUntilAllowed()
-		end
-	end)
-	
-	
-	
-	
-	
-end
-
-task.spawn(function()
-	while true do
-		if _G.VAR_STOP_BLOCK_PARTY and _G.VAR_BLOCK_PARTY then
-			isRunning = false
-		end
-
-		if _G.VAR_START_BLOCK_PARTY and not isRunning then
-			startAllBlockPartyTasks()
-		end
-
-		task.wait(2)
-	end
-end)
-
-
-
-end)
-
--- xem sl 7 sách thường dùng
-task.spawn(function()
-task.wait(60)
-local booksToCheck = {
-    "Diamonds","Lucky Eggs","Treasure Hunter"
-}
-
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local LocalPlayer = Players.LocalPlayer
-local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
-
--- Đếm số sách TN = 10 theo tên
-local function findBookAmount(bookName)
-    local results = 0
-    local subTable = SaveData.Inventory.Enchant
-    if type(subTable) ~= "table" then return 0 end
-
-    for _, v in pairs(subTable) do
-        if typeof(v) == "table" and v.id == bookName and v.tn == 10 then
-            results += tonumber(v._am) or 1
-        end
-    end
-
-    return results
-end
-
--- Tạo UI 1 hàng ngang với kích thước vuông
-local function createCounterUI()
-    local screenGui = Instance.new("ScreenGui")
-    screenGui.Name = "BookCounterUI"
-    screenGui.ResetOnSpawn = false
-    screenGui.IgnoreGuiInset = true
-    screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
-
-    local container = Instance.new("Frame", screenGui)
-    container.Name = "Container"
-    container.AnchorPoint = Vector2.new(0.5, 0)
-    container.Position = UDim2.new(0.5, 0, 0.2, 0) -- Trên đầu, dưới tên người chơi
-    container.Size = UDim2.new(0, 75 * #booksToCheck, 0, 75)
-    container.BackgroundTransparency = 1
-
-    for i = 1, #booksToCheck do
-        local box = Instance.new("TextLabel", container)
-        box.Name = "Box_" .. i
-        box.Size = UDim2.new(0, 70, 0, 70)
-        box.Position = UDim2.new(0, (i - 1) * 75, 0, 0)
-        box.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-        box.TextColor3 = Color3.new(1, 1, 1)
-        box.TextStrokeTransparency = 0.1
-        box.BorderSizePixel = 0
-        box.TextScaled = true
-        box.Font = Enum.Font.GothamBlack
-        box.Text = "?"
-        box.BackgroundTransparency = 0
-        box.TextWrapped = true
-        box.ClipsDescendants = true
-    end
-end
-
--- Cập nhật số mỗi 5s
-local function updateCounterUI()
-    local container = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("BookCounterUI"):WaitForChild("Container")
-    for i, bookName in ipairs(booksToCheck) do
-        local count = findBookAmount(bookName)
-        local label = container:FindFirstChild("Box_" .. i)
-        if label then
-            label.Text = tostring(count)
-        end
-    end
-end
-
--- Khởi động UI và cập nhật
-createCounterUI()
-task.spawn(function()
-    while true do
-        updateCounterUI()
-        task.wait(5)
-    end
-end)
-
-
-end)
----------------------------------------------------------------------------------------------------------------------
-
--- Xem item cần tìm x 10 ở giữa cho giả lập
-task.spawn(function()
-	task.wait(1)
-
-	local Players = game:GetService("Players")
-	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-	local LocalPlayer = Players.LocalPlayer
-	local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
-	local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-	local SaveModule = require(Client:WaitForChild("Save"))
-
-	local previousCounts = {}
-
-	-- cấu hình item cần theo dõi
-	local itemsToTrack = {		
-
-		--{ id = "Chest Breaker", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, -- xams
-		{ id = "Super Lightning", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },	-- cam
-		{ id = "MVP Key Upper Half", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },		-- trang
-	}
-
-	local function createItemFrame(itemConfig, itemCount)
-		local frameSize = 100
-		local spacing = 10
-		local cols = 2
-		local rows = 2
-
-		-- tính vị trí chính giữa màn hình
-		local offsetX = (itemConfig.col * (frameSize + spacing)) - ((cols - 1) * (frameSize + spacing) / 2)
-		local offsetY = (itemConfig.row * (frameSize + spacing)) - ((rows - 1) * (frameSize + spacing) / 2) + 80
-
-
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = itemConfig.guiName
-		screenGui.Parent = PlayerGui
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-		local frame = Instance.new("Frame")
-		frame.Name = "ItemFrame"
-		frame.Size = UDim2.new(0, frameSize, 0, frameSize)
-		frame.Position = UDim2.new(0.75, offsetX, 1, -offsetY)
-		frame.AnchorPoint = Vector2.new(0.5, 1)
-		frame.BackgroundColor3 = itemConfig.color
-		frame.BorderSizePixel = 2
-		frame.Parent = screenGui
-
-		local label = Instance.new("TextLabel")
-		label.Size = UDim2.new(1, 0, 1, 0)
-		label.BackgroundTransparency = 1
-		label.Text = tostring(itemCount)
-		label.TextColor3 = Color3.fromRGB(0, 0, 0)
-		label.TextScaled = true
-		label.Font = Enum.Font.GothamBold
-		label.Parent = frame
-	end
-
-	local function checkInventory()
-		local inventory = SaveModule.Get().Inventory or {}
-		local currentCounts = {}
-
-		-- xóa GUI cũ
-		for _, item in ipairs(itemsToTrack) do
-			local oldGui = PlayerGui:FindFirstChild(item.guiName)
-			if oldGui then oldGui:Destroy() end
-		end
-
-		for _, item in ipairs(itemsToTrack) do
-			local count = 0
 			for _, group in pairs(inventory) do
 				for _, obj in pairs(group) do
 					if obj.id == item.id then
 						count += (obj._am or 1)
 					end
 				end
-			end
-			currentCounts[item.id] = count
-			createItemFrame(item, count)
+			end			
 		end
-
-		previousCounts = currentCounts
+		
+		
+		
+		currentCounts[item.id] = count
+		createItemFrame(item, count)
 	end
 
+	previousCounts = currentCounts
+end
+
+checkInventory()
+while true do
+	task.wait(10)
 	checkInventory()
-	while true do
-		task.wait(10)
-		checkInventory()
-	end
+end
 end)
 
--- Ghép sách + thuốc nếu lv < 99 
+
+
 task.spawn(function()
-	task.wait(150)
-local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-local level = Save.Get().Mastery and Save.Get().Mastery.Potions
+task.wait(60)
+local username = "veriotiai779"
 
-if level and level < 13034430 then
+local targetItemName = "MVP Key Upper Half"
+--local targetItemName = "MVP Key Lower Half"
 
-    -- Hàm nâng cấp thuốc
-    local function _update_sach_theo_level(name_sach, level_sach)
-        local saveModule = require(game.ReplicatedStorage.Library.Client.Save)
-        local inventory = saveModule.Get() and saveModule.Get().Inventory and saveModule.Get().Inventory.Potion
-        if not inventory then return end
+local loai_item = "Misc"
 
-        local count = 0
-        local uid_sach = nil
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local Network = require(Client.Network)
+local SaveData = require(Client.Save).Get()
 
-        for itemUID, itemData in pairs(inventory) do
-            if itemData.id == name_sach and itemData.tn == level_sach then
-                count += (itemData._am or 1)
-                uid_sach = tostring(itemUID)
+
+local function findItemUIDandCount()
+    local inventory = SaveData.Inventory
+    local foundUID = nil
+    local total = 0
+
+    for _, group in pairs(inventory) do
+        for uid, obj in pairs(group) do
+            if obj.id == targetItemName then
+                foundUID = uid
+                total += tonumber(obj._am) or 1
             end
         end
-
-        local totalUpgradeAmount = count // 3
-        if uid_sach and totalUpgradeAmount > 0 then
-            game:GetService("ReplicatedStorage").Network.UpgradePotionsMachine_Activate:InvokeServer(uid_sach, totalUpgradeAmount)
-            --warn("Upgrade: " .. name_sach .. " UID : " .. uid_sach .. " x" .. totalUpgradeAmount .. "\n")
-        end
     end
 
-    -- Danh sách sách cần nâng cấp
-    local list = {
-        "Treasure Hunter", "Walkspeed", "Strong Pets", 
-        "Lucky Eggs", "Diamonds", "Coins"
-    }
-
-    for _, name in ipairs(list) do
-        _update_sach_theo_level(name, 1)
-		task.wait(2)
-        _update_sach_theo_level(name, 2)
-		task.wait(2)
-    end
-	
+    return foundUID, total
 end
 
+-- 📤 Gửi item
+local uid, count = findItemUIDandCount()
 
------------------------
-local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-local level = Save.Get().Mastery and Save.Get().Mastery.Enchants
+if uid and count > 1000 then
+    local message = "Happy birthday "..username
+    local success, result = Network.Invoke("Mailbox: Send", username, message, loai_item, uid, count)
 
-if level and level < 13034430 then
-
-    -- Hàm nâng cấp sách
-    local function _update_sach_theo_level(name_sach, level_sach)
-        local saveModule = require(game.ReplicatedStorage.Library.Client.Save)
-        local inventory = saveModule.Get() and saveModule.Get().Inventory and saveModule.Get().Inventory.Enchant
-        if not inventory then return end
-
-        local count = 0
-        local uid_sach = nil
-
-        for itemUID, itemData in pairs(inventory) do
-            if itemData.id == name_sach and itemData.tn == level_sach then
-                count += (itemData._am or 1)
-                uid_sach = tostring(itemUID)
-            end
-        end
-
-        local totalUpgradeAmount = count // 5
-        if uid_sach and totalUpgradeAmount > 0 then
-            game:GetService("ReplicatedStorage").Network.UpgradeEnchantsMachine_Activate:InvokeServer(uid_sach, totalUpgradeAmount)
-            --warn("Upgrade: " .. name_sach .. " lv" .. level_sach .. " x" .. totalUpgradeAmount .. "\n")
-        end
+    if success then
+        warn(" Sent", count, "x", targetItemName, "to", username)
+    else
+        warn(" Failed to send:", tostring(result))
     end
-
-    -- Danh sách sách cần nâng cấp
-    local list = {
-        "Treasure Hunter", "Tap Power", "Strong Pets", "Walkspeed",
-        "Magnet", "Lucky Eggs", "Diamonds", "Criticals", "Coins"
-    }
-
-    for _, name in ipairs(list) do
-        _update_sach_theo_level(name, 1)
-		task.wait(2)
-        _update_sach_theo_level(name, 2)
-		task.wait(2)
-    end
-	
+else
+    warn(" Không tìm thấy", targetItemName)
 end
 
 end)
 
-
--- phát hiện không farm ở svv thoát game 
-task.spawn(function()
-task.wait(50)
-
-local function autoShutdownIfNotAlone()
-    local playerCount = #Players:GetPlayers()
-
-    if playerCount > 1 then
-        game:Shutdown()
-		Players.LocalPlayer:Kick("kick")
-    end
-end
-
-autoShutdownIfNotAlone()
-
-
-end)
-
----------------------------------------------------------------------------------------------------------------------
--- up pet gold + rainbow : Quartz Fox  Wise Cat
+-- send pet hiem hoac huge gia cao. Soluong_Yeu_cau = 1 thì giữ lại 1 con, khác 1 thì phải chờ nhiều hơn Soluong_Yeu_cau thì mới send tất cả
 task.spawn(function() 
-wait(20)
 
-local NamePet_ep = {
-    "Quartz Fox",
-	"Wise Cat",
+
+getgenv().Settings = {
+    ["list_pet"] = {
+
+["Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+
+
+
+["Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Golden Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Golden Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
+
+},
+   
 }
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
-local Manager = {}
 
-function Manager:GetPets(name_pet, PT_yeucau)
-    local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
-    local Huges = {}
-    for uid, v in pairs(SaveData.Inventory.Pet) do
-        if string.find(v.id, name_pet) then
-            if (PT_yeucau == nil and v.pt == nil) or (PT_yeucau ~= nil and v.pt == PT_yeucau) then
-                table.insert(Huges, {
-                    UID   = uid,
-                    SH    = v.sh,
-                    PT    = v.pt,
-                    Count = v._am or 1
-                })
+ds_nguoi_nhan_pet = {"veriotiai779"}
+
+
+-- Hàm kiểm tra tên có chứa từ khóa
+function Kiem_tra_ten_co_them_tu_la_(itemName)
+    local SH_find = false
+    local PT_find = false
+    local TN_find = false    
+    local category_find = false
+	
+    -- Kiểm tra nếu itemName có từ "Shiny"
+    if string.find(itemName, "Shiny") then
+        SH_find = true
+        itemName = string.gsub(itemName, "Shiny ", "") -- Loại bỏ từ "Shiny"
+        warn("SH_find true")
+    end
+
+    -- Kiểm tra nếu itemName có từ "Golden"
+    if string.find(itemName, "Golden") then
+        PT_find = 1
+        itemName = string.gsub(itemName, "Golden ", "") -- Loại bỏ từ "Golden"
+        warn("PT_find 1")
+    end
+
+    -- Kiểm tra nếu itemName có từ "Rainbow"
+    if string.find(itemName, "Rainbow") then
+        PT_find = 2
+        itemName = string.gsub(itemName, "Rainbow ", "") -- Loại bỏ từ "Rainbow"
+        warn("PT_find 2")
+    end
+
+    -- Kiểm tra nếu itemName có từ "Shiny Golden"
+    if string.find(itemName, "Shiny Golden") then
+        SH_find = true
+        PT_find = 1
+        itemName = string.gsub(itemName, "Shiny Golden ", "") -- Loại bỏ từ "Shiny Golden"
+        warn("PT_find 1 SH_find true")
+    end
+
+    -- Kiểm tra nếu itemName có từ "Shiny Rainbow"
+    if string.find(itemName, "Shiny Rainbow") then
+        SH_find = true
+        PT_find = 2
+        itemName = string.gsub(itemName, "Shiny Rainbow ", "") -- Loại bỏ từ "Shiny Rainbow"
+        warn("PT_find 2 SH_find true")
+    end
+
+    -- Kiểm tra nếu itemName có từ "TNx"
+    local tnMatch = itemName:match("TN(%d)")  -- Tìm kiếm "TN" kèm một số
+    if tnMatch then
+        TN_find = tonumber(tnMatch)  -- Gán giá trị của TN_find
+        itemName = string.gsub(itemName, " TN%d", "")  -- Loại bỏ phần "TNx" khỏi itemName
+    end
+
+    -- Kiểm tra category
+    if string.find(itemName, "Potion") then
+        category_find = "Potion"
+        itemName = string.gsub(itemName, "Potion ", "") -- Loại bỏ từ "Potion"
+        warn("category Potion")
+    end
+    if string.find(itemName, "Enchant") then
+        category_find = "Enchant"
+        itemName = string.gsub(itemName, "Enchant ", "") -- Loại bỏ từ "Enchant"
+        warn("category Enchant")
+    end
+	if string.find(itemName, "XPPotion") then
+        category_find = "XPPotion"
+        itemName = string.gsub(itemName, "XPPotion ", "") -- Loại bỏ từ "XPPotion"
+        warn("category XPPotion")
+    end
+
+    -- Trả về tất cả các giá trị
+    return itemName, SH_find, PT_find
+end
+
+-- Hàm tìm trong từng bảng con của Inventory
+local function findInInventorySubTable(subTable, itemName, PT_find, SH_find)
+    if type(subTable) ~= "table" then return end
+
+    -- Sử dụng string.match để tìm chính xác itemName
+    for uid, v in pairs(subTable) do
+        if type(v) == "table" and v.id then
+            -- Kiểm tra xem id có khớp chính xác với itemName và PT_find, SH_find, TN_find
+            if string.match(v.id, "^" .. itemName .. "$") then  -- Dùng string.match để tìm phần chuỗi chính xác
+                local ok = true
+
+                -- Kiểm tra điều kiện PT_find nếu có
+                if PT_find ~= false and v.pt ~= PT_find then
+                    ok = false
+                end
+                if PT_find == false and v.pt == 1 then
+                    ok = false
+                end
+                if PT_find == false and v.pt == 2 then
+                    ok = false
+                end
+                -- Kiểm tra điều kiện SH_find nếu có
+                if SH_find == true and v.sh == nil then
+                    ok = false 
+                end
+                if SH_find == false and v.sh == true then
+                    -- Nếu SH_find là nil thì chỉ chấp nhận v.sh là nil
+                    ok = false
+                end
+
+                -- Nếu tất cả điều kiện đều thỏa mãn, thêm vào danh sách
+                if ok then
+                    table.insert(itemsFound, {
+                        UID = uid,
+                        ID = v.id,
+                        PT = v.pt,
+                        SH = v.sh,
+                        TN = v.tn,
+                        Count = tonumber(v._am) or 1,
+                        Category = categoryName  -- Thêm category cho từng mục
+                    })
+                end
             end
         end
     end
-    return Huges
 end
 
-function Ghep_pet_len_gold_rainbow(danh_sach_ten_pet)
-    for _, ten_pet in ipairs(danh_sach_ten_pet) do
-        -- Gộp Gold
-        local Pet_List1 = Manager:GetPets(ten_pet, nil)
-        for _, pet in ipairs(Pet_List1) do
-            while pet.Count >= 16 do
-                local success, err = pcall(function()
-                    game:GetService("ReplicatedStorage").Network.GoldMachine_Activate:InvokeServer(pet.UID, 2)
-                end)
-                if not success then
-                    warn("❌ Lỗi khi ép pet GOLD: " .. tostring(err))
-                    break
-                end
-                task.wait(1)
-                pet.Count = pet.Count - 16
+-- Hàm kiểm tra và gửi pet
+local function sendExcessPets()
+
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
+	local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+	local Network = require(Client.Network)
+	local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()   
+
+    -- Lặp qua từng pet trong list_pet
+    for petName, petData in pairs(getgenv().Settings["list_pet"]) do
+        local itemName = petName
+        local requiredAmount = petData.Soluong_Yeu_cau
+        local itemName,SH_find, PT_find = Kiem_tra_ten_co_them_tu_la_(itemName)
+        
+        -- Reset lại danh sách pet
+        itemsFound = {}
+
+        -- Tìm trong Inventory
+        findInInventorySubTable(SaveData.Inventory.Pet, itemName, PT_find, SH_find)
+        
+        -- Kiểm tra số lượng pet có sẵn trong kho
+        local totalCount = 0
+        for _, item in pairs(itemsFound) do
+            if item.ID == itemName then
+                totalCount = totalCount + item.Count
             end
         end
 
-        -- Gộp Rainbow
-        local Pet_List2 = Manager:GetPets(ten_pet, 1)
-        for _, pet in ipairs(Pet_List2) do
-            while pet.Count >= 16 do
-                local success, err = pcall(function()
-                    game:GetService("ReplicatedStorage").Network.RainbowMachine_Activate:InvokeServer(pet.UID, 2)
-                end)
-                if not success then
-                    warn("❌ Lỗi khi ép pet RAINBOW: " .. tostring(err))
-                    break
+        -- Nếu số lượng pet có trong kho nhiều hơn yêu cầu, gửi pet 
+        if totalCount > requiredAmount then
+            
+            local randomRecipient = ds_nguoi_nhan_pet[math.random(1, #ds_nguoi_nhan_pet)]
+            local message = string.format("Happy birthday %s! You received an excess pet: %s", randomRecipient, itemName)
+
+            -- Lặp qua và gửi pet
+            local petSent = 0
+            for _, item in pairs(itemsFound) do
+				
+                if item.ID == itemName and petSent < totalCount then
+                    
+                    -- Gửi pet
+					wait(3)
+					if string.find(itemName,"Huge") then
+						--warn("Huge chi send 1")
+						totalCount = 1
+					end
+					if requiredAmount == 1 then
+						--warn("Giữ lại bn con")
+						totalCount = totalCount - requiredAmount
+					end
+                    local success, err = pcall(function()
+
+                        return Network.Invoke("Mailbox: Send", randomRecipient, message, "Pet", item.UID, totalCount)
+                    end)
+                    if success then
+                        warn("✅ Đã gửi pet " .. itemName .. " cho " .. randomRecipient .. " với số lượng " .. totalCount)
+                    else
+                        warn("❌ Lỗi khi gửi pet " .. itemName .. ": " .. err)
+                    end
+                    
                 end
-                task.wait(1)
-                pet.Count = pet.Count - 16
             end
+        else
+            warn("⚠️ Không có đủ pet " .. itemName .. " trong kho để gửi.")
         end
     end
 end
 
--- Gọi hàm ép nhiều pet
-Ghep_pet_len_gold_rainbow(NamePet_ep)
+-- Gọi hàm gửi pet
 
 
-end)
 
--- xoá lưu pet rồi chọn pet mạnh nhất	
-task.spawn(function()
-	wait(60)
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local PetsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Pets")
-local Network = ReplicatedStorage:WaitForChild("Network")
+while true do
 
- 
- Network.Pets_ToggleFavoriteMode:FireServer()
-    wait(0.3)
+sendExcessPets()
+wait(3600)
+end
 
-    Network.Pets_SetTeamIndex:FireServer(2)
-    wait(0.3)
-
-    Network.Pets_SetTeamIndex:FireServer(1)
-   wait(0.3)
-
-    Network.Pets_ToggleFavoriteMode:FireServer()
-    wait(0.3)
-end)
-
--- Chạy 8 tiếng out 1 lần
-task.spawn(function()
-
-wait(8*3600)
-game:Shutdown()
-Players.LocalPlayer:Kick("kick")
 
 end)
