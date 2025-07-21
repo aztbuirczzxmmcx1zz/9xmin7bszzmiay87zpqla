@@ -525,6 +525,7 @@ end)
 -- event block patry
 task.spawn(function()
 
+
 wait(150)
 
 _G.VAR_BLOCK_PARTY = true
@@ -653,7 +654,7 @@ end
 
 ---------------- 🧩 LUỒNG 3: Hatch HUGE CHANCE ----------------
 local currentChance = 0
-local tileThreshold = 120
+local tileThreshold = 169
 
 local function extractHugeLuckValue(text)
 	local value = text:match("(%d+)x%s+Huge%s+Luck!?")
@@ -1000,7 +1001,7 @@ local function startAllBlockPartyTasks()
 	-- 🧩 LUỒNG 5: Hatch HUGE
 	task.spawn(function()
 		while true do
-			while getTotalTileCount() < 120 do
+			while getTotalTileCount() < 169 do
 				task.wait(2)
 			end
 			print("✅ Đã khởi động LUỒNG 3: Hatch HUGE CHANCE")
@@ -1011,7 +1012,7 @@ local function startAllBlockPartyTasks()
 	-- 🧩 LUỒNG 6: Auto Gift Bag
 	task.spawn(function()
 		while true do
-			while getTotalTileCount() < 50 do
+			while getTotalTileCount() < 169 do
 				task.wait(2)
 			end
 			print("✅ Đã khởi động LUỒNG 4: Auto SummerGiftBag2025")
@@ -1070,6 +1071,8 @@ task.spawn(function()
 		task.wait(2)
 	end
 end)
+
+
 
 end)
 
