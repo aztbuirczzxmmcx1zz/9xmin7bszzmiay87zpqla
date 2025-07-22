@@ -63,7 +63,9 @@ task.spawn(function()
 wait(75)
 
 _G.STOP_TIME_TRIAL = false
-
+if _G.STOP_TIME_TRIAL == false then
+	return
+end
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -484,10 +486,11 @@ task.spawn(function()
 		claimReward()
 		task.wait(30)
 		cleanupAllThreads()
+		autoEquipEnchantBooks("Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter","Huge Hunter","Treasure Hunter","Lucky Eggs")
 		_G.VAR_STOP_BLOCK_PARTY = false
 		_G.VAR_START_BLOCK_PARTY = true
 		-- Event
-		autoEquipEnchantBooks("Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter","Huge Hunter","Treasure Hunter","Lucky Eggs")
+		
 		
 		
 		--local player = game.Players.LocalPlayer			
@@ -528,8 +531,11 @@ task.spawn(function()
 
 
 wait(150)
+autoEquipEnchantBooks("Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter","Huge Hunter","Treasure Hunter","Lucky Eggs")
+_G.VAR_STOP_BLOCK_PARTY = false
+_G.VAR_START_BLOCK_PARTY = true
+		-- Event
 
-		
 _G.VAR_BLOCK_PARTY = true
 local isRunning = false
 
