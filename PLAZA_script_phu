@@ -860,7 +860,7 @@ local function startAutoHatchHuge()
 						end
 					end
 				end)
-				_G.CURRENT_HUGE_CHANCE = currentChance
+				
 				safeHatchLoop()
 			else
 				print("❌ Không có tile nào có Huge Chance + egg.slashes → thử teleport thủ công trước khi reset")
@@ -875,7 +875,7 @@ local function startAutoHatchHuge()
 					bestEgg = findEggNearTile(retryTile)
 					teleportToTile(retryTile)
 					task.wait(1)					
-					_G.CURRENT_HUGE_CHANCE = currentChance
+					
 					safeHatchLoop()
 				else
 					print("❌ Vẫn không tìm thấy tile → reset map")
