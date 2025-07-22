@@ -32,14 +32,14 @@ if table.find(targetNames, player.Name) then
 		
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/PLAZA_script_phu"))()
 	end)
-		wait(30)
+	
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/PLAZA_ITEM_SELL"))()
 		
 
 else
 
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_w1234"))()
-		wait(30)
+		
 		
 		
 		---------------------------------------------------------------------------------------------------------------------------
