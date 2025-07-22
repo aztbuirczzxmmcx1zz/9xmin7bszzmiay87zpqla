@@ -1,3 +1,5 @@
+PAUSE_or_SEND = "P"
+-- view góc trái
 task.spawn(function()
 	task.wait(10)
 
@@ -102,61 +104,164 @@ while true do
 end
 end)
 
-
-
+--Sent chìa
 task.spawn(function()
-task.wait(60)
-local username = "veriotiai779"
 
-local targetItemName = "MVP Key Upper Half"
---local targetItemName = "MVP Key Lower Half"
+if STOP_or_SEND == "P" then
+	return
+end
 
-local loai_item = "Misc"
+wait(60)
+NAME_USER_SEND = "veriotiai779"
+
+
+function Sent_item_all()
+
+getgenv().Settings = {		
+
+
+["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 1000},	--ok
+["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 2000},	
+
+}
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
 local Network = require(Client.Network)
-local SaveData = require(Client.Save).Get()
+local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
+local Players = game:GetService("Players")
 
+local player = Players.LocalPlayer
+local Inventory = SaveData.Inventory
 
-local function findItemUIDandCount()
-    local inventory = SaveData.Inventory
-    local foundUID = nil
-    local total = 0
+local itemsFound = {} -- Kết quả tìm được
 
-    for _, group in pairs(inventory) do
-        for uid, obj in pairs(group) do
-            if obj.id == targetItemName then
-                foundUID = uid
-                total += tonumber(obj._am) or 1
-            end
-        end
-    end
+-- 💬 Danh sách lời chúc
+local messages = {
+    "Happy Birthday %s!",
+    "Hope today brings %s!",
+    "Wishing you luck %s!",
+    "Congrats on your %s!",
+    "Give away %s!",
+    "You are amazing %s"
+}
 
-    return foundUID, total
+local message = string.format(messages[math.random(1, #messages)], NAME_USER_SEND)	
+
+-- 🔢 Hàm chuyển đơn vị "100m", "1b" thành số
+local function parseNumber(str)
+	if type(str) == "number" then return str end
+	str = str:lower()
+	local multipliers = {k = 1e3, m = 1e6, b = 1e9, t = 1e12}
+	local num = tonumber(str:match("[%d%.]+")) or 0
+	local suffix = str:match("[a-z]+")
+	return num * (multipliers[suffix] or 1)
 end
 
--- 📤 Gửi item
-local uid, count = findItemUIDandCount()
+-- 🔍 Tìm item trong Inventory
+local function findMatchingItems(class, id, allVariants)
+	local results = {}
 
-if uid and count > 1000 then
-    local message = "Happy birthday "..username
-    local success, result = Network.Invoke("Mailbox: Send", username, message, loai_item, uid, count)
+	local sub = Inventory[class]
+	if not sub then return results end
 
-    if success then
-        warn(" Sent", count, "x", targetItemName, "to", username)
-    else
-        warn(" Failed to send:", tostring(result))
-    end
-else
-    warn(" Không tìm thấy", targetItemName)
+	for uid, v in pairs(sub) do
+		if type(v) == "table" and v.id then
+			local match = false
+			if allVariants then
+				match = string.find(v.id, id)
+			else
+				match = v.id == id
+			end
+
+			if match then
+				table.insert(results, {
+					UID = uid,
+					ID = v.id,
+					PT = v.pt,
+					SH = v.sh,
+					TN = v.tn,
+					Count = tonumber(v._am) or 1,
+					Class = class,
+				})
+			end
+		end
+	end
+
+	return results
 end
+
+-- 📦 Duyệt qua từng mục cấu hình
+for key, config in pairs(getgenv().Settings) do
+	local class = config.Class
+	local id = config.Id
+	local minAmount = parseNumber(config.MinAmount)
+	local keepAmount = config.KeepAmount and parseNumber(config.KeepAmount) or 0
+	local allVariants = config.AllVariants or false
+	wait(2)
+	if class == "Currency" then
+
+	for uid, v in pairs(Inventory.Currency) do
+		if v.id == id then
+			local current = tonumber(v._am) or 0
+			local sendAmount = current - keepAmount
+			
+			if sendAmount >= minAmount then
+				_check_time_resetmail()
+				print("💰 Gửi currency:", id, "→", sendAmount)
+				local success, err = pcall(function()
+					return Network.Invoke("Mailbox: Send", NAME_USER_SEND, message, "Currency", uid, sendAmount)
+				end)
+				if not success then
+					warn("❌ Gửi currency lỗi:", err)
+				end
+				task.wait(2)
+			end
+		end
+	end
+
+	else
+		local matched = findMatchingItems(class, id, allVariants)
+
+		for _, item in ipairs(matched) do
+			local count = item.Count
+			local sendCount = count
+
+			if keepAmount > 0 and count > keepAmount then
+				sendCount = count - keepAmount
+			end
+
+			if sendCount >= minAmount then
+				_check_time_resetmail()
+				print("📦 Gửi item:", item.ID, "| SL:", sendCount, "| Loại:", item.Class)
+				local success, err = pcall(function()
+					return Network.Invoke("Mailbox: Send", NAME_USER_SEND, message, class, item.UID, sendCount)
+				end)
+				if not success then
+					warn("❌ Gửi item lỗi:", err)
+				end
+				task.wait(2)
+			end
+		end
+	end
+end
+
+end
+
+while true do
+Sent_item_all()
+wait(21600)
+end
+
 
 end)
 
 -- send pet hiem hoac huge gia cao. Soluong_Yeu_cau = 1 thì giữ lại 1 con, khác 1 thì phải chờ nhiều hơn Soluong_Yeu_cau thì mới send tất cả
 task.spawn(function() 
 
+if STOP_or_SEND == "P" then
+	return
+end
 
 getgenv().Settings = {
     ["list_pet"] = {
