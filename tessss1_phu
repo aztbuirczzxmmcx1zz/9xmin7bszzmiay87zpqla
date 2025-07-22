@@ -817,7 +817,7 @@ local function startAutoHatchHuge()
 				warn("❌ Hatch lỗi:", err)
 			end
 
-			task.wait(2)
+			task.wait(0.5)
 		end
 	end
 
@@ -1344,7 +1344,7 @@ end)
 
 -- phát hiện không farm ở svv thoát game 
 task.spawn(function()
-task.wait(150)
+task.wait(300)
 
 local function autoShutdownIfNotAlone()
     local playerCount = #Players:GetPlayers()
@@ -1434,15 +1434,6 @@ Ghep_pet_len_gold_rainbow(NamePet_ep)
 
 end)
 
-
--- Chạy 8 tiếng out 1 lần
-task.spawn(function()
-
-wait(8*3600)
-game:Shutdown()
-Players.LocalPlayer:Kick("kick")
-
-end)
 
 
 --GUI xem all
