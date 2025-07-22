@@ -1,4 +1,4 @@
-
+wait(30)
 EVENT_or_FARM = "E"
 
 if name_vps == "V6" then
@@ -6,7 +6,7 @@ if name_vps == "V6" then
 end
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_w1234"))()
-wait(30)
+
 --loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/CPU-LOW"))()
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
