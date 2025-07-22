@@ -107,7 +107,7 @@ end)
 --Sent chìa
 task.spawn(function()
 
-if STOP_or_SEND == "P" then
+if PAUSE_or_SEND == "P" then
 	return
 end
 
@@ -259,7 +259,7 @@ end)
 -- send pet hiem hoac huge gia cao. Soluong_Yeu_cau = 1 thì giữ lại 1 con, khác 1 thì phải chờ nhiều hơn Soluong_Yeu_cau thì mới send tất cả
 task.spawn(function() 
 
-if STOP_or_SEND == "P" then
+if PAUSE_or_SEND == "P" then
 	return
 end
 
