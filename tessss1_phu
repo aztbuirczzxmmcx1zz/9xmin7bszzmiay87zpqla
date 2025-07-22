@@ -260,7 +260,8 @@ local function startMonitor12Min()
 				if getRunsUsed() >= 10 then return end
 			end
 
-			if getRunsUsed() == startUsed and getTotalRuns() == startTotal then				
+			if getRunsUsed() == startUsed and getTotalRuns() == startTotal then		
+				
 				player:Kick("⏰ 10 phút không đổi lượt hoặc tổng Time Trial → nghi ngờ treo máy.")
 				game:Shutdown()  -- Thoát game
 				return
@@ -777,7 +778,8 @@ local function startAutoHatchHuge()
 	end
 
 	local bestTile, bestEgg = nil, nil
-
+	local MaxEggHatch = EggCmds.GetMaxHatch()
+	
 	local function safeHatchLoop()
 		while true do
 			waitUntilAllowed()
@@ -808,7 +810,7 @@ local function startAutoHatchHuge()
 				task.wait(1)
 			end
 
-			local MaxEggHatch = EggCmds.GetMaxHatch()
+			
 			local args = {bestEgg.Name, MaxEggHatch}
 			local success, err = pcall(function()
 				Network.CustomEggs_Hatch:InvokeServer(unpack(args))
@@ -817,7 +819,7 @@ local function startAutoHatchHuge()
 				warn("❌ Hatch lỗi:", err)
 			end
 
-			task.wait(1.5)
+			task.wait(0.5)
 		end
 	end
 
