@@ -1,4 +1,4 @@
-wait(30)
+wait(60)
 EVENT_or_FARM = "E"
 
 
