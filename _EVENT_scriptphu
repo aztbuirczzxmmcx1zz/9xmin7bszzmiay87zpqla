@@ -1015,7 +1015,9 @@ function check_Egghatch()
 
 while true do
 
-wait(600)
+time_random= math.random(500,3600)
+warn(time_random)
+wait(time_random)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -1128,7 +1130,7 @@ local function startAllBlockPartyTasks()
 				task.wait(2)
 			end
 			print("✅ Đã khởi động check_Egghatch")
-			wait(100)
+			wait(1)
 			check_Egghatch()
 			wait(4)
 			waitUntilAllowed()
