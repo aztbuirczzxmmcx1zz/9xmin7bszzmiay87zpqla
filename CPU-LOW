@@ -1,5 +1,3 @@
-wait(30)
-
 local LocalPlayer = game.Players.LocalPlayer
 local Lighting = game:GetService("Lighting")
 local MaterialService = game:GetService("MaterialService")
@@ -11,7 +9,7 @@ settings().Rendering.QualityLevel = 1
 settings().Rendering.MeshPartDetailLevel = Enum.MeshPartDetailLevel.Level04
 MaterialService.Use2022Materials = false
 
-sethiddenproperty(Lighting, "Technology", 2)
+
 sethiddenproperty(Terrain, "Decoration", false)
 Terrain.WaterWaveSize = 0
 Terrain.WaterWaveSpeed = 0
