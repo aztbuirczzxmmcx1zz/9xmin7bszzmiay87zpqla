@@ -1435,15 +1435,6 @@ Ghep_pet_len_gold_rainbow(NamePet_ep)
 end)
 
 
--- Chạy 8 tiếng out 1 lần
-task.spawn(function()
-
-wait(8*3600)
-game:Shutdown()
-Players.LocalPlayer:Kick("kick")
-
-end)
-
 
 --GUI xem all
 task.spawn(function()
