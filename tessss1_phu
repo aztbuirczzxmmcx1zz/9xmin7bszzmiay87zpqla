@@ -76,7 +76,7 @@ local Network = ReplicatedStorage:WaitForChild("Network")
     Network.Pets_ToggleFavoriteMode:FireServer()
     wait(0.3)
 	
-end)
+end
  
 -- map 269 event time trial
 task.spawn(function()
