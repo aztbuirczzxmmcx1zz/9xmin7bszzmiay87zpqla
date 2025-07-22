@@ -2,7 +2,7 @@ getgenv().Settings = {
     ["Items"] = {
 
 ["MVP Key"] = {Price = "2%", Priority = true},
-["Summer Block Party Ticket"]= {Price = "2m", Priority = true},
+["Summer Block Party Ticket"]= {Price = "2%", Priority = true},
 
 ["Huge Splash Angelus"] = {Price = "12b", Priority = true},
 ["Golden Huge Splash Angelus"] = {Price = "15b", Priority = true},
