@@ -1439,7 +1439,7 @@ end)
 
 -- phát hiện không farm ở svv thoát game 
 task.spawn(function()
-task.wait(50)
+task.wait(150)
 
 local function autoShutdownIfNotAlone()
     local playerCount = #Players:GetPlayers()
