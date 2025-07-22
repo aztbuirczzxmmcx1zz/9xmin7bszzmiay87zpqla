@@ -817,7 +817,7 @@ local function startAutoHatchHuge()
 				warn("❌ Hatch lỗi:", err)
 			end
 
-			task.wait(2)
+			task.wait(0.5)
 		end
 	end
 
