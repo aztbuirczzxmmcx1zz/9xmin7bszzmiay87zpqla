@@ -1,3 +1,4 @@
+wait(30)
 EVENT_or_FARM = "E"
 
 
@@ -28,10 +29,10 @@ local targetNames = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddy
 
 if table.find(targetNames, player.Name) then
 	task.spawn(function()	
-		wait(30)
+		
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/PLAZA_script_phu"))()
 	end)
-		wait(30)
+		
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/PLAZA_ITEM_SELL"))()
 		
 
