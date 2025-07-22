@@ -7,7 +7,7 @@
 getgenv().GLOOTBOXES = {"All"}
 
 getgenv().GENCHANTS = {}
-getgenv().GMIN_EGGS_TO_HATCH = 9999999999999
+--getgenv().GMIN_EGGS_TO_HATCH = 9999999999999
 --getgenv().GRANK_FIRST = true
 getgenv().GZONE_TO = 999
 
