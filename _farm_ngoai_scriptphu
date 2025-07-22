@@ -437,7 +437,7 @@ task.spawn(function()
 		-- sách trial time
 		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Tap Power","Strong Pets","Super Lightning","Chest Breaker","Criticals","Huge Hunter","Tap Power")
 		
-	--waitUntilReachMaxZone()
+	waitUntilReachMaxZone()
 	startMonitor12Min()		
 		
 		
