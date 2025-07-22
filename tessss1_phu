@@ -58,23 +58,6 @@ autoEquipEnchantBooks("Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Tr
 --autoEquipEnchantBooks = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter"}
  
 function _OFF_ON_pet()
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local PetsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Pets")
-local Network = ReplicatedStorage:WaitForChild("Network")
-
- 
- Network.Pets_ToggleFavoriteMode:FireServer()
-    wait(0.3)
-
-    Network.Pets_SetTeamIndex:FireServer(2)
-    wait(0.3)
-
-    Network.Pets_SetTeamIndex:FireServer(1)
-   wait(0.3)
-
-    Network.Pets_ToggleFavoriteMode:FireServer()
-    wait(0.3)
 	
 end
  
