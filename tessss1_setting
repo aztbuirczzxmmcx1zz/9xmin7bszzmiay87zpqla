@@ -9,7 +9,7 @@ getgenv().GMIN_EGGS_TO_HATCH = 9999999999999
 getgenv().GZONE_TO = 999
 
 getgenv().GPROGRESS_MODE = "Hatch" -- Hatch  Hybrid
-getgenv().GGFX_MODE = 1
+getgenv().GGFX_MODE = 3
 
 getgenv().GHATCH_SPEED_MS = 0
 getgenv().GHATCH_GOLDEN_EGGS = false
