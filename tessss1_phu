@@ -57,6 +57,26 @@ autoEquipEnchantBooks("Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Tr
 --autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Tap Power","Coins"}
 --autoEquipEnchantBooks = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter"}
  
+function _OFF_ON_pet()
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local PetsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Pets")
+local Network = ReplicatedStorage:WaitForChild("Network")
+
+ 
+ Network.Pets_ToggleFavoriteMode:FireServer()
+    wait(0.3)
+
+    Network.Pets_SetTeamIndex:FireServer(2)
+    wait(0.3)
+
+    Network.Pets_SetTeamIndex:FireServer(1)
+   wait(0.3)
+
+    Network.Pets_ToggleFavoriteMode:FireServer()
+    wait(0.3)
+	
+end)
  
 -- map 269 event time trial
 task.spawn(function()
@@ -455,7 +475,7 @@ task.spawn(function()
 			warn("🔁 Bắt đầu lượt: " .. tostring(used))
 			teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
 			task.wait(5)
-
+			_OFF_ON_pet()
 			local retry = 0
 			while not workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("TimeTrial") and retry < 3 do
 				retry += 1
@@ -1499,27 +1519,6 @@ Ghep_pet_len_gold_rainbow(NamePet_ep)
 
 end)
 
--- xoá lưu pet rồi chọn pet mạnh nhất	
-task.spawn(function()
-	wait(60)
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local PetsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Pets")
-local Network = ReplicatedStorage:WaitForChild("Network")
-
- 
- Network.Pets_ToggleFavoriteMode:FireServer()
-    wait(0.3)
-
-    Network.Pets_SetTeamIndex:FireServer(2)
-    wait(0.3)
-
-    Network.Pets_SetTeamIndex:FireServer(1)
-   wait(0.3)
-
-    Network.Pets_ToggleFavoriteMode:FireServer()
-    wait(0.3)
-end)
 
 -- Chạy 8 tiếng out 1 lần
 task.spawn(function()
