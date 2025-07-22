@@ -195,13 +195,11 @@ local function updateLabelSize(label)
 	label.Size = UDim2.new(0, label.TextBounds.X + 20, 0, 38)
 end
 
-local pointsLabel = screenGui:FindFirstChild("PointsLabel") or createLabel("PointsLabel", UDim2.new(0.3, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(0, 128, 255))
 local timeTrialLabel = screenGui:FindFirstChild("TimeTrialLabel") or createLabel("TimeTrialLabel", UDim2.new(0.79, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(128, 0, 128))
 
 task.spawn(function()
 	while true do
-		pointsLabel.Text = tostring(getTimeTrialPoints())
-		updateLabelSize(pointsLabel)
+
 		timeTrialLabel.Text = tostring(getRunsLeft())
 		updateLabelSize(timeTrialLabel)
 		task.wait(10)
@@ -737,6 +735,7 @@ local function findBestHugeTile()
 			end
 		end
 	end
+	_G.CURRENT_HUGE_CHANCE = bestValue
 	return bestTile, bestValue
 end
 
@@ -818,7 +817,7 @@ local function startAutoHatchHuge()
 				warn("❌ Hatch lỗi:", err)
 			end
 
-			task.wait(0.5)
+			task.wait(2)
 		end
 	end
 
@@ -830,6 +829,7 @@ local function startAutoHatchHuge()
 			local initialTile, initialChance = findBestHugeTile()
 			if initialTile and initialChance > 0 then
 				currentChance = initialChance
+				
 				bestTile = initialTile
 				bestEgg = findEggNearTile(initialTile)
 				teleportToTile(bestTile)
@@ -860,7 +860,7 @@ local function startAutoHatchHuge()
 						end
 					end
 				end)
-
+				
 				safeHatchLoop()
 			else
 				print("❌ Không có tile nào có Huge Chance + egg.slashes → thử teleport thủ công trước khi reset")
@@ -874,7 +874,8 @@ local function startAutoHatchHuge()
 					bestTile = retryTile
 					bestEgg = findEggNearTile(retryTile)
 					teleportToTile(retryTile)
-					task.wait(1)
+					task.wait(1)					
+					
 					safeHatchLoop()
 				else
 					print("❌ Vẫn không tìm thấy tile → reset map")
@@ -1102,11 +1103,12 @@ local function startAllBlockPartyTasks()
 	end)
 
 	-- 🧩 LUỒNG 8: GUI Updater
-	task.spawn(function()
-		print("✅ Đã khởi động LUỒNG 6: GUI Updater")
-		startGuiUpdater()
-	end)
+	--task.spawn(function()
+	--	print("✅ Đã khởi động LUỒNG 6: GUI Updater")
+	--	startGuiUpdater()
+	--end)
 	-- 🧩 LUỒNG 9: check join event
+	
 	task.spawn(function()
 		print("✅ Đã khởi động check join event")
 		wait(99)
@@ -1246,97 +1248,6 @@ end)
 end)
 ---------------------------------------------------------------------------------------------------------------------
 
--- Xem item cần tìm x 10 ở giữa cho giả lập
-task.spawn(function()
-	task.wait(1)
-
-	local Players = game:GetService("Players")
-	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-	local LocalPlayer = Players.LocalPlayer
-	local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
-	local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-	local SaveModule = require(Client:WaitForChild("Save"))
-
-	local previousCounts = {}
-
-	-- cấu hình item cần theo dõi
-	local itemsToTrack = {		
-
-		--{ id = "Chest Breaker", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, -- xams
-		{ id = "Super Lightning", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },	-- cam
-		{ id = "MVP Key Upper Half", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },		-- trang
-	}
-
-	local function createItemFrame(itemConfig, itemCount)
-		local frameSize = 100
-		local spacing = 10
-		local cols = 2
-		local rows = 2
-
-		-- tính vị trí chính giữa màn hình
-		local offsetX = (itemConfig.col * (frameSize + spacing)) - ((cols - 1) * (frameSize + spacing) / 2)
-		local offsetY = (itemConfig.row * (frameSize + spacing)) - ((rows - 1) * (frameSize + spacing) / 2) + 80
-
-
-		local screenGui = Instance.new("ScreenGui")
-		screenGui.Name = itemConfig.guiName
-		screenGui.Parent = PlayerGui
-		screenGui.ResetOnSpawn = false
-		screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-		local frame = Instance.new("Frame")
-		frame.Name = "ItemFrame"
-		frame.Size = UDim2.new(0, frameSize, 0, frameSize)
-		frame.Position = UDim2.new(0.75, offsetX, 1, -offsetY)
-		frame.AnchorPoint = Vector2.new(0.5, 1)
-		frame.BackgroundColor3 = itemConfig.color
-		frame.BorderSizePixel = 2
-		frame.Parent = screenGui
-
-		local label = Instance.new("TextLabel")
-		label.Size = UDim2.new(1, 0, 1, 0)
-		label.BackgroundTransparency = 1
-		label.Text = tostring(itemCount)
-		label.TextColor3 = Color3.fromRGB(0, 0, 0)
-		label.TextScaled = true
-		label.Font = Enum.Font.GothamBold
-		label.Parent = frame
-	end
-
-	local function checkInventory()
-		local inventory = SaveModule.Get().Inventory or {}
-		local currentCounts = {}
-
-		-- xóa GUI cũ
-		for _, item in ipairs(itemsToTrack) do
-			local oldGui = PlayerGui:FindFirstChild(item.guiName)
-			if oldGui then oldGui:Destroy() end
-		end
-
-		for _, item in ipairs(itemsToTrack) do
-			local count = 0
-			for _, group in pairs(inventory) do
-				for _, obj in pairs(group) do
-					if obj.id == item.id then
-						count += (obj._am or 1)
-					end
-				end
-			end
-			currentCounts[item.id] = count
-			createItemFrame(item, count)
-		end
-
-		previousCounts = currentCounts
-	end
-
-	checkInventory()
-	while true do
-		task.wait(10)
-		checkInventory()
-	end
-end)
-
 -- Ghép sách + thuốc nếu lv < 99 
 task.spawn(function()
 	task.wait(150)
@@ -1433,7 +1344,7 @@ end)
 
 -- phát hiện không farm ở svv thoát game 
 task.spawn(function()
-task.wait(150)
+task.wait(300)
 
 local function autoShutdownIfNotAlone()
     local playerCount = #Players:GetPlayers()
@@ -1530,5 +1441,204 @@ task.spawn(function()
 wait(8*3600)
 game:Shutdown()
 Players.LocalPlayer:Kick("kick")
+
+end)
+
+
+--GUI xem all
+task.spawn(function()
+wait(99)
+
+local CoreGui = game:GetService("CoreGui")
+
+-- Tìm và xoá TopBarApp
+for _, gui in ipairs(CoreGui:GetChildren()) do
+    if gui.Name == "TopBarApp" and gui.ClassName == "Folder" then
+        pcall(function()
+            gui:Destroy()
+            print("Đã xoá:", gui.Name, "-", gui.ClassName)
+        end)
+    end
+end
+
+
+-- Dịch vụ cơ bản
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+local Save = require(ReplicatedStorage.Library.Client.Save)
+
+-- Hàm format số lớn thành chuỗi dạng 1.23M, 4.56B...
+local function Formatint(int)
+    local Suffix = {"", "k", "M", "B", "T", "Qd", "Qn", "Sx", "Sp", "Oc", "No", "De", "UDe", "DDe"}
+    local Index = 1
+    if int < 999 then
+        return tostring(int)
+    end
+    while int >= 1000 and Index < #Suffix do
+        int = int / 1000
+        Index = Index + 1
+    end
+    return string.format("%.2f%s", int, Suffix[Index])
+end
+
+-- Cập nhật kích thước label theo text
+local function updateLabelSize(label)
+    label.Size = UDim2.new(0, label.TextBounds.X + 20, 0, 38)
+end
+
+-- Tiện ích lấy TimeTrialStats
+local function safeFetchSave()
+    for i = 1, 3 do
+        local ok, data = pcall(Save.Get)
+        if ok and data and data.TimeTrialStats then
+            return data.TimeTrialStats
+        end
+        task.wait(1)
+    end
+    return { DailyRuns = 0, Points = 0 }
+end
+
+local function getRunsLeft()
+    local stats = safeFetchSave()
+    return 10 - (stats.DailyRuns or 0)
+end
+
+local function getTimeTrialPoints()
+    local stats = safeFetchSave()
+    return stats.Points or 0
+end
+
+-- Lấy số lượng currency theo id
+local function getCurrencyAmount(currencyId)
+    local Inventory = Save.Get().Inventory
+    for _, v in pairs(Inventory.Currency) do
+        if v.id == currencyId then
+            return v._am or 0
+        end
+    end
+    return 0
+end
+
+-- Lấy số lượng Lootbox theo id
+local function getLootboxAmount(itemId)
+    local Inventory = Save.Get().Inventory
+    for _, v in pairs(Inventory.Lootbox) do
+        if v.id == itemId then
+            return tonumber(v._am) or 0
+        end
+    end
+    return 0
+end
+
+-- Lấy số lượng Misc item theo id
+local function getMiscAmount(itemId)
+    local Inventory = Save.Get().Inventory
+    for _, v in pairs(Inventory.Misc) do
+        if v.id == itemId then
+            return tonumber(v._am) or 0
+        end
+    end
+    return 0
+end
+
+-- Hàm khởi tạo GUI và cập nhật
+local function startGuiUpdater()
+    -- Xoá GUI cũ nếu đã có
+    local oldGui = playerGui:FindFirstChild("GuiUpdater")
+    if oldGui then oldGui:Destroy() end
+
+    -- Tạo ScreenGui mới
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "GuiUpdater"
+    screenGui.ResetOnSpawn = false
+    screenGui.Parent = playerGui
+
+    -- Tạo khu vực hiển thị
+    local function createRegion(position, anchor, alignment)
+        local frame = Instance.new("Frame")
+        frame.BackgroundTransparency = 1
+        frame.Size = UDim2.new(0, 250, 1, 0)
+        frame.Position = position
+        frame.AnchorPoint = anchor
+        frame.Parent = screenGui
+
+        local layout = Instance.new("UIListLayout")
+        layout.SortOrder = Enum.SortOrder.LayoutOrder
+        layout.Padding = UDim.new(0, 0)
+        layout.HorizontalAlignment = alignment
+        layout.VerticalAlignment = Enum.VerticalAlignment.Top
+        layout.Parent = frame
+
+        return frame
+    end
+
+    local rightRegion  = createRegion(UDim2.new(1, -30, 0, -10), Vector2.new(1, 0), Enum.HorizontalAlignment.Right)
+    local centerRegion = createRegion(UDim2.new(0.5, -10, 0, -10), Vector2.new(0.5, 0), Enum.HorizontalAlignment.Center)
+    local leftRegion   = createRegion(UDim2.new(0, 0, 0, -10), Vector2.new(0, 0), Enum.HorizontalAlignment.Left)
+
+    -- Tạo Label
+    local function createLabel(name, parent, bgColor)
+        local label = Instance.new("TextLabel")
+        label.Name = name
+        label.Size = UDim2.new(1, 0, 0, 38)
+        label.BackgroundColor3 = bgColor
+        label.TextColor3 = Color3.new(1, 1, 1)
+        label.Font = Enum.Font.GothamBold
+        label.TextSize = 30
+        label.BorderSizePixel = 0
+        label.TextXAlignment = Enum.TextXAlignment.Center
+        label.AutoLocalize = false
+        label.Parent = parent
+        return label
+    end
+
+    local chanceLabel     = createLabel("ChanceLabel",       rightRegion,   Color3.fromRGB(34, 139, 34))
+    local tilesLabel      = createLabel("TilesLabel",        rightRegion,   Color3.fromRGB(34, 139, 34))
+    local rebirthLabel    = createLabel("RebirthLabel",      rightRegion,   Color3.fromRGB(34, 139, 34))
+    local coinsLabel      = createLabel("CoinsLabel",        rightRegion,   Color3.fromRGB(34, 139, 34))
+    local giftLabel       = createLabel("TropicalGiftLabel", rightRegion,   Color3.fromRGB(34, 139, 34))
+    local ticketLabel     = createLabel("SBPTicketLabel",    rightRegion,   Color3.fromRGB(34, 139, 34))
+
+    local timeTrialLabel  = createLabel("timeTrialLabel",    leftRegion,    Color3.fromRGB(34, 139, 34))
+    local pointsLabel     = createLabel("pointsLabel",       centerRegion,  Color3.fromRGB(34, 139, 34))
+
+    -- Vòng lặp cập nhật GUI liên tục
+    while true do
+        local currentTime = os.time()
+        tilesLabel.Text   = tostring(#game:GetService("Workspace").__THINGS.Tiles:GetChildren()) .. " | TILES"
+        updateLabelSize(tilesLabel)
+
+        coinsLabel.Text   = Formatint(getCurrencyAmount("BlockPartyCoins")) .. " | COINS"
+        updateLabelSize(coinsLabel)
+
+        chanceLabel.Text  = tostring(_G.CURRENT_HUGE_CHANCE or 0) .. "x | HUGE"
+        updateLabelSize(chanceLabel)
+
+        rebirthLabel.Text = tostring(Save.Get().TileRebirth or 0) .. " | REBIRTH"
+        updateLabelSize(rebirthLabel)
+
+        giftLabel.Text    = tostring(getLootboxAmount("Tropical Gift")) .. " | Tropical Gift"
+        updateLabelSize(giftLabel)
+
+        ticketLabel.Text  = tostring(getMiscAmount("Summer Block Party Ticket")) .. " | Summer Ticket"
+        updateLabelSize(ticketLabel)
+
+        timeTrialLabel.Text = tostring(getRunsLeft()) .. "/10"
+        updateLabelSize(timeTrialLabel)
+
+        pointsLabel.Text =tostring(getTimeTrialPoints())
+        updateLabelSize(pointsLabel)
+
+        task.wait(5)
+    end
+end
+
+-- Bắt đầu GUI Updater
+startGuiUpdater()
+
+
+
 
 end)
