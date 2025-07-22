@@ -10,7 +10,7 @@ getgenv().GENCHANTS = {}
 --getgenv().GRANK_FIRST = true
 getgenv().GZONE_TO = 999
 
-getgenv().GPROGRESS_MODE = "Hatch" -- Hatch  Hybrid
+getgenv().GPROGRESS_MODE = "Hybrid" -- Hatch  Hybrid
 getgenv().GGFX_MODE = 3
 
 getgenv().GHATCH_SPEED_MS = 0
