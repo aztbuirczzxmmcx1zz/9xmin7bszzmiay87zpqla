@@ -20,11 +20,11 @@ getgenv().Settings = {
 ["Huge Machine Egg 5"] = {Price = "1%", Priority = true},
 
 
-["Rainbow Palace Pooka"] = {Price = "5%", Priority = true},
-["Shiny Rainbow Palace Pooka"] = {Price = "5%", Priority = true},
+["Rainbow Palace Pooka"] = {Price = "10%", Priority = true},
+["Shiny Rainbow Palace Pooka"] = {Price = "10%", Priority = true},
 
-["Rainbow Rose Pooka"] = {Price = "5%", Priority = true},
-["Shiny Rainbow Rose Pooka"] = {Price = "5%", Priority = true},
+["Rainbow Rose Pooka"] = {Price = "10%", Priority = true},
+["Shiny Rainbow Rose Pooka"] = {Price = "10%", Priority = true},
 
 
 
