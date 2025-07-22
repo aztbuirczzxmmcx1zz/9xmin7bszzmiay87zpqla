@@ -263,7 +263,6 @@ local function startMonitor12Min()
 			if getRunsUsed() == startUsed and getTotalRuns() == startTotal then		
 				
 				player:Kick("⏰ 10 phút không đổi lượt hoặc tổng Time Trial → nghi ngờ treo máy.")
-				game:Shutdown()  -- Thoát game
 				return
 			end
 		end
@@ -289,7 +288,6 @@ local function startLagMonitor()
 
 				if retryCount > 3 then
 					player:Kick("Lag quá lâu trong Time Trial.")
-					game:Shutdown()  -- Thoát game
 					return
 				else
 					lagFlag = true
@@ -495,9 +493,10 @@ task.spawn(function()
 
 			if not workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("TimeTrial") then
 				warn("⛔ Không thể vào Time Trial.")
-				player:Kick("⏰ 10 phút không đổi lượt hoặc tổng Time Trial → nghi ngờ treo máy.")
-				game:Shutdown()  -- Thoát game
-				return
+				safeTeleportOut()
+				task.wait(5)
+				teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
+				task.wait(5)
 			end
 
 			startLagMonitor()
@@ -1440,7 +1439,7 @@ end)
 
 -- phát hiện không farm ở svv thoát game 
 task.spawn(function()
-task.wait(50)
+task.wait(150)
 
 local function autoShutdownIfNotAlone()
     local playerCount = #Players:GetPlayers()
