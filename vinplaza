@@ -35,7 +35,6 @@ if table.find(targetNames, player.Name) then
 else
 
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_w1234"))()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/CPU-LOW"))()
 		
 		
 		
@@ -52,17 +51,22 @@ else
 		
 		
 -- check RANK
-local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-local rank = Save.Get().Rank
+--local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+--local rank = Save.Get().Rank
 
 
-if EVENT_or_FARM == "E" and rank > 19 then
-
+if EVENT_or_FARM == "E" then
+	task.spawn(function()	
+		wait(30)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/tessss1_phu"))()
+	end)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/tessss1_setting"))()
 
 else
+	task.spawn(function()	
+		wait(30)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_farm_ngoai_scriptphu"))()
+	end)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_farm_ngoai_GS_all_setting"))()
 end	
 
