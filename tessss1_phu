@@ -5,46 +5,71 @@ local SaveData = require(Client.Save).Get()
 local Enchants_Equip = ReplicatedStorage.Network.Enchants_Equip
 local Enchants_ClearSlot = ReplicatedStorage.Network.Enchants_ClearSlot
 
-local function getBookStack(bookName)
-    local selectedUID = nil
-    local max_tn = -1
+-- Gom stack theo bookName và sort theo tn giảm dần
+local function getBookStackListFull(bookName)
+    local stacks = {}
 
     for uid, v in pairs(SaveData.Inventory.Enchant) do
         if v.id and string.find(v.id, bookName) and (v._am or 1) > 0 then
-            if v.tn and v.tn > max_tn then
-                max_tn = v.tn
-                selectedUID = uid
-            end
+            table.insert(stacks, {
+                uid = uid,
+                tn = v.tn or 0,
+                amount = v._am or 1
+            })
         end
     end
 
-    return selectedUID
+    table.sort(stacks, function(a, b)
+        return a.tn > b.tn
+    end)
+
+    return stacks
 end
 
 function autoEquipEnchantBooks(...)
     local MaxEnchantsEquipped = SaveData.MaxEnchantsEquipped
 
-    -- Clear all slots trước khi equip
+    -- Clear all slots
     for i = 1, 9 do
         Enchants_ClearSlot:FireServer(i)
-        wait(0.3)
+        task.wait(0.3)
     end
 
-    -- Đọc danh sách bookNames từ ...
     local args = { ... }
-
     local equippedCount = 0
+
+    -- Đếm số lượng mỗi bookName được yêu cầu
+    local requestedCounts = {}
     for _, bookName in ipairs(args) do
+        requestedCounts[bookName] = (requestedCounts[bookName] or 0) + 1
+    end
+
+    for bookName, requestCount in pairs(requestedCounts) do
         if equippedCount >= MaxEnchantsEquipped then
             break
         end
 
-        local uid = getBookStack(bookName)
-        if uid then
-            Enchants_Equip:FireServer(uid)
-            equippedCount = equippedCount + 1
+        local stacks = getBookStackListFull(bookName)
+        local countForThisBook = 0
+
+        for _, stack in ipairs(stacks) do
+            for n = 1, stack.amount do
+                if equippedCount >= MaxEnchantsEquipped then
+                    break
+                end
+                if countForThisBook >= requestCount then
+                    break
+                end
+
+                Enchants_Equip:FireServer(stack.uid)
+                equippedCount = equippedCount + 1
+                countForThisBook = countForThisBook + 1
+                task.wait(0.3)
+            end
+            if countForThisBook >= requestCount then
+                break
+            end
         end
-        wait(0.3)
     end
 end
 
@@ -580,6 +605,7 @@ local function teleportToBlockParty()
 	teleportTo(Enter.CFrame + Vector3.new(0, 5, 0))
 	task.wait(9)
 	teleportTo(CFrame.new(16460, 2275, -21473))
+	task.wait(9)
 end
 
 ---------------- 🧩 LUỒNG 1: Mua tiles quanh plot ----------------
