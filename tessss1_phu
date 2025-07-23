@@ -835,6 +835,7 @@ local function startAutoHatchHuge()
 					print("🔁 Đã gửi yêu cầu Rebirth | TileRebirth hiện tại:", tileRebirth)
 				end)
 							task.spawn(function()
+								wait(2)
 								startAutoPurchase()
 							end)
 							
