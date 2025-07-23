@@ -120,8 +120,8 @@ function Sent_item_all()
 getgenv().Settings = {		
 
 
-["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 1000},	--ok
-["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 2000},	
+["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 10},	--ok
+["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 10},	
 
 }
 
