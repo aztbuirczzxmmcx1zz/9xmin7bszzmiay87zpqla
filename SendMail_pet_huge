@@ -288,12 +288,12 @@ wait(150)
 getgenv().Settings = {
     ["list_pet"] = {
 
-["Palace Pooka"] 	= {Soluong_Yeu_cau = 3},
-["Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
-["Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 1},
-["Shiny Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
-["Shiny Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
-["Shiny Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+--["Palace Pooka"] 	= {Soluong_Yeu_cau = 3},
+--["Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+--["Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 1},
+--["Shiny Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+--["Shiny Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+--["Shiny Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 
 }
 }
