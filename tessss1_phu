@@ -610,8 +610,8 @@ end
 local function startAutoPurchase()
 	local plotIndex = 1
 	local radiusMax = 6
-	local delayPerTile = 0.05
-	local delayPerCycle = 0.05
+	local delayPerTile = 0.5
+	local delayPerCycle = 0.5
 	local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
 
 	local offsets = {}
@@ -648,7 +648,7 @@ end
 local function startTileHandler()
 	local TilesInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Invoke")
 	local TilesFire = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Fire")
-	local delayPerTile = 0.05
+	local delayPerTile = 0.5
 	local delayPerCycle = 0.5
 
 	while true do
@@ -693,7 +693,7 @@ end
 
 ---------------- 🧩 LUỒNG 3: Hatch HUGE CHANCE ----------------
 local currentChance = 0
-local tileThreshold = 160
+local tileThreshold = 120
 
 local function extractHugeLuckValue(text)
 	local value = text:match("(%d+)x%s+Huge%s+Luck!?")
@@ -818,12 +818,27 @@ local function startAutoHatchHuge()
 			end
 
 			task.wait(0.5)
+			if _G.CURRENT_HUGE_CHANCE < 5 and getTotalTileCount() == 169 then
+				warn("rebirth tìm egg X5")	
+				wait(2)
+				local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
+				local args = {1, "Rebirth"}
+				pcall(function()
+					PlotsInvoke:InvokeServer(unpack(args))
+					print("🔁 Đã gửi yêu cầu Rebirth | TileRebirth hiện tại:", tileRebirth)
+				end)
+							task.spawn(function()
+								startAutoPurchase()
+							end)
+							
+							
+				break
+			end
 		end
 	end
 
 	while true do
 		waitUntilAllowed()
-		warn("while ")
 		if getTotalTileCount() >= tileThreshold then
 			warn("Đủ getTotalTileCount")
 			local initialTile, initialChance = findBestHugeTile()
@@ -1016,7 +1031,7 @@ function check_Egghatch()
 
 while true do
 
-time_random= math.random(500,3600)
+time_random= math.random(3600,7200)
 warn(time_random)
 wait(time_random)
 
@@ -1058,7 +1073,7 @@ local function startAllBlockPartyTasks()
 			task.wait(5)
 		end
 	end)
-
+	
 	-- 🧩 LUỒNG 2: Tile Handler
 	task.spawn(function()
 		print("✅ Đã khởi động LUỒNG 2: Tile Handler (Claim/Open/Unlock/Plant/Diamond)")
@@ -1068,7 +1083,7 @@ local function startAllBlockPartyTasks()
 	-- 🧩 LUỒNG 5: Hatch HUGE
 	task.spawn(function()
 		while true do
-			while getTotalTileCount() < 160 do
+			while getTotalTileCount() < 120 do
 				task.wait(2)
 			end
 			print("✅ Đã khởi động LUỒNG 3: Hatch HUGE CHANCE")
@@ -1101,6 +1116,8 @@ local function startAllBlockPartyTasks()
 			task.wait(5)
 		end
 	end)
+
+
 
 	-- 🧩 LUỒNG 8: GUI Updater
 	--task.spawn(function()
@@ -1138,10 +1155,6 @@ local function startAllBlockPartyTasks()
 			waitUntilAllowed()
 		end
 	end)
-	
-	
-	
-	
 	
 end
 
