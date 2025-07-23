@@ -1011,12 +1011,12 @@ local function startGuiUpdater()
 	end
 end
 
-function check_Egghatch()
+function Use_ticket_summer()
 
 
 while true do
 
-time_random= math.random(500,3600)
+time_random= math.random(3600,7200)
 warn(time_random)
 wait(time_random)
 
@@ -1131,9 +1131,9 @@ local function startAllBlockPartyTasks()
 			while getTotalTileCount() < 169 and tileRebirth < 15 do
 				task.wait(2)
 			end
-			print("✅ Đã khởi động check_Egghatch")
+			print("✅ Đã khởi động Use_ticket_summer")
 			wait(1)
-			check_Egghatch()
+			Use_ticket_summer()
 			wait(4)
 			waitUntilAllowed()
 		end
