@@ -1,4 +1,4 @@
-PAUSE_or_SEND = "S"
+PAUSE_or_SEND = "P"
 -- view góc trái
 task.spawn(function()
 	task.wait(10)
@@ -257,7 +257,7 @@ end)
 -- send pet hiem hoac huge gia cao. Soluong_Yeu_cau = 1 thì giữ lại 1 con, khác 1 thì phải chờ nhiều hơn Soluong_Yeu_cau thì mới send tất cả
 task.spawn(function() 
 
-if PAUSE_or_SEND == "S" then
+if PAUSE_or_SEND == "P" then
 	return
 end
 
