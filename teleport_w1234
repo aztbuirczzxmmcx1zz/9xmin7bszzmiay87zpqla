@@ -12,7 +12,7 @@ if check_and_tele_w == 4 then
 	
 	else
 		game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
-		
+		wait(20)
 	end
 end
 
@@ -22,7 +22,25 @@ if check_and_tele_w == 3 then
 	
 	else
 		game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World3Teleport"):InvokeServer()
-		
+		wait(20)
+	end
+end
+if check_and_tele_w == 4 then
+
+	if game.PlaceId == 140403681187145  then
+	
+	else
+		game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
+		wait(20)
 	end
 end
 
+if check_and_tele_w == 3 then
+
+	if game.PlaceId == 17503543197 then
+	
+	else
+		game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World3Teleport"):InvokeServer()
+		wait(20)
+	end
+end
