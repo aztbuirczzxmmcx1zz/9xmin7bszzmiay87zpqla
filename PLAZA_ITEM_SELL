@@ -12,7 +12,7 @@ getgenv().Settings = {
 ["Rainbow Titanic Sun Griffin"] = {Price = "31b", Priority = true},
 ["Titanic Sun Griffin"] = {Price = "6b", Priority = true },
 ["Titanic Sandcastle Kraken"] = {Price = "7b", Priority = true },
-["Titanic Starlight Pony"] = {Price = "13b", Priority = true },
+["Titanic Starlight Pony"] = {Price = "12.2b", Priority = true },
 ["Golden Titanic Starlight Pony"] = {Price = "18b", Priority = true },
 ["Titanic Gym Piggy"] = {Price = "5.5b", Priority = true },
 
