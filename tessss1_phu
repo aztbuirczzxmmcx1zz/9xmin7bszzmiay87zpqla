@@ -625,20 +625,24 @@ local function startAutoPurchase()
 	
 		local saveData = Save.Get()
 		local tileRebirth = saveData.TileRebirth or 0
-		local totalTiles = getTotalTileCount()
-		if tileRebirth >= 15 and totalTiles >= 169 then
+		if tileRebirth >= 15 and getTotalTileCount() >= 169 then
 			warn("🛑 Đã đạt TileRebirth = 15 và Tiles = 169 → Dừng Auto Purchase.")
 			return
 		end	
 	
 	while true do
-		
+		if getTotalTileCount() == 0 then
+			break
+		end
 		for _, offset in ipairs(offsets) do
 			local args = {plotIndex, "PurchaseTile", offset[1], offset[2]}
 			pcall(function()
 				PlotsInvoke:InvokeServer(unpack(args))
 			end)
 			task.wait(delayPerTile)
+			if getTotalTileCount() == 0 then
+				break
+			end
 		end
 		task.wait(delayPerCycle)
 	end
@@ -752,6 +756,9 @@ local function handleRejoin()
 	teleportTo(Leave.CFrame + Vector3.new(0, 5, 0))
 	task.wait(9)
 	teleportToBlockParty()
+							task.spawn(function()
+								startAutoPurchase()
+							end)
 end
 
 local function isNearEgg(egg)
