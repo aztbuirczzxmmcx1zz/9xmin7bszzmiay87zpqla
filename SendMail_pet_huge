@@ -295,7 +295,7 @@ getgenv().Settings = {
 ["Shiny Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 ["Shiny Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 
-
+}
 }
 
 
