@@ -207,7 +207,6 @@ for key, config in pairs(getgenv().Settings) do
 			local sendAmount = current - keepAmount
 			
 			if sendAmount >= minAmount then
-				_check_time_resetmail()
 				print("💰 Gửi currency:", id, "→", sendAmount)
 				local success, err = pcall(function()
 					return Network.Invoke("Mailbox: Send", NAME_USER_SEND, message, "Currency", uid, sendAmount)
@@ -232,7 +231,6 @@ for key, config in pairs(getgenv().Settings) do
 			end
 
 			if sendCount >= minAmount then
-				_check_time_resetmail()
 				print("📦 Gửi item:", item.ID, "| SL:", sendCount, "| Loại:", item.Class)
 				local success, err = pcall(function()
 					return Network.Invoke("Mailbox: Send", NAME_USER_SEND, message, class, item.UID, sendCount)
