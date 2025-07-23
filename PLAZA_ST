@@ -1,4 +1,4 @@
-PAUSE_or_SEND = "P"
+PAUSE_or_SEND = "S"
 -- view góc trái
 task.spawn(function()
 	task.wait(10)
