@@ -608,6 +608,10 @@ end
 
 ---------------- 🧩 LUỒNG 1: Mua tiles quanh plot ----------------
 local function startAutoPurchase()
+
+print("✅ Đã khởi động Auto Purchase")
+	
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local plotIndex = 1
 	local radiusMax = 6
 	local delayPerTile = 0.5
@@ -628,10 +632,15 @@ local function startAutoPurchase()
 		if tileRebirth >= 15 and getTotalTileCount() >= 169 then
 			warn("🛑 Đã đạt TileRebirth = 15 và Tiles = 169 → Dừng Auto Purchase.")
 			return
-		end	
+		end			
 	
-	while true do
+	while true do		
 		if getTotalTileCount() == 0 then
+			warn("STOP startAutoPurchase = getTotalTileCount=0 ")
+			break
+		end
+		if _G.VAR_STOP_BLOCK_PARTY then
+			warn("STOP startAutoPurchase = VAR_STOP_BLOCK_PARTY=true ")
 			break
 		end
 		for _, offset in ipairs(offsets) do
@@ -641,9 +650,16 @@ local function startAutoPurchase()
 			end)
 			task.wait(delayPerTile)
 			if getTotalTileCount() == 0 then
+				warn("STOP startAutoPurchase = getTotalTileCount=0 ")
 				break
 			end
+			if _G.VAR_STOP_BLOCK_PARTY then
+				warn("STOP startAutoPurchase = VAR_STOP_BLOCK_PARTY=true ")
+				break
+			end
+			warn("PurchaseTile")
 		end
+		
 		task.wait(delayPerCycle)
 	end
 end
@@ -757,6 +773,7 @@ local function handleRejoin()
 	task.wait(9)
 	teleportToBlockParty()
 							task.spawn(function()
+								task.wait(10)
 								startAutoPurchase()
 							end)
 end
@@ -1073,8 +1090,7 @@ local function startAllBlockPartyTasks()
 			local tileRebirth = saveData.TileRebirth or 0
 			local totalTiles = getTotalTileCount()
 
-			if tileRebirth < 15 or totalTiles < 169 then
-				print("✅ Đã khởi động LUỒNG 1: Auto Purchase")
+			if tileRebirth < 15 or totalTiles < 169 then				
 				startAutoPurchase()
 				break
 			end
@@ -1136,10 +1152,12 @@ local function startAllBlockPartyTasks()
 	
 	task.spawn(function()
 		print("✅ Đã khởi động check join event")
-		wait(99)
+		
 		while true do
 			waitUntilAllowed()
+			wait(3)
 			if getTotalTileCount() == 0 then
+				warn("handleRejoin ")
 				handleRejoin()
 			end
 			wait(33)
@@ -1168,15 +1186,11 @@ end
 
 task.spawn(function()
 	while true do
-		if _G.VAR_STOP_BLOCK_PARTY and _G.VAR_BLOCK_PARTY then
-			isRunning = false
-		end
-
-		if _G.VAR_START_BLOCK_PARTY and not isRunning then
+		if not _G.VAR_STOP_BLOCK_PARTY and _G.VAR_START_BLOCK_PARTY then
 			startAllBlockPartyTasks()
+			break
 		end
-
-		task.wait(2)
+		task.wait(3)
 	end
 end)
 
