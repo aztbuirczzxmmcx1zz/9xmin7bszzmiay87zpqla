@@ -1,46 +1,42 @@
-local check_and_tele_w = 4
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
 
+local PLACE_ID = 119454325063278
+local check_and_tele_w = 4 -- Thay bằng 3 hoặc 4 nếu cần
 
+local TeleportMapping = {
+    [3] = "World3Teleport",
+    [4] = "World4Teleport"
+}
 
+-- Nếu đang ở đúng map cần thoát
+if game.PlaceId == PLACE_ID then
+    local teleportName = TeleportMapping[check_and_tele_w]
+    
+    if teleportName then
+        for attempt = 1, 3 do
+            local success, result = pcall(function()
+                return ReplicatedStorage:WaitForChild("Network"):WaitForChild(teleportName):InvokeServer()
+            end)
 
+            warn(string.format("🌀 Attempt %d: teleport %s - success: %s", attempt, teleportName, tostring(success)))
+            
+            wait(20)
 
+            -- Nếu đã teleport thành công (không còn ở PLACE_ID), thì thoát vòng lặp
+            if game.PlaceId ~= PLACE_ID then
+                warn("✅ Đã teleport thành công!")
+                break
+            end
 
-
-if check_and_tele_w == 4 then
-
-	if game.PlaceId == 140403681187145  then
-	
-	else
-		game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
-		wait(20)
-	end
-end
-
-if check_and_tele_w == 3 then
-
-	if game.PlaceId == 17503543197 then
-	
-	else
-		game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World3Teleport"):InvokeServer()
-		wait(20)
-	end
-end
-if check_and_tele_w == 4 then
-
-	if game.PlaceId == 140403681187145  then
-	
-	else
-		game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
-		wait(20)
-	end
-end
-
-if check_and_tele_w == 3 then
-
-	if game.PlaceId == 17503543197 then
-	
-	else
-		game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World3Teleport"):InvokeServer()
-		wait(20)
-	end
+            -- Nếu đến lần thứ 3 vẫn chưa rời khỏi map → kick
+            if attempt == 3 and game.PlaceId == PLACE_ID then
+                warn("❌ Teleport thất bại 3 lần. Thoát game...")
+                player:Kick("Fail tele 3 times")
+            end
+        end
+    else
+        warn("⚠️ Không tìm thấy teleport phù hợp với check_and_tele_w =", check_and_tele_w)
+    end
 end
