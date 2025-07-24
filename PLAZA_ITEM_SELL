@@ -57,7 +57,7 @@ getgenv().Settings = {
 			
             
     },
-["xoa_Map"] = false,
+["xoa_Map"] = true,
 
 ["send_gem"] = {
         Play_mail = true,
