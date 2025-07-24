@@ -529,7 +529,7 @@ local function findUnusedBoothID()
                 --warn("Tim thay unused BoothSpawn: "..spawnPoint:GetFullName().." | ID = "..tostring(id).."\n")
                 return id, spawnPoint
             else
-                --warn("--warning: BoothSpawn '"..spawnPoint.Name.."' khong co Attribute ID\n")
+                --warn("warning: BoothSpawn '"..spawnPoint.Name.."' khong co Attribute ID\n")
             end
         end
     end
@@ -600,7 +600,7 @@ local function findInInventorySubTable(subTable, itemName, categoryName, PT_find
         if type(v) == "table" and v.id then
             -- Kiểm tra xem id có khớp chính xác với itemName và PT_find, SH_find, TN_find
             if string.match(v.id, "^" .. itemName .. "$") then  -- Dùng string.match để tìm phần chuỗi chính xác
-				----warn("v.pt:", v.pt, "type:", typeof(v.pt))
+				--warn("v.pt:", v.pt, "type:", typeof(v.pt))
                 local ok = true
 
                 -- Kiểm tra điều kiện PT_find nếu có
@@ -684,15 +684,7 @@ end
     else
         --warn("Danh sach tim thay:")
         for _, info in ipairs(itemsFound) do
-            --warn(
-                "UID: " .. tostring(info.UID)
-                .. " | ID: " .. tostring(info.ID)
-                .. " | PT: " .. tostring(info.PT)
-                .. " | SH: " .. tostring(info.SH)
-                .. " | TN: " .. tostring(info.TN)
-                .. " | SL: " .. tostring(info.Count)
-                .. " | Category: " .. tostring(info.Category)  -- In thêm category
-            )			
+
 
 				local val1 = findValueByFields(
 					info.Category, 
