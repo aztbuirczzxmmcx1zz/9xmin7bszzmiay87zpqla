@@ -505,11 +505,6 @@ task.spawn(function()
 			if lagMonitorThread then pcall(task.cancel, lagMonitorThread) lagMonitorThread = nil end
 			if increaseMonitorThread then pcall(task.cancel, increaseMonitorThread) increaseMonitorThread = nil end
 		end
-		
-		if _G.VAR_STOP_BLOCK_PARTY == true then 
-			game:Shutdown()
-			Players.LocalPlayer:Kick("kick")
-		end
 		warn("🎉 Hoàn tất 10/10 lượt Time Trial.")
 		claimReward()
 		task.wait(30)
@@ -559,7 +554,6 @@ task.spawn(function()
 
 wait(150)
 
-		-- Event
 
 _G.VAR_BLOCK_PARTY = true
 local isRunning = false
@@ -612,12 +606,14 @@ end
 
 ---------------- 🧩 LUỒNG 1: Mua tiles quanh plot ----------------
 local function startAutoPurchase()
-	local plotIndex = 1
+	print("Auto Purchase")
 	local radiusMax = 6
 	local delayPerTile = 0.5
 	local delayPerCycle = 0.5
+
 	local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
 
+	-- 💠 Tạo danh sách offsets quanh plot
 	local offsets = {}
 	for dx = -radiusMax, radiusMax do
 		for dy = -radiusMax, radiusMax do
@@ -626,32 +622,62 @@ local function startAutoPurchase()
 			end
 		end
 	end
-	
-		local saveData = Save.Get()
-		local tileRebirth = saveData.TileRebirth or 0
-		if tileRebirth >= 15 and getTotalTileCount() >= 169 then
-			warn("🛑 Đã đạt TileRebirth = 15 và Tiles = 169 → Dừng Auto Purchase.")
-			return
-		end	
-	
+
+	-- 📌 Hàm lấy plotIndex động
+	local function getCurrentPlotIndex()
+		local index = 1
+		pcall(function()
+			local plots = Workspace.__THINGS:FindFirstChild("Plots")
+			if plots then
+				for _, v in ipairs(plots:GetChildren()) do
+					if tonumber(v.Name) then
+						index = tonumber(v.Name)
+						break
+					end
+				end
+			end
+		end)
+		return index
+	end
+
 	while true do
-		if getTotalTileCount() == 0 then
+
+		if _G.VAR_STOP_BLOCK_PARTY and not _G.VAR_START_BLOCK_PARTY then
+			warn("Finish AutoPurchase")
 			break
 		end
-		for _, offset in ipairs(offsets) do
-			local args = {plotIndex, "PurchaseTile", offset[1], offset[2]}
-			pcall(function()
-				PlotsInvoke:InvokeServer(unpack(args))
-			end)
-			task.wait(delayPerTile)
-			if getTotalTileCount() == 0 then
-				break
-			end
+		
+		local saveData = Save.Get()
+		local tileRebirth = saveData.TileRebirth or 0
+		local totalTiles = getTotalTileCount()
+		local hugeChance = _G.CURRENT_HUGE_CHANCE or 0
+
+		-- 🛑 Dừng hẳn nếu đủ 3 điều kiện
+		if tileRebirth >= 15 and totalTiles >= 169 and hugeChance >= 5 then
+			warn("✅ Đã đạt đủ điều kiện (Tiles ≥169, Rebirth ≥15, HugeChance ≥25x) → Dừng Auto Purchase.")
+			break
 		end
-		task.wait(delayPerCycle)
+
+		if totalTiles >= 169 then
+			warn("⏳ Tiles ≥169 → chờ 30s trước khi kiểm tra lại.")
+			task.wait(30)
+		else
+			for _, offset in ipairs(offsets) do
+				local plotIndex = getCurrentPlotIndex()
+				local args = {plotIndex, "PurchaseTile", offset[1], offset[2]}
+				pcall(function()
+					PlotsInvoke:InvokeServer(unpack(args))
+				end)
+				task.wait(delayPerTile)
+				if _G.VAR_STOP_BLOCK_PARTY and not _G.VAR_START_BLOCK_PARTY then
+					warn("Finish AutoPurchase")
+					break
+				end
+			end
+			task.wait(delayPerCycle)
+		end
 	end
 end
-
 ---------------- 🧩 LUỒNG 2: Claim + Open + Unlock + Plant + Diamond ----------------
 local function startTileHandler()
 	local TilesInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Invoke")
@@ -963,7 +989,7 @@ local function startAutoRebirth()
 			break
 		end
 
-		if getTotalTileCount() >= threshold then
+		if getTotalTileCount() == threshold then
 			local args = {1, "Rebirth"}
 			pcall(function()
 				PlotsInvoke:InvokeServer(unpack(args))
@@ -1135,10 +1161,10 @@ local function startAllBlockPartyTasks()
 
 
 	-- 🧩 LUỒNG 8: GUI Updater
-	--task.spawn(function()
-	--	print("✅ Đã khởi động LUỒNG 6: GUI Updater")
-	--	startGuiUpdater()
-	--end)
+	task.spawn(function()
+		print("✅ Đã khởi động LUỒNG 6: GUI Updater")
+		startGuiUpdater()
+	end)
 	-- 🧩 LUỒNG 9: check join event
 	
 	task.spawn(function()
@@ -1147,6 +1173,7 @@ local function startAllBlockPartyTasks()
 		while true do
 			waitUntilAllowed()
 			if getTotalTileCount() == 0 then
+				print("join event")
 				handleRejoin()
 			end
 			wait(33)
@@ -1175,18 +1202,15 @@ end
 
 task.spawn(function()
 	while true do
-		if _G.VAR_STOP_BLOCK_PARTY and _G.VAR_BLOCK_PARTY then
-			isRunning = false
-		end
 
-		if _G.VAR_START_BLOCK_PARTY and not isRunning then
+		if _G.VAR_START_BLOCK_PARTY then
 			startAllBlockPartyTasks()
+			break
 		end
 
 		task.wait(2)
 	end
 end)
-
 
 
 end)
