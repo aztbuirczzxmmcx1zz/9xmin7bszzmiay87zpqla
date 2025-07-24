@@ -3,6 +3,7 @@
 --getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_MULTIPLIER2 = 25
 --getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_TIER = 15
 
+setfpscap(3)
 getgenv().GLOOTBOXES = {"All"}
 
 getgenv().GENCHANTS = {}
