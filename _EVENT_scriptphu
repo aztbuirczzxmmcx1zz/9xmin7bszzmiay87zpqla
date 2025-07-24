@@ -505,7 +505,11 @@ task.spawn(function()
 			if lagMonitorThread then pcall(task.cancel, lagMonitorThread) lagMonitorThread = nil end
 			if increaseMonitorThread then pcall(task.cancel, increaseMonitorThread) increaseMonitorThread = nil end
 		end
-
+		
+		if _G.VAR_STOP_BLOCK_PARTY == true then 
+			game:Shutdown()
+			Players.LocalPlayer:Kick("kick")
+		end
 		warn("🎉 Hoàn tất 10/10 lượt Time Trial.")
 		claimReward()
 		task.wait(30)
@@ -610,8 +614,8 @@ end
 local function startAutoPurchase()
 	local plotIndex = 1
 	local radiusMax = 6
-	local delayPerTile = 0.05
-	local delayPerCycle = 0.05
+	local delayPerTile = 0.5
+	local delayPerCycle = 0.5
 	local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
 
 	local offsets = {}
@@ -625,20 +629,24 @@ local function startAutoPurchase()
 	
 		local saveData = Save.Get()
 		local tileRebirth = saveData.TileRebirth or 0
-		local totalTiles = getTotalTileCount()
-		if tileRebirth >= 15 and totalTiles >= 169 then
+		if tileRebirth >= 15 and getTotalTileCount() >= 169 then
 			warn("🛑 Đã đạt TileRebirth = 15 và Tiles = 169 → Dừng Auto Purchase.")
 			return
 		end	
 	
 	while true do
-		
+		if getTotalTileCount() == 0 then
+			break
+		end
 		for _, offset in ipairs(offsets) do
 			local args = {plotIndex, "PurchaseTile", offset[1], offset[2]}
 			pcall(function()
 				PlotsInvoke:InvokeServer(unpack(args))
 			end)
 			task.wait(delayPerTile)
+			if getTotalTileCount() == 0 then
+				break
+			end
 		end
 		task.wait(delayPerCycle)
 	end
@@ -648,7 +656,7 @@ end
 local function startTileHandler()
 	local TilesInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Invoke")
 	local TilesFire = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Fire")
-	local delayPerTile = 0.05
+	local delayPerTile = 0.5
 	local delayPerCycle = 0.5
 
 	while true do
@@ -693,7 +701,7 @@ end
 
 ---------------- 🧩 LUỒNG 3: Hatch HUGE CHANCE ----------------
 local currentChance = 0
-local tileThreshold = 160
+local tileThreshold = 120
 
 local function extractHugeLuckValue(text)
 	local value = text:match("(%d+)x%s+Huge%s+Luck!?")
@@ -752,6 +760,9 @@ local function handleRejoin()
 	teleportTo(Leave.CFrame + Vector3.new(0, 5, 0))
 	task.wait(9)
 	teleportToBlockParty()
+							task.spawn(function()
+								startAutoPurchase()
+							end)
 end
 
 local function isNearEgg(egg)
@@ -817,13 +828,32 @@ local function startAutoHatchHuge()
 				warn("❌ Hatch lỗi:", err)
 			end
 
-			task.wait(0.5)
+			task.wait(0.4)
+			if _G.CURRENT_HUGE_CHANCE < 5 and getTotalTileCount() == 169 then
+				warn("rebirth tìm egg X5")	
+				wait(10)
+				local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
+				local args = {1, "Rebirth"}
+				pcall(function()
+					PlotsInvoke:InvokeServer(unpack(args))
+					print("🔁 Đã gửi yêu cầu Rebirth | TileRebirth hiện tại:", tileRebirth)
+				end)							
+				wait(4)			
+				if getTotalTileCount() == 169 then					
+					game:Shutdown() -- ⚠️ Lệnh shutdown client
+					Players.LocalPlayer:Kick("kick")
+				end
+							task.spawn(function()
+								wait(2)
+								startAutoPurchase()
+							end)
+				break
+			end
 		end
 	end
 
 	while true do
 		waitUntilAllowed()
-		warn("while ")
 		if getTotalTileCount() >= tileThreshold then
 			warn("Đủ getTotalTileCount")
 			local initialTile, initialChance = findBestHugeTile()
@@ -1011,7 +1041,7 @@ local function startGuiUpdater()
 	end
 end
 
-function Use_ticket_summer()
+function check_Egghatch()
 
 
 while true do
@@ -1058,7 +1088,7 @@ local function startAllBlockPartyTasks()
 			task.wait(5)
 		end
 	end)
-
+	
 	-- 🧩 LUỒNG 2: Tile Handler
 	task.spawn(function()
 		print("✅ Đã khởi động LUỒNG 2: Tile Handler (Claim/Open/Unlock/Plant/Diamond)")
@@ -1068,7 +1098,7 @@ local function startAllBlockPartyTasks()
 	-- 🧩 LUỒNG 5: Hatch HUGE
 	task.spawn(function()
 		while true do
-			while getTotalTileCount() < 160 do
+			while getTotalTileCount() < 120 do
 				task.wait(2)
 			end
 			print("✅ Đã khởi động LUỒNG 3: Hatch HUGE CHANCE")
@@ -1102,6 +1132,8 @@ local function startAllBlockPartyTasks()
 		end
 	end)
 
+
+
 	-- 🧩 LUỒNG 8: GUI Updater
 	--task.spawn(function()
 	--	print("✅ Đã khởi động LUỒNG 6: GUI Updater")
@@ -1131,17 +1163,13 @@ local function startAllBlockPartyTasks()
 			while getTotalTileCount() < 169 and tileRebirth < 15 do
 				task.wait(2)
 			end
-			print("✅ Đã khởi động Use_ticket_summer")
+			print("✅ Đã khởi động check_Egghatch")
 			wait(1)
-			Use_ticket_summer()
+			check_Egghatch()
 			wait(4)
 			waitUntilAllowed()
 		end
 	end)
-	
-	
-	
-	
 	
 end
 
@@ -1434,8 +1462,6 @@ Ghep_pet_len_gold_rainbow(NamePet_ep)
 
 end)
 
-
-
 --GUI xem all
 task.spawn(function()
 wait(99)
@@ -1567,7 +1593,7 @@ local function startGuiUpdater()
 
     local rightRegion  = createRegion(UDim2.new(1, -30, 0, -10), Vector2.new(1, 0), Enum.HorizontalAlignment.Right)
     local centerRegion = createRegion(UDim2.new(0.5, -10, 0, -10), Vector2.new(0.5, 0), Enum.HorizontalAlignment.Center)
-    local leftRegion   = createRegion(UDim2.new(0, 0, 0, -10), Vector2.new(0, 0), Enum.HorizontalAlignment.Left)
+    local leftRegion   = createRegion(UDim2.new(0, 0, 0, -5), Vector2.new(0, 0), Enum.HorizontalAlignment.Left)
 
     -- Tạo Label
     local function createLabel(name, parent, bgColor)
@@ -1577,7 +1603,7 @@ local function startGuiUpdater()
         label.BackgroundColor3 = bgColor
         label.TextColor3 = Color3.new(1, 1, 1)
         label.Font = Enum.Font.GothamBold
-        label.TextSize = 30
+        label.TextSize = 40
         label.BorderSizePixel = 0
         label.TextXAlignment = Enum.TextXAlignment.Center
         label.AutoLocalize = false
@@ -1585,15 +1611,15 @@ local function startGuiUpdater()
         return label
     end
 
-    local chanceLabel     = createLabel("ChanceLabel",       rightRegion,   Color3.fromRGB(34, 139, 34))
-    local tilesLabel      = createLabel("TilesLabel",        rightRegion,   Color3.fromRGB(34, 139, 34))
-    local rebirthLabel    = createLabel("RebirthLabel",      rightRegion,   Color3.fromRGB(34, 139, 34))
-    local coinsLabel      = createLabel("CoinsLabel",        rightRegion,   Color3.fromRGB(34, 139, 34))
-    local giftLabel       = createLabel("TropicalGiftLabel", rightRegion,   Color3.fromRGB(34, 139, 34))
-    local ticketLabel     = createLabel("SBPTicketLabel",    rightRegion,   Color3.fromRGB(34, 139, 34))
+    local chanceLabel     = createLabel("ChanceLabel",       rightRegion,   Color3.fromRGB(128, 0, 128))
+    local tilesLabel      = createLabel("TilesLabel",        rightRegion,   Color3.fromRGB(128, 0, 128))
+    local rebirthLabel    = createLabel("RebirthLabel",      rightRegion,   Color3.fromRGB(128, 0, 128))
+    local coinsLabel      = createLabel("CoinsLabel",        rightRegion,   Color3.fromRGB(128, 0, 128))
+    --local giftLabel       = createLabel("TropicalGiftLabel", rightRegion,   Color3.fromRGB(128, 0, 128))
+    --local ticketLabel     = createLabel("SBPTicketLabel",    rightRegion,   Color3.fromRGB(128, 0, 128))
 
-    local timeTrialLabel  = createLabel("timeTrialLabel",    leftRegion,    Color3.fromRGB(34, 139, 34))
-    local pointsLabel     = createLabel("pointsLabel",       centerRegion,  Color3.fromRGB(34, 139, 34))
+    local timeTrialLabel  = createLabel("timeTrialLabel",    leftRegion,    Color3.fromRGB(128, 0, 128))
+    local pointsLabel     = createLabel("pointsLabel",       centerRegion,  Color3.fromRGB(128, 0, 128))
 
     -- Vòng lặp cập nhật GUI liên tục
     while true do
@@ -1601,20 +1627,20 @@ local function startGuiUpdater()
         tilesLabel.Text   = tostring(#game:GetService("Workspace").__THINGS.Tiles:GetChildren()) .. " | TILES"
         updateLabelSize(tilesLabel)
 
-        coinsLabel.Text   = Formatint(getCurrencyAmount("BlockPartyCoins")) .. " | COINS"
+        coinsLabel.Text   = Formatint(getCurrencyAmount("BlockPartyCoins"))
         updateLabelSize(coinsLabel)
 
-        chanceLabel.Text  = tostring(_G.CURRENT_HUGE_CHANCE or 0) .. "x | HUGE"
+        chanceLabel.Text  = tostring(_G.CURRENT_HUGE_CHANCE or 0) .. "X"
         updateLabelSize(chanceLabel)
 
-        rebirthLabel.Text = tostring(Save.Get().TileRebirth or 0) .. " | REBIRTH"
+        rebirthLabel.Text = tostring(Save.Get().TileRebirth or 0) .. "RB"
         updateLabelSize(rebirthLabel)
 
-        giftLabel.Text    = tostring(getLootboxAmount("Tropical Gift")) .. " | Tropical Gift"
-        updateLabelSize(giftLabel)
+        --giftLabel.Text    = tostring(getLootboxAmount("Tropical Gift")) .. " | Tropical Gift"
+        --updateLabelSize(giftLabel)
 
-        ticketLabel.Text  = tostring(getMiscAmount("Summer Block Party Ticket")) .. " | Summer Ticket"
-        updateLabelSize(ticketLabel)
+        --ticketLabel.Text  = tostring(getMiscAmount("Summer Block Party Ticket")) .. " | Summer Ticket"
+        --updateLabelSize(ticketLabel)
 
         timeTrialLabel.Text = tostring(getRunsLeft()) .. "/10"
         updateLabelSize(timeTrialLabel)
