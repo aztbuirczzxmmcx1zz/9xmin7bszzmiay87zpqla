@@ -14,6 +14,9 @@ getgenv().Settings = {
 ["Golden Titanic Starlight Pony"] = {Price = "16b", Priority = true },
 ["Titanic Gym Piggy"] = {Price = "5b", Priority = true },
 
+["Titanic Disco Ball Agony"] = {Price = "5.1b", Priority = true },
+["Golden Titanic Disco Ball Agony"] = {Price = "5.5b", Priority = true },
+
 ["Time Trial Gift"] = {Price = "200k", Priority = true},
 ["Huge Machine Egg 5"] = {Price = "1%", Priority = true},
 
