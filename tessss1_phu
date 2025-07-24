@@ -854,8 +854,8 @@ local function startAutoHatchHuge()
 				warn("❌ Hatch lỗi:", err)
 			end
 
-			task.wait(0.4)
-			if _G.CURRENT_HUGE_CHANCE < 5 and getTotalTileCount() == 169 then
+			task.wait(0.5)
+			if _G.CURRENT_HUGE_CHANCE < 25 and getTotalTileCount() == 169 then
 				warn("rebirth tìm egg X5")	
 				wait(10)
 				local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
