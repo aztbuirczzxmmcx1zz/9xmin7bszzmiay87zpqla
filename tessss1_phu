@@ -1593,7 +1593,7 @@ local function startGuiUpdater()
 
     local rightRegion  = createRegion(UDim2.new(1, -30, 0, -10), Vector2.new(1, 0), Enum.HorizontalAlignment.Right)
     local centerRegion = createRegion(UDim2.new(0.5, -10, 0, -10), Vector2.new(0.5, 0), Enum.HorizontalAlignment.Center)
-    local leftRegion   = createRegion(UDim2.new(0, 0, 0, -10), Vector2.new(0, 0), Enum.HorizontalAlignment.Left)
+    local leftRegion   = createRegion(UDim2.new(0, 0, 0, -5), Vector2.new(0, 0), Enum.HorizontalAlignment.Left)
 
     -- Tạo Label
     local function createLabel(name, parent, bgColor)
@@ -1603,7 +1603,7 @@ local function startGuiUpdater()
         label.BackgroundColor3 = bgColor
         label.TextColor3 = Color3.new(1, 1, 1)
         label.Font = Enum.Font.GothamBold
-        label.TextSize = 30
+        label.TextSize = 40
         label.BorderSizePixel = 0
         label.TextXAlignment = Enum.TextXAlignment.Center
         label.AutoLocalize = false
@@ -1611,15 +1611,15 @@ local function startGuiUpdater()
         return label
     end
 
-    local chanceLabel     = createLabel("ChanceLabel",       rightRegion,   Color3.fromRGB(34, 139, 34))
-    local tilesLabel      = createLabel("TilesLabel",        rightRegion,   Color3.fromRGB(34, 139, 34))
-    local rebirthLabel    = createLabel("RebirthLabel",      rightRegion,   Color3.fromRGB(34, 139, 34))
-    local coinsLabel      = createLabel("CoinsLabel",        rightRegion,   Color3.fromRGB(34, 139, 34))
-    local giftLabel       = createLabel("TropicalGiftLabel", rightRegion,   Color3.fromRGB(34, 139, 34))
-    local ticketLabel     = createLabel("SBPTicketLabel",    rightRegion,   Color3.fromRGB(34, 139, 34))
+    local chanceLabel     = createLabel("ChanceLabel",       rightRegion,   Color3.fromRGB(128, 0, 128))
+    local tilesLabel      = createLabel("TilesLabel",        rightRegion,   Color3.fromRGB(128, 0, 128))
+    local rebirthLabel    = createLabel("RebirthLabel",      rightRegion,   Color3.fromRGB(128, 0, 128))
+    local coinsLabel      = createLabel("CoinsLabel",        rightRegion,   Color3.fromRGB(128, 0, 128))
+    --local giftLabel       = createLabel("TropicalGiftLabel", rightRegion,   Color3.fromRGB(128, 0, 128))
+    --local ticketLabel     = createLabel("SBPTicketLabel",    rightRegion,   Color3.fromRGB(128, 0, 128))
 
-    local timeTrialLabel  = createLabel("timeTrialLabel",    leftRegion,    Color3.fromRGB(34, 139, 34))
-    local pointsLabel     = createLabel("pointsLabel",       centerRegion,  Color3.fromRGB(34, 139, 34))
+    local timeTrialLabel  = createLabel("timeTrialLabel",    leftRegion,    Color3.fromRGB(128, 0, 128))
+    local pointsLabel     = createLabel("pointsLabel",       centerRegion,  Color3.fromRGB(128, 0, 128))
 
     -- Vòng lặp cập nhật GUI liên tục
     while true do
@@ -1627,20 +1627,20 @@ local function startGuiUpdater()
         tilesLabel.Text   = tostring(#game:GetService("Workspace").__THINGS.Tiles:GetChildren()) .. " | TILES"
         updateLabelSize(tilesLabel)
 
-        coinsLabel.Text   = Formatint(getCurrencyAmount("BlockPartyCoins")) .. " | COINS"
+        coinsLabel.Text   = Formatint(getCurrencyAmount("BlockPartyCoins"))
         updateLabelSize(coinsLabel)
 
-        chanceLabel.Text  = tostring(_G.CURRENT_HUGE_CHANCE or 0) .. "x | HUGE"
+        chanceLabel.Text  = tostring(_G.CURRENT_HUGE_CHANCE or 0) .. "X"
         updateLabelSize(chanceLabel)
 
-        rebirthLabel.Text = tostring(Save.Get().TileRebirth or 0) .. " | REBIRTH"
+        rebirthLabel.Text = tostring(Save.Get().TileRebirth or 0) .. "RB"
         updateLabelSize(rebirthLabel)
 
-        giftLabel.Text    = tostring(getLootboxAmount("Tropical Gift")) .. " | Tropical Gift"
-        updateLabelSize(giftLabel)
+        --giftLabel.Text    = tostring(getLootboxAmount("Tropical Gift")) .. " | Tropical Gift"
+        --updateLabelSize(giftLabel)
 
-        ticketLabel.Text  = tostring(getMiscAmount("Summer Block Party Ticket")) .. " | Summer Ticket"
-        updateLabelSize(ticketLabel)
+        --ticketLabel.Text  = tostring(getMiscAmount("Summer Block Party Ticket")) .. " | Summer Ticket"
+        --updateLabelSize(ticketLabel)
 
         timeTrialLabel.Text = tostring(getRunsLeft()) .. "/10"
         updateLabelSize(timeTrialLabel)
