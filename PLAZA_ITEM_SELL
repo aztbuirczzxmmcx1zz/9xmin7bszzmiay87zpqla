@@ -1,4 +1,7 @@
 -- Bảng thiết lập riêng cho từng player
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
 
 local SELL_vs_username = {
 	["sijmongirthss"] = "11.8b",
