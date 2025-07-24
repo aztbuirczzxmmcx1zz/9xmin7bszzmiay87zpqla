@@ -2,7 +2,7 @@ wait(60)
 EVENT_or_FARM = "E"
 
 if name_vps == "V6" then
-  EVENT_or_FARM = "F"
+--  EVENT_or_FARM = "F"
 end
 
 task.spawn(function()
@@ -18,10 +18,10 @@ task.spawn(function()
 	------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 end)
 -- check RANK
---local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
---local rank = Save.Get().Rank
+local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local rank = Save.Get().Rank
 
-if EVENT_or_FARM == "E" then
+if EVENT_or_FARM == "E" and rank > 19 then
 	task.spawn(function()	
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_scriptphu"))()
 	end)
