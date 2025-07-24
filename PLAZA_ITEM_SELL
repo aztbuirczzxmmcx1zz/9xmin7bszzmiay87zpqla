@@ -1,5 +1,20 @@
+-- Bảng thiết lập riêng cho từng player
+
+local SELL_vs_username = {
+	["sijmongirthss"] = "11.8b",
+	["Ash3rP0w3rPanda2018"] = "12b",
+	["soystaylan5"] = "11.5b",
+	["dreddyewele60"] = "15b",
+	["1971Nowak3135"] = "12.5b",
+}
+local defaultPrice = "13b"
+
+
 getgenv().Settings = {
     ["Items"] = {
+
+["Titanic Starlight Pony"] = {Price = SELL_vs_username[player.Name] or defaultPrice,
+        Priority = true },
 
 ["MVP Key"] = {Price = "2%", Priority = true},
 ["Summer Block Party Ticket"]= {Price = "2%", Priority = true},
@@ -12,7 +27,7 @@ getgenv().Settings = {
 ["Titanic Surfboard Corgi"] = {Price = "4.5b", Priority = true},
 ["Titanic Pineapple Dog"] = {Price = "4.5b", Priority = true},
 ["Titanic Sun Griffin"] = {Price = "5.5b", Priority = true },
-["Titanic Starlight Pony"] = {Price = "11.1b", Priority = true },
+
 ["Golden Titanic Starlight Pony"] = {Price = "16b", Priority = true },
 ["Titanic Gym Piggy"] = {Price = "5b", Priority = true },
 
