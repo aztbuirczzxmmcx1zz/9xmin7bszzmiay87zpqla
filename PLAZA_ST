@@ -106,11 +106,6 @@ end)
 
 --Sent chìa
 task.spawn(function()
-
-if PAUSE_or_SEND == "P" then
-	return
-end
-
 wait(60)
 NAME_USER_SEND = "veriotiai779"
 
@@ -120,8 +115,8 @@ function Sent_item_all()
 getgenv().Settings = {		
 
 
-["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 10},	--ok
-["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 10},	
+["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 1000},	--ok
+["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 20000},	
 
 }
 
