@@ -8,7 +8,9 @@ getgenv().Settings = {
 ["Golden Huge Splash Angelus"] = {Price = "22b", Priority = true},
 ["Rainbow Huge Splash Angelus"] = {Price = "100b", Priority = true},
 
-["Titanic Pineapple Dog"] = {Price = "5b", Priority = true},
+
+["Titanic Surfboard Corgi"] = {Price = "4.5b", Priority = true},
+["Titanic Pineapple Dog"] = {Price = "4.5b", Priority = true},
 ["Titanic Sun Griffin"] = {Price = "5.5b", Priority = true },
 ["Titanic Starlight Pony"] = {Price = "11.1b", Priority = true },
 ["Golden Titanic Starlight Pony"] = {Price = "16b", Priority = true },
