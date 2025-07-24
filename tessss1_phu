@@ -1163,7 +1163,7 @@ local function startAllBlockPartyTasks()
 	-- 🧩 LUỒNG 8: GUI Updater
 	task.spawn(function()
 		print("✅ Đã khởi động LUỒNG 6: GUI Updater")
-		startGuiUpdater()
+		--startGuiUpdater()
 	end)
 	-- 🧩 LUỒNG 9: check join event
 	
