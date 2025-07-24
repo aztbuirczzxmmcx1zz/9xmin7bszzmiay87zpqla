@@ -15,14 +15,14 @@ local Upgrades_Purchase = ReplicatedStorage.Network:WaitForChild("Upgrades_Purch
 
 -- 🌫️ Ẩn toàn bộ map
 local function hideMap()
-	for _, obj in ipairs(Workspace:GetDescendants()) do
-		if obj:IsA("BasePart") then
-			obj.Transparency = 1
-			obj.CastShadow = false
-		elseif obj:IsA("Decal") or obj:IsA("Texture") then
-			obj.Transparency = 1
-		end
-	end
+--	for _, obj in ipairs(Workspace:GetDescendants()) do
+--		if obj:IsA("BasePart") then
+--			obj.Transparency = 1
+--			obj.CastShadow = false
+--		elseif obj:IsA("Decal") or obj:IsA("Texture") then
+--			obj.Transparency = 1
+--		end
+--	end
 end
 
 -- 🧭 Teleport
@@ -102,6 +102,17 @@ local Network = ReplicatedStorage:WaitForChild("Network")
 	task.wait(2)
 	BAM_E_UPDATE() 
  update_map("Pet Speed", "Runestone Bluff")
+ --
+ 
+  	runSequence({Vector3.new(-14219, 20, 1894)})
+	task.wait(2)
+	BAM_E_UPDATE() 
+ update_map("Pet Damage", "Mirror Tome Path")
+ 
+ 	runSequence({Vector3.new(-14219, 20, 1894)})
+	task.wait(2)
+	BAM_E_UPDATE() 
+ update_map("Coins", "Faerie Hex Glade")
 
 	-- 🌍 Dịch chuyển đến World3
 	task.wait(2)
@@ -432,5 +443,3 @@ local GuildCastle_UnlockGate = ReplicatedStorage.Network.GuildCastle_UnlockGate
 GuildCastle_UnlockGate:InvokeServer()
 
 end
-
-
