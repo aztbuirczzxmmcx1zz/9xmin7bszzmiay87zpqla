@@ -8,13 +8,11 @@ getgenv().Settings = {
 ["Golden Huge Splash Angelus"] = {Price = "22b", Priority = true},
 ["Rainbow Huge Splash Angelus"] = {Price = "100b", Priority = true},
 
-["Titanic Pineapple Dog"] = {Price = "5.5b", Priority = true},
-["Rainbow Titanic Sun Griffin"] = {Price = "31b", Priority = true},
-["Titanic Sun Griffin"] = {Price = "6b", Priority = true },
-["Titanic Sandcastle Kraken"] = {Price = "7b", Priority = true },
-["Titanic Starlight Pony"] = {Price = "12.2b", Priority = true },
-["Golden Titanic Starlight Pony"] = {Price = "18b", Priority = true },
-["Titanic Gym Piggy"] = {Price = "5.5b", Priority = true },
+["Titanic Pineapple Dog"] = {Price = "5b", Priority = true},
+["Titanic Sun Griffin"] = {Price = "5.5b", Priority = true },
+["Titanic Starlight Pony"] = {Price = "11.1b", Priority = true },
+["Golden Titanic Starlight Pony"] = {Price = "16b", Priority = true },
+["Titanic Gym Piggy"] = {Price = "5b", Priority = true },
 
 ["Time Trial Gift"] = {Price = "200k", Priority = true},
 ["Huge Machine Egg 5"] = {Price = "1%", Priority = true},
