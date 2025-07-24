@@ -837,13 +837,16 @@ local function startAutoHatchHuge()
 				pcall(function()
 					PlotsInvoke:InvokeServer(unpack(args))
 					print("🔁 Đã gửi yêu cầu Rebirth | TileRebirth hiện tại:", tileRebirth)
-				end)
+				end)							
+				wait(4)			
+				if getTotalTileCount() == 169 then					
+					game:Shutdown() -- ⚠️ Lệnh shutdown client
+					Players.LocalPlayer:Kick("kick")
+				end
 							task.spawn(function()
-								wait(20)
+								wait(2)
 								startAutoPurchase()
 							end)
-							
-							
 				break
 			end
 		end
