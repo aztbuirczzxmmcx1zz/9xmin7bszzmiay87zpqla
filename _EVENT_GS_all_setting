@@ -6,7 +6,7 @@ getgenv().GEVENT_FPS  = 3
 --getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_TITANIC = true
 --getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_MULTIPLIER2 = 25
 
-getgenv().GLOOTBOXES = {"All"}
+--getgenv().GLOOTBOXES = {"All"}
 getgenv().GENCHANTS = {}
 --getgenv().GMIN_EGGS_TO_HATCH = 9999999999999
 --getgenv().GRANK_FIRST = true
