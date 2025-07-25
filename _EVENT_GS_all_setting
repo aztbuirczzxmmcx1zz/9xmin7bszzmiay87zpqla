@@ -22,7 +22,7 @@ getgenv().GMAX_HATCH = 99
 
 
 -----------------------
-getgenv().GUSE_SPINNY_WHEEL = true
+
 getgenv().GAUTO_UPGRADE_PETS = true
 getgenv().GCOMBINE_KEYS = true
 getgenv().GMASTERY_TO_MAX = "Pets"
