@@ -136,9 +136,7 @@ task.spawn(function()
 	local time_swap = gemSettings.time_swap_plaza * 60
 	
 	task.wait(time_swap)
-	local TeleportService = game:GetService("TeleportService")
-	local placeId = 15502339080
-	TeleportService:Teleport(placeId, game.Players.LocalPlayer)
+	game:Shutdown()  -- Thoát game
 	
 end)
 
