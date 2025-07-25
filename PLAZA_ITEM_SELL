@@ -4,9 +4,9 @@ local player = Players.LocalPlayer
 
 
 local SELL_vs_username = {
-	["sijmongirthss"] = "11.8b",
+	["sijmongirthss"] = "12.7b",
 	["Ash3rP0w3rPanda2018"] = "12b",
-	["soystaylan5"] = "11.5b",
+	["soystaylan5"] = "12.6b",
 	["dreddyewele60"] = "15b",
 	["1971Nowak3135"] = "12.5b",
 }
@@ -14,70 +14,46 @@ local defaultPrice = "13b"
 
 
 getgenv().Settings = {
-    ["Items"] = {
-
-["Titanic Starlight Pony"] = {Price = SELL_vs_username[player.Name] or defaultPrice,
-        Priority = true },
-
-["MVP Key"] = {Price = "2%", Priority = true},
-["Summer Block Party Ticket"]= {Price = "2%", Priority = true},
-
-["Huge Splash Angelus"] = {Price = "20b", Priority = true},
-["Golden Huge Splash Angelus"] = {Price = "22b", Priority = true},
-["Rainbow Huge Splash Angelus"] = {Price = "100b", Priority = true},
-
-
-["Titanic Surfboard Corgi"] = {Price = "4.5b", Priority = true},
-["Titanic Pineapple Dog"] = {Price = "4.5b", Priority = true},
-["Titanic Sun Griffin"] = {Price = "5.5b", Priority = true },
-
-["Golden Titanic Starlight Pony"] = {Price = "16b", Priority = true },
-["Titanic Gym Piggy"] = {Price = "5b", Priority = true },
-
-["Titanic Disco Ball Agony"] = {Price = "5.1b", Priority = true },
-["Golden Titanic Disco Ball Agony"] = {Price = "5.5b", Priority = true },
-
-["Time Trial Gift"] = {Price = "200k", Priority = true},
-["Huge Machine Egg 5"] = {Price = "1%", Priority = true},
-
-
-["Rainbow Palace Pooka"] = {Price = "20%", Priority = true},
-["Shiny Rainbow Palace Pooka"] = {Price = "20%", Priority = true},
-
-["Rainbow Rose Pooka"] = {Price = "20%", Priority = true},
-["Shiny Rainbow Rose Pooka"] = {Price = "20%", Priority = true},
-
-
-
-["Insta Plant Capsule"] = {Price = 27000, Priority = true},
-["XPPotion Mastery"] = {Price = 400000, Priority = true},
-["Royalty TN1"] = {Price = "7m", Priority = true},
-["Overload TN1"] = {Price = "8m", Priority = true},
-["Charm Chisel"] = {Price = "150k", Priority = true},	
-
-["Chest Spell"] = {Price = "95m", Priority = true},	
-["Tsunami"] = {Price = "+2%", Priority = true},
-
-["Crystal Key"] = {Price = "10k", Priority = true},
-["Tech Key"] = {Price = "33k", Priority = true},	
-["Secret Key"] = {Price = "33k", Priority = true},	
-["Void Key"] = {Price = "45k"},
-["Hacker Key"] = {Price = "70k"},
-["Fantasy Key"] = {Price = "60k"},
-
-
-["Magic Shard"] = {Price = "+1%"},		
-
-["All Huges"]= { Price = "2%"						,Min_sell = "10m", Max_sell = "30m",sold_by_convention = true},
-["Shiny Rainbow All Huges"]= { Price = "5%"				,Min_sell = "1.5b", Max_sell = "5b"},
-["Shiny All Huges"]= { Price = "2%"					,Min_sell = "70m", Max_sell = "300m"},
-["Rainbow All Huges"]= { Price = "2%"					,Min_sell = "70m", Max_sell = "300m",sold_by_convention = true},
-["Golden All Huges"]= { Price = "5%"					,Min_sell = "12m", Max_sell = "30m",sold_by_convention = true},
-
-
-		
-			
-            
+["Items"] = {
+        {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice, Priority = true}},
+        {Name = "MVP Key", Data = {Price = "2%", Priority = true}},
+        {Name = "Summer Block Party Ticket", Data = {Price = "2%", Priority = true}},
+        {Name = "Huge Splash Angelus", Data = {Price = "20b", Priority = true}},
+        {Name = "Golden Huge Splash Angelus", Data = {Price = "22b", Priority = true}},
+        {Name = "Rainbow Huge Splash Angelus", Data = {Price = "100b", Priority = true}},
+        {Name = "Titanic Surfboard Corgi", Data = {Price = "4.5b", Priority = true}},
+        {Name = "Titanic Pineapple Dog", Data = {Price = "4.5b", Priority = true}},
+        {Name = "Titanic Sun Griffin", Data = {Price = "5.5b", Priority = true}},
+        {Name = "Golden Titanic Starlight Pony", Data = {Price = "16b", Priority = true}},
+        {Name = "Titanic Gym Piggy", Data = {Price = "5b", Priority = true}},
+        {Name = "Titanic Disco Ball Agony", Data = {Price = "5.1b", Priority = true}},
+        {Name = "Golden Titanic Disco Ball Agony", Data = {Price = "5.5b", Priority = true}},
+        {Name = "Time Trial Gift", Data = {Price = "200k", Priority = true}},
+        {Name = "Huge Machine Egg 5", Data = {Price = "1%", Priority = true}},
+        {Name = "Rainbow Palace Pooka", Data = {Price = "20%", Priority = true}},
+        {Name = "Shiny Rainbow Palace Pooka", Data = {Price = "20%", Priority = true}},
+        {Name = "Rainbow Rose Pooka", Data = {Price = "20%", Priority = true}},
+        {Name = "Shiny Rainbow Rose Pooka", Data = {Price = "20%", Priority = true}},
+        {Name = "Insta Plant Capsule", Data = {Price = 27000, Priority = true}},
+        {Name = "XPPotion Mastery", Data = {Price = 400000, Priority = true}},
+        {Name = "Royalty TN1", Data = {Price = "7m", Priority = true}},
+        {Name = "Overload TN1", Data = {Price = "8m", Priority = true}},
+        {Name = "Charm Chisel", Data = {Price = "150k", Priority = true}},
+        {Name = "Chest Spell", Data = {Price = "95m", Priority = true}},
+        {Name = "Tsunami", Data = {Price = "+2%", Priority = true}},
+        {Name = "Crystal Key", Data = {Price = "10k", Priority = true}},
+        {Name = "Tech Key", Data = {Price = "33k", Priority = true}},
+        {Name = "Secret Key", Data = {Price = "33k", Priority = true}},
+        {Name = "Void Key", Data = {Price = "45k"}},
+        {Name = "Hacker Key", Data = {Price = "70k"}},
+        {Name = "Fantasy Key", Data = {Price = "60k"}},        
+        {Name = "All Huges", Data = {Price = "2%", Min_sell = "10m", Max_sell = "30m", sold_by_convention = true}},
+        {Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "5b"}},
+		{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "5b"}},
+        {Name = "Shiny All Huges", Data = {Price = "2%", Min_sell = "70m", Max_sell = "300m"}},
+        {Name = "Rainbow All Huges", Data = {Price = "2%", Min_sell = "70m", Max_sell = "300m", sold_by_convention = true}},
+        {Name = "Golden All Huges", Data = {Price = "5%", Min_sell = "12m", Max_sell = "30m", sold_by_convention = true}},
+		{Name = "Magic Shard", Data = {Price = "+1%"}},
     },
 ["xoa_Map"] = false,
 
@@ -587,7 +563,7 @@ function Manager:GetItemsByName(itemName)
 
     local ReplicatedStorage = game:GetService("ReplicatedStorage")    
     local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
-	local item = getgenv().Settings["Items"][itemName]
+	--local item = getgenv().Settings["Items"][itemName]
     local itemsFound = {}
 
     -- Hàm tìm trong từng bảng con của Inventory
@@ -694,7 +670,7 @@ end
 				)
 				--warn("0")
 				local valFinal = val1 or 0
-				local priceRaw = item.Price
+				--local priceRaw = item.Price
 				--warn("1")
 				if type(priceRaw) == "number" then
 					valFinal = priceRaw
@@ -860,14 +836,27 @@ function Kiem_tra_ten_co_them_tu_la_(itemName)
 end
 
 local function sell_item(itemName)
+    local item = nil
 
-	local item = getgenv().Settings["Items"][itemName]
-    if not item then
-        --warn("Khong tim thay item: " .. tostring(itemName))
-        return
-	else
-		--warn(tostring(itemName))
+    -- 🔍 Tìm item theo tên
+    for _, entry in ipairs(getgenv().Settings["Items"]) do
+        if entry.Name == itemName then
+            item = entry.Data
+            break
+        end
     end
+
+    if not item then
+        warn("❌ Không tìm thấy item: " .. tostring(itemName))
+        return
+    end
+
+    warn("🛒 Đang xử lý item:", itemName)
+
+    local priceRaw = item.Price
+    local Min_sell = item.Min_sell
+    local Max_sell = item.Max_sell
+	
 	
 	if string.find(itemName, "All Huges") then
 		
@@ -1086,28 +1075,27 @@ local function sell_item(itemName)
 end
 
 local function sell_all_items()
-    local priority_items = {}
-    local normal_items = {}
+    local itemList = getgenv().Settings["Items"]
+    local priority = {}
+    local normal = {}
 
-    -- Phân loại các item vào priority_items hoặc normal_items
-    for itemName, itemData in pairs(getgenv().Settings["Items"]) do
-        if itemData.Priority then
-            table.insert(priority_items, itemName)
+    for _, entry in ipairs(itemList) do
+        if entry.Data.Priority then
+            table.insert(priority, entry.Name)
         else
-            table.insert(normal_items, itemName)
+            table.insert(normal, entry.Name)
         end
     end
 
-    -- Bán các item ưu tiên trước
-    for _, itemName in ipairs(priority_items) do
+    for _, itemName in ipairs(priority) do
         sell_item(itemName)
     end
 
-    -- Bán các item còn lại
-    for _, itemName in ipairs(normal_items) do
+    for _, itemName in ipairs(normal) do
         sell_item(itemName)
     end
 end
+
 
 
 
