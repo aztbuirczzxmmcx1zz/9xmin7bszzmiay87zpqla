@@ -2,7 +2,7 @@ wait(60)
 EVENT_or_FARM = "F"
 
 if name_vps == "V6" then
---  EVENT_or_FARM = "F"
+  EVENT_or_FARM = "F"
 end
 
 task.spawn(function()
