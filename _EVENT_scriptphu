@@ -855,7 +855,7 @@ local function startAutoHatchHuge()
 			end
 
 			task.wait(0.5)
-			if _G.CURRENT_HUGE_CHANCE < 5 and getTotalTileCount() == 169 then
+			if _G.CURRENT_HUGE_CHANCE < 25 and getTotalTileCount() == 169 then
 				warn("rebirth tìm egg X5")	
 				wait(10)
 				local PlotsInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Plots_Invoke")
@@ -1648,7 +1648,7 @@ local function startGuiUpdater()
     -- Vòng lặp cập nhật GUI liên tục
     while true do
         local currentTime = os.time()
-        tilesLabel.Text   = tostring(#game:GetService("Workspace").__THINGS.Tiles:GetChildren()) .. " | TILES"
+        tilesLabel.Text   = tostring(#game:GetService("Workspace").__THINGS.Tiles:GetChildren()) .. " T"
         updateLabelSize(tilesLabel)
 
         coinsLabel.Text   = Formatint(getCurrencyAmount("BlockPartyCoins"))
@@ -1666,7 +1666,7 @@ local function startGuiUpdater()
         --ticketLabel.Text  = tostring(getMiscAmount("Summer Block Party Ticket")) .. " | Summer Ticket"
         --updateLabelSize(ticketLabel)
 
-        timeTrialLabel.Text = tostring(getRunsLeft()) .. "/10"
+        timeTrialLabel.Text = tostring(getRunsLeft())
         updateLabelSize(timeTrialLabel)
 
         pointsLabel.Text =tostring(getTimeTrialPoints())
