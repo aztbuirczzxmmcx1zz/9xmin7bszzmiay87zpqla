@@ -15,35 +15,35 @@ local defaultPrice = "13b"
 
 getgenv().Settings = {
 ["Items"] = {
-        {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice, Priority = true}},
-        {Name = "MVP Key", Data = {Price = "2%", Priority = true}},
-        {Name = "Summer Block Party Ticket", Data = {Price = "2%", Priority = true}},
-        {Name = "Huge Splash Angelus", Data = {Price = "20b", Priority = true}},
-        {Name = "Golden Huge Splash Angelus", Data = {Price = "22b", Priority = true}},
-        {Name = "Rainbow Huge Splash Angelus", Data = {Price = "100b", Priority = true}},
-        {Name = "Titanic Surfboard Corgi", Data = {Price = "4.5b", Priority = true}},
-        {Name = "Titanic Pineapple Dog", Data = {Price = "4.5b", Priority = true}},
-        {Name = "Titanic Sun Griffin", Data = {Price = "5.5b", Priority = true}},
-        {Name = "Golden Titanic Starlight Pony", Data = {Price = "16b", Priority = true}},
-        {Name = "Titanic Gym Piggy", Data = {Price = "5b", Priority = true}},
-        {Name = "Titanic Disco Ball Agony", Data = {Price = "5.1b", Priority = true}},
-        {Name = "Golden Titanic Disco Ball Agony", Data = {Price = "5.5b", Priority = true}},
-        {Name = "Time Trial Gift", Data = {Price = "200k", Priority = true}},
-        {Name = "Huge Machine Egg 5", Data = {Price = "1%", Priority = true}},
-        {Name = "Rainbow Palace Pooka", Data = {Price = "20%", Priority = true}},
-        {Name = "Shiny Rainbow Palace Pooka", Data = {Price = "20%", Priority = true}},
-        {Name = "Rainbow Rose Pooka", Data = {Price = "20%", Priority = true}},
-        {Name = "Shiny Rainbow Rose Pooka", Data = {Price = "20%", Priority = true}},
-        {Name = "Insta Plant Capsule", Data = {Price = 27000, Priority = true}},
-        {Name = "XPPotion Mastery", Data = {Price = 400000, Priority = true}},
-        {Name = "Royalty TN1", Data = {Price = "7m", Priority = true}},
-        {Name = "Overload TN1", Data = {Price = "8m", Priority = true}},
-        {Name = "Charm Chisel", Data = {Price = "150k", Priority = true}},
-        {Name = "Chest Spell", Data = {Price = "95m", Priority = true}},
-        {Name = "Tsunami", Data = {Price = "+2%", Priority = true}},
-        {Name = "Crystal Key", Data = {Price = "10k", Priority = true}},
-        {Name = "Tech Key", Data = {Price = "33k", Priority = true}},
-        {Name = "Secret Key", Data = {Price = "33k", Priority = true}},
+        {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice}},
+        {Name = "MVP Key", Data = {Price = "2%"}},
+        {Name = "Summer Block Party Ticket", Data = {Price = "2%"}},
+        {Name = "Huge Splash Angelus", Data = {Price = "20b"}},
+        {Name = "Golden Huge Splash Angelus", Data = {Price = "22b"}},
+        {Name = "Rainbow Huge Splash Angelus", Data = {Price = "100b"}},
+        {Name = "Titanic Surfboard Corgi", Data = {Price = "4.5b"}},
+        {Name = "Titanic Pineapple Dog", Data = {Price = "4.5b"}},
+        {Name = "Titanic Sun Griffin", Data = {Price = "5.5b"}},
+        {Name = "Golden Titanic Starlight Pony", Data = {Price = "16b"}},
+        {Name = "Titanic Gym Piggy", Data = {Price = "5b"}},
+        {Name = "Titanic Disco Ball Agony", Data = {Price = "5.1b"}},
+        {Name = "Golden Titanic Disco Ball Agony", Data = {Price = "5.5b"}},
+        {Name = "Time Trial Gift", Data = {Price = "200k"}},
+        {Name = "Huge Machine Egg 5", Data = {Price = "1%"}},
+        {Name = "Rainbow Palace Pooka", Data = {Price = "20%"}},
+        {Name = "Shiny Rainbow Palace Pooka", Data = {Price = "20%"}},
+        {Name = "Rainbow Rose Pooka", Data = {Price = "20%"}},
+        {Name = "Shiny Rainbow Rose Pooka", Data = {Price = "20%"}},
+        {Name = "Insta Plant Capsule", Data = {Price = 27000}},
+        {Name = "XPPotion Mastery", Data = {Price = 400000}},
+        {Name = "Royalty TN1", Data = {Price = "7m"}},
+        {Name = "Overload TN1", Data = {Price = "8m"}},
+        {Name = "Charm Chisel", Data = {Price = "150k"}},
+        {Name = "Chest Spell", Data = {Price = "95m"}},
+        {Name = "Tsunami", Data = {Price = "+2%"}},
+        {Name = "Crystal Key", Data = {Price = "10k"}},
+        {Name = "Tech Key", Data = {Price = "33k"}},
+        {Name = "Secret Key", Data = {Price = "33k"}},
         {Name = "Void Key", Data = {Price = "45k"}},
         {Name = "Hacker Key", Data = {Price = "70k"}},
         {Name = "Fantasy Key", Data = {Price = "60k"}},        
@@ -837,7 +837,6 @@ end
 
 local function sell_item(itemName)
     local item = nil
-
     -- 🔍 Tìm item theo tên
     for _, entry in ipairs(getgenv().Settings["Items"]) do
         if entry.Name == itemName then
@@ -853,10 +852,10 @@ local function sell_item(itemName)
 
     warn("🛒 Đang xử lý item:", itemName)
 
-    local priceRaw = item.Price
-    local Min_sell = item.Min_sell
-    local Max_sell = item.Max_sell
-	
+     priceRaw = item.Price
+     Min_sell = item.Min_sell
+     Max_sell = item.Max_sell
+	 sold_by_convention = item.sold_by_convention
 	
 	if string.find(itemName, "All Huges") then
 		
@@ -913,9 +912,7 @@ local function sell_item(itemName)
             --warn("Khong tim thay pet co ID chua \"Huge\"")
         else
 		
-			local savedList_price_all = {}
-			local sold_by_convention = item.sold_by_convention
-			
+			local savedList_price_all = {}			
 			
             for _, info in ipairs(hugesList) do
                 local val1 = findValueByFields(
@@ -1076,26 +1073,11 @@ end
 
 local function sell_all_items()
     local itemList = getgenv().Settings["Items"]
-    local priority = {}
-    local normal = {}
 
     for _, entry in ipairs(itemList) do
-        if entry.Data.Priority then
-            table.insert(priority, entry.Name)
-        else
-            table.insert(normal, entry.Name)
-        end
-    end
-
-    for _, itemName in ipairs(priority) do
-        sell_item(itemName)
-    end
-
-    for _, itemName in ipairs(normal) do
-        sell_item(itemName)
+        sell_item(entry.Name)
     end
 end
-
 
 
 
