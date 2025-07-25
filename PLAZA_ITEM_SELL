@@ -10,7 +10,7 @@ local SELL_vs_username = {
 	["dreddyewele60"] = "15b",
 	["1971Nowak3135"] = "12.5b",
 }
-local defaultPrice = "13b"
+local defaultPrice = "14.2b"
 
 
 getgenv().Settings = {
