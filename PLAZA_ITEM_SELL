@@ -16,24 +16,36 @@ local defaultPrice = "14.2b"
 getgenv().Settings = {
 ["Items"] = {
         {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice}},
+
         {Name = "MVP Key", Data = {Price = "2%"}},
+
         {Name = "Summer Block Party Ticket", Data = {Price = "2%"}},
+
         {Name = "Huge Splash Angelus", Data = {Price = "20b"}},
         {Name = "Golden Huge Splash Angelus", Data = {Price = "22b"}},
         {Name = "Rainbow Huge Splash Angelus", Data = {Price = "100b"}},
+
         {Name = "Titanic Surfboard Corgi", Data = {Price = "4.5b"}},
         {Name = "Titanic Pineapple Dog", Data = {Price = "4.5b"}},
         {Name = "Titanic Sun Griffin", Data = {Price = "5.5b"}},
+
         {Name = "Golden Titanic Starlight Pony", Data = {Price = "16b"}},
+	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "150b"}},
+
         {Name = "Titanic Gym Piggy", Data = {Price = "5b"}},
+
         {Name = "Titanic Disco Ball Agony", Data = {Price = "5.1b"}},
         {Name = "Golden Titanic Disco Ball Agony", Data = {Price = "5.5b"}},
-        {Name = "Time Trial Gift", Data = {Price = "200k"}},
+
+        {Name = "Time Trial Gift", Data = {Price = "+10%"}},
+
         {Name = "Huge Machine Egg 5", Data = {Price = "1%"}},
+
         {Name = "Rainbow Palace Pooka", Data = {Price = "30%"}},
         {Name = "Shiny Rainbow Palace Pooka", Data = {Price = "30%"}},
         {Name = "Rainbow Rose Pooka", Data = {Price = "30%"}},
         {Name = "Shiny Rainbow Rose Pooka", Data = {Price = "30%"}},
+
         {Name = "Insta Plant Capsule", Data = {Price = 27000}},
         {Name = "XPPotion Mastery", Data = {Price = 400000}},
         {Name = "Royalty TN1", Data = {Price = "7m"}},
@@ -46,7 +58,8 @@ getgenv().Settings = {
         {Name = "Secret Key", Data = {Price = "33k"}},
         {Name = "Void Key", Data = {Price = "45k"}},
         {Name = "Hacker Key", Data = {Price = "70k"}},
-        {Name = "Fantasy Key", Data = {Price = "60k"}},        
+        {Name = "Fantasy Key", Data = {Price = "60k"}},   
+
         {Name = "All Huges", Data = {Price = "2%", Min_sell = "10m", Max_sell = "30m", sold_by_convention = true}},
         {Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "5b"}},
 		{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "5b"}},
