@@ -55,6 +55,9 @@ getgenv().Settings = {
         {Name = "Golden All Huges", Data = {Price = "5%", Min_sell = "12m", Max_sell = "30m", sold_by_convention = true}},
 		{Name = "Magic Shard", Data = {Price = "+1%"}},
     },
+	
+	
+	
 ["xoa_Map"] = false,
 
 ["send_gem"] = {
@@ -640,9 +643,10 @@ end
             {name = "Enchant", category = "Enchant"},
             {name = "Lootbox", category = "Lootbox"},
             {name = "Seed", category = "Seed"},
-            {name = "Ultimate", category = "Ultimate"}
+            {name = "Ultimate", category = "Ultimate"},
+			{name = "XPPotion", category = "XPPotion"}
         }
- 			if category_find == "Potion" or category_find == "Enchant" or category_find == "XPPotion" or category_find == "Tower" then
+ 			if category_find == "Potion" or category_find == "Enchant" or category_find == "XPPotion" then
 				local inventorySubTables = {
 					name = category_find , category = category_find
 				}	
@@ -655,7 +659,7 @@ end
 
     -- In kết quả tìm thấy hoặc không
     if #itemsFound == 0 then
-        --warn("Khong tim thay vat pham nao voi ten chua '" .. tostring(itemName) .. "'")
+        warn("Khong tim thay vat pham nao voi ten chua '" .. tostring(itemName) .. "'")
     else
         --warn("Danh sach tim thay:")
         for _, info in ipairs(itemsFound) do
@@ -814,12 +818,7 @@ function Kiem_tra_ten_co_them_tu_la_(itemName)
         itemName = string.gsub(itemName, " TN%d", "")  -- Loại bỏ phần "TNx" khỏi itemName
     end
 
-    -- Kiểm tra category
-    if string.find(itemName, "Potion") then
-        category_find = "Potion"
-        itemName = string.gsub(itemName, "Potion ", "") -- Loại bỏ từ "Potion"
-        --warn("category Potion")
-    end
+
     if string.find(itemName, "Enchant") then
         category_find = "Enchant"
         itemName = string.gsub(itemName, "Enchant ", "") -- Loại bỏ từ "Enchant"
@@ -830,7 +829,12 @@ function Kiem_tra_ten_co_them_tu_la_(itemName)
         itemName = string.gsub(itemName, "XPPotion ", "") -- Loại bỏ từ "XPPotion"
         --warn("category XPPotion")
     end
-
+	    -- Kiểm tra category
+    if string.find(itemName, "Potion") then
+        category_find = "Potion"
+        itemName = string.gsub(itemName, "Potion ", "") -- Loại bỏ từ "Potion"
+        --warn("category Potion")
+    end
     -- Trả về tất cả các giá trị
     return itemName, SH_find, PT_find, TN_find, category_find
 end
