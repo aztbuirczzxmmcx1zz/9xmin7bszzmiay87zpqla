@@ -1,5 +1,5 @@
-wait(60)
-EVENT_or_FARM = "E"
+--wait(60)
+EVENT_or_FARM = "F"
 
 
 if _G.TAG then
