@@ -42,7 +42,7 @@ local function createItemFrame(itemConfig, itemCount)
 	local frame = Instance.new("Frame")
 	frame.Name = "ItemFrame"
 	frame.Size = UDim2.new(0, frameSize, 0, frameSize)
-	frame.Position = UDim2.new(0.11, offsetX, 1, -offsetY)
+	frame.Position = UDim2.new(0.2, offsetX, 1, -offsetY)
 	frame.AnchorPoint = Vector2.new(0.5, 1)
 	frame.BackgroundColor3 = itemConfig.color
 	frame.BorderSizePixel = 2
