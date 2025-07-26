@@ -1,30 +1,12 @@
-if name_vps == "vin2" then
-  EVENT_or_FARM = "F"
-  Start_ford = 1
-end
+wait(60)
 
 if name_vps == "vin3" then
-  EVENT_or_FARM = "F"
-  Start_ford = 2
-end
-
-if name_vps == "vin4" then
-  EVENT_or_FARM = "F"
-  Start_ford = 1
-end
-
-
-if name_vps == "V5" then
-  EVENT_or_FARM = "E"
-  Start_ford = 1
-end
-
-if name_vps == "V6" then
-  EVENT_or_FARM = "E"
-  Start_ford = 1
-end
-
-if name_vps == "V7" then
-  EVENT_or_FARM = "E"
-  Start_ford = 1
+	EVENT_or_FARM = "F"
+	Start_ford = 2
+elseif name_vps == "V5" or name_vps == "V6" then
+	EVENT_or_FARM = "E"
+	Start_ford = 1
+else
+	EVENT_or_FARM = "F"
+	Start_ford = 1
 end
