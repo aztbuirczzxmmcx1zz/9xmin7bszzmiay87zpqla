@@ -1,5 +1,5 @@
 Y_or_N_delay_60s_farming = "N"
-
+wait(10)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -14,7 +14,7 @@ local TeleportMapping = {
 
 -- Nếu đang ở đúng map cần thoát
 if game.PlaceId == PLACE_ID then
-    wait(10)
+    
 if Y_or_N_delay_60s_farming == "Y" then
         wait(30)
     end
