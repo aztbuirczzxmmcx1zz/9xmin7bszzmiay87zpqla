@@ -1,17 +1,17 @@
 if name_vps == "vin2" then
-  script_key = "TRWNvnabMDIvAgQLZyNjPtfafffYpkBF";
+  script_key = "djmRKuhCBJMGaUEoceFcdPvYSiiesvwi";
   EVENT_or_FARM = "F"
   Start_ford = 1
 end
 
 if name_vps == "vin3" then
-  script_key = "TRWNvnabMDIvAgQLZyNjPtfafffYpkBF";
+  script_key = "djmRKuhCBJMGaUEoceFcdPvYSiiesvwi";
   EVENT_or_FARM = "F"
   Start_ford = 2
 end
 
 if name_vps == "vin4" then
-  script_key = "TRWNvnabMDIvAgQLZyNjPtfafffYpkBF";
+  script_key = "djmRKuhCBJMGaUEoceFcdPvYSiiesvwi";
   EVENT_or_FARM = "F"
   Start_ford = 1
 end
