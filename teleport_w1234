@@ -14,8 +14,9 @@ local TeleportMapping = {
 
 -- Nếu đang ở đúng map cần thoát
 if game.PlaceId == PLACE_ID then
-    if Y_or_N_delay_60s_farming == "Y" then
-        wait(60)
+    wait(10)
+if Y_or_N_delay_60s_farming == "Y" then
+        wait(30)
     end
 
     local teleportName = TeleportMapping[check_and_tele_w]
