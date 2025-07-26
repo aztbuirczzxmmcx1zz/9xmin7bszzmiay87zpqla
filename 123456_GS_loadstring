@@ -1,5 +1,5 @@
 if  name_vps == "M11" or name_vps == "M12" or name_vps == "M6" then
-	script_key = "nAZnCbMwipnnDRSYBnBKWbWTNYKPemCU";
+	script_key = "wZsMwIjuLHNivoOCPkFskeJlrBjdoIev";
 	loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()	
 elseif name_vps == "V5" or name_vps == "V6" then
   script_key = "lBbQRNJrJUSXDBuRVkRDvRTNamXqWEcL";
