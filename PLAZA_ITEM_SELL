@@ -7,7 +7,7 @@ local SELL_vs_username = {
 	["sijmongirthss"] = "12.7b",
 	["Ash3rP0w3rPanda2018"] = "12b",
 	["soystaylan5"] = "12.6b",
-	["dreddyewele60"] = "15b",
+	["dreddyewele60"] = "11.9b",
 	["1971Nowak3135"] = "12.5b",
 }
 local defaultPrice = "14.2b"
