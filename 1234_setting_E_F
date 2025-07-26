@@ -1,4 +1,3 @@
-wait(60)
 
 if name_vps == "vin3" then
 	EVENT_or_FARM = "F"
