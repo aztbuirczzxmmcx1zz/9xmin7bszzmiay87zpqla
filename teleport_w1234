@@ -12,6 +12,8 @@ local TeleportMapping = {
 
 -- Nếu đang ở đúng map cần thoát
 if game.PlaceId == PLACE_ID then
+    wait(60)
+
     local teleportName = TeleportMapping[check_and_tele_w]
     
     if teleportName then
