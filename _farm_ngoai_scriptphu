@@ -935,26 +935,27 @@ local Network = ReplicatedStorage:WaitForChild("Network")
     Network.Pets_ToggleFavoriteMode:FireServer()
     wait(0.3)
 end)
--- phát hiện không farm ở svv thoát game 
-task.spawn(function()
-task.wait(50)
 
-local function autoShutdownIfNotAlone()
+-- phát hiện không farm ở svv thoát game
+task.spawn(function()
+task.wait(300)
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+-- Hàm kiểm tra số người và shutdown nếu cần
+function autoShutdownIfNotAlone()
     local playerCount = #Players:GetPlayers()
 
     if playerCount > 1 then
-        game:Shutdown()
+        game:Shutdown() -- ⚠️ Lệnh shutdown client
 		Players.LocalPlayer:Kick("kick")
     end
 end
 
-if EVENT_or_FARM == "F" then
-	autoShutdownIfNotAlone()
-end
+-- Gọi ngay khi script chạy
+autoShutdownIfNotAlone()
+
 
 end)
-
-
 -- up pet gold + rainbow : Quartz Fox  Wise Cat
 task.spawn(function() 
 wait(20)
@@ -1188,5 +1189,3 @@ end
 
 
 end)
-
-
