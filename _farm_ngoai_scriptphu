@@ -5,56 +5,74 @@ local SaveData = require(Client.Save).Get()
 local Enchants_Equip = ReplicatedStorage.Network.Enchants_Equip
 local Enchants_ClearSlot = ReplicatedStorage.Network.Enchants_ClearSlot
 
-local function getBookStack(bookName)
-    local selectedUID = nil
-    local max_tn = -1
+-- Gom stack theo bookName và sort theo tn giảm dần
+local function getBookStackListFull(bookName)
+    local stacks = {}
 
     for uid, v in pairs(SaveData.Inventory.Enchant) do
         if v.id and string.find(v.id, bookName) and (v._am or 1) > 0 then
-            if v.tn and v.tn > max_tn then
-                max_tn = v.tn
-                selectedUID = uid
-            end
+            table.insert(stacks, {
+                uid = uid,
+                tn = v.tn or 0,
+                amount = v._am or 1
+            })
         end
     end
 
-    return selectedUID
+    table.sort(stacks, function(a, b)
+        return a.tn > b.tn
+    end)
+
+    return stacks
 end
 
-function autoEquipEnchantBooks(...)
+function autoEquipEnchantBooks(bookList)
     local MaxEnchantsEquipped = SaveData.MaxEnchantsEquipped
 
-    -- Clear all slots trước khi equip
+    -- Clear all slots
     for i = 1, 9 do
         Enchants_ClearSlot:FireServer(i)
-        wait(0.3)
+        task.wait(0.3)
     end
 
-    -- Đọc danh sách bookNames từ ...
-    local args = { ... }
-
     local equippedCount = 0
-    for _, bookName in ipairs(args) do
+
+    -- Đếm số lượng mỗi bookName được yêu cầu
+    local requestedCounts = {}
+    for _, bookName in ipairs(bookList) do
+        requestedCounts[bookName] = (requestedCounts[bookName] or 0) + 1
+    end
+
+    for bookName, requestCount in pairs(requestedCounts) do
         if equippedCount >= MaxEnchantsEquipped then
             break
         end
 
-        local uid = getBookStack(bookName)
-        if uid then
-            Enchants_Equip:FireServer(uid)
-            equippedCount = equippedCount + 1
+        local stacks = getBookStackListFull(bookName)
+        local countForThisBook = 0
+
+        for _, stack in ipairs(stacks) do
+            for n = 1, stack.amount do
+                if equippedCount >= MaxEnchantsEquipped or countForThisBook >= requestCount then
+                    break
+                end
+
+                Enchants_Equip:FireServer(stack.uid)
+                equippedCount = equippedCount + 1
+                countForThisBook = countForThisBook + 1
+                task.wait(0.3)
+            end
+            if countForThisBook >= requestCount then
+                break
+            end
         end
-        wait(0.3)
     end
 end
 
 -- Ví dụ sử dụng:
 -- sách trial time
-autoEquipEnchantBooks("Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power")
---autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Strong Pets","Super Lightning","Treasure Hunter","Diamonds","Lucky Eggs"}
---autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Coins","Strong Pets"}
---autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Tap Power","Coins"}
---autoEquipEnchantBooks = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter"}
+autoEquipEnchantBooks({"Breakable Mayhem","Explosive","Diamonds","Treasure Hunter","Fruity","Fortune","Lucky Eggs","Diamonds","Lucky Eggs"})
+
 
 -- map 269 event time trial
 task.spawn(function()
@@ -434,14 +452,15 @@ task.spawn(function()
 
 	
 		if game.PlaceId ~= 140403681187145 then return end
-		-- sách trial time
-		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Tap Power","Strong Pets","Super Lightning","Chest Breaker","Criticals","Huge Hunter","Tap Power")
+		
 		
 	waitUntilReachMaxZone()
 	startMonitor12Min()		
 		
 		
 	while true do
+		-- sách trial time
+		autoEquipEnchantBooks({"Explosive","Chest Breaker","Criticals","Strong Pets","Fruity","Happy Pets","Super Lightning","Tap Power","Large Taps"})
 		
 		while getRunsUsed() < 10 do
 			
@@ -489,20 +508,17 @@ task.spawn(function()
 		claimReward()
 		task.wait(30)
 		cleanupAllThreads()
-		_G.VAR_STOP_BLOCK_PARTY = false
-		_G.VAR_START_BLOCK_PARTY = true
+
 		-- farm
-		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power")
+		autoEquipEnchantBooks({"Breakable Mayhem","Explosive","Diamonds","Treasure Hunter","Fruity","Fortune","Lucky Eggs","Diamonds","Lucky Eggs"})
 		
 		
 		warn("⏳ Theo dõi reset DailyRuns...")
 		while getRunsUsed() >= 10 do 				
 			task.wait(600) 
 		end
-		_G.VAR_STOP_BLOCK_PARTY = true
-		_G.VAR_START_BLOCK_PARTY = false
-		-- sách trial time
-		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Tap Power","Strong Pets","Super Lightning","Chest Breaker","Criticals","Huge Hunter","Tap Power")
+
+
 		
 		warn("🔁 DailyRuns reset → tiếp tục farm.")
 		if monitor12minThread then pcall(task.cancel, monitor12minThread) monitor12minThread = nil end
@@ -1121,7 +1137,6 @@ end
 
 
 end)
-
 
 -- Phát hiện nick chưa max UpgradesOwned
 task.spawn(function()
