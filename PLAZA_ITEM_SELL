@@ -107,41 +107,6 @@ else
 	return
 end
 
-task.spawn(function()
-task.wait(25)
-local frame = game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("BoothPrompt"):WaitForChild("Frame")
-local slotText = nil
-
--- Tìm TextLabel dạng "x/y" để biết số lượng treo trên quầy 
-for _, child in ipairs(frame:GetDescendants()) do
-    if child:IsA("TextLabel") and child.Text:match("^%d+/%d+$") then
-        slotText = child.Text
-        break
-    end
-end
-
-if slotText then
-    local current, total = slotText:match("^(%d+)/(%d+)$")
-    local totalNum = tonumber(total)
-    local maxSlots = 25
-
-    if totalNum and totalNum < maxSlots then
-        local need = maxSlots - totalNum
-        ----warn("Dang thieu " .. tostring(need) .. " slot. Dang dung voucher...\n")
-
-        for i = 1, need do
-            game:GetService("ReplicatedStorage").Network.BoothSlotVoucher_Consume:InvokeServer()
-            ----warn("Used voucher " .. tostring(i) .. " / " .. tostring(need) .. "\n")
-            task.wait(2) -- tránh spam quá nhanh
-        end
-    else
-        ----warn("Da co " .. tostring(totalNum) .. " slot. Khong can dung voucher.\n")
-    end
-else
-    ----warn("Khong tim thay thong tin slot.\n")
-end
-
-end)
 
 task.spawn(function()
 	task.wait(30)
@@ -163,7 +128,7 @@ local VirtualInputManager = game:GetService("VirtualInputManager")
 
 while true do
 game:GetService("ReplicatedStorage").Network["Mailbox: Claim All"]:InvokeServer()
-task.wait(30)
+task.wait(300)
 
 
 -- Nhấn phím Space
@@ -277,7 +242,7 @@ local API_URL = "https://ps99.biggamesapi.io/api/rap"
 -- ================== PHẦN 1: LẤY DỮ LIỆU API MỘT LẦN ==================
 
 
-game:GetService("ReplicatedStorage").Network.Booths_DiscardBooth:InvokeServer()
+
 
 
 local function fetchRapData()
@@ -776,9 +741,6 @@ end
     return itemsFound
 end
 
-
-
-
 function Kiem_tra_ten_co_them_tu_la_(itemName)
     local SH_find = nil
     local PT_find = nil
@@ -1175,19 +1137,66 @@ end
 	
 end
 
+while true do
 
+game:GetService("ReplicatedStorage").Network.Booths_DiscardBooth:InvokeServer()
 local boothID, spawnPoint = findUnusedBoothID()
+
 if not boothID or not spawnPoint then
-    --warn("Da ngung: Khong co boothID hoac spawnPoint hop le\n")
+    warn("Da ngung: Khong co boothID hoac spawnPoint hop le\n")
 else
     local teleported = teleportToSpawnPoint(spawnPoint)
     if teleported then
         claimBoothByID(boothID)
+		wait(1)
+		-- Chạy bán tất cả
+			local VirtualInputManager = game:GetService("VirtualInputManager")
+			VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+			task.wait(0.1)
+			VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+		wait(1)
+		
     else
-        --warn("Khong the teleport, bo qua claim\n")
+        warn("???? "..teleported)
     end
 end
 
+local frame = game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("BoothPrompt"):WaitForChild("Frame")
+local slotText = nil
+
+-- Tìm TextLabel dạng "x/y" để biết số lượng treo trên quầy 
+for _, child in ipairs(frame:GetDescendants()) do
+    if child:IsA("TextLabel") and child.Text:match("^%d+/%d+$") then
+        slotText = child.Text
+        break
+    end
+end
+
+if slotText then
+	warn(slotText)
+    local current, total = slotText:match("^(%d+)/(%d+)$")
+	if tonumber(total) > 5 then
+		local totalNum = tonumber(total)
+		local maxSlots = 25
+
+		if totalNum and totalNum < maxSlots then
+			local need = maxSlots - totalNum
+			----warn("Dang thieu " .. tostring(need) .. " slot. Dang dung voucher...\n")
+
+			for i = 1, need do
+				game:GetService("ReplicatedStorage").Network.BoothSlotVoucher_Consume:InvokeServer()
+				----warn("Used voucher " .. tostring(i) .. " / " .. tostring(need) .. "\n")
+				task.wait(2) -- tránh spam quá nhanh
+			end
+		else
+			----warn("Da co " .. tostring(totalNum) .. " slot. Khong can dung voucher.\n")
+		end
+		break	
+	end
+end
+
+wait(3)
+end
 
 if getgenv().Settings.xoa_Map then
     -- thực thi khi xoa_Map được bật
@@ -1197,13 +1206,6 @@ if getgenv().Settings.xoa_Map then
 		end
 	end
 end
-
-
--- Chạy bán tất cả
-local VirtualInputManager = game:GetService("VirtualInputManager")
-VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-task.wait(0.1)
-VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
 
 
 
