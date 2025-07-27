@@ -9,6 +9,8 @@ local SELL_vs_username = {
 	["soystaylan5"] = "12.6b",
 	["dreddyewele60"] = "11.9b",
 	["1971Nowak3135"] = "12.5b",
+	["Br00klynSkat3r2022"] = "12b",
+	
 }
 local defaultPrice = "13.2b"
 
