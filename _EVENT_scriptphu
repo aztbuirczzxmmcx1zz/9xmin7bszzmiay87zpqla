@@ -1394,24 +1394,26 @@ end
 end)
 
 
--- phát hiện không farm ở svv thoát game 
+-- phát hiện không farm ở svv thoát game
 task.spawn(function()
 task.wait(300)
-
-local function autoShutdownIfNotAlone()
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+-- Hàm kiểm tra số người và shutdown nếu cần
+function autoShutdownIfNotAlone()
     local playerCount = #Players:GetPlayers()
 
     if playerCount > 1 then
-        game:Shutdown()
+        game:Shutdown() -- ⚠️ Lệnh shutdown client
 		Players.LocalPlayer:Kick("kick")
     end
 end
 
+-- Gọi ngay khi script chạy
 autoShutdownIfNotAlone()
 
 
 end)
-
 ---------------------------------------------------------------------------------------------------------------------
 -- up pet gold + rainbow : Quartz Fox  Wise Cat
 task.spawn(function() 
