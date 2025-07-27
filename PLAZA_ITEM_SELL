@@ -17,9 +17,8 @@ getgenv().Settings = {
 ["Items"] = {
         {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice}},
         {Name = "Golden Titanic Starlight Pony", Data = {Price = "16b"}},
-	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "150b"}},
-	{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "150b"}},
-
+		{Name = "Shiny Titanic Starlight Pony", Data = {Price = "150b"}},
+		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "150b"}},
 
         {Name = "MVP Key", Data = {Price = "2%"}},
 
@@ -33,14 +32,12 @@ getgenv().Settings = {
         {Name = "Titanic Pineapple Dog", Data = {Price = "4.5b"}},
         {Name = "Titanic Sun Griffin", Data = {Price = "5.2b"}},
 
-
-
         {Name = "Titanic Gym Piggy", Data = {Price = "4.8b"}},
 
         {Name = "Titanic Disco Ball Agony", Data = {Price = "5b"}},
         {Name = "Golden Titanic Disco Ball Agony", Data = {Price = "5.4b"}},
 
-	{Name = "Summer Gift", Data = {Price = "1%"}},
+		{Name = "Summer Gift", Data = {Price = "1%"}},
         {Name = "Time Trial Gift", Data = {Price = "+15%"}},
 
         {Name = "Huge Machine Egg 5", Data = {Price = "1%"}},
@@ -66,12 +63,12 @@ getgenv().Settings = {
 
         {Name = "All Huges", Data = {Price = "2%", Min_sell = "10m", Max_sell = "30m", sold_by_convention = true}},
         {Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "5b"}},
-	{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "5b"}},
+		{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "5b"}},
         {Name = "Shiny All Huges", Data = {Price = "2%", Min_sell = "70m", Max_sell = "300m"}},
         {Name = "Rainbow All Huges", Data = {Price = "2%", Min_sell = "70m", Max_sell = "300m", sold_by_convention = true}},
         {Name = "Golden All Huges", Data = {Price = "5%", Min_sell = "12m", Max_sell = "30m", sold_by_convention = true}},
 
-	{Name = "Magic Shard", Data = {Price = "+1%"}},
+		{Name = "Magic Shard", Data = {Price = "+1%"}},
     },
 	
 	
@@ -89,6 +86,7 @@ getgenv().Settings = {
 
 
 }
+
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -818,9 +816,16 @@ function Kiem_tra_ten_co_them_tu_la_(itemName)
 end
 
 local function sell_item(itemName)
+
+
     local item = nil
-    -- 🔍 Tìm item theo tên
-    for _, entry in ipairs(getgenv().Settings["Items"]) do
+    local itemList = getgenv().Settings and getgenv().Settings["Items"]
+    if type(itemList) ~= "table" then
+        warn("⚠️ Không thể lấy danh sách Items từ Settings")
+        return
+    end
+
+    for _, entry in ipairs(itemList) do
         if entry.Name == itemName then
             item = entry.Data
             break
@@ -1057,6 +1062,7 @@ local function sell_all_items()
     local itemList = getgenv().Settings["Items"]
 
     for _, entry in ipairs(itemList) do
+		wait(1)
         sell_item(entry.Name)
     end
 end
