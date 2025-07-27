@@ -26,7 +26,7 @@ local function getBookStackListFull(bookName)
     return stacks
 end
 
-function autoEquipEnchantBooks(...)
+function autoEquipEnchantBooks(bookList)
     local MaxEnchantsEquipped = SaveData.MaxEnchantsEquipped
 
     -- Clear all slots
@@ -35,12 +35,11 @@ function autoEquipEnchantBooks(...)
         task.wait(0.3)
     end
 
-    local args = { ... }
     local equippedCount = 0
 
     -- Đếm số lượng mỗi bookName được yêu cầu
     local requestedCounts = {}
-    for _, bookName in ipairs(args) do
+    for _, bookName in ipairs(bookList) do
         requestedCounts[bookName] = (requestedCounts[bookName] or 0) + 1
     end
 
@@ -54,10 +53,7 @@ function autoEquipEnchantBooks(...)
 
         for _, stack in ipairs(stacks) do
             for n = 1, stack.amount do
-                if equippedCount >= MaxEnchantsEquipped then
-                    break
-                end
-                if countForThisBook >= requestCount then
+                if equippedCount >= MaxEnchantsEquipped or countForThisBook >= requestCount then
                     break
                 end
 
@@ -73,14 +69,9 @@ function autoEquipEnchantBooks(...)
     end
 end
 
--- Ví dụ sử dụng:
--- sách trial time
+
 autoEquipEnchantBooks("Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power")
 
---autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Strong Pets","Super Lightning","Treasure Hunter","Diamonds","Lucky Eggs"}
---autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Coins","Strong Pets"}
---autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Tap Power","Coins"}
---autoEquipEnchantBooks = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter"}
  
 function _OFF_ON_pet()
 	
@@ -454,15 +445,15 @@ task.spawn(function()
 
 	
 		if game.PlaceId ~= 140403681187145 then return end
-		-- sách trial time
-		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Tap Power","Strong Pets","Super Lightning","Chest Breaker","Criticals","Huge Hunter","Tap Power")
+		
 		
 	--waitUntilReachMaxZone()
 	startMonitor12Min()		
 		
 		
 	while true do
-		
+		-- sách trial time
+		autoEquipEnchantBooks({"Explosive","Chest Breaker","Criticals","Strong Pets","Fruity","Happy Pets","Super Lightning","Tap Power","Large Taps"})
 		while getRunsUsed() < 10 do
 			
 			local used = getRunsUsed()
@@ -535,9 +526,7 @@ task.spawn(function()
 		end
 		_G.VAR_STOP_BLOCK_PARTY = true
 		_G.VAR_START_BLOCK_PARTY = false
-		-- sách trial time
-		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Tap Power","Strong Pets","Super Lightning","Chest Breaker","Criticals","Huge Hunter","Tap Power")
-		
+
 		warn("🔁 DailyRuns reset → tiếp tục farm.")
 		if monitor12minThread then pcall(task.cancel, monitor12minThread) monitor12minThread = nil end
 		startMonitor12Min()
