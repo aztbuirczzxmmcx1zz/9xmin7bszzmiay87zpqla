@@ -66,12 +66,12 @@ getgenv().Settings = {
 
         {Name = "All Huges", Data = {Price = "2%", Min_sell = "10m", Max_sell = "30m", sold_by_convention = true}},
         {Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "5b"}},
-		{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "5b"}},
+	{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "5b"}},
         {Name = "Shiny All Huges", Data = {Price = "2%", Min_sell = "70m", Max_sell = "300m"}},
         {Name = "Rainbow All Huges", Data = {Price = "2%", Min_sell = "70m", Max_sell = "300m", sold_by_convention = true}},
         {Name = "Golden All Huges", Data = {Price = "5%", Min_sell = "12m", Max_sell = "30m", sold_by_convention = true}},
 
-		{Name = "Magic Shard", Data = {Price = "+1%"}},
+	{Name = "Magic Shard", Data = {Price = "+1%"}},
     },
 	
 	
