@@ -54,6 +54,9 @@ getgenv().Settings = {
         {Name = "XPPotion Mastery", Data = {Price = 400000}},
         {Name = "Royalty TN1", Data = {Price = "7m"}},
         {Name = "Overload TN1", Data = {Price = "8m"}},
+	{Name = "XP TN1", Data = {Price = "150k"}},
+	{Name = "Glittering TN1", Data = {Price = "150k"}},
+
         {Name = "Charm Chisel", Data = {Price = "150k"}},
         {Name = "Chest Spell", Data = {Price = "95m"}},
         {Name = "Tsunami", Data = {Price = "+2%"}},
