@@ -112,7 +112,7 @@ NAME_USER_SEND = "veriotiai779"
 
 function Sent_item_all()
 
-getgenv().Settings = {		
+getgenv().Settings_sentitem = {		
 
 
 ["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 1000},	--ok
@@ -187,7 +187,7 @@ local function findMatchingItems(class, id, allVariants)
 end
 
 -- 📦 Duyệt qua từng mục cấu hình
-for key, config in pairs(getgenv().Settings) do
+for key, config in pairs(getgenv().Settings_sentitem) do
 	local class = config.Class
 	local id = config.Id
 	local minAmount = parseNumber(config.MinAmount)
@@ -256,7 +256,7 @@ if PAUSE_or_SEND == "P" then
 	return
 end
 
-getgenv().Settings = {
+getgenv().Settings_sentPET = {
     ["list_pet"] = {
 
 ["Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
@@ -407,7 +407,7 @@ local function sendExcessPets()
 	local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()   
 
     -- Lặp qua từng pet trong list_pet
-    for petName, petData in pairs(getgenv().Settings["list_pet"]) do
+    for petName, petData in pairs(getgenv().Settings_sentPET["list_pet"]) do
         local itemName = petName
         local requiredAmount = petData.Soluong_Yeu_cau
         local itemName,SH_find, PT_find = Kiem_tra_ten_co_them_tu_la_(itemName)
