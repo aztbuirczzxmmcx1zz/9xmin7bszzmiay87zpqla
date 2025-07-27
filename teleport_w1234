@@ -16,7 +16,7 @@ local TeleportMapping = {
 if game.PlaceId == PLACE_ID then
     
 if Y_or_N_delay_60s_farming == "Y" then
-        wait(30)
+        wait(60)
     end
 
     local teleportName = TeleportMapping[check_and_tele_w]
