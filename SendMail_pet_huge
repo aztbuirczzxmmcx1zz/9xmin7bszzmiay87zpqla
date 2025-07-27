@@ -120,7 +120,7 @@ function Sent_item_all()
 
 getgenv().Settings = {		
 
-
+["Summer Gift"] = {Class = "Lootbox", Id = "Summer Gift", MinAmount = 10},
 ["Summer Block Party Ticket"] = {Class = "Misc", Id = "Summer Block Party Ticket", MinAmount = 40},
 
 ["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 50},	--ok
