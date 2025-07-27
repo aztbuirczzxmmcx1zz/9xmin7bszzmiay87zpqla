@@ -19,8 +19,8 @@ getgenv().Settings = {
 ["Items"] = {
         {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice}},
         {Name = "Golden Titanic Starlight Pony", Data = {Price = "16b"}},
-		{Name = "Shiny Titanic Starlight Pony", Data = {Price = "150b"}},
-		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "150b"}},
+	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "150b"}},
+	{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "150b"}},
 
         {Name = "MVP Key", Data = {Price = "2%"}},
 
@@ -31,6 +31,7 @@ getgenv().Settings = {
         {Name = "Rainbow Huge Splash Angelus", Data = {Price = "100b"}},
 
         {Name = "Titanic Surfboard Corgi", Data = {Price = "4.5b"}},
+	{Name = "Golden Titanic Surfboard Corgi", Data = {Price = "6.9b"}},
         {Name = "Titanic Pineapple Dog", Data = {Price = "4.5b"}},
         {Name = "Titanic Sun Griffin", Data = {Price = "5.2b"}},
 
@@ -39,7 +40,7 @@ getgenv().Settings = {
         {Name = "Titanic Disco Ball Agony", Data = {Price = "5b"}},
         {Name = "Golden Titanic Disco Ball Agony", Data = {Price = "5.4b"}},
 
-		{Name = "Summer Gift", Data = {Price = "1%"}},
+	{Name = "Summer Gift", Data = {Price = "1%"}},
         {Name = "Time Trial Gift", Data = {Price = "+15%"}},
 
         {Name = "Huge Machine Egg 5", Data = {Price = "1%"}},
