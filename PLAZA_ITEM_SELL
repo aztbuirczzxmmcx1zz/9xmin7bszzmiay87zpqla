@@ -10,7 +10,7 @@ local SELL_vs_username = {
 	["dreddyewele60"] = "11.9b",
 	["1971Nowak3135"] = "12.5b",
 }
-local defaultPrice = "14.2b"
+local defaultPrice = "13.2b"
 
 
 getgenv().Settings = {
@@ -19,7 +19,7 @@ getgenv().Settings = {
 
         {Name = "MVP Key", Data = {Price = "2%"}},
 
-        {Name = "Summer Block Party Ticket", Data = {Price = "2%"}},
+        {Name = "Summer Block Party Ticket", Data = {Price = "1m"}},
 
         {Name = "Huge Splash Angelus", Data = {Price = "20b"}},
         {Name = "Golden Huge Splash Angelus", Data = {Price = "22b"}},
