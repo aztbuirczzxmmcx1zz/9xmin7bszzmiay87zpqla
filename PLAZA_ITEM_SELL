@@ -16,6 +16,10 @@ local defaultPrice = "13.2b"
 getgenv().Settings = {
 ["Items"] = {
         {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice}},
+        {Name = "Golden Titanic Starlight Pony", Data = {Price = "16b"}},
+	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "150b"}},
+	{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "150b"}},
+
 
         {Name = "MVP Key", Data = {Price = "2%"}},
 
@@ -29,8 +33,7 @@ getgenv().Settings = {
         {Name = "Titanic Pineapple Dog", Data = {Price = "4.5b"}},
         {Name = "Titanic Sun Griffin", Data = {Price = "5.2b"}},
 
-        {Name = "Golden Titanic Starlight Pony", Data = {Price = "16b"}},
-	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "150b"}},
+
 
         {Name = "Titanic Gym Piggy", Data = {Price = "4.8b"}},
 
