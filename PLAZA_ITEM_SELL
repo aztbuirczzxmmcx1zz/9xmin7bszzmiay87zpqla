@@ -37,7 +37,8 @@ getgenv().Settings = {
         {Name = "Titanic Disco Ball Agony", Data = {Price = "5b"}},
         {Name = "Golden Titanic Disco Ball Agony", Data = {Price = "5.4b"}},
 
-        {Name = "Time Trial Gift", Data = {Price = "+10%"}},
+	{Name = "Summer Gift", Data = {Price = "1%"}},
+        {Name = "Time Trial Gift", Data = {Price = "+15%"}},
 
         {Name = "Huge Machine Egg 5", Data = {Price = "1%"}},
 
