@@ -127,8 +127,12 @@ getgenv().Settings = {
 ["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 200},	
 
 ["Mega Charm Chest"] = {Class = "Lootbox", Id = "Mega Charm Chest", MinAmount = 1},
+
 ["Overload"] = {Class = "Charm", Id = "Overload", MinAmount = 2},
 ["Royalty"] = {Class = "Charm", Id = "Royalty", MinAmount = 2},
+["Glittering"] = {Class = "Charm", Id = "Glittering", MinAmount = 60},
+["XP"] = {Class = "Charm", Id = "XP", MinAmount = 60},
+
 ["Charm Chisel"] = {Class = "Misc", Id = "Charm Chisel", MinAmount = 100},
 
 ["Chest Spell"] = {Class = "Ultimate", Id = "Chest Spell", MinAmount = 1}, 
