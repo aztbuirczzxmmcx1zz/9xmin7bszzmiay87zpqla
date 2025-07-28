@@ -538,33 +538,6 @@ end)
 
 end)
 
--- ticket summer
-task.spawn(function()
-
-
-while true do
-
-time_random= math.random(3600,7200)
-warn(time_random)
-wait(time_random)
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-local Raffle_Submit = ReplicatedStorage.Network.Raffle_Submit 
-
-Raffle_Submit:InvokeServer(
-    "TileRaffle",
-    5,
-    false
-)
-
-
-end
-
-end)
-
-
-
 -- event block patry
 task.spawn(function()
 
@@ -1083,30 +1056,26 @@ local function startGuiUpdater()
 	end
 end
 
-local function check_Egghatch()
+function check_Egghatch()
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-local SaveData = require(Client.Save).Get
-
-local lastEggsHatched = nil
 
 while true do
-	task.wait(60)
-	local data = SaveData()
-	if data and data.EggsHatched then
-		local current = data.EggsHatched
 
-		if current == lastEggsHatched and getTotalTileCount() == 169 then
-			Players.LocalPlayer:Kick("EggsHatched = 0")
-			break
-		else
-			lastEggsHatched = current
-			warn(lastEggsHatched)
-		end
-	end
+time_random= math.random(3600,7200)
+warn(time_random)
+wait(time_random)
 
-	task.wait(60)
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Raffle_Submit = ReplicatedStorage.Network.Raffle_Submit 
+
+Raffle_Submit:InvokeServer(
+    "TileRaffle",
+    5,
+    false
+)
+
+
 end
 
 end
@@ -1118,22 +1087,22 @@ local function startAllBlockPartyTasks()
 	isRunning = true
 	print("🚀 Đã kích hoạt startAllBlockPartyTasks")
 	
-	---- 🧩 LUỒNG 1: Auto Purchase
-	--task.spawn(function()
-	--	local Save = require(ReplicatedStorage.Library.Client.Save)
-	--	while true do
-	--		local saveData = Save.Get()
-	--		local tileRebirth = saveData.TileRebirth or 0
-	--		local totalTiles = getTotalTileCount()
-	--
-	--		if tileRebirth < 15 or totalTiles < 169 then
-	--			print("✅ Đã khởi động LUỒNG 1: Auto Purchase")
-	--			startAutoPurchase()
-	--			break
-	--		end
-	--		task.wait(5)
-	--	end
-	--end)
+	-- 🧩 LUỒNG 1: Auto Purchase
+	task.spawn(function()
+		local Save = require(ReplicatedStorage.Library.Client.Save)
+		while true do
+			local saveData = Save.Get()
+			local tileRebirth = saveData.TileRebirth or 0
+			local totalTiles = getTotalTileCount()
+
+			if tileRebirth < 15 or totalTiles < 169 then
+				print("✅ Đã khởi động LUỒNG 1: Auto Purchase")
+				startAutoPurchase()
+				break
+			end
+			task.wait(5)
+		end
+	end)
 	
 	-- 🧩 LUỒNG 2: Tile Handler
 	task.spawn(function()
@@ -1141,49 +1110,49 @@ local function startAllBlockPartyTasks()
 		startTileHandler()
 	end)
 
-	---- 🧩 LUỒNG 5: Hatch HUGE
-	--task.spawn(function()
-	--	while true do
-	--		while getTotalTileCount() < 120 do
-	--			task.wait(2)
-	--		end
-	--		print("✅ Đã khởi động LUỒNG 3: Hatch HUGE CHANCE")
-	--		startAutoHatchHuge()
-	--	end
-	--end)
+	-- 🧩 LUỒNG 5: Hatch HUGE
+	task.spawn(function()
+		while true do
+			while getTotalTileCount() < 120 do
+				task.wait(2)
+			end
+			print("✅ Đã khởi động LUỒNG 3: Hatch HUGE CHANCE")
+			startAutoHatchHuge()
+		end
+	end)
 
 	-- 🧩 LUỒNG 6: Auto Gift Bag
-	--task.spawn(function()
-	--	while true do
-	--		while getTotalTileCount() < 160 do
-	--			task.wait(2)
-	--		end
-	--		print("✅ Đã khởi động LUỒNG 4: Auto SummerGiftBag2025")
-	--		startAutoGiftBag()
-	--	end
-	--end)
+	task.spawn(function()
+		while true do
+			while getTotalTileCount() < 160 do
+				task.wait(2)
+			end
+			print("✅ Đã khởi động LUỒNG 4: Auto SummerGiftBag2025")
+			startAutoGiftBag()
+		end
+	end)
 
 	-- 🧩 LUỒNG 7: Auto Rebirth
-	--task.spawn(function()
-	--	local Save = require(ReplicatedStorage.Library.Client.Save)
-	--	while true do
-	--		local saveData = Save.Get()
-	--		local tileRebirth = saveData.TileRebirth or 0
-	--		if tileRebirth < 15 then
-	--			print("✅ Đã khởi động LUỒNG 5: Auto Rebirth")
-	--			startAutoRebirth()
-	--			break
-	--		end
-	--		task.wait(5)
-	--	end
-	--end)
+	task.spawn(function()
+		local Save = require(ReplicatedStorage.Library.Client.Save)
+		while true do
+			local saveData = Save.Get()
+			local tileRebirth = saveData.TileRebirth or 0
+			if tileRebirth < 15 then
+				print("✅ Đã khởi động LUỒNG 5: Auto Rebirth")
+				startAutoRebirth()
+				break
+			end
+			task.wait(5)
+		end
+	end)
 
 
 
 	-- 🧩 LUỒNG 8: GUI Updater
 	task.spawn(function()
 		print("✅ Đã khởi động LUỒNG 6: GUI Updater")
-		startGuiUpdater()
+		--startGuiUpdater()
 	end)
 	-- 🧩 LUỒNG 9: check join event
 	
@@ -1197,17 +1166,25 @@ local function startAllBlockPartyTasks()
 				handleRejoin()
 			end
 			wait(33)
-		end		
+		end
+		
+		
 	end)
-
+	
 	task.spawn(function()
-		print("✅ Đã khởi động check_Egghatch")
-		wait(99)
+		local Save = require(ReplicatedStorage.Library.Client.Save)
 		while true do
-			waitUntilAllowed()
+			local saveData = Save.Get()
+			local tileRebirth = saveData.TileRebirth or 0			
+			while getTotalTileCount() < 169 and tileRebirth < 15 do
+				task.wait(2)
+			end
+			print("✅ Đã khởi động check_Egghatch")
+			wait(1)
 			check_Egghatch()
-			wait(33)
-		end		
+			wait(4)
+			waitUntilAllowed()
+		end
 	end)
 	
 end
