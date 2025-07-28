@@ -1107,7 +1107,7 @@ end
 
 ---------------- 🚀 Kích hoạt tất cả luồng song song ----------------
 local function startAllBlockPartyTasks()
-	teleportToBlockParty()
+	--teleportToBlockParty()
 	if isRunning then return end
 	isRunning = true
 	print("🚀 Đã kích hoạt startAllBlockPartyTasks")
