@@ -4,7 +4,7 @@ local player = Players.LocalPlayer
 
 
 local SELL_vs_username = {
-	["sijmongirthss"] = "12.7b",
+	["sijmongirthss"] = "11b",
 	["Ash3rP0w3rPanda2018"] = "11.4b",
 	["soystaylan5"] = "12.6b",
 	["dreddyewele60"] = "11.9b",
@@ -12,7 +12,7 @@ local SELL_vs_username = {
 	["Br00klynSkat3r2022"] = "11.5b",
 	
 }
-local defaultPrice = "13.2b"
+local defaultPrice = "11.2b"
 
 
 getgenv().Settings = {
