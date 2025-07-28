@@ -4,7 +4,7 @@ getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_MULTIPLIER2 = nil
 getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_TIER = 8
 
 setfpscap(3)
-getgenv().GLOOTBOXES = {"All"}
+--getgenv().GLOOTBOXES = {"All"}
 
 getgenv().GENCHANTS = {}
 --getgenv().GMIN_EGGS_TO_HATCH = 9999999999999
@@ -21,7 +21,7 @@ getgenv().GMAX_HATCH = 99
 
 
 -----------------------
-getgenv().GUSE_SPINNY_WHEEL = true
+--getgenv().GUSE_SPINNY_WHEEL = true
 getgenv().GAUTO_UPGRADE_PETS = true
 getgenv().GCOMBINE_KEYS = true
 getgenv().GMASTERY_TO_MAX = "Pets"
