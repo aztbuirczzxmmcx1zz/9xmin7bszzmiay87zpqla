@@ -442,4 +442,65 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local GuildCastle_UnlockGate = ReplicatedStorage.Network.GuildCastle_UnlockGate
 GuildCastle_UnlockGate:InvokeServer()
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local Save = require(ReplicatedStorage.Library.Client.Save)
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Các chỉ số và cấp tối đa cần đạt
+local maxUpgrades = {
+    Magnet = 7,
+    Drops = 7,
+    ["Pet Speed"] = 7,
+    ["Tap Damage"] = 8,
+    Diamonds = 9,
+    Luck = 7,
+    Ultimates = 2,
+    Walkspeed = 2,
+    Coins = 8,
+    ["Pet Damage"] = 7,
+}
+
+local current = Save.Get().UpgradesOwned or {}
+local missingUpgrade = false
+
+for name, maxLevel in pairs(maxUpgrades) do
+    local data = current[name]
+    local highest = 0
+    if data then
+        for _, level in pairs(data) do
+            if level > highest then
+                highest = level
+            end
+        end
+    end
+
+    if highest < maxLevel then
+        print("⚠️ Chưa đạt max: " .. name .. " (" .. highest .. "/" .. maxLevel .. ")")
+        missingUpgrade = true
+    end
+end
+
+-- Nếu chưa đạt max, tạo GUI cảnh báo
+if missingUpgrade then
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "UpgradesWarning"
+    screenGui.ResetOnSpawn = false
+    screenGui.Parent = playerGui
+
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Size = UDim2.new(0, 120, 0, 30)
+    textLabel.Position = UDim2.new(0, 10, 0, 10)
+    textLabel.BackgroundColor3 = Color3.new(0.2, 0, 0)
+    textLabel.TextColor3 = Color3.new(1, 0, 0)
+    textLabel.Text = "Upgrades"
+    textLabel.Font = Enum.Font.SourceSansBold
+    textLabel.TextSize = 18
+    textLabel.BorderSizePixel = 0
+    textLabel.Parent = screenGui
+end
+
+
 end
