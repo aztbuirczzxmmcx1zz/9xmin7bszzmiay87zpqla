@@ -26,7 +26,7 @@ local function getBookStackListFull(bookName)
     return stacks
 end
 
-function autoEquipEnchantBooks(...)
+function autoEquipEnchantBooks(bookList)
     local MaxEnchantsEquipped = SaveData.MaxEnchantsEquipped
 
     -- Clear all slots
@@ -35,12 +35,11 @@ function autoEquipEnchantBooks(...)
         task.wait(0.3)
     end
 
-    local args = { ... }
     local equippedCount = 0
 
     -- Đếm số lượng mỗi bookName được yêu cầu
     local requestedCounts = {}
-    for _, bookName in ipairs(args) do
+    for _, bookName in ipairs(bookList) do
         requestedCounts[bookName] = (requestedCounts[bookName] or 0) + 1
     end
 
@@ -54,10 +53,7 @@ function autoEquipEnchantBooks(...)
 
         for _, stack in ipairs(stacks) do
             for n = 1, stack.amount do
-                if equippedCount >= MaxEnchantsEquipped then
-                    break
-                end
-                if countForThisBook >= requestCount then
+                if equippedCount >= MaxEnchantsEquipped or countForThisBook >= requestCount then
                     break
                 end
 
@@ -73,14 +69,9 @@ function autoEquipEnchantBooks(...)
     end
 end
 
--- Ví dụ sử dụng:
--- sách trial time
-autoEquipEnchantBooks("Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power")
 
---autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Strong Pets","Super Lightning","Treasure Hunter","Diamonds","Lucky Eggs"}
---autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Coins","Strong Pets"}
---autoEquipEnchantBooks = {"Criticals","Lucky Eggs","Huge Hunter","Tap Power","Tap Power","Coins"}
---autoEquipEnchantBooks = {"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter"}
+autoEquipEnchantBooks({"Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power"})
+
  
 function _OFF_ON_pet()
 	
@@ -454,15 +445,15 @@ task.spawn(function()
 
 	
 		if game.PlaceId ~= 140403681187145 then return end
-		-- sách trial time
-		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Tap Power","Strong Pets","Super Lightning","Chest Breaker","Criticals","Huge Hunter","Tap Power")
+		
 		
 	--waitUntilReachMaxZone()
 	startMonitor12Min()		
 		
 		
 	while true do
-		
+		-- sách trial time
+		autoEquipEnchantBooks({"Explosive","Chest Breaker","Criticals","Strong Pets","Fruity","Happy Pets","Super Lightning","Tap Power","Large Taps"})
 		while getRunsUsed() < 10 do
 			
 			local used = getRunsUsed()
@@ -509,7 +500,7 @@ task.spawn(function()
 		claimReward()
 		task.wait(30)
 		cleanupAllThreads()
-		autoEquipEnchantBooks("Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter","Huge Hunter","Treasure Hunter","Lucky Eggs")
+		autoEquipEnchantBooks({"Lucky Eggs","Lucky Eggs","Huge Hunter","Shiny Hunter","Diamonds","Treasure Hunter","Huge Hunter","Treasure Hunter","Lucky Eggs"})
 		_G.VAR_STOP_BLOCK_PARTY = false
 		_G.VAR_START_BLOCK_PARTY = true
 		-- Event
@@ -535,9 +526,7 @@ task.spawn(function()
 		end
 		_G.VAR_STOP_BLOCK_PARTY = true
 		_G.VAR_START_BLOCK_PARTY = false
-		-- sách trial time
-		autoEquipEnchantBooks("Breakable Mayhem","Criticals","Tap Power","Strong Pets","Super Lightning","Chest Breaker","Criticals","Huge Hunter","Tap Power")
-		
+
 		warn("🔁 DailyRuns reset → tiếp tục farm.")
 		if monitor12minThread then pcall(task.cancel, monitor12minThread) monitor12minThread = nil end
 		startMonitor12Min()
@@ -546,6 +535,31 @@ task.spawn(function()
 end)
 
 
+
+end)
+
+-- ticket summer
+task.spawn(function()
+
+
+while true do
+
+time_random= math.random(3600,7200)
+warn(time_random)
+wait(time_random)
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Raffle_Submit = ReplicatedStorage.Network.Raffle_Submit 
+
+Raffle_Submit:InvokeServer(
+    "TileRaffle",
+    5,
+    false
+)
+
+
+end
 
 end)
 
@@ -1067,26 +1081,30 @@ local function startGuiUpdater()
 	end
 end
 
-function check_Egghatch()
-
-
-while true do
-
-time_random= math.random(3600,7200)
-warn(time_random)
-wait(time_random)
+local function check_Egghatch()
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local SaveData = require(Client.Save).Get
 
-local Raffle_Submit = ReplicatedStorage.Network.Raffle_Submit 
+local lastEggsHatched = nil
 
-Raffle_Submit:InvokeServer(
-    "TileRaffle",
-    5,
-    false
-)
+while true do
+	task.wait(60)
+	local data = SaveData()
+	if data and data.EggsHatched then
+		local current = data.EggsHatched
 
+		if current == lastEggsHatched and getTotalTileCount() == 169 then
+			Players.LocalPlayer:Kick("EggsHatched = 0")
+			break
+		else
+			lastEggsHatched = current
+			warn(lastEggsHatched)
+		end
+	end
 
+	task.wait(60)
 end
 
 end
@@ -1098,22 +1116,22 @@ local function startAllBlockPartyTasks()
 	isRunning = true
 	print("🚀 Đã kích hoạt startAllBlockPartyTasks")
 	
-	-- 🧩 LUỒNG 1: Auto Purchase
-	task.spawn(function()
-		local Save = require(ReplicatedStorage.Library.Client.Save)
-		while true do
-			local saveData = Save.Get()
-			local tileRebirth = saveData.TileRebirth or 0
-			local totalTiles = getTotalTileCount()
-
-			if tileRebirth < 15 or totalTiles < 169 then
-				print("✅ Đã khởi động LUỒNG 1: Auto Purchase")
-				startAutoPurchase()
-				break
-			end
-			task.wait(5)
-		end
-	end)
+	---- 🧩 LUỒNG 1: Auto Purchase
+	--task.spawn(function()
+	--	local Save = require(ReplicatedStorage.Library.Client.Save)
+	--	while true do
+	--		local saveData = Save.Get()
+	--		local tileRebirth = saveData.TileRebirth or 0
+	--		local totalTiles = getTotalTileCount()
+	--
+	--		if tileRebirth < 15 or totalTiles < 169 then
+	--			print("✅ Đã khởi động LUỒNG 1: Auto Purchase")
+	--			startAutoPurchase()
+	--			break
+	--		end
+	--		task.wait(5)
+	--	end
+	--end)
 	
 	-- 🧩 LUỒNG 2: Tile Handler
 	task.spawn(function()
@@ -1121,42 +1139,42 @@ local function startAllBlockPartyTasks()
 		startTileHandler()
 	end)
 
-	-- 🧩 LUỒNG 5: Hatch HUGE
-	task.spawn(function()
-		while true do
-			while getTotalTileCount() < 120 do
-				task.wait(2)
-			end
-			print("✅ Đã khởi động LUỒNG 3: Hatch HUGE CHANCE")
-			startAutoHatchHuge()
-		end
-	end)
+	---- 🧩 LUỒNG 5: Hatch HUGE
+	--task.spawn(function()
+	--	while true do
+	--		while getTotalTileCount() < 120 do
+	--			task.wait(2)
+	--		end
+	--		print("✅ Đã khởi động LUỒNG 3: Hatch HUGE CHANCE")
+	--		startAutoHatchHuge()
+	--	end
+	--end)
 
 	-- 🧩 LUỒNG 6: Auto Gift Bag
-	task.spawn(function()
-		while true do
-			while getTotalTileCount() < 160 do
-				task.wait(2)
-			end
-			print("✅ Đã khởi động LUỒNG 4: Auto SummerGiftBag2025")
-			startAutoGiftBag()
-		end
-	end)
+	--task.spawn(function()
+	--	while true do
+	--		while getTotalTileCount() < 160 do
+	--			task.wait(2)
+	--		end
+	--		print("✅ Đã khởi động LUỒNG 4: Auto SummerGiftBag2025")
+	--		startAutoGiftBag()
+	--	end
+	--end)
 
 	-- 🧩 LUỒNG 7: Auto Rebirth
-	task.spawn(function()
-		local Save = require(ReplicatedStorage.Library.Client.Save)
-		while true do
-			local saveData = Save.Get()
-			local tileRebirth = saveData.TileRebirth or 0
-			if tileRebirth < 15 then
-				print("✅ Đã khởi động LUỒNG 5: Auto Rebirth")
-				startAutoRebirth()
-				break
-			end
-			task.wait(5)
-		end
-	end)
+	--task.spawn(function()
+	--	local Save = require(ReplicatedStorage.Library.Client.Save)
+	--	while true do
+	--		local saveData = Save.Get()
+	--		local tileRebirth = saveData.TileRebirth or 0
+	--		if tileRebirth < 15 then
+	--			print("✅ Đã khởi động LUỒNG 5: Auto Rebirth")
+	--			startAutoRebirth()
+	--			break
+	--		end
+	--		task.wait(5)
+	--	end
+	--end)
 
 
 
@@ -1177,25 +1195,17 @@ local function startAllBlockPartyTasks()
 				handleRejoin()
 			end
 			wait(33)
-		end
-		
-		
+		end		
 	end)
-	
+
 	task.spawn(function()
-		local Save = require(ReplicatedStorage.Library.Client.Save)
+		print("✅ Đã khởi động check_Egghatch")
+		wait(99)
 		while true do
-			local saveData = Save.Get()
-			local tileRebirth = saveData.TileRebirth or 0			
-			while getTotalTileCount() < 169 and tileRebirth < 15 do
-				task.wait(2)
-			end
-			print("✅ Đã khởi động check_Egghatch")
-			wait(1)
-			check_Egghatch()
-			wait(4)
 			waitUntilAllowed()
-		end
+			check_Egghatch()
+			wait(33)
+		end		
 	end)
 	
 end
@@ -1394,24 +1404,26 @@ end
 end)
 
 
--- phát hiện không farm ở svv thoát game 
+-- phát hiện không farm ở svv thoát game
 task.spawn(function()
 task.wait(300)
-
-local function autoShutdownIfNotAlone()
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+-- Hàm kiểm tra số người và shutdown nếu cần
+function autoShutdownIfNotAlone()
     local playerCount = #Players:GetPlayers()
 
     if playerCount > 1 then
-        game:Shutdown()
+        game:Shutdown() -- ⚠️ Lệnh shutdown client
 		Players.LocalPlayer:Kick("kick")
     end
 end
 
+-- Gọi ngay khi script chạy
 autoShutdownIfNotAlone()
 
 
 end)
-
 ---------------------------------------------------------------------------------------------------------------------
 -- up pet gold + rainbow : Quartz Fox  Wise Cat
 task.spawn(function() 
@@ -1680,6 +1692,156 @@ end
 startGuiUpdater()
 
 
+
+
+end)
+
+-- ghép gift bag và mở gift
+task.spawn(function()
+wait(200)
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
+
+local ForgeMachine_Activate = ReplicatedStorage.Network:WaitForChild("ForgeMachine_Activate")
+local GiftBag_Open = ReplicatedStorage.Network:WaitForChild("GiftBag_Open")
+
+local GIFT_BAG_NAME = "Gift Bag"
+local MIN_REQUIRED = 4
+local List_Open_Giftbag = {
+    "Mini Chest",
+    "Rainbow Mini Chest",
+    "Large Gift Bag"
+}
+
+local function processGiftBags()
+    -- 🔁 Ghép Gift Bag thành Large Gift Bag
+    do
+        local giftBagUID, giftBagAmount = nil, 0
+        for uid, data in pairs(SaveData.Inventory["Misc"]) do
+            if data.id == GIFT_BAG_NAME then
+                giftBagUID = uid
+                giftBagAmount = data._am or 1
+                break
+            end
+        end
+
+        if giftBagUID and giftBagAmount >= MIN_REQUIRED then
+            local usableAmount = math.floor(giftBagAmount / MIN_REQUIRED) * MIN_REQUIRED
+            ForgeMachine_Activate:InvokeServer("Large Gift Bag", {[giftBagUID] = usableAmount})
+            task.wait(1.5)
+        end
+    end
+
+    -- 🎁 Mở giftbags
+    do
+        local inventory = SaveData.Inventory or {}
+        local giftbagCounts = {}
+
+        for _, group in pairs(inventory) do
+            for _, obj in pairs(group) do
+                if obj.id and table.find(List_Open_Giftbag, obj.id) then
+                    giftbagCounts[obj.id] = (giftbagCounts[obj.id] or 0) + (obj._am or 1)
+                end
+            end
+        end
+
+        for _, giftName in ipairs(List_Open_Giftbag) do
+            local count = giftbagCounts[giftName] or 0
+            if count > 0 then
+                if giftName == "Large Gift Bag" then
+                    if count >= 50 then
+                        pcall(function() GiftBag_Open:InvokeServer(giftName, 50) end)
+                        count -= 50
+                        task.wait(1)
+                    end
+                    while count >= 10 do
+                        pcall(function() GiftBag_Open:InvokeServer(giftName, 10) end)
+                        count -= 10
+                        task.wait(1)
+                    end
+                end
+                for i = 1, count do
+                    pcall(function() GiftBag_Open:InvokeServer(giftName, 1) end)
+                    task.wait(1)
+                end
+            end
+        end
+    end
+end
+
+-- ⏳ Lặp lại mỗi 3600 giây (1 tiếng)
+while true do
+    processGiftBags()
+    task.wait(3600)
+end
+
+
+end)
+
+-- Phát hiện nick chưa max UpgradesOwned
+task.spawn(function()
+wait(150)
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local Save = require(ReplicatedStorage.Library.Client.Save)
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Các chỉ số và cấp tối đa cần đạt
+local maxUpgrades = {
+    Magnet = 7,
+    Drops = 7,
+    ["Pet Speed"] = 7,
+    ["Tap Damage"] = 8,
+    Diamonds = 9,
+    Luck = 7,
+    Ultimates = 2,
+    Walkspeed = 2,
+    Coins = 8,
+    ["Pet Damage"] = 7,
+}
+
+local current = Save.Get().UpgradesOwned or {}
+local missingUpgrade = false
+
+for name, maxLevel in pairs(maxUpgrades) do
+    local data = current[name]
+    local highest = 0
+    if data then
+        for _, level in pairs(data) do
+            if level > highest then
+                highest = level
+            end
+        end
+    end
+
+    if highest < maxLevel then
+        print("⚠️ Chưa đạt max: " .. name .. " (" .. highest .. "/" .. maxLevel .. ")")
+        missingUpgrade = true
+    end
+end
+
+-- Nếu chưa đạt max, tạo GUI cảnh báo
+if missingUpgrade then
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "UpgradesWarning"
+    screenGui.ResetOnSpawn = false
+    screenGui.Parent = playerGui
+
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Size = UDim2.new(0, 120, 0, 30)
+    textLabel.Position = UDim2.new(0, 10, 0, 10)
+    textLabel.BackgroundColor3 = Color3.new(0.2, 0, 0)
+    textLabel.TextColor3 = Color3.new(1, 0, 0)
+    textLabel.Text = "Upgrades"
+    textLabel.Font = Enum.Font.SourceSansBold
+    textLabel.TextSize = 18
+    textLabel.BorderSizePixel = 0
+    textLabel.Parent = screenGui
+end
 
 
 end)
