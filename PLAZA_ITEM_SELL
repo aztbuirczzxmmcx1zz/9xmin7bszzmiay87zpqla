@@ -24,7 +24,7 @@ getgenv().Settings = {
 
         {Name = "MVP Key", Data = {Price = "2%"}},
 
-        {Name = "Summer Block Party Ticket", Data = {Price = "1m"}},
+        {Name = "Summer Block Party Ticket", Data = {Price = "600k"}},
 
         {Name = "Huge Splash Angelus", Data = {Price = "20b"}},
         {Name = "Golden Huge Splash Angelus", Data = {Price = "22b"}},
