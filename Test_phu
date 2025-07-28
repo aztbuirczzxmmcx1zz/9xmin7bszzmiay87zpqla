@@ -614,8 +614,6 @@ local function teleportToBlockParty()
 	-- 🧭 Teleport vào Block Party & đến vị trí cụ thể
 	teleportTo(Enter.CFrame + Vector3.new(0, 5, 0))
 	task.wait(9)
-	teleportTo(CFrame.new(16460, 2275, -21473))
-	task.wait(9)
 end
 
 ---------------- 🧩 LUỒNG 1: Mua tiles quanh plot ----------------
@@ -800,9 +798,7 @@ local function handleRejoin()
 	teleportTo(Leave.CFrame + Vector3.new(0, 5, 0))
 	task.wait(9)
 	teleportToBlockParty()
-							task.spawn(function()
-								startAutoPurchase()
-							end)
+
 end
 
 local function isNearEgg(egg)
