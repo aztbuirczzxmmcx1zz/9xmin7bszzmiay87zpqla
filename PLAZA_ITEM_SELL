@@ -31,7 +31,7 @@ getgenv().Settings = {
         {Name = "Rainbow Huge Splash Angelus", Data = {Price = "100b"}},
 
         {Name = "Titanic Surfboard Corgi", Data = {Price = "4.5b"}},
-	{Name = "Golden Titanic Surfboard Corgi", Data = {Price = "6.9b"}},
+	{Name = "Golden Titanic Surfboard Corgi", Data = {Price = "6.1b"}},
         {Name = "Titanic Pineapple Dog", Data = {Price = "4.5b"}},
         {Name = "Titanic Sun Griffin", Data = {Price = "5.2b"}},
 
