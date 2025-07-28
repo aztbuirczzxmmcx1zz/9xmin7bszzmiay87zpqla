@@ -1,0 +1,193 @@
+
+getgenv().Settings = {
+    ["Items"] = {
+        ["Breakable Mayhem"] = { Item_Inventory = "Enchant", MaxPrice = "1.2b", SL_canmua = 50, ExtraProps = { tn = 1 }},
+		--["VinVin"] = { Item_Inventory = "Tower", MaxPrice = "1.1b", SL_canmua = 50 },
+
+    }
+}
+
+
+
+
+if game.PlaceId == 15502339080 or game.PlaceId == 15588442388 then
+
+else
+
+	local TeleportService = game:GetService("TeleportService")
+	local placeId = 15502339080
+	TeleportService:Teleport(placeId, game.Players.LocalPlayer)
+	return
+end
+
+
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
+local Save = require(ReplicatedStorage.Library.Client.Save)
+local Network = require(ReplicatedStorage.Library.Client.Network)
+local HttpService = game:GetService("HttpService")
+local TeleportService = game:GetService("TeleportService")
+
+
+local function convertStringPriceToNumber(str)
+    local suffixes = {
+        b = 1000000000,
+        m = 1000000,
+        k = 1000,
+    }
+    local numberPart, suffix = str:match("([%d%.]+)([bmk])")
+    if numberPart and suffix and suffixes[suffix] then
+        return tonumber(numberPart) * suffixes[suffix]
+    else
+        return tonumber(str)
+    end
+end
+
+
+-- 🧠 Lấy getState từ getgc()
+local getStateFunc = nil
+for _, v in pairs(getgc(true)) do
+    if typeof(v) == "function" and islclosure(v) then
+        local info = debug.getinfo(v)
+        if info.name == "getState" and string.find(info.source, "Booth") then
+            getStateFunc = v
+            break
+        end
+    end
+end
+
+if not getStateFunc then
+    warn("❌ Không tìm thấy hàm getState()")
+    return
+end
+
+-- 🛒 Mua item
+local function tryBuy(sellerId, listingUID, itemData, price)
+    local success, result = pcall(function()
+        return Network.Invoke("Booths_RequestPurchase", sellerId, {
+            [listingUID] = 1
+        }, {
+            Caller = {
+                LineNumber = 532,
+                ParameterCount = 2,
+                Variadic = false,
+                Traceback = "ReplicatedStorage.Library.Client.BoothCmds:532 function PromptPurchase2\nReplicatedStorage.Library.Client.BoothCmds:659 function promptOtherPlayerBooth2\nReplicatedStorage.Library.Client.BoothCmds:998",
+                ScriptPath = "ReplicatedStorage.Library.Client.BoothCmds",
+                ScriptClass = "ModuleScript",
+                Handle = "function: 0xc3ef3e0bb3f1ea43",
+                FunctionName = "PromptPurchase2",
+                ScriptType = "Instance",
+                SourceIdentifier = "ReplicatedStorage.Library.Client.BoothCmds"
+            }
+        })
+    end)
+
+    if success and result then
+        warn("✅ MUA THÀNH CÔNG:", itemData.id, "| Giá:", price)
+    else
+        warn("❌ Lỗi khi mua:", tostring(result))
+    end
+end
+
+-- 🧾 Đếm số lượng đang có
+local function getOwnedAmount(itemId, inventoryType)
+    local inv = Save.Get().Inventory[inventoryType] or {}
+    for _, item in pairs(inv) do
+        if item.id == itemId then
+            return item._am or 1
+        end
+    end
+    return 0
+end
+
+-- 🔁 Quét booth toàn server
+local function scanBooths(itemId, inventoryType, maxPrice, maxOwn)
+	
+
+    local owned = getOwnedAmount(itemId, inventoryType)
+    local matched = 0
+
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer then
+            local success, boothData = pcall(function()
+                return getStateFunc(player)
+            end)
+
+            if success and boothData and boothData.Listings then
+                for uid, listing in pairs(boothData.Listings) do
+                    local item = listing.Item and listing.Item._data
+                    local price = listing.DiamondCost
+
+                    if item and item.id == itemId then
+                        warn("🔎 Tìm thấy:", item.id, "| Giá:", price, "| UID:", uid)
+                        if price <= convertStringPriceToNumber(maxPrice) and owned < maxOwn then
+                            warn("🛒 Đủ điều kiện mua! Đang tiến hành...")
+                            tryBuy(player.UserId, uid, item, price)
+                            matched += 1
+                            task.wait(3)
+                        else
+                            warn("⛔ Giá cao hoặc đã đủ số lượng:", price, "/", owned)
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    warn("📊 Đã mua hoặc match được:", matched)
+    return matched
+end
+
+-- 📡 Gọi Trading Terminal nếu booth không có
+local function searchTerminal(itemId, inventoryType, extraProps)
+    local stackData = { id = itemId }
+    if extraProps then
+        for k, v in pairs(extraProps) do
+            stackData[k] = v
+        end
+    end
+	wait(7)
+    local stackKey = HttpService:JSONEncode(stackData)
+	warn(stackKey)
+    local success, result = pcall(function()
+        return Network.Invoke("TradingTerminal_Search", inventoryType, stackKey, nil, false)
+    end)
+
+    if success and result then
+        warn("🎯 Tìm thấy " .. itemId .. " qua Terminal! Dịch chuyển...")
+        TeleportService:TeleportToPlaceInstance(
+            result.place_id,
+            result.job_id,
+            LocalPlayer,
+            nil,
+            {
+                TargetBoothId = result.booth,
+                IsTerminalTeleport = true,
+                TerminalStackKey = stackKey,
+                TerminalClassName = inventoryType
+            }
+        )
+        return true
+    else
+        warn("😢 Không tìm thấy item:", itemId)
+        return false
+    end
+end
+
+
+-- 🚀 Lặp qua toàn bộ danh sách item
+while true do
+    for itemId, cfg in pairs(getgenv().Settings.Items) do
+	
+        warn("🔄 Đang kiểm tra:", itemId)
+        local matches = scanBooths(itemId, cfg.Item_Inventory, cfg.MaxPrice, cfg.SL_canmua)
+        if matches == 0 then
+            warn("🔁 Không tìm thấy trong booth, thử Trading Terminal...")
+            searchTerminal(itemId, cfg.Item_Inventory, cfg.ExtraProps)
+        end
+        task.wait(5)
+    end
+    task.wait(20)
+end
