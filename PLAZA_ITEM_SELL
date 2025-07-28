@@ -18,7 +18,7 @@ local defaultPrice = "13.2b"
 getgenv().Settings = {
 ["Items"] = {
         {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice}},
-        {Name = "Golden Titanic Starlight Pony", Data = {Price = "16b"}},
+        {Name = "Golden Titanic Starlight Pony", Data = {Price = "14b"}},
 	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "150b"}},
 	{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "120b"}},
 
