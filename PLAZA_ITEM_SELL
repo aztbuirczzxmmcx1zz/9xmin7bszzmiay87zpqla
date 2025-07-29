@@ -26,16 +26,17 @@ getgenv().Settings = {
 
         {Name = "Summer Block Party Ticket", Data = {Price = "700k"}},
 
+
+	{Name = "Titanic Nuclear Dominus", Data = {Price = "4.3b"}},
         {Name = "Huge Splash Angelus", Data = {Price = "20b"}},
         {Name = "Golden Huge Splash Angelus", Data = {Price = "22b"}},
         {Name = "Rainbow Huge Splash Angelus", Data = {Price = "100b"}},
 
-        {Name = "Titanic Surfboard Corgi", Data = {Price = "4.5b"}},
+        {Name = "Titanic Surfboard Corgi", Data = {Price = "4.1b"}},
 	{Name = "Golden Titanic Surfboard Corgi", Data = {Price = "6.1b"}},
-        {Name = "Titanic Pineapple Dog", Data = {Price = "4.5b"}},
+        {Name = "Titanic Pineapple Dog", Data = {Price = "4.1b"}},
         {Name = "Titanic Sun Griffin", Data = {Price = "5.2b"}},
 
-        {Name = "Titanic Gym Piggy", Data = {Price = "4.8b"}},
 
         {Name = "Titanic Disco Ball Agony", Data = {Price = "5b"}},
         {Name = "Golden Titanic Disco Ball Agony", Data = {Price = "5.4b"}},
