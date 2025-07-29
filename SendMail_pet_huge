@@ -120,6 +120,7 @@ function Sent_item_all()
 
 getgenv().Settings = {		
 
+["Coins"] = {Class = "Enchant", Id = "Coins", TN = 7, MinAmount = 1000}, 
 ["Summer Gift"] = {Class = "Lootbox", Id = "Summer Gift", MinAmount = 10},
 ["Summer Block Party Ticket"] = {Class = "Misc", Id = "Summer Block Party Ticket", MinAmount = 40},
 
@@ -188,9 +189,8 @@ local function parseNumber(str)
 end
 
 -- 🔍 Tìm item trong Inventory
-local function findMatchingItems(class, id, allVariants)
+local function findMatchingItems(class, id, allVariants, requiredTN)
 	local results = {}
-
 	local sub = Inventory[class]
 	if not sub then return results end
 
@@ -203,22 +203,26 @@ local function findMatchingItems(class, id, allVariants)
 				match = v.id == id
 			end
 
+			-- 🔍 Kiểm tra thêm TN nếu có
 			if match then
-				table.insert(results, {
-					UID = uid,
-					ID = v.id,
-					PT = v.pt,
-					SH = v.sh,
-					TN = v.tn,
-					Count = tonumber(v._am) or 1,
-					Class = class,
-				})
+				if requiredTN == nil or v.tn == requiredTN then
+					table.insert(results, {
+						UID = uid,
+						ID = v.id,
+						PT = v.pt,
+						SH = v.sh,
+						TN = v.tn,
+						Count = tonumber(v._am) or 1,
+						Class = class,
+					})
+				end
 			end
 		end
 	end
 
 	return results
 end
+
 
 -- 📦 Duyệt qua từng mục cấu hình
 for key, config in pairs(getgenv().Settings) do
@@ -250,7 +254,7 @@ for key, config in pairs(getgenv().Settings) do
 	end
 
 	else
-		local matched = findMatchingItems(class, id, allVariants)
+    local matched = findMatchingItems(class, id, allVariants, config.TN)
 
 		for _, item in ipairs(matched) do
 			local count = item.Count
@@ -277,9 +281,11 @@ end
 
 end
 
-while true do
 Sent_item_all()
+
+while true do
 wait(21600)
+Sent_item_all()
 end
 
 
