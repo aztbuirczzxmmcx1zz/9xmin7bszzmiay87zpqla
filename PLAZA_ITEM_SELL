@@ -28,7 +28,7 @@ getgenv().Settings_autoplaza = {
         {Name = "Golden Huge Splash Angelus", Data = {Price = "22b"}},
         {Name = "Rainbow Huge Splash Angelus", Data = {Price = "100b"}},
         {Name = "Titanic Surfboard Corgi", Data = {Price = "4b"}},
-	--{Name = "Golden Titanic Surfboard Corgi", Data = {Price = "6.1b"}},
+	{Name = "Golden Titanic Surfboard Corgi", Data = {Price = "6.1b"}},
         {Name = "Titanic Pineapple Dog", Data = {Price = "4b"}},
         {Name = "Titanic Sun Griffin", Data = {Price = "5.2b"}},
         {Name = "Titanic Disco Ball Agony", Data = {Price = "5b"}},
