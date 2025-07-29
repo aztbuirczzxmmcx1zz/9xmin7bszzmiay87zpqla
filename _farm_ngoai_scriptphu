@@ -8,7 +8,8 @@ local Enchants_ClearSlot = ReplicatedStorage.Network.Enchants_ClearSlot
 -- Gom stack theo bookName và sort theo tn giảm dần
 local function getBookStackListFull(bookName)
     local stacks = {}
-    for uid, v in pairs(SaveData.Inventory.Enchant or {}) do
+
+    for uid, v in pairs(SaveData.Inventory.Enchant) do
         if v.id and string.find(v.id, bookName) and (v._am or 1) > 0 then
             table.insert(stacks, {
                 uid = uid,
@@ -17,42 +18,59 @@ local function getBookStackListFull(bookName)
             })
         end
     end
+
     table.sort(stacks, function(a, b)
         return a.tn > b.tn
     end)
+
     return stacks
 end
 
 function autoEquipEnchantBooks(bookList)
-    -- Tổng số slot có thể mang = free + paid
-    local MaxEnchantsEquipped = SaveData.MaxEnchantsEquipped or 0
-    local MaxPaidEnchantsEquipped = SaveData.MaxPaidEnchantsEquipped or 0
-    local TotalSlots = MaxEnchantsEquipped + MaxPaidEnchantsEquipped
 
-    -- Clear toàn bộ slot
-    for i = 1, TotalSlots do
+	local MaxEnchantsEquipped = SaveData.MaxEnchantsEquipped or 0
+    local MaxPaidEnchantsEquipped = SaveData.MaxPaidEnchantsEquipped or 0
+    local MaxEnchantsEquipped = MaxEnchantsEquipped + MaxPaidEnchantsEquipped
+
+
+    -- Clear all slots
+    for i = 1, 9 do
         Enchants_ClearSlot:FireServer(i)
-        task.wait(0.2)
+        task.wait(0.3)
     end
 
     local equippedCount = 0
-    local usedUIDs = {}
 
+    -- Đếm số lượng mỗi bookName được yêu cầu
+    local requestedCounts = {}
     for _, bookName in ipairs(bookList) do
-        if equippedCount >= TotalSlots then break end
+        requestedCounts[bookName] = (requestedCounts[bookName] or 0) + 1
+    end
+
+    for bookName, requestCount in pairs(requestedCounts) do
+        if equippedCount >= MaxEnchantsEquipped then
+            break
+        end
 
         local stacks = getBookStackListFull(bookName)
+        local countForThisBook = 0
+
         for _, stack in ipairs(stacks) do
-            if not usedUIDs[stack.uid] then
+            for n = 1, stack.amount do
+                if equippedCount >= MaxEnchantsEquipped or countForThisBook >= requestCount then
+                    break
+                end
+
                 Enchants_Equip:FireServer(stack.uid)
-                usedUIDs[stack.uid] = true
-                equippedCount += 1
-                task.wait(0.2)
-                break -- chỉ dùng 1 uid cho mỗi lần gọi
+                equippedCount = equippedCount + 1
+                countForThisBook = countForThisBook + 1
+                task.wait(0.3)
+            end
+            if countForThisBook >= requestCount then
+                break
             end
         end
     end
-    
 end
 
 
