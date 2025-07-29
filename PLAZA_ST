@@ -18,7 +18,7 @@ local previousCounts = {}
 local itemsToTrack = {
 	
 	{ id = "Crystal Key", guiName = "Item3", row = 1, col = 0, color = Color3.fromRGB(0, 255, 255) },			--xanh	trái
-	{ id = "MVP Key Upper Half", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, 		--xám
+	{ id = "Titanic", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, 		--xám
 	{ id = "Huge", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },		-- cam
 	{ id = "MVP Key", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },				--trang
 }
@@ -78,6 +78,14 @@ local function checkInventory()
 					count = count + amount
 				end
 			end
+		elseif item.id == "Titanic" then
+			local pets = inventory.Pet
+			for _, pet in pairs(pets) do
+				if string.find(pet.id, "Titanic") then
+					local amount = pet._am or 1
+					count = count + amount
+				end
+			end	
 		else
 			for _, group in pairs(inventory) do
 				for _, obj in pairs(group) do
