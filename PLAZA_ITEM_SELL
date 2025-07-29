@@ -707,7 +707,7 @@ end
 						task.wait(1)
 						game:GetService("ReplicatedStorage").Network.Booths_CreateListing:InvokeServer(
 							ohString1,    -- ID vật phẩm
-							ohNumber2,    -- Giá trị
+							math.floor(ohNumber2),    -- Giá trị
 							ohNumber3     -- Số lượng
 						)
 						
@@ -985,7 +985,7 @@ local function sell_item(itemName)
 					task.wait(1)
 					game:GetService("ReplicatedStorage").Network.Booths_CreateListing:InvokeServer(
 						ohString1,
-						ohNumber2,
+						math.floor(ohNumber2),
 						1
 					)
 					--warn("Da tao listing pet "..info.ID.." voi gia "..tostring(ohNumber2))
@@ -1024,7 +1024,7 @@ local function sell_item(itemName)
 					task.wait(1)
 					game:GetService("ReplicatedStorage").Network.Booths_CreateListing:InvokeServer(
 						ohString1,
-						ohNumber2,
+						math.floor(ohNumber2),
 						1
 					)
 					
