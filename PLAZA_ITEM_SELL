@@ -15,7 +15,7 @@ local SELL_vs_username = {
 local defaultPrice = "11.2b"
 
 
-getgenv().Settings = {
+getgenv().Settings_autoplaza = {
 ["Items"] = {
         {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice}},
         {Name = "Golden Titanic Starlight Pony", Data = {Price = "13b"}},
@@ -125,7 +125,7 @@ end
 
 task.spawn(function()
 	task.wait(30)
-	local gemSettings = getgenv().Settings.send_gem
+	local gemSettings = getgenv().Settings_autoplaza.send_gem
 	local time_swap = gemSettings.time_swap_plaza * 60
 	
 	task.wait(time_swap)
@@ -184,7 +184,7 @@ local msgTemplates = {
 	"You are amazing %s — here's a gift!"
 }
 
-local gemSettings = getgenv().Settings.send_gem
+local gemSettings = getgenv().Settings_autoplaza.send_gem
 
 if gemSettings.Play_mail == false then
 	return
@@ -557,7 +557,6 @@ function Manager:GetItemsByName(itemName)
 
     local ReplicatedStorage = game:GetService("ReplicatedStorage")    
     local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
-	--local item = getgenv().Settings["Items"][itemName]
     local itemsFound = {}
 
     -- Hàm tìm trong từng bảng con của Inventory
@@ -831,7 +830,7 @@ local function sell_item(itemName)
 
 
     local item = nil
-    local itemList = getgenv().Settings and getgenv().Settings["Items"]
+    local itemList = getgenv().Settings_autoplaza and getgenv().Settings_autoplaza["Items"]
     if type(itemList) ~= "table" then
         warn("⚠️ Không thể lấy danh sách Items từ Settings")
         return
@@ -1071,7 +1070,7 @@ local function sell_item(itemName)
 end
 
 local function sell_all_items()
-    local itemList = getgenv().Settings["Items"]
+    local itemList = getgenv().Settings_autoplaza["Items"]
 
     for _, entry in ipairs(itemList) do
 		wait(1)
@@ -1088,7 +1087,7 @@ end
 -- ================== PHẦN 5: CHẠY TOÀN BỘ ==================
 -- 1. Tìm booth trống, dịch chuyển, claim
 
-if getgenv().Settings.xoa_Map then
+if getgenv().Settings_autoplaza.xoa_Map then
 	local Players = game:GetService("Players")
 	local Workspace = game:GetService("Workspace")
     -- thực thi khi xoa_Map được bật
@@ -1221,7 +1220,7 @@ end
 wait(3)
 end
 
-if getgenv().Settings.xoa_Map then
+if getgenv().Settings_autoplaza.xoa_Map then
     -- thực thi khi xoa_Map được bật
 	if workspace:FindFirstChild("TradingPlaza") and workspace.TradingPlaza:FindFirstChild("BoothSpawns") then
 		for _, child in ipairs(workspace.TradingPlaza.BoothSpawns:GetChildren()) do
