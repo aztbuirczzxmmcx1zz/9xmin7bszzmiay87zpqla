@@ -1052,7 +1052,7 @@ end)
 -- Chạy 8 tiếng out 1 lần
 task.spawn(function()
 
-wait(8*3600)
+wait(13*3600)
 game:Shutdown()
 Players.LocalPlayer:Kick("kick")
 
