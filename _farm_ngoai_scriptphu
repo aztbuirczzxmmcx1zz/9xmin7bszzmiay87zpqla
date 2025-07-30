@@ -1,3 +1,4 @@
+wait(150)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
 local SaveData = require(Client.Save).Get()
@@ -79,7 +80,7 @@ autoEquipEnchantBooks({"Breakable Mayhem","Explosive","Diamonds","Treasure Hunte
 
 -- map 269 event time trial
 task.spawn(function()
-wait(75)
+wait(100)
 local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local rank = Save.Get().Rank
 if rank < 20 then warn("RANK < 20") return end
@@ -537,7 +538,7 @@ end)
 
 -- send sách thừa nếu nó > 2 / 1 loại
 task.spawn(function()
-task.wait(60)
+task.wait(150)
 
 local username = "BarzARoy1107"
 
@@ -588,7 +589,7 @@ end)
 
 -- xem sl 7 sách thường dùng
 task.spawn(function()
-task.wait(60)
+task.wait(151)
 local booksToCheck = {
     "Diamonds", "Lucky Eggs","Treasure Hunter"
 }
@@ -671,7 +672,7 @@ end)
 
 -- Xem item cần tìm x 10 ở giữa cho giả lập
 task.spawn(function()
-	task.wait(1)
+	task.wait(152)
 
 	local Players = game:GetService("Players")
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -762,7 +763,7 @@ end)
 
 -- Ghép sách + thuốc nếu lv < 99 
 task.spawn(function()
-	task.wait(150)
+	task.wait(153)
 local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local level = Save.Get().Mastery and Save.Get().Mastery.Potions
 
@@ -855,7 +856,7 @@ end)
 
 --xem tên nhân vật và kiểm tra gem < 10m cho giả lập
 task.spawn(function()
-	task.wait(125)
+	task.wait(154)
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui")
@@ -935,7 +936,7 @@ end)
 
 -- xoá lưu pet rồi chọn pet mạnh nhất	
 task.spawn(function()
-	wait(60)
+	wait(155)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local PetsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Pets")
@@ -977,7 +978,7 @@ autoShutdownIfNotAlone()
 end)
 -- up pet gold + rainbow : Quartz Fox  Wise Cat
 task.spawn(function() 
-wait(20)
+wait(156)
 
 local NamePet_ep = {
     "Palace Pooka",
@@ -1210,7 +1211,7 @@ end)
 
 -- khảm charm vào Huge
 task.spawn(function()
-
+wait(159)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
 local SaveData = require(Client:WaitForChild("Save")).Get()
