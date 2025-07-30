@@ -1264,15 +1264,15 @@ end
 -- Duyệt qua tất cả Huge Pet
 for uid, data in pairs(SaveData.Inventory.Pet or {}) do
     if data.id and string.find(data.id, "Huge") then
-        print("======================================")
-        print("🐾 Pet:", data.id, "| UID:", uid)
+        --print("======================================")
+        --print("🐾 Pet:", data.id, "| UID:", uid)
 
         local uq = data._uq or {}
         local xp = uq.xp or 0
         local lv = getLevelFromXP(xp)
         local maxSlots = slotsByLevel(lv)
 
-        print("📈 Level:", lv, "| XP:", xp, "| Slot khảm:", maxSlots)
+        --print("📈 Level:", lv, "| XP:", xp, "| Slot khảm:", maxSlots)
 
         -- Charm đã khảm
         local currentCharms = {}
@@ -1281,7 +1281,7 @@ for uid, data in pairs(SaveData.Inventory.Pet or {}) do
                 table.insert(currentCharms, charm.id)
             end
         end
-        print("💎 Charm hiện tại:", #currentCharms > 0 and table.concat(currentCharms, ", ") or "Chưa khảm")
+        --print("💎 Charm hiện tại:", #currentCharms > 0 and table.concat(currentCharms, ", ") or "Chưa khảm")
 
         -- Danh sách cần khảm (loại trừ charm đã có)
         local needCharms = {}
@@ -1301,17 +1301,17 @@ for uid, data in pairs(SaveData.Inventory.Pet or {}) do
         -- Tính số charm còn có thể khảm
         local remainingSlots = maxSlots - #currentCharms
         if remainingSlots > 0 and #needCharms > 0 then
-            print("✨ Bắt đầu khảm", math.min(remainingSlots, #needCharms), "viên")
+            --print("✨ Bắt đầu khảm", math.min(remainingSlots, #needCharms), "viên")
             for i = 1, math.min(remainingSlots, #needCharms) do
                 local cname = needCharms[i]
                 local charmUID = findCharmUID(cname)
                 if charmUID then
-                    print("🔗 Khảm", cname, "vào pet", data.id)
+                    --print("🔗 Khảm", cname, "vào pet", data.id)
                     local success, res = pcall(function()
                         return Charms_AttachToPet:InvokeServer(charmUID, {uid})
                     end)
                     if success then
-                        print("✅ Khảm thành công:", cname)
+                        --print("✅ Khảm thành công:", cname)
                     else
                         --warn("❌ Khảm thất bại:", cname, res)
                     end
@@ -1321,10 +1321,11 @@ for uid, data in pairs(SaveData.Inventory.Pet or {}) do
                 task.wait(1.5)
             end
         else
-            print("⚠️ Không có slot trống hoặc không còn charm phù hợp để khảm.")
+            --print("⚠️ Không có slot trống hoặc không còn charm phù hợp để khảm.")
         end
     end
 end
 
 
 end)
+
