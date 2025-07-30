@@ -13,7 +13,7 @@ until game:IsLoaded() and
 -- In ra thông báo khi trò chơi đã được tải hoàn toàn.
 print("[CLIENT] Loaded Game")
 
-
+game:GetService("ReplicatedStorage").Network["Mailbox: Claim All"]:InvokeServer()
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
