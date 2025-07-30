@@ -1207,3 +1207,124 @@ end
 
 
 end)
+
+-- khảm charm vào Huge
+task.spawn(function()
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local SaveData = require(Client:WaitForChild("Save")).Get()
+local HttpService = game:GetService("HttpService")
+
+local Charms_AttachToPet = ReplicatedStorage.Network.Charms_AttachToPet
+
+-- Danh sách charm mong muốn
+local preferredCharms = { "Lightning", "Criticals", "Strength", "Bonus" }
+
+-- Hàm tính XP để đạt Level L
+local function xpForLevel(L)
+    local sum = 0
+    for n = 1, L - 1 do
+        sum += (n + 300 * (2 ^ (n/7)))
+    end
+    return math.floor(sum / 4)
+end
+
+-- Hàm lấy level từ XP
+local function getLevelFromXP(xp)
+    local level = 1
+    while true do
+        local nextXP = xpForLevel(level + 1)
+        if xp < nextXP then
+            return level
+        end
+        level += 1
+        if level >= 99 then return 99 end
+    end
+end
+
+-- Số slot charm theo level
+local function slotsByLevel(lv)
+    if lv < 50 then return 1
+    elseif lv < 85 then return 2
+    elseif lv < 99 then return 3
+    else return 4 end
+end
+
+-- Tìm UID charm theo tên
+local function findCharmUID(charmName)
+    for uid, v in pairs(SaveData.Inventory.Charm or {}) do
+        if v.id == charmName and (v._am or 0) > 0 then
+            return uid
+        end
+    end
+    return nil
+end
+
+-- Duyệt qua tất cả Huge Pet
+for uid, data in pairs(SaveData.Inventory.Pet or {}) do
+    if data.id and string.find(data.id, "Huge") then
+        print("======================================")
+        print("🐾 Pet:", data.id, "| UID:", uid)
+
+        local uq = data._uq or {}
+        local xp = uq.xp or 0
+        local lv = getLevelFromXP(xp)
+        local maxSlots = slotsByLevel(lv)
+
+        print("📈 Level:", lv, "| XP:", xp, "| Slot khảm:", maxSlots)
+
+        -- Charm đã khảm
+        local currentCharms = {}
+        if uq.ch then
+            for _, charm in ipairs(uq.ch) do
+                table.insert(currentCharms, charm.id)
+            end
+        end
+        print("💎 Charm hiện tại:", #currentCharms > 0 and table.concat(currentCharms, ", ") or "Chưa khảm")
+
+        -- Danh sách cần khảm (loại trừ charm đã có)
+        local needCharms = {}
+        for _, cname in ipairs(preferredCharms) do
+            local already = false
+            for _, c in ipairs(currentCharms) do
+                if c == cname then
+                    already = true
+                    break
+                end
+            end
+            if not already then
+                table.insert(needCharms, cname)
+            end
+        end
+
+        -- Tính số charm còn có thể khảm
+        local remainingSlots = maxSlots - #currentCharms
+        if remainingSlots > 0 and #needCharms > 0 then
+            print("✨ Bắt đầu khảm", math.min(remainingSlots, #needCharms), "viên")
+            for i = 1, math.min(remainingSlots, #needCharms) do
+                local cname = needCharms[i]
+                local charmUID = findCharmUID(cname)
+                if charmUID then
+                    print("🔗 Khảm", cname, "vào pet", data.id)
+                    local success, res = pcall(function()
+                        return Charms_AttachToPet:InvokeServer(charmUID, {uid})
+                    end)
+                    if success then
+                        print("✅ Khảm thành công:", cname)
+                    else
+                        --warn("❌ Khảm thất bại:", cname, res)
+                    end
+                else
+                    --warn("⚠️ Không tìm thấy đá:", cname)
+                end
+                task.wait(1.5)
+            end
+        else
+            print("⚠️ Không có slot trống hoặc không còn charm phù hợp để khảm.")
+        end
+    end
+end
+
+
+end)
