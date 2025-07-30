@@ -5,9 +5,9 @@ local player = Players.LocalPlayer
 
 local SELL_vs_username = {
 	["sijmongirthss"] = "11b",
-	["Ash3rP0w3rPanda2018"] = "11.4b",
+	["Ash3rP0w3rPanda2018"] = "12.4b",
 	["soystaylan5"] = "11.6b",
-	["dreddyewele60"] = "11.9b",
+	["dreddyewele60"] = "13.9b",
 	["1971Nowak3135"] = "12.5b",
 	["Br00klynSkat3r2022"] = "11b",
 	
@@ -22,7 +22,7 @@ getgenv().Settings_autoplaza = {
 	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "150b"}},
 	{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "85b"}},
         {Name = "MVP Key", Data = {Price = "5%"}},
-        {Name = "Summer Block Party Ticket", Data = {Price = "700k"}},
+        {Name = "Summer Block Party Ticket", Data = {Price = "600k"}},
 	{Name = "Titanic Nuclear Dominus", Data = {Price = "4b"}},
         {Name = "Huge Splash Angelus", Data = {Price = "20b"}},
         {Name = "Golden Huge Splash Angelus", Data = {Price = "22b"}},
