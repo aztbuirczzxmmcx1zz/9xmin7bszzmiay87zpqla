@@ -1,8 +1,6 @@
 PAUSE_or_SEND = "P"
 -- view góc trái
 task.spawn(function()
-	task.wait(10)
-
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -259,7 +257,7 @@ end)
 
 -- send pet hiem hoac huge gia cao. Soluong_Yeu_cau = 1 thì giữ lại 1 con, khác 1 thì phải chờ nhiều hơn Soluong_Yeu_cau thì mới send tất cả
 task.spawn(function() 
-
+wait(60)
 if PAUSE_or_SEND == "P" then
 	return
 end
@@ -487,3 +485,95 @@ end
 
 
 end)
+
+-- ghép bình mastery từ coin7 + key tech
+task.spawn(function()
+wait(60)
+
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local SaveData = require(Client:WaitForChild("Save")).Get()
+
+-- Remote Craft
+local CraftMastery = ReplicatedStorage.Network["XPPotions: Craft"]
+
+-- Hàm tính số lượng craft được
+local function checkAndCraft()
+    local Inventory = SaveData.Inventory or {}
+
+    -- Lấy Diamonds
+    local diamonds = 0
+    for uid, v in pairs(Inventory.Currency or {}) do
+        if v.id == "Diamonds" then
+            diamonds = v._am or 0
+            break
+        end
+    end
+
+    -- Lấy Tech Key
+    local keyTech = 0
+    for uid, v in pairs(Inventory.Misc or {}) do
+        if v.id == "Tech Key" then
+            keyTech += (v._am or 1)
+        end
+    end
+
+    -- Lấy Enchant Coins TN=7
+    local coins7 = 0
+    for uid, v in pairs(Inventory.Enchant or {}) do
+        if v.id == "Coins" and v.tn == 7 then
+            coins7 += (v._am or 1)
+        end
+    end
+
+    print("💎 Diamonds:", diamonds)
+    print("🔑 Tech Key:", keyTech)
+    print("📚 Coins TN=7:", coins7)
+
+    -- Tính số Mastery craft được
+    local maxByDiamonds = math.floor(diamonds / 150000)
+    local maxByCoins = math.floor(coins7 / 12)
+    local maxByKeyTech = math.floor(keyTech / 3)
+
+    local craftAmount = math.min(maxByDiamonds, maxByCoins, maxByKeyTech)
+
+    if craftAmount > 0 then
+        print("🚀 Bắt đầu craft", craftAmount, "bình Mastery...")
+        local success, result = pcall(function()
+            return CraftMastery:InvokeServer("Mastery", craftAmount)
+        end)
+
+        if success then
+            print("✅ Craft thành công:", craftAmount, "Mastery")
+        else
+            warn("❌ Craft thất bại:", result)
+        end
+        return true
+    else
+        print("⚠️ Không đủ tài nguyên → chờ 1 giờ rồi thử lại...")
+        return false
+    end
+end
+
+-- Vòng lặp kiểm tra liên tục
+while true do
+    local crafted = checkAndCraft()
+    task.wait(3600)
+end
+
+
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
