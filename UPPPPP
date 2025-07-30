@@ -1,3 +1,19 @@
+repeat task.wait() until game:IsLoaded()
+local LocalPlayer = game:GetService('Players').LocalPlayer
+repeat task.wait() until not LocalPlayer.PlayerGui:FindFirstChild('__INTRO')
+
+repeat
+    wait(2)
+until game:IsLoaded() and
+    game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui") and
+    game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("MainLeft") and
+    game:GetService("Players").LocalPlayer.PlayerGui.MainLeft.Left.Currency.Diamonds.Diamonds.Visible == true and
+    not game:GetService("Players").LocalPlayer:FindFirstChild("GUIFX Holder")
+
+-- In ra thông báo khi trò chơi đã được tải hoàn toàn.
+print("[CLIENT] Loaded Game")
+
+
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
@@ -5,25 +21,9 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local VirtualInputManager = game:GetService("VirtualInputManager")
 
 local player = Players.LocalPlayer
-while not player do
-	task.wait(1)
-	player = Players.LocalPlayer
-end
 
 -- 📦 Remote
 local Upgrades_Purchase = ReplicatedStorage.Network:WaitForChild("Upgrades_Purchase")
-
--- 🌫️ Ẩn toàn bộ map
-local function hideMap()
---	for _, obj in ipairs(Workspace:GetDescendants()) do
---		if obj:IsA("BasePart") then
---			obj.Transparency = 1
---			obj.CastShadow = false
---		elseif obj:IsA("Decal") or obj:IsA("Texture") then
---			obj.Transparency = 1
---		end
---	end
-end
 
 -- 🧭 Teleport
 local function runSequence(teleportPositions)
@@ -47,8 +47,7 @@ local function BAM_E_UPDATE()
 end
 
 -- ⚙️ Thiết lập ban đầu
-setfpscap(15)
-hideMap()
+setfpscap(120)
 
 VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.F, false, game)
 task.wait(0.1)
