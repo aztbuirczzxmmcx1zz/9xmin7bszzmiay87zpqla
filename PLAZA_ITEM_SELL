@@ -12,7 +12,7 @@ local SELL_vs_username = {
 	["Br00klynSkat3r2022"] = "11b",
 	
 }
-local defaultPrice = "11.2b"
+local defaultPrice = "10.8b"
 
 
 getgenv().Settings_autoplaza = {
