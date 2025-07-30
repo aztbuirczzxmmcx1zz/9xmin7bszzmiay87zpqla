@@ -1,3 +1,5 @@
+wait(150)
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
 local SaveData = require(Client.Save).Get()
@@ -84,7 +86,7 @@ end
  
 -- map 269 event time trial
 task.spawn(function()
-wait(75)
+wait(100)
 
 _G.STOP_TIME_TRIAL = false
 
@@ -546,7 +548,7 @@ end)
 -- event block patry
 task.spawn(function()
 
-wait(150)
+wait(160)
 
 
 _G.VAR_BLOCK_PARTY = true
@@ -1296,7 +1298,7 @@ end)
 
 -- Ghép sách + thuốc nếu lv < 99 
 task.spawn(function()
-	task.wait(150)
+	task.wait(154)
 local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local level = Save.Get().Mastery and Save.Get().Mastery.Potions
 
@@ -1411,7 +1413,7 @@ end)
 ---------------------------------------------------------------------------------------------------------------------
 -- up pet gold + rainbow : Quartz Fox  Wise Cat
 task.spawn(function() 
-wait(20)
+wait(153)
 
 local NamePet_ep = {
     "Quartz Fox",
@@ -1484,7 +1486,7 @@ end)
 
 --GUI xem all
 task.spawn(function()
-wait(99)
+wait(152)
 
 local CoreGui = game:GetService("CoreGui")
 
@@ -1682,7 +1684,7 @@ end)
 
 -- ghép gift bag và mở gift
 task.spawn(function()
-wait(200)
+wait(151)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
