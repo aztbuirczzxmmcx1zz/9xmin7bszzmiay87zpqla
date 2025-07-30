@@ -12,3 +12,10 @@ else
 	EVENT_or_FARM = "F"
 	Start_ford = 1
 end
+
+if EVENT_or_FARM == "E" then
+	getgenv().GWEBHOOK_LINK = dis_event
+else
+	getgenv().GWEBHOOK_LINK = dis_farm
+end
+
