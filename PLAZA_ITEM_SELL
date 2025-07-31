@@ -47,7 +47,7 @@ getgenv().Settings_autoplaza = {
 	{Name = "XP TN1", Data = {Price = "150k"}},
 	{Name = "Glittering TN1", Data = {Price = "150k"}},
 
-        {Name = "Charm Chisel", Data = {Price = "150k"}},
+        {Name = "Charm Chisel", Data = {Price = "+2%"}},
         {Name = "Chest Spell", Data = {Price = "95m"}},
         {Name = "Tsunami", Data = {Price = "+2%"}},
         {Name = "Crystal Key", Data = {Price = "10k"}},
