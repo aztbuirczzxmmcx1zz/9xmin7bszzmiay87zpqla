@@ -23,7 +23,7 @@ getgenv().Settings_autoplaza = {
 	{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "80b"}},
         {Name = "MVP Key", Data = {Price = "2%"}},
         {Name = "Summer Block Party Ticket", Data = {Price = "600k"}},
-	{Name = "Titanic Nuclear Dominus", Data = {Price = "4b"}},
+
         {Name = "Huge Splash Angelus", Data = {Price = "20b"}},
         {Name = "Golden Huge Splash Angelus", Data = {Price = "22b"}},
         {Name = "Rainbow Huge Splash Angelus", Data = {Price = "100b"}},
