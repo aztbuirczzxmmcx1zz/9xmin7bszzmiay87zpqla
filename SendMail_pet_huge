@@ -57,7 +57,8 @@ task.spawn(function()
         end
 
         -- Hiện thời gian hiện tại (GMT+7)
-        timeLabel.Text = string.format("%02d:%02d:%02d", hour, min, sec)
+        timeLabel.Text = string.format("%02d:%02d", hour, min)
+
 		
 		
 		
@@ -66,7 +67,7 @@ task.spawn(function()
     -- Liên tục cập nhật mỗi giây
     while true do
         updateFordward()
-        task.wait(10)
+        task.wait(61)
     end
 end)
 
