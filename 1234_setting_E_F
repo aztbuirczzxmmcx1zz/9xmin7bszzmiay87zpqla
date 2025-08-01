@@ -11,7 +11,7 @@ until game:IsLoaded() and
     not game:GetService("Players").LocalPlayer:FindFirstChild("GUIFX Holder")
 
 -- In ra thông báo khi trò chơi đã được tải hoàn toàn.
-print("[CLIENT] Loaded Game")
+--print("[CLIENT] Loaded Game")
 
 
 if name_vps == "vin3" then
