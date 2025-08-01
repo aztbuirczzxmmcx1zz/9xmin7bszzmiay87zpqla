@@ -18,9 +18,9 @@ local defaultPrice = "10.8b"
 getgenv().Settings_autoplaza = {
 ["Items"] = {
         {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice}},
-        {Name = "Golden Titanic Starlight Pony", Data = {Price = "14b"}},
+        {Name = "Golden Titanic Starlight Pony", Data = {Price = "15b"}},
 	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "150b"}},
-	{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "85b"}},
+	{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "80b"}},
         {Name = "MVP Key", Data = {Price = "5%"}},
         {Name = "Summer Block Party Ticket", Data = {Price = "600k"}},
 	{Name = "Titanic Nuclear Dominus", Data = {Price = "4b"}},
