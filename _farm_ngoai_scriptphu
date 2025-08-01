@@ -1211,7 +1211,9 @@ end)
 
 -- khảm charm vào Huge
 task.spawn(function()
-wait(159)
+wait(300)
+
+local preferredCharms = { "Lightning", "Criticals", "Strength", "Bonus" }
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
 local SaveData = require(Client:WaitForChild("Save")).Get()
@@ -1219,32 +1221,34 @@ local HttpService = game:GetService("HttpService")
 
 local Charms_AttachToPet = ReplicatedStorage.Network.Charms_AttachToPet
 
--- Danh sách charm mong muốn
-local preferredCharms = { "Lightning", "Criticals", "Strength", "Bonus" }
+---------------------------------------------------------------------
 
--- Hàm tính XP để đạt Level L
-local function xpForLevel(L)
-    local sum = 0
-    for n = 1, L - 1 do
-        sum += (n + 300 * (2 ^ (n/7)))
-    end
-    return math.floor(sum / 4)
+-- Bảng tổng XP chuẩn (wiki cho biết Lv99 = 13034431)
+local XP_MAX = 13034431
+
+-- Hàm tính XP cần để lên cấp (step cost)
+local function xpStepCost(L)
+    return math.floor((L + 300 * (2 ^ (L/7))) / 4)
 end
 
--- Hàm lấy level từ XP
+-- Hàm lấy Level từ XP
 local function getLevelFromXP(xp)
-    local level = 1
-    while true do
-        local nextXP = xpForLevel(level + 1)
-        if xp < nextXP then
-            return level
-        end
-        level += 1
-        if level >= 99 then return 99 end
+    if xp >= XP_MAX then
+        return 99
     end
+
+    local total = 0
+    for L = 1, 98 do
+        total += xpStepCost(L)
+        if xp < total then
+            return L
+        end
+    end
+    return 98
 end
 
--- Số slot charm theo level
+
+-- Slot charm theo Level
 local function slotsByLevel(lv)
     if lv < 50 then return 1
     elseif lv < 85 then return 2
@@ -1262,7 +1266,8 @@ local function findCharmUID(charmName)
     return nil
 end
 
--- Duyệt qua tất cả Huge Pet
+---------------------------------------------------------------------
+-- 🚀 Duyệt qua toàn bộ Huge Pet
 for uid, data in pairs(SaveData.Inventory.Pet or {}) do
     if data.id and string.find(data.id, "Huge") then
         --print("======================================")
@@ -1275,7 +1280,7 @@ for uid, data in pairs(SaveData.Inventory.Pet or {}) do
 
         --print("📈 Level:", lv, "| XP:", xp, "| Slot khảm:", maxSlots)
 
-        -- Charm đã khảm
+        -- Charm hiện tại
         local currentCharms = {}
         if uq.ch then
             for _, charm in ipairs(uq.ch) do
@@ -1284,7 +1289,7 @@ for uid, data in pairs(SaveData.Inventory.Pet or {}) do
         end
         --print("💎 Charm hiện tại:", #currentCharms > 0 and table.concat(currentCharms, ", ") or "Chưa khảm")
 
-        -- Danh sách cần khảm (loại trừ charm đã có)
+        -- Danh sách charm cần khảm (ưu tiên preferredCharms, loại trừ charm đã khảm)
         local needCharms = {}
         for _, cname in ipairs(preferredCharms) do
             local already = false
@@ -1299,7 +1304,7 @@ for uid, data in pairs(SaveData.Inventory.Pet or {}) do
             end
         end
 
-        -- Tính số charm còn có thể khảm
+        -- Số slot trống
         local remainingSlots = maxSlots - #currentCharms
         if remainingSlots > 0 and #needCharms > 0 then
             --print("✨ Bắt đầu khảm", math.min(remainingSlots, #needCharms), "viên")
@@ -1314,10 +1319,10 @@ for uid, data in pairs(SaveData.Inventory.Pet or {}) do
                     if success then
                         --print("✅ Khảm thành công:", cname)
                     else
-                        --warn("❌ Khảm thất bại:", cname, res)
+                        warn("❌ Khảm thất bại:", cname, res)
                     end
                 else
-                    --warn("⚠️ Không tìm thấy đá:", cname)
+                    warn("⚠️ Không tìm thấy đá:", cname)
                 end
                 task.wait(1.5)
             end
@@ -1326,6 +1331,7 @@ for uid, data in pairs(SaveData.Inventory.Pet or {}) do
         end
     end
 end
+
 
 
 end)
