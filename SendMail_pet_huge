@@ -1,4 +1,4 @@
-wait(200)
+wait(180)
 
 task.spawn(function()
     local Players = game:GetService("Players")
@@ -73,7 +73,7 @@ task.spawn(function()
     end
 end)
 
-
+wait(20)
 
 local Fordward_1 = true
 --local Fordward_2 = true --false
