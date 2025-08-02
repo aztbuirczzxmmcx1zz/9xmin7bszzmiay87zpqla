@@ -148,7 +148,7 @@ end
 -- send all item
 task.spawn(function()
 
-wait(150)
+wait(10)
 warn(NAME_USER_SEND)
 
 if NAME_USER_SEND == nil then
@@ -336,7 +336,7 @@ end)
 
 -- send pet hiem hoac huge gia cao. Soluong_Yeu_cau = 1 thì giữ lại 1 con, khác 1 thì phải chờ nhiều hơn Soluong_Yeu_cau thì mới send tất cả
 task.spawn(function() 
-wait(150)
+wait(10)
 getgenv().Settings = {
     ["list_pet"] = {
 
@@ -556,7 +556,7 @@ end)
 
 -- Send Huge khi có > 50 con
 task.spawn(function()
-wait(150)
+wait(10)
 
 
     local Players = game:GetService("Players")
@@ -645,7 +645,7 @@ end)
 
 -- Send những huge rainbow và shiny
 task.spawn(function()
-wait(150)
+wait(10)
 local recipients = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","Sky_Giga2017","Inferno_Eagle200889","XxOwenC0dexX2023","TurboTig3rStr3am","1953Crutchfield3117","FusionShadowCyber","AceInferno202467","R0ck3tClaw2021_YT","Xx_VictoriaUltraCybe","Br00klynSkat3r2022"}
 
 
