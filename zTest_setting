@@ -1,12 +1,15 @@
-getgenv().GDO_BLOCK_PARTY = true
-getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_TITANIC = nil
-getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_MULTIPLIER2 = nil
-getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_TIER = 8
-
 setfpscap(3)
---getgenv().GLOOTBOXES = {"All"}
+getgenv().GEVENT_FPS  = 3
+
+--getgenv().GDO_BLOCK_PARTY = true
+--getgenv().GBLOCK_PARTY_RAFFLE_ENTRIES = 5
+--getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_TITANIC = true
+--getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_MULTIPLIER2 = 25
+
+getgenv().GLOOTBOXES = {"Locked Hype Egg","Tropical Gift"}
 
 getgenv().GENCHANTS = {}
+
 --getgenv().GMIN_EGGS_TO_HATCH = 9999999999999
 --getgenv().GRANK_FIRST = true
 getgenv().GZONE_TO = 999
@@ -21,7 +24,7 @@ getgenv().GMAX_HATCH = 99
 
 
 -----------------------
---getgenv().GUSE_SPINNY_WHEEL = true
+
 getgenv().GAUTO_UPGRADE_PETS = true
 getgenv().GCOMBINE_KEYS = true
 getgenv().GMASTERY_TO_MAX = "Pets"
