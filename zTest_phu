@@ -1,4 +1,4 @@
---wait(100)
+wait(100)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
 local SaveData = require(Client.Save).Get()
