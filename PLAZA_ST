@@ -1,4 +1,7 @@
+wait(50)
 PAUSE_or_SEND = "P"
+
+wait(1)
 -- view góc trái
 task.spawn(function()
 
@@ -110,9 +113,9 @@ while true do
 end
 end)
 
+wait(1)
 --Sent chìa
 task.spawn(function()
-wait(60)
 NAME_USER_SEND = "veriotiai779"
 
 
@@ -255,9 +258,9 @@ end
 
 end)
 
+wait(1)
 -- send pet hiem hoac huge gia cao. Soluong_Yeu_cau = 1 thì giữ lại 1 con, khác 1 thì phải chờ nhiều hơn Soluong_Yeu_cau thì mới send tất cả
 task.spawn(function() 
-wait(60)
 if PAUSE_or_SEND == "P" then
 	return
 end
@@ -486,10 +489,9 @@ end
 
 end)
 
+wait(1)
 -- ghép bình mastery từ coin7 + key tech
 task.spawn(function()
-wait(60)
-
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
