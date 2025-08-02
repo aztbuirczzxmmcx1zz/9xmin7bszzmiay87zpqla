@@ -1003,7 +1003,7 @@ function Dung_ve_raffe()
 
 while true do
 
-time_random= math.random(3600,7200)
+time_random= math.random(420,1200)
 warn(time_random)
 wait(time_random)
 waitUntilAllowed()
@@ -1013,7 +1013,7 @@ local Raffle_Submit = ReplicatedStorage.Network.Raffle_Submit
 
 Raffle_Submit:InvokeServer(
     "TileRaffle",
-    5,
+    10,
     false
 )
 
