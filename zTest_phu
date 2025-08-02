@@ -1,4 +1,4 @@
-wait(100)
+--wait(100)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
 local SaveData = require(Client.Save).Get()
@@ -75,12 +75,26 @@ function autoEquipEnchantBooks(bookList)
 end
 autoEquipEnchantBooks({"Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power"})
 
- 
-function _OFF_ON_pet()
-	
+function Hold_loading_game()
+
+repeat task.wait() until game:IsLoaded()
+local LocalPlayer = game:GetService('Players').LocalPlayer
+repeat task.wait() until not LocalPlayer.PlayerGui:FindFirstChild('__INTRO')
+
+repeat
+    wait(2)
+until game:IsLoaded() and
+    game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui") and
+    game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("MainLeft") and
+    game:GetService("Players").LocalPlayer.PlayerGui.MainLeft.Left.Currency.Diamonds.Diamonds.Visible == true and
+    not game:GetService("Players").LocalPlayer:FindFirstChild("GUIFX Holder")
+
+
 end
- 
-wait(5)--waitchung
+
+
+
+wait(1)--waitchung
 warn("event time trial")
 -- map 269 event time trial
 task.spawn(function()
@@ -154,6 +168,7 @@ end
 
 local function safeTeleportOut()
 	teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Leave)
+	Hold_loading_game()
 	task.wait(9)
 	if increaseMonitorThread then pcall(task.cancel, increaseMonitorThread) increaseMonitorThread = nil end
 	if lagMonitorThread then pcall(task.cancel, lagMonitorThread) lagMonitorThread = nil end
@@ -474,13 +489,14 @@ task.spawn(function()
 
 			warn("🔁 Bắt đầu lượt: " .. tostring(used))
 			teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
+			Hold_loading_game()
 			task.wait(5)
-			_OFF_ON_pet()
 			local retry = 0
 			while not workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("TimeTrial") and retry < 3 do
 				retry += 1
 				warn("❌ Vào thất bại, thử lại...")
 				teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
+				Hold_loading_game()
 				task.wait(5)
 			end
 
@@ -489,6 +505,7 @@ task.spawn(function()
 				safeTeleportOut()
 				task.wait(5)
 				teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
+				Hold_loading_game()
 				task.wait(5)
 			end
 
@@ -502,7 +519,7 @@ task.spawn(function()
 		end
 		warn("🎉 Hoàn tất 10/10 lượt Time Trial.")
 		claimReward()
-		task.wait(30)
+		task.wait(3)
 		cleanupAllThreads()
 		autoEquipEnchantBooks({"Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power"})
 		_G.VAR_STOP_BLOCK_PARTY = false
@@ -543,14 +560,15 @@ end)
 
 end)
 
-wait(5)--waitchung
+
+
+wait(1)--waitchung
 warn("event block patry")
 -- event block patry
 task.spawn(function()
 	
 _G.VAR_BLOCK_PARTY = true
 local isRunning = false
-
 -- ⚙️ Dịch vụ & Folder
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
@@ -591,9 +609,10 @@ local function teleportToBlockParty()
 	local Enter = workspace.__THINGS.Instances.BlockParty.Teleports.Enter
 	-- 🧭 Teleport vào Block Party & đến vị trí cụ thể
 	teleportTo(Enter.CFrame + Vector3.new(0, 5, 0))
-	task.wait(9)
-	--teleportTo(CFrame.new(16460, 2275, -21473))
-	--task.wait(9)
+	Hold_loading_game()
+	task.wait(2)
+	teleportTo(CFrame.new(16460, 2275, -21473))
+	task.wait(5)
 end
 
 ---------------- 🧩 LUỒNG 1: Mua tiles quanh plot ----------------
@@ -670,8 +689,8 @@ end
 local function startTileHandler()
 	local TilesInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Invoke")
 	local TilesFire = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Fire")
-	local delayPerTile = 0.5
-	local delayPerCycle = 0.5
+	local delayPerTile = 0.05
+	local delayPerCycle = 0.3
 
 	while true do
 		waitUntilAllowed()
@@ -1016,10 +1035,12 @@ end
 
 ---------------- 🚀 Kích hoạt tất cả luồng song song ----------------
 local function startAllBlockPartyTasks()
+
+	print("🚀 Đã kích hoạt startAllBlockPartyTasks")
 	teleportToBlockParty()
 	if isRunning then return end
 	isRunning = true
-	print("🚀 Đã kích hoạt startAllBlockPartyTasks")
+	
 	
 	-- 🧩 LUỒNG 1: Auto Purchase
 	task.spawn(function()
@@ -1045,15 +1066,15 @@ local function startAllBlockPartyTasks()
 	end)
 
 	-- 🧩 LUỒNG 5: Hatch HUGE
-	task.spawn(function()
-		while true do
-			while getTotalTileCount() < 169 do
-				task.wait(2)
-			end
-			print("✅ Đã khởi động LUỒNG 3: Hatch HUGE CHANCE")
-			--startAutoHatchHuge()
-		end
-	end)
+	--task.spawn(function()
+	--	while true do
+	--		while getTotalTileCount() < 169 do
+	--			task.wait(2)
+	--		end
+	--		print("✅ Đã khởi động LUỒNG 3: Hatch HUGE CHANCE")
+	--		--startAutoHatchHuge()
+	--	end
+	--end)
 
 	-- 🧩 LUỒNG 6: Auto Gift Bag
 	task.spawn(function()
@@ -1067,27 +1088,28 @@ local function startAllBlockPartyTasks()
 	end)
 
 	-- 🧩 LUỒNG 7: Auto Rebirth
-	task.spawn(function()
-		local Save = require(ReplicatedStorage.Library.Client.Save)
-		while true do
-			local saveData = Save.Get()
-			local tileRebirth = saveData.TileRebirth or 0
-			if tileRebirth < 15 then
-				print("✅ Đã khởi động LUỒNG 5: Auto Rebirth")
-				--startAutoRebirth()
-				break
-			end
-			task.wait(5)
-		end
-	end)
+	--task.spawn(function()
+	--	local Save = require(ReplicatedStorage.Library.Client.Save)
+	--	while true do
+	--		local saveData = Save.Get()
+	--		local tileRebirth = saveData.TileRebirth or 0
+	--		if tileRebirth < 15 then
+	--			print("✅ Đã khởi động LUỒNG 5: Auto Rebirth")
+	--			--startAutoRebirth()
+	--			break
+	--		end
+	--		task.wait(5)
+	--	end
+	--end)
 
 
 
-	-- 🧩 LUỒNG 8: GUI Updater
-	task.spawn(function()
-		print("✅ Đã khởi động LUỒNG 6: GUI Updater")
-		--startGuiUpdater()
-	end)
+	---- 🧩 LUỒNG 8: GUI Updater
+	--task.spawn(function()
+	--	print("✅ Đã khởi động LUỒNG 6: GUI Updater")
+	--	--startGuiUpdater()
+	--end)
+	
 	-- 🧩 LUỒNG 9: check join event
 	
 	task.spawn(function()
@@ -1128,7 +1150,7 @@ local function startAllBlockPartyTasks()
 			_G.VAR_STOP_BLOCK_PARTY = false
 			_G.VAR_START_BLOCK_PARTY = true
 		end
-		wait(2*60)
+		wait(3*60)
 		if _G.SPAM_SWAP_EVENT and getTotalTileCount() > 160 then 
 			_G.VAR_STOP_BLOCK_PARTY = true
 			_G.VAR_START_BLOCK_PARTY = false
@@ -1140,7 +1162,7 @@ local function startAllBlockPartyTasks()
 			local player = Players.LocalPlayer
 			local character = player.Character or player.CharacterAdded:Wait()
 			player.Character.HumanoidRootPart.CFrame = CFrame.new(-14248, 20, 2203)
-		wait(40*60)	
+		wait(20*60)	
 		end	
 		
 	end
@@ -1165,6 +1187,8 @@ end)
 
 
 end)
+
+
 
 wait(5)--waitchung
 warn("xem sl sách")
