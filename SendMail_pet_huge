@@ -49,11 +49,11 @@ task.spawn(function()
 
         -- Kiểm tra ON/OFF
         if hour >= 9 and hour < 21 then
-            local Fordward_2 = false
+            Fordward_2 = false
             statusLabel.Text = "OFF"
             statusLabel.TextColor3 = Color3.fromRGB(255, 50, 50) -- đỏ
         else
-            local Fordward_2 = true
+            Fordward_2 = true
             statusLabel.Text = "ON"
             statusLabel.TextColor3 = Color3.fromRGB(50, 255, 50) -- xanh
         end
