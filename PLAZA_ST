@@ -120,7 +120,7 @@ function Sent_item_all()
 
 getgenv().Settings_sentitem = {		
 
-
+["Summer Block Party Ticket"] = {Class = "Misc", Id = "Summer Block Party Ticket", MinAmount = 100},	--ok
 ["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 1000},	--ok
 ["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 20000},	
 
