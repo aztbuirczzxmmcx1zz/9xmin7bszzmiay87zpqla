@@ -592,12 +592,11 @@ end
 
 local function teleportToBlockParty()
 	local Enter = workspace.__THINGS.Instances.BlockParty.Teleports.Enter
-
 	-- 🧭 Teleport vào Block Party & đến vị trí cụ thể
 	teleportTo(Enter.CFrame + Vector3.new(0, 5, 0))
 	task.wait(9)
-	teleportTo(CFrame.new(16460, 2275, -21473))
-	task.wait(9)
+	--teleportTo(CFrame.new(16460, 2275, -21473))
+	--task.wait(9)
 end
 
 ---------------- 🧩 LUỒNG 1: Mua tiles quanh plot ----------------
@@ -648,11 +647,7 @@ local function startAutoPurchase()
 		local totalTiles = getTotalTileCount()
 		local hugeChance = _G.CURRENT_HUGE_CHANCE or 0
 
-		-- 🛑 Dừng hẳn nếu đủ 3 điều kiện
-		if tileRebirth >= 15 and totalTiles >= 169 and hugeChance >= 5 then
-			warn("✅ Đã đạt đủ điều kiện (Tiles ≥169, Rebirth ≥15, HugeChance ≥25x) → Dừng Auto Purchase.")
-			break
-		end
+
 
 		if totalTiles >= 169 then
 			warn("⏳ Tiles ≥169 → chờ 30s trước khi kiểm tra lại.")
