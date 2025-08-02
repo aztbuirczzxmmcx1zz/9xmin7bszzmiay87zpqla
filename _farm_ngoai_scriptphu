@@ -1,4 +1,4 @@
-
+wait(100)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
 local SaveData = require(Client.Save).Get()
@@ -74,22 +74,40 @@ function autoEquipEnchantBooks(bookList)
     end
 end
 
+function Hold_loading_game()
+
+repeat task.wait() until game:IsLoaded()
+local LocalPlayer = game:GetService('Players').LocalPlayer
+repeat task.wait() until not LocalPlayer.PlayerGui:FindFirstChild('__INTRO')
+
+repeat
+    wait(2)
+until game:IsLoaded() and
+    game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui") and
+    game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("MainLeft") and
+    game:GetService("Players").LocalPlayer.PlayerGui.MainLeft.Left.Currency.Diamonds.Diamonds.Visible == true and
+    not game:GetService("Players").LocalPlayer:FindFirstChild("GUIFX Holder")
+
+
+end
+
 
 autoEquipEnchantBooks({"Breakable Mayhem","Explosive","Diamonds","Treasure Hunter","Fruity","Fortune","Lucky Eggs","Diamonds","Lucky Eggs"})
 
 
--- map 269 event time trial
+wait(1)--waitchung
+warn("event time trial")
 task.spawn(function()
-wait(100)
+
 local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local rank = Save.Get().Rank
 if rank < 20 then warn("RANK < 20") return end
 
 
 _G.STOP_TIME_TRIAL = false
---if _G.STOP_TIME_TRIAL == false then 
---	return
---end
+if _G.STOP_TIME_TRIAL == false then 
+	return
+end
 
 
 local Players = game:GetService("Players")
@@ -158,6 +176,7 @@ end
 
 local function safeTeleportOut()
 	teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Leave)
+	Hold_loading_game()
 	task.wait(9)
 	if increaseMonitorThread then pcall(task.cancel, increaseMonitorThread) increaseMonitorThread = nil end
 	if lagMonitorThread then pcall(task.cancel, lagMonitorThread) lagMonitorThread = nil end
@@ -482,6 +501,7 @@ task.spawn(function()
 
 			warn("🔁 Bắt đầu lượt: " .. tostring(used))
 			teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
+			Hold_loading_game()
 			task.wait(5)
 
 			local retry = 0
@@ -489,6 +509,7 @@ task.spawn(function()
 				retry += 1
 				warn("❌ Vào thất bại, thử lại...")
 				teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
+				Hold_loading_game()
 				task.wait(5)
 			end
 
@@ -535,10 +556,10 @@ end)
 
 end)
 
-
--- send sách thừa nếu nó > 2 / 1 loại
+wait(1)--waitchung
+warn("send sách thừa")
+--  nếu nó > 2 / 1 loại
 task.spawn(function()
-task.wait(150)
 
 local username = "BarzARoy1107"
 
@@ -587,6 +608,8 @@ end
 
 end)
 
+wait(1)--waitchung
+warn("xem sl 7 sách thường dùng")
 -- xem sl 7 sách thường dùng
 task.spawn(function()
 task.wait(151)
@@ -670,10 +693,10 @@ end)
 
 end)
 
+wait(1)--waitchung
+warn("Xem item cần tìm x 10 ở giữa cho giả lập")
 -- Xem item cần tìm x 10 ở giữa cho giả lập
 task.spawn(function()
-	task.wait(152)
-
 	local Players = game:GetService("Players")
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -761,9 +784,11 @@ task.spawn(function()
 	end
 end)
 
+wait(1)--waitchung
+warn("Ghép sách + thuốc nếu lv < 99 ")
 -- Ghép sách + thuốc nếu lv < 99 
 task.spawn(function()
-	task.wait(153)
+
 local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local level = Save.Get().Mastery and Save.Get().Mastery.Potions
 
@@ -854,9 +879,10 @@ end
 
 end)
 
+wait(1)--waitchung
+warn("xem tên nhân vật và kiểm tra gem < 10m cho giả lập ")
 --xem tên nhân vật và kiểm tra gem < 10m cho giả lập
 task.spawn(function()
-	task.wait(154)
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui")
@@ -934,10 +960,10 @@ task.spawn(monitor)
 
 end)
 
+wait(1)--waitchung
+warn("xoá lưu pet rồi chọn pet mạnh nhất")
 -- xoá lưu pet rồi chọn pet mạnh nhất	
 task.spawn(function()
-	wait(155)
-
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local PetsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Pets")
 local Network = ReplicatedStorage:WaitForChild("Network")
@@ -956,29 +982,10 @@ local Network = ReplicatedStorage:WaitForChild("Network")
     wait(0.3)
 end)
 
--- phát hiện không farm ở svv thoát game
-task.spawn(function()
-task.wait(300)
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
--- Hàm kiểm tra số người và shutdown nếu cần
-function autoShutdownIfNotAlone()
-    local playerCount = #Players:GetPlayers()
-
-    if playerCount > 1 then
-        game:Shutdown() -- ⚠️ Lệnh shutdown client
-		Players.LocalPlayer:Kick("kick")
-    end
-end
-
--- Gọi ngay khi script chạy
-autoShutdownIfNotAlone()
-
-
-end)
+wait(1)--waitchung
+warn("up pet gold + rainbow")
 -- up pet gold + rainbow : Quartz Fox  Wise Cat
 task.spawn(function() 
-wait(156)
 
 local NamePet_ep = {
     "Palace Pooka",
@@ -1050,18 +1057,20 @@ Ghep_pet_len_gold_rainbow(NamePet_ep)
 
 end)
 
+wait(1)--waitchung
+warn("Chạy 8 tiếng out 1 lần")
 -- Chạy 8 tiếng out 1 lần
 task.spawn(function()
-
 wait(13*3600)
 game:Shutdown()
 Players.LocalPlayer:Kick("kick")
 
 end)
 
+wait(1)--waitchung
+warn("ghép gift bag và mở gift")
 -- ghép gift bag và mở gift
 task.spawn(function()
-wait(200)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
@@ -1142,10 +1151,10 @@ end
 
 end)
 
+wait(1)--waitchung
+warn("Phát hiện nick chưa max UpgradesOwned")
 -- Phát hiện nick chưa max UpgradesOwned
 task.spawn(function()
-wait(150)
-
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local Save = require(ReplicatedStorage.Library.Client.Save)
@@ -1209,10 +1218,10 @@ end
 
 end)
 
+wait(1)--waitchung
+warn("khảm charm vào Huge")
 -- khảm charm vào Huge
 task.spawn(function()
-wait(300)
-
 local preferredCharms = { "Lightning", "Criticals", "Strength", "Bonus" }
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
@@ -1335,4 +1344,34 @@ end
 
 
 end)
+
+wait(1)--waitchung
+warn("phát hiện không farm ở svv thoát game")
+-- phát hiện không farm ở svv thoát game
+task.spawn(function()
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+-- Hàm kiểm tra số người và shutdown nếu cần
+function autoShutdownIfNotAlone()
+    local playerCount = #Players:GetPlayers()
+
+    if playerCount > 1 then
+        game:Shutdown() -- ⚠️ Lệnh shutdown client
+		Players.LocalPlayer:Kick("kick")
+    end
+end
+
+-- Gọi ngay khi script chạy
+autoShutdownIfNotAlone()
+
+
+end)
+
+
+
+
+
+
+
+
 
