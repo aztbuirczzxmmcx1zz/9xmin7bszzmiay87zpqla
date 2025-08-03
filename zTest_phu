@@ -561,7 +561,6 @@ end)
 end)
 
 
-
 wait(1)--waitchung
 warn("event block patry")
 -- event block patry
@@ -1127,18 +1126,18 @@ local function startAllBlockPartyTasks()
 		
 	end)
 	
-	task.spawn(function()
-		local Save = require(ReplicatedStorage.Library.Client.Save)
-		while true do
-			local saveData = Save.Get()
-			local tileRebirth = saveData.TileRebirth or 0					
-			print("✅ Đã khởi động Dung_ve_raffe")
-			wait(1)
-			Dung_ve_raffe()
-			wait(4)
-			waitUntilAllowed()
-		end
-	end)
+	--task.spawn(function()
+	--	local Save = require(ReplicatedStorage.Library.Client.Save)
+	--	while true do
+	--		local saveData = Save.Get()
+	--		local tileRebirth = saveData.TileRebirth or 0					
+	--		print("✅ Đã khởi động Dung_ve_raffe")
+	--		wait(1)
+	--		Dung_ve_raffe()
+	--		wait(4)
+	--		waitUntilAllowed()
+	--	end
+	--end)
 	
 	task.spawn(function()
 		wait(5)
@@ -2032,17 +2031,3 @@ autoShutdownIfNotAlone()
 
 
 end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
