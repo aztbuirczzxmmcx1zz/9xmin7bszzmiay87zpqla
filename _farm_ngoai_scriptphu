@@ -75,26 +75,26 @@ function autoEquipEnchantBooks(bookList)
 end
 
 local Players = game:GetService("Players")
-local ContentProvider = game:GetService("ContentProvider")
 local LocalPlayer = Players.LocalPlayer
 
-function Hold_loading_game()
-
-    -- Chờ nhân vật spawn
+local function waitForMapLoaded()
     local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
     local hrp = char:WaitForChild("HumanoidRootPart")
-    local humanoid = char:WaitForChild("Humanoid")
 
-    -- Đảm bảo workspace (map, terrain, models) được nạp
-    ContentProvider:PreloadAsync({workspace})
+    local function isStablePosition()
+        -- Nếu map chưa load → nhân vật hay bị spawn ở (0,0,0) hoặc Y rất thấp
+        if hrp.Position.Y < 2 then return false end
 
-    -- Chờ cho tới khi nhân vật đứng trên mặt đất
-    repeat task.wait(0.5) until humanoid.FloorMaterial ~= Enum.Material.Air
+        -- So sánh vị trí trong 0.5s → nếu không đổi nhiều thì coi như ổn định
+        local p1 = hrp.Position
+        task.wait(0.5)
+        local p2 = hrp.Position
+        return (p1 - p2).Magnitude < 1
+    end
 
+    repeat task.wait(1) until isStablePosition()
     return true
-	
 end
-
 
 autoEquipEnchantBooks({"Breakable Mayhem","Explosive","Diamonds","Treasure Hunter","Fruity","Fortune","Lucky Eggs","Diamonds","Lucky Eggs"})
 
@@ -180,7 +180,7 @@ end
 
 local function safeTeleportOut()
 	teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Leave)
-	Hold_loading_game()
+	waitForMapLoaded()
 	task.wait(3)
 	if increaseMonitorThread then pcall(task.cancel, increaseMonitorThread) increaseMonitorThread = nil end
 	if lagMonitorThread then pcall(task.cancel, lagMonitorThread) lagMonitorThread = nil end
@@ -505,7 +505,7 @@ task.spawn(function()
 
 			warn("🔁 Bắt đầu lượt: " .. tostring(used))
 			teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
-			Hold_loading_game()
+			waitForMapLoaded()
 			task.wait(3)
 
 			local retry = 0
@@ -513,7 +513,7 @@ task.spawn(function()
 				retry += 1
 				warn("❌ Vào thất bại, thử lại...")
 				teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
-				Hold_loading_game()
+				waitForMapLoaded()
 				task.wait(3)
 			end
 
