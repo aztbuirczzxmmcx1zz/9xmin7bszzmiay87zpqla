@@ -1602,7 +1602,7 @@ local function startGuiUpdater()
     --local giftLabel       = createLabel("TropicalGiftLabel", rightRegion,   Color3.fromRGB(128, 0, 128))
     --local ticketLabel     = createLabel("SBPTicketLabel",    rightRegion,   Color3.fromRGB(128, 0, 128))
 
-    --local timeTrialLabel  = createLabel("timeTrialLabel",    leftRegion,    Color3.fromRGB(128, 0, 128))
+    local timeTrialLabel  = createLabel("timeTrialLabel",    leftRegion,    Color3.fromRGB(128, 0, 128))
     local pointsLabel     = createLabel("pointsLabel",       centerRegion,  Color3.fromRGB(128, 0, 128))
 
     -- Vòng lặp cập nhật GUI liên tục
