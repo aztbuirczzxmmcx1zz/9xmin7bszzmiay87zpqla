@@ -58,14 +58,14 @@ getgenv().Settings_autoplaza = {
         {Name = "Fantasy Key", Data = {Price = "60k"}},   
         
 
-{Name = "All Huges", Data = {Price = "2%", Min_sell = "10m", Max_sell = "30m", sold_by_convention = true}},
-        
-	{Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "4b"}},
-	{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "4b"}},
-	{Name = "Shiny All Huges", Data = {Price = "2%", Min_sell = "70m", Max_sell = "150m"}},
-	{Name = "Rainbow All Huges", Data = {Price = "2%", Min_sell = "70m", Max_sell = "150m", sold_by_convention = true}},
+     
+	{Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "3b"}},
+	{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "500m", Max_sell = "1b"}},
+	{Name = "Shiny All Huges", Data = {Price = "5%", Min_sell = "200m", Max_sell = "150m"}},
+	{Name = "Rainbow All Huges", Data = {Price = "5%", Min_sell = "200m", Max_sell = "150m", sold_by_convention = true}},
 
-        
+  {Name = "All Huges", Data = {Price = "2%", Min_sell = "10m", Max_sell = "30m", sold_by_convention = true}},
+         
         
         {Name = "Golden All Huges", Data = {Price = "5%", Min_sell = "12m", Max_sell = "30m", sold_by_convention = true}},
 
