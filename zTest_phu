@@ -1,4 +1,4 @@
-wait(100)
+--wait(100)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
 local SaveData = require(Client.Save).Get()
@@ -26,7 +26,6 @@ local function getBookStackListFull(bookName)
 
     return stacks
 end
-
 function autoEquipEnchantBooks(bookList)
 
 	local MaxEnchantsEquipped = SaveData.MaxEnchantsEquipped or 0
@@ -73,7 +72,6 @@ function autoEquipEnchantBooks(bookList)
         end
     end
 end
-autoEquipEnchantBooks({"Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power"})
 
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
@@ -687,15 +685,19 @@ local function startAutoPurchase()
 	end
 end
 ---------------- 🧩 LUỒNG 2: Claim + Open + Unlock + Plant + Diamond ----------------
-local function startTileHandler()
+local function startTileHandler()	
+	
 	local TilesInvoke = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Invoke")
 	local TilesFire = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Tiles_Fire")
 	local delayPerTile = 0.05
 	local delayPerCycle = 0.3
 
 	while true do
-		waitUntilAllowed()
+		if _G.VAR_STOP_BLOCK_PARTY then break end
+		
 		for _, tile in ipairs(TilesFolder:GetChildren()) do
+			if _G.VAR_STOP_BLOCK_PARTY then break end
+			
 			local tileId = tile.Name
 
 			-- ✅ Claim + Open (Tiles_Invoke)
@@ -1120,7 +1122,8 @@ local function startAllBlockPartyTasks()
 			waitUntilAllowed()
 			if getTotalTileCount() == 0 then
 				print("join event")
-				handleRejoin()
+				teleportToBlockParty()
+				startTileHandler()
 			end
 			wait(33)
 		end
@@ -1140,36 +1143,38 @@ local function startAllBlockPartyTasks()
 	--		waitUntilAllowed()
 	--	end
 	--end)
+
+task.spawn(function()
+	wait(5)
+
+while true do
 	
-	task.spawn(function()
-		wait(5)
-
-	while true do
-		
-		if _G.SPAM_SWAP_EVENT then
-			warn("SPAM_SWAP_EVENT TRUE")
-			_G.VAR_STOP_BLOCK_PARTY = false
-			_G.VAR_START_BLOCK_PARTY = true
-		end
-		wait(4*60)
-		if _G.SPAM_SWAP_EVENT and getTotalTileCount() > 160 then 
-			_G.VAR_STOP_BLOCK_PARTY = true
-			_G.VAR_START_BLOCK_PARTY = false
-			local Workspace = game:GetService("Workspace")
-			local Leave = workspace.__THINGS.Instances.LuckyBlocks.Teleports.Leave
-			teleportTo(Leave.CFrame + Vector3.new(0, 5, 0))
-			wait(9)
-			
-			local player = Players.LocalPlayer
-			local character = player.Character or player.CharacterAdded:Wait()
-			player.Character.HumanoidRootPart.CFrame = CFrame.new(-14248, 20, 2203)
-		wait(20*60)	
-		end	
-		
+	if _G.SPAM_SWAP_EVENT then
+		warn("Ev party")
+		_G.VAR_STOP_BLOCK_PARTY = false
+		_G.VAR_START_BLOCK_PARTY = true
 	end
+	wait(4*60)
+	if _G.SPAM_SWAP_EVENT and getTotalTileCount() > 160 then 
+		warn("Farm")
+		_G.VAR_STOP_BLOCK_PARTY = true
+		_G.VAR_START_BLOCK_PARTY = false
+		local Workspace = game:GetService("Workspace")
+		local Leave = workspace.__THINGS.Instances.LuckyBlocks.Teleports.Leave
+		teleportTo(Leave.CFrame + Vector3.new(0, 5, 0))
+		waitForMapLoaded()		
+		local player = Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		player.Character.HumanoidRootPart.CFrame = CFrame.new(-14248, 20, 2203)
+	wait(20*60)	
+	end	
+	
+end
 
 
-	end)
+end)
+
+
 	
 end
 
@@ -1940,7 +1945,7 @@ task.spawn(function()
 
 		--{ id = "Chest Breaker", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, -- xams
 		{ id = "Summer Block Party Ticket", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },	-- cam
-		{ id = "Breakable Mayhem", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },		-- trang
+		{ id = "MVP Key Upper Half", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },		-- trang
 	}
 
 	local function createItemFrame(itemConfig, itemCount)
