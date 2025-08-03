@@ -1595,14 +1595,14 @@ local function startGuiUpdater()
         return label
     end
 
-    local chanceLabel     = createLabel("ChanceLabel",       rightRegion,   Color3.fromRGB(128, 0, 128))
+    --local chanceLabel     = createLabel("ChanceLabel",       rightRegion,   Color3.fromRGB(128, 0, 128))
     local tilesLabel      = createLabel("TilesLabel",        rightRegion,   Color3.fromRGB(128, 0, 128))
-    local rebirthLabel    = createLabel("RebirthLabel",      rightRegion,   Color3.fromRGB(128, 0, 128))
-    local coinsLabel      = createLabel("CoinsLabel",        rightRegion,   Color3.fromRGB(128, 0, 128))
+    --local rebirthLabel    = createLabel("RebirthLabel",      rightRegion,   Color3.fromRGB(128, 0, 128))
+    --local coinsLabel      = createLabel("CoinsLabel",        rightRegion,   Color3.fromRGB(128, 0, 128))
     --local giftLabel       = createLabel("TropicalGiftLabel", rightRegion,   Color3.fromRGB(128, 0, 128))
     --local ticketLabel     = createLabel("SBPTicketLabel",    rightRegion,   Color3.fromRGB(128, 0, 128))
 
-    local timeTrialLabel  = createLabel("timeTrialLabel",    leftRegion,    Color3.fromRGB(128, 0, 128))
+    --local timeTrialLabel  = createLabel("timeTrialLabel",    leftRegion,    Color3.fromRGB(128, 0, 128))
     local pointsLabel     = createLabel("pointsLabel",       centerRegion,  Color3.fromRGB(128, 0, 128))
 
     -- Vòng lặp cập nhật GUI liên tục
@@ -1938,7 +1938,7 @@ task.spawn(function()
 	-- cấu hình item cần theo dõi
 	local itemsToTrack = {		
 
-		{ id = "Chest Breaker", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, -- xams
+		--{ id = "Chest Breaker", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, -- xams
 		{ id = "Summer Block Party Ticket", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },	-- cam
 		{ id = "Breakable Mayhem", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },		-- trang
 	}
