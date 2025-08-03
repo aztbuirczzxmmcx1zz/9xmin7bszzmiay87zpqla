@@ -1611,14 +1611,14 @@ local function startGuiUpdater()
         tilesLabel.Text   = tostring(#game:GetService("Workspace").__THINGS.Tiles:GetChildren()) .. " T"
         updateLabelSize(tilesLabel)
 
-        coinsLabel.Text   = Formatint(getCurrencyAmount("BlockPartyCoins"))
-        updateLabelSize(coinsLabel)
+        --coinsLabel.Text   = Formatint(getCurrencyAmount("BlockPartyCoins"))
+        --updateLabelSize(coinsLabel)
 
-        chanceLabel.Text  = tostring(_G.CURRENT_HUGE_CHANCE or 0) .. "X"
-        updateLabelSize(chanceLabel)
+        --chanceLabel.Text  = tostring(_G.CURRENT_HUGE_CHANCE or 0) .. "X"
+        --updateLabelSize(chanceLabel)
 
-        rebirthLabel.Text = tostring(Save.Get().TileRebirth or 0) .. "RB"
-        updateLabelSize(rebirthLabel)
+        --rebirthLabel.Text = tostring(Save.Get().TileRebirth or 0) .. "RB"
+        --updateLabelSize(rebirthLabel)
 
         --giftLabel.Text    = tostring(getLootboxAmount("Tropical Gift")) .. " | Tropical Gift"
         --updateLabelSize(giftLabel)
