@@ -74,21 +74,25 @@ function autoEquipEnchantBooks(bookList)
     end
 end
 
+local Players = game:GetService("Players")
+local ContentProvider = game:GetService("ContentProvider")
+local LocalPlayer = Players.LocalPlayer
+
 function Hold_loading_game()
 
-repeat task.wait() until game:IsLoaded()
-local LocalPlayer = game:GetService('Players').LocalPlayer
-repeat task.wait() until not LocalPlayer.PlayerGui:FindFirstChild('__INTRO')
+    -- Chờ nhân vật spawn
+    local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+    local hrp = char:WaitForChild("HumanoidRootPart")
+    local humanoid = char:WaitForChild("Humanoid")
 
-repeat
-    wait(2)
-until game:IsLoaded() and
-    game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui") and
-    game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("MainLeft") and
-    game:GetService("Players").LocalPlayer.PlayerGui.MainLeft.Left.Currency.Diamonds.Diamonds.Visible == true and
-    not game:GetService("Players").LocalPlayer:FindFirstChild("GUIFX Holder")
+    -- Đảm bảo workspace (map, terrain, models) được nạp
+    ContentProvider:PreloadAsync({workspace})
 
+    -- Chờ cho tới khi nhân vật đứng trên mặt đất
+    repeat task.wait(0.5) until humanoid.FloorMaterial ~= Enum.Material.Air
 
+    return true
+	
 end
 
 
@@ -177,7 +181,7 @@ end
 local function safeTeleportOut()
 	teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Leave)
 	Hold_loading_game()
-	task.wait(9)
+	task.wait(3)
 	if increaseMonitorThread then pcall(task.cancel, increaseMonitorThread) increaseMonitorThread = nil end
 	if lagMonitorThread then pcall(task.cancel, lagMonitorThread) lagMonitorThread = nil end
 end
@@ -502,7 +506,7 @@ task.spawn(function()
 			warn("🔁 Bắt đầu lượt: " .. tostring(used))
 			teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
 			Hold_loading_game()
-			task.wait(5)
+			task.wait(3)
 
 			local retry = 0
 			while not workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("TimeTrial") and retry < 3 do
@@ -510,7 +514,7 @@ task.spawn(function()
 				warn("❌ Vào thất bại, thử lại...")
 				teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
 				Hold_loading_game()
-				task.wait(5)
+				task.wait(3)
 			end
 
 			if not workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("TimeTrial") then
@@ -523,7 +527,7 @@ task.spawn(function()
 			startLagMonitor()
 			startIncreaseMonitor(startPoints, startRuns)
 			teleportFarmLoop(startPoints, startRuns)
-			task.wait(5)
+			task.wait(3)
 
 			if lagMonitorThread then pcall(task.cancel, lagMonitorThread) lagMonitorThread = nil end
 			if increaseMonitorThread then pcall(task.cancel, increaseMonitorThread) increaseMonitorThread = nil end
