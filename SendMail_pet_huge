@@ -161,7 +161,7 @@ getgenv().Settings = {
 ["Millionaire Bucks"] = {Class = "Misc", Id = "Millionaire Bucks", MinAmount = 500}, 
 
 ["Coins"] = {Class = "Enchant", Id = "Coins", TN = 7, MinAmount = 1000}, 
-["Summer Block Party Ticket"] = {Class = "Misc", Id = "Summer Block Party Ticket", MinAmount = 100},
+["Summer Block Party Ticket"] = {Class = "Misc", Id = "Summer Block Party Ticket", MinAmount = 50},
 
 ["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 100},	--ok
 ["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 500},	
