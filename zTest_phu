@@ -75,21 +75,26 @@ function autoEquipEnchantBooks(bookList)
 end
 autoEquipEnchantBooks({"Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power"})
 
+
+local Players = game:GetService("Players")
+local ContentProvider = game:GetService("ContentProvider")
+local LocalPlayer = Players.LocalPlayer
+
 function Hold_loading_game()
 
-repeat task.wait() until game:IsLoaded()
-local LocalPlayer = game:GetService('Players').LocalPlayer
-repeat task.wait() until not LocalPlayer.PlayerGui:FindFirstChild('__INTRO')
+    -- Chờ nhân vật spawn
+    local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+    local hrp = char:WaitForChild("HumanoidRootPart")
+    local humanoid = char:WaitForChild("Humanoid")
 
-repeat
-    wait(2)
-until game:IsLoaded() and
-    game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui") and
-    game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("MainLeft") and
-    game:GetService("Players").LocalPlayer.PlayerGui.MainLeft.Left.Currency.Diamonds.Diamonds.Visible == true and
-    not game:GetService("Players").LocalPlayer:FindFirstChild("GUIFX Holder")
+    -- Đảm bảo workspace (map, terrain, models) được nạp
+    ContentProvider:PreloadAsync({workspace})
 
+    -- Chờ cho tới khi nhân vật đứng trên mặt đất
+    repeat task.wait(0.5) until humanoid.FloorMaterial ~= Enum.Material.Air
 
+    return true
+	
 end
 
 
@@ -169,7 +174,7 @@ end
 local function safeTeleportOut()
 	teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Leave)
 	Hold_loading_game()
-	task.wait(9)
+	task.wait(3)
 	if increaseMonitorThread then pcall(task.cancel, increaseMonitorThread) increaseMonitorThread = nil end
 	if lagMonitorThread then pcall(task.cancel, lagMonitorThread) lagMonitorThread = nil end
 end
@@ -609,9 +614,8 @@ local function teleportToBlockParty()
 	-- 🧭 Teleport vào Block Party & đến vị trí cụ thể
 	teleportTo(Enter.CFrame + Vector3.new(0, 5, 0))
 	Hold_loading_game()
-	task.wait(9)
 	teleportTo(CFrame.new(16460, 2275, -21473))
-	task.wait(9)
+	Hold_loading_game()
 end
 
 ---------------- 🧩 LUỒNG 1: Mua tiles quanh plot ----------------
