@@ -1151,7 +1151,7 @@ local function startAllBlockPartyTasks()
 			_G.VAR_STOP_BLOCK_PARTY = false
 			_G.VAR_START_BLOCK_PARTY = true
 		end
-		wait(3*60)
+		wait(4*60)
 		if _G.SPAM_SWAP_EVENT and getTotalTileCount() > 160 then 
 			_G.VAR_STOP_BLOCK_PARTY = true
 			_G.VAR_START_BLOCK_PARTY = false
