@@ -1014,7 +1014,7 @@ function Dung_ve_raffe()
 
 while true do
 
-time_random= math.random(420,1200)
+time_random= math.random(3600,7200)
 warn(time_random)
 wait(time_random)
 waitUntilAllowed()
