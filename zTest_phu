@@ -1125,7 +1125,9 @@ local function startAllBlockPartyTasks()
 			if getTotalTileCount() == 0 then
 				print("join event")
 				teleportToBlockParty()
-				startTileHandler()
+					task.spawn(function()
+						startTileHandler()
+					end)
 			end
 			wait(33)
 		end
