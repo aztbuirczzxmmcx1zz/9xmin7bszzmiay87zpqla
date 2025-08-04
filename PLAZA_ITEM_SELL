@@ -58,7 +58,7 @@ getgenv().Settings_autoplaza = {
         {Name = "Hacker Key", Data = {Price = "70k"}},
         {Name = "Fantasy Key", Data = {Price = "60k"}},   
 
-        
+{Name = "Golden All Huges", Data = {Price = "5%", Min_sell = "12m", Max_sell = "30m", sold_by_convention = true}},        
 {Name = "All Huges", Data = {Price = "2%", Min_sell = "10m", Max_sell = "30m", sold_by_convention = true}},
 
      
@@ -70,7 +70,7 @@ getgenv().Settings_autoplaza = {
 
          
         
-        {Name = "Golden All Huges", Data = {Price = "5%", Min_sell = "12m", Max_sell = "30m", sold_by_convention = true}},
+        
 
 	{Name = "Magic Shard", Data = {Price = "+1%"}},
     },
