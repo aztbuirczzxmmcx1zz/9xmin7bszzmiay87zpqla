@@ -56,7 +56,9 @@ getgenv().Settings_autoplaza = {
         {Name = "Void Key", Data = {Price = "45k"}},
         {Name = "Hacker Key", Data = {Price = "70k"}},
         {Name = "Fantasy Key", Data = {Price = "60k"}},   
+
         
+{Name = "All Huges", Data = {Price = "2%", Min_sell = "10m", Max_sell = "30m", sold_by_convention = true}},
 
      
 	{Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "3b"}},
@@ -64,7 +66,7 @@ getgenv().Settings_autoplaza = {
 	{Name = "Shiny All Huges", Data = {Price = "5%", Min_sell = "70m", Max_sell = "200m"}},
 	{Name = "Rainbow All Huges", Data = {Price = "5%", Min_sell = "70m", Max_sell = "200m", sold_by_convention = true}},
 
-  {Name = "All Huges", Data = {Price = "2%", Min_sell = "10m", Max_sell = "30m", sold_by_convention = true}},
+
          
         
         {Name = "Golden All Huges", Data = {Price = "5%", Min_sell = "12m", Max_sell = "30m", sold_by_convention = true}},
