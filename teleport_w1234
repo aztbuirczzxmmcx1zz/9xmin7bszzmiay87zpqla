@@ -1,4 +1,4 @@
-Y_or_N_delay_60s_farming = "Y"
+Y_or_N_delay_60s_farming = "N"
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
