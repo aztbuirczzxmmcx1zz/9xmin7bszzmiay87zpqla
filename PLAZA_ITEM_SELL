@@ -4,11 +4,11 @@ local player = Players.LocalPlayer
 
 
 local SELL_vs_username = {
-	["sijmongirthss"] = "10.2b",
-	["Ash3rP0w3rPanda2018"] = "10.7b",
-	["soystaylan5"] = "10.6b",
-	["dreddyewele60"] = "10.9b",
-	["1971Nowak3135"] = "10.3b",
+	["sijmongirthss"] = "9.8b",
+	["Ash3rP0w3rPanda2018"] = "9.7b",
+	["soystaylan5"] = "9.6b",
+	["dreddyewele60"] = "9.9b",
+	["1971Nowak3135"] = "9.5b",
 	["Br00klynSkat3r2022"] = "10b",
 	
 }
