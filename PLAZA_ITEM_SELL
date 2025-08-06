@@ -22,7 +22,7 @@ getgenv().Settings_autoplaza = {
 	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "150b"}},
 	{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "70b"}},
         {Name = "MVP Key", Data = {Price = "2%"}},
-        {Name = "Summer Block Party Ticket", Data = {Price = "700k"}},
+        {Name = "Summer Block Party Ticket", Data = {Price = "650k"}},
 
         {Name = "Huge Splash Angelus", Data = {Price = "20b"}},
         {Name = "Golden Huge Splash Angelus", Data = {Price = "22b"}},
@@ -32,7 +32,7 @@ getgenv().Settings_autoplaza = {
         {Name = "Titanic Pineapple Dog", Data = {Price = "4b"}},
         {Name = "Golden Titanic Disco Ball Agony", Data = {Price = "5.2b"}},
 
-	{Name = "Breakable Mayhem TN1", Data = {Price = "1.5b"}},
+	{Name = "Breakable Mayhem TN1", Data = {Price = "1.3b"}},
         {Name = "Time Trial Gift", Data = {Price = "+1%"}},
         {Name = "Huge Machine Egg 5", Data = {Price = "1%"}},
 
@@ -59,14 +59,15 @@ getgenv().Settings_autoplaza = {
         {Name = "Fantasy Key", Data = {Price = "60k"}},   
 
         
-{Name = "All Huges", Data = {Price = "2%", Min_sell = "10m", Max_sell = "30m", sold_by_convention = true}},
 
-     
-	{Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "3b"}},
-	{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "500m", Max_sell = "1b"}},
+
+     	{Name = "Rainbow All Huges", Data = {Price = "5%", Min_sell = "70m", Max_sell = "200m", sold_by_convention = true}},
+		
 	{Name = "Shiny All Huges", Data = {Price = "5%", Min_sell = "70m", Max_sell = "200m"}},
-	{Name = "Rainbow All Huges", Data = {Price = "5%", Min_sell = "70m", Max_sell = "200m", sold_by_convention = true}},
+	{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "500m", Max_sell = "1b"}},
+	{Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "3b"}},
 
+{Name = "All Huges", Data = {Price = "2%", Min_sell = "10m", Max_sell = "30m", sold_by_convention = true}},
 {Name = "Golden All Huges", Data = {Price = "5%", Min_sell = "12m", Max_sell = "30m", sold_by_convention = true}},
          
         
