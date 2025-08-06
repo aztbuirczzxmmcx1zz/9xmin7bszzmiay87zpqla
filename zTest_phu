@@ -1,5 +1,3 @@
---
-
 wait(100)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
@@ -955,6 +953,110 @@ local function startAutoHatchHuge()
 	end
 end
 
+local function startAutoHatchFarthest()
+
+		local saveData = Save.Get()
+		local tileRebirth = saveData.TileRebirth or 0
+
+while true do
+	if getTotalTileCount() >= 169 then
+		break
+	end
+	wait(10)
+end	
+
+	-- ⚙️ Tắt animation mở trứng
+	local successEggs, Eggs = pcall(function()
+		return player:WaitForChild("PlayerScripts"):WaitForChild("Scripts"):WaitForChild("Game"):WaitForChild("Egg Opening Frontend")
+	end)
+	if successEggs and Eggs then
+		pcall(function()
+			getsenv(Eggs).PlayEggAnimation = function() return end
+		end)
+	end
+
+	local function getHumanoidRootPart()
+		local char = player.Character or player.CharacterAdded:Wait()
+		return char:WaitForChild("HumanoidRootPart")
+	end
+
+	local function findFarthestEgg()
+		local hrp = getHumanoidRootPart()
+		local farthestEgg = nil
+		local maxDistance = -1
+
+		for _, egg in ipairs(CustomEggsFolder:GetChildren()) do
+			if #egg.Name == 32 and egg:IsA("Model") and egg:FindFirstChild("Part") then
+				local dist = (hrp.Position - egg.Part.Position).Magnitude
+				if dist > maxDistance then
+					farthestEgg = egg
+					maxDistance = dist
+				end
+			end
+		end
+
+		return farthestEgg
+	end
+	local function handleRejoin()
+		local Leave = workspace.__THINGS.Instances.LuckyBlocks.Teleports.Leave
+		teleportTo(Leave.CFrame + Vector3.new(0, 5, 0))
+		task.wait(9)
+		teleportToBlockParty()
+	end
+	local function teleportToEgg(egg)
+		if egg and egg:FindFirstChild("Part") then
+			local targetCFrame = egg.Part.CFrame + Vector3.new(0, 5, 0)
+			getHumanoidRootPart().CFrame = targetCFrame
+			print("📍 Teleport đến egg xa nhất:", egg.Name)
+		end
+	end
+
+	local function isNearEgg(egg)
+		local hrp = getHumanoidRootPart()
+		local part = egg and egg:FindFirstChild("Part")
+		if not part then return false end
+		return (hrp.Position - part.Position).Magnitude < 15
+	end
+
+	local function safeHatchLoop(egg)
+		while true do
+			if _G.VAR_STOP_BLOCK_PARTY then break end
+			
+			if not egg or not egg:IsDescendantOf(workspace) then
+				warn("❌ Egg không tồn tại nữa.")
+				break
+			end
+
+			if not isNearEgg(egg) then
+				print("🚶‍♂️ Teleport lại đến egg...")
+				teleportToEgg(egg)
+				task.wait(1)
+			end
+
+			local MaxEggHatch = EggCmds.GetMaxHatch()
+			local args = {egg.Name, MaxEggHatch}
+			local success, err = pcall(function()
+				Network.CustomEggs_Hatch:InvokeServer(unpack(args))
+			end)
+			if not success then
+				warn("❌ Hatch lỗi:", err)
+			end
+
+			task.wait(1)
+		end
+	end
+
+	
+	local farthestEgg = findFarthestEgg()
+	if farthestEgg then
+		teleportToEgg(farthestEgg)
+		task.wait(1)
+		safeHatchLoop(farthestEgg)
+		task.wait(3)
+	end
+	
+
+end
 ---------------- 🧩 LUỒNG 4: Auto SummerGiftBag2025 ----------------
 local function startAutoGiftBag()
     local function getCurrencyAmount(itemId)
@@ -1071,15 +1173,15 @@ local function startAllBlockPartyTasks()
 	end)
 
 	-- 🧩 LUỒNG 5: Hatch HUGE
-	--task.spawn(function()
-	--	while true do
-	--		while getTotalTileCount() < 169 do
-	--			task.wait(2)
-	--		end
-	--		print("✅ Đã khởi động LUỒNG 3: Hatch HUGE CHANCE")
-	--		--startAutoHatchHuge()
-	--	end
-	--end)
+	task.spawn(function()
+		while true do
+			while getTotalTileCount() < 169 do
+				task.wait(2)
+			end
+			print("✅ Đã khởi động LUỒNG 3: Hatch HUGE CHANCE")
+			startAutoHatchFarthest()
+		end
+	end)
 
 	-- 🧩 LUỒNG 6: Auto Gift Bag
 	task.spawn(function()
@@ -1127,6 +1229,9 @@ local function startAllBlockPartyTasks()
 				teleportToBlockParty()
 					task.spawn(function()
 						startTileHandler()
+					end)
+					task.spawn(function()
+						startAutoHatchFarthest()
 					end)
 			end
 			wait(33)
