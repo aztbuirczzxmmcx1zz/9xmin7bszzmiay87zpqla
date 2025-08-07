@@ -126,6 +126,8 @@ getgenv().Settings_sentitem = {
 --["Summer Block Party Ticket"] = {Class = "Misc", Id = "Summer Block Party Ticket", MinAmount = 100},	--ok
 ["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 1000},	--ok
 ["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 10000},	
+["Tech Key"] = {Class = "Misc", Id = "Tech Key", MinAmount = 1000},	
+["Coins"] = {Class = "Enchant", Id = "Coins", TN = 7, MinAmount = 1000}, 
 
 }
 
@@ -163,9 +165,8 @@ local function parseNumber(str)
 end
 
 -- 🔍 Tìm item trong Inventory
-local function findMatchingItems(class, id, allVariants)
+local function findMatchingItems(class, id, allVariants, requiredTN)
 	local results = {}
-
 	local sub = Inventory[class]
 	if not sub then return results end
 
@@ -178,16 +179,19 @@ local function findMatchingItems(class, id, allVariants)
 				match = v.id == id
 			end
 
+			-- 🔍 Kiểm tra thêm TN nếu có
 			if match then
-				table.insert(results, {
-					UID = uid,
-					ID = v.id,
-					PT = v.pt,
-					SH = v.sh,
-					TN = v.tn,
-					Count = tonumber(v._am) or 1,
-					Class = class,
-				})
+				if requiredTN == nil or v.tn == requiredTN then
+					table.insert(results, {
+						UID = uid,
+						ID = v.id,
+						PT = v.pt,
+						SH = v.sh,
+						TN = v.tn,
+						Count = tonumber(v._am) or 1,
+						Class = class,
+					})
+				end
 			end
 		end
 	end
@@ -195,8 +199,9 @@ local function findMatchingItems(class, id, allVariants)
 	return results
 end
 
+
 -- 📦 Duyệt qua từng mục cấu hình
-for key, config in pairs(getgenv().Settings_sentitem) do
+for key, config in pairs(getgenv().Settings) do
 	local class = config.Class
 	local id = config.Id
 	local minAmount = parseNumber(config.MinAmount)
@@ -224,7 +229,7 @@ for key, config in pairs(getgenv().Settings_sentitem) do
 	end
 
 	else
-		local matched = findMatchingItems(class, id, allVariants)
+    local matched = findMatchingItems(class, id, allVariants, config.TN)
 
 		for _, item in ipairs(matched) do
 			local count = item.Count
@@ -235,6 +240,7 @@ for key, config in pairs(getgenv().Settings_sentitem) do
 			end
 
 			if sendCount >= minAmount then
+	
 				print("📦 Gửi item:", item.ID, "| SL:", sendCount, "| Loại:", item.Class)
 				local success, err = pcall(function()
 					return Network.Invoke("Mailbox: Send", NAME_USER_SEND, message, class, item.UID, sendCount)
@@ -250,11 +256,7 @@ end
 
 end
 
-while true do
 Sent_item_all()
-wait(21600)
-end
-
 
 end)
 
