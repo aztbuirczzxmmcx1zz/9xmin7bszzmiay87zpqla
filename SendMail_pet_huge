@@ -156,7 +156,7 @@ function Sent_item_all()
 
 getgenv().Settings = {		
 
-
+["Diamond"] = {Class = "Seed", Id = "Diamond", MinAmount = 2000},
 ["Millionaire Bucks"] = {Class = "Misc", Id = "Millionaire Bucks", MinAmount = 500}, 
 
 ["Coins"] = {Class = "Enchant", Id = "Coins", TN = 7, MinAmount = 1000}, 
