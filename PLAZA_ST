@@ -1,5 +1,5 @@
 wait(50)
-PAUSE_or_SEND = "P"
+PAUSE_or_SEND = "s"
 
 wait(1)
 -- view góc trái
@@ -116,6 +116,11 @@ end)
 wait(1)
 --Sent chìa
 task.spawn(function()
+
+if PAUSE_or_SEND == "p" then
+	return
+end
+
 NAME_USER_SEND = "veriotiai779"
 
 
@@ -201,7 +206,7 @@ end
 
 
 -- 📦 Duyệt qua từng mục cấu hình
-for key, config in pairs(getgenv().Settings) do
+for key, config in pairs(getgenv().Settings_sentitem) do
 	local class = config.Class
 	local id = config.Id
 	local minAmount = parseNumber(config.MinAmount)
@@ -263,7 +268,7 @@ end)
 wait(1)
 -- send pet hiem hoac huge gia cao. Soluong_Yeu_cau = 1 thì giữ lại 1 con, khác 1 thì phải chờ nhiều hơn Soluong_Yeu_cau thì mới send tất cả
 task.spawn(function() 
-if PAUSE_or_SEND == "P" then
+if PAUSE_or_SEND == "p" or PAUSE_or_SEND == "s" then
 	return
 end
 
