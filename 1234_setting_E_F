@@ -5,8 +5,8 @@ if name_vps == "vin3" then
 elseif name_vps == "plz" then
 	EVENT_or_FARM = "E"
 	Start_ford = 1
-elseif name_vps == "vin2" or name_vps == "vin4" or name_vps == "V7" then
-	EVENT_or_FARM = "E"
+elseif name_vps == "vin4" then
+	EVENT_or_FARM = "F"
 	Start_ford = 1
 else
 	EVENT_or_FARM = "E"
