@@ -20,7 +20,7 @@ getgenv().Settings_autoplaza = {
         {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice}},
         {Name = "Golden Titanic Starlight Pony", Data = {Price = "13b"}},
 	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "150b"}},
-	{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "70b"}},
+	{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "67b"}},
         {Name = "MVP Key", Data = {Price = "2%"}},
         {Name = "Summer Block Party Ticket", Data = {Price = "600k"}},
 
