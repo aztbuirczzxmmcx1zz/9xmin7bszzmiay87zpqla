@@ -716,7 +716,7 @@ task.spawn(function()
 
 		{ id = "Chest Breaker", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, -- xams
 		{ id = "Super Lightning", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },	-- cam
-		{ id = "Breakable Mayhem", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },		-- trang
+		{ id = "MVP Key Upper Half", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },		-- trang
 	}
 
 	local function createItemFrame(itemConfig, itemCount)
