@@ -96,22 +96,13 @@ local function waitForMapLoaded()
     return true
 end
 
-autoEquipEnchantBooks({"Breakable Mayhem","Explosive","Diamonds","Treasure Hunter","Fruity","Fortune","Lucky Eggs","Diamonds","Lucky Eggs"})
-
 
 wait(1)--waitchung
 warn("event time trial")
+-- map 269 event time trial
 task.spawn(function()
 
-local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-local rank = Save.Get().Rank
-if rank < 20 then warn("RANK < 20") return end
-
-
 _G.STOP_TIME_TRIAL = false
-if _G.STOP_TIME_TRIAL == true then 
-	return
-end
 
 
 local Players = game:GetService("Players")
@@ -217,13 +208,11 @@ local function updateLabelSize(label)
 	label.Size = UDim2.new(0, label.TextBounds.X + 20, 0, 38)
 end
 
-local pointsLabel = screenGui:FindFirstChild("PointsLabel") or createLabel("PointsLabel", UDim2.new(0.3, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(0, 128, 255))
 local timeTrialLabel = screenGui:FindFirstChild("TimeTrialLabel") or createLabel("TimeTrialLabel", UDim2.new(0.79, 0, 0.1, -55), Vector2.new(0, 0), Color3.fromRGB(128, 0, 128))
 
 task.spawn(function()
 	while true do
-		pointsLabel.Text = tostring(getTimeTrialPoints())
-		updateLabelSize(pointsLabel)
+
 		timeTrialLabel.Text = tostring(getRunsLeft())
 		updateLabelSize(timeTrialLabel)
 		task.wait(10)
@@ -282,9 +271,9 @@ local function startMonitor12Min()
 				if getRunsUsed() >= 10 then return end
 			end
 
-			if getRunsUsed() == startUsed and getTotalRuns() == startTotal then
+			if getRunsUsed() == startUsed and getTotalRuns() == startTotal then		
+				
 				player:Kick("⏰ 10 phút không đổi lượt hoặc tổng Time Trial → nghi ngờ treo máy.")
-				game:Shutdown()  -- Thoát game
 				return
 			end
 		end
@@ -310,7 +299,6 @@ local function startLagMonitor()
 
 				if retryCount > 3 then
 					player:Kick("Lag quá lâu trong Time Trial.")
-					game:Shutdown()  -- Thoát game
 					return
 				else
 					lagFlag = true
@@ -481,14 +469,13 @@ task.spawn(function()
 		if game.PlaceId ~= 140403681187145 then return end
 		
 		
-	waitUntilReachMaxZone()
+	--waitUntilReachMaxZone()
 	startMonitor12Min()		
 		
 		
 	while true do
 		-- sách trial time
 		autoEquipEnchantBooks({"Explosive","Chest Breaker","Criticals","Strong Pets","Fruity","Happy Pets","Super Lightning","Tap Power","Large Taps"})
-		
 		while getRunsUsed() < 10 do
 			
 			local used = getRunsUsed()
@@ -506,49 +493,45 @@ task.spawn(function()
 			warn("🔁 Bắt đầu lượt: " .. tostring(used))
 			teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
 			waitForMapLoaded()
-			task.wait(3)
-
+			task.wait(5)
 			local retry = 0
 			while not workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("TimeTrial") and retry < 3 do
 				retry += 1
 				warn("❌ Vào thất bại, thử lại...")
 				teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
 				waitForMapLoaded()
-				task.wait(3)
+				task.wait(5)
 			end
 
 			if not workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("TimeTrial") then
 				warn("⛔ Không thể vào Time Trial.")
-				player:Kick("⏰ 10 phút không đổi lượt hoặc tổng Time Trial → nghi ngờ treo máy.")
-				game:Shutdown()  -- Thoát game
-				return
+				safeTeleportOut()
+				task.wait(5)
+				teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
+				waitForMapLoaded()
+				task.wait(5)
 			end
 
 			startLagMonitor()
 			startIncreaseMonitor(startPoints, startRuns)
 			teleportFarmLoop(startPoints, startRuns)
-			task.wait(3)
+			task.wait(5)
 
 			if lagMonitorThread then pcall(task.cancel, lagMonitorThread) lagMonitorThread = nil end
 			if increaseMonitorThread then pcall(task.cancel, increaseMonitorThread) increaseMonitorThread = nil end
 		end
-
 		warn("🎉 Hoàn tất 10/10 lượt Time Trial.")
 		claimReward()
-		task.wait(30)
+		task.wait(3)
 		cleanupAllThreads()
+		autoEquipEnchantBooks({"Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power"})
 
-		-- farm
-		autoEquipEnchantBooks({"Breakable Mayhem","Explosive","Diamonds","Treasure Hunter","Fruity","Fortune","Lucky Eggs","Diamonds","Lucky Eggs"})
-		
 		
 		warn("⏳ Theo dõi reset DailyRuns...")
 		while getRunsUsed() >= 10 do 				
-			task.wait(600) 
+			task.wait(7200) 
 		end
 
-
-		
 		warn("🔁 DailyRuns reset → tiếp tục farm.")
 		if monitor12minThread then pcall(task.cancel, monitor12minThread) monitor12minThread = nil end
 		startMonitor12Min()
@@ -559,6 +542,7 @@ end)
 
 
 end)
+
 
 wait(1)--waitchung
 warn("send sách thừa")
@@ -965,28 +949,6 @@ task.spawn(monitor)
 end)
 
 wait(1)--waitchung
-warn("xoá lưu pet rồi chọn pet mạnh nhất")
--- xoá lưu pet rồi chọn pet mạnh nhất	
-task.spawn(function()
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local PetsFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Pets")
-local Network = ReplicatedStorage:WaitForChild("Network")
-
- 
- Network.Pets_ToggleFavoriteMode:FireServer()
-    wait(0.3)
-
-    Network.Pets_SetTeamIndex:FireServer(2)
-    wait(0.3)
-
-    Network.Pets_SetTeamIndex:FireServer(1)
-   wait(0.3)
-
-    Network.Pets_ToggleFavoriteMode:FireServer()
-    wait(0.3)
-end)
-
-wait(1)--waitchung
 warn("up pet gold + rainbow")
 -- up pet gold + rainbow : Quartz Fox  Wise Cat
 task.spawn(function() 
@@ -1062,8 +1024,8 @@ Ghep_pet_len_gold_rainbow(NamePet_ep)
 end)
 
 wait(1)--waitchung
-warn("Chạy 8 tiếng out 1 lần")
--- Chạy 8 tiếng out 1 lần
+warn("Chạy 13 tiếng out 1 lần")
+-- Chạy 13 tiếng out 1 lần
 task.spawn(function()
 wait(13*3600)
 game:Shutdown()
@@ -1370,12 +1332,3 @@ autoShutdownIfNotAlone()
 
 
 end)
-
-
-
-
-
-
-
-
-
