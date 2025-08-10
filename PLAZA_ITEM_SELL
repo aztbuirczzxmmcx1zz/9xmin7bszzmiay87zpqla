@@ -53,7 +53,7 @@ getgenv().Settings_autoplaza = {
         {Name = "Chest Spell", Data = {Price = "+1%"}},
         {Name = "Tsunami", Data = {Price = "+2%"}},
         {Name = "Crystal Key", Data = {Price = "9k"}},
-        {Name = "Secret Key", Data = {Price = "24k"}},
+        {Name = "Secret Key", Data = {Price = "22k"}},
         {Name = "Void Key", Data = {Price = "40k"}},
         {Name = "Hacker Key", Data = {Price = "70k"}},
         {Name = "Fantasy Key", Data = {Price = "55k"}},   
