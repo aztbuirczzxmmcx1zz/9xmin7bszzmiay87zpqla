@@ -1028,8 +1028,8 @@ warn("Chạy 13 tiếng out 1 lần")
 -- Chạy 13 tiếng out 1 lần
 task.spawn(function()
 wait(13*3600)
-game:Shutdown()
-Players.LocalPlayer:Kick("kick")
+--game:Shutdown()
+Players.LocalPlayer:Kick("13h reset")
 
 end)
 
@@ -1322,8 +1322,7 @@ function autoShutdownIfNotAlone()
     local playerCount = #Players:GetPlayers()
 
     if playerCount > 1 then
-        game:Shutdown() -- ⚠️ Lệnh shutdown client
-		Players.LocalPlayer:Kick("kick")
+		Players.LocalPlayer:Kick("kick severvip")
     end
 end
 
