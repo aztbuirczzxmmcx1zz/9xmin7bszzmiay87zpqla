@@ -37,9 +37,7 @@ getgenv().Settings_autoplaza = {
         {Name = "Time Trial Gift", Data = {Price = "+1%"}},
         {Name = "Huge Machine Egg 5", Data = {Price = "1%"}},
 
-        {Name = "Rainbow Palace Pooka", Data = {Price = "40%"}},
         {Name = "Shiny Palace Pooka", Data = {Price = "400m"}},
-        {Name = "Rainbow Rose Pooka", Data = {Price = "40%"}},
         {Name = "Shiny Rose Pooka", Data = {Price = "400m"}},
 	
 	{Name = "Millionaire Bucks", Data = {Price = "+5%"}},
