@@ -102,6 +102,7 @@ warn("event time trial")
 -- map 269 event time trial
 task.spawn(function()
 
+wait(math.random(100,3600))
 _G.STOP_TIME_TRIAL = false
 
 
