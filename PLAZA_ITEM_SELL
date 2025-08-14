@@ -792,7 +792,9 @@ end
 					local ohString1 = tostring(info.UID)
 					local ohNumber2 = valFinal or 0
 					local ohNumber3 = tonumber(info.Count) or 1
-					
+					if ohNumber2 < 1000 then 
+						Players.LocalPlayer:Kick("item < 1000 ????")
+					end
 					--warn("Da tao listing "..info.ID..". UID : "..info.UID.." voi gia "..tostring(ohNumber2).." so luong "..tostring(ohNumber3))
 
 					
@@ -1083,6 +1085,9 @@ local function sell_item(itemName)
 					-- Treo bán trên booth
 					local ohString1 = tostring(info.UID)
 					local ohNumber2 = valFinal or 0
+					if ohNumber2 < 1000 then 
+						Players.LocalPlayer:Kick("item < 1000 ????")
+					end
 					task.wait(1)
 					game:GetService("ReplicatedStorage").Network.Booths_CreateListing:InvokeServer(
 						ohString1,
@@ -1122,6 +1127,9 @@ local function sell_item(itemName)
 					-- Treo bán trên booth
 					local ohString1 = data.UID_sell
 					local ohNumber2 = data.valFinal_sell
+					if ohNumber2 < 1000 then 
+						Players.LocalPlayer:Kick("item < 1000 ????")
+					end
 					task.wait(1)
 					game:GetService("ReplicatedStorage").Network.Booths_CreateListing:InvokeServer(
 						ohString1,
