@@ -4,15 +4,15 @@ local player = Players.LocalPlayer
 
 
 local SELL_vs_username = {
-	["sijmongirthss"] = "9.2b",
-	["Ash3rP0w3rPanda2018"] = "9.3b",
-	["soystaylan5"] = "9.5b",
-	["dreddyewele60"] = "9.6b",
-	["1971Nowak3135"] = "9.1b",
-	["Br00klynSkat3r2022"] = "9b",
+	["sijmongirthss"] = "8.9b",
+	["Ash3rP0w3rPanda2018"] = "8.8b",
+	["soystaylan5"] = "8.7b",
+	["dreddyewele60"] = "8.6b",
+	["1971Nowak3135"] = "8.5b",
+	["Br00klynSkat3r2022"] = "8.65b",
 	
 }
-local defaultPrice = "9.4b"
+local defaultPrice = "8.75b"
 
 
 getgenv().Settings_autoplaza = {
