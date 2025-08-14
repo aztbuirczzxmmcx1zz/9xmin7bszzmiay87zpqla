@@ -342,7 +342,7 @@ getgenv().Settings = {
 --["Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 --["Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 1},
 ["Shiny Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
---["Shiny Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Rose Pooka"] 	= {Soluong_Yeu_cau = 10},
 --["Shiny Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 --["Shiny Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 
