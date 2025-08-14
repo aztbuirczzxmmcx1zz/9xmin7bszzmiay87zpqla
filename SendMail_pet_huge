@@ -154,7 +154,7 @@ task.spawn(function()
 
 function Sent_item_all()
 
-getgenv().Settings = {		
+getgenv().Settings_senditem = {		
 
 
 ["Millionaire Bucks"] = {Class = "Misc", Id = "Millionaire Bucks", MinAmount = 500}, 
@@ -262,7 +262,7 @@ end
 
 
 -- 📦 Duyệt qua từng mục cấu hình
-for key, config in pairs(getgenv().Settings) do
+for key, config in pairs(getgenv().Settings_senditem) do
 	local class = config.Class
 	local id = config.Id
 	local minAmount = parseNumber(config.MinAmount)
@@ -335,14 +335,14 @@ wait(10)
 -- send pet hiem hoac huge gia cao. Soluong_Yeu_cau = 1 thì giữ lại 1 con, khác 1 thì phải chờ nhiều hơn Soluong_Yeu_cau thì mới send tất cả
 task.spawn(function() 
 wait(10)
-getgenv().Settings = {
+getgenv().Settings_sendpet = {
     ["list_pet"] = {
 
 --["Palace Pooka"] 	= {Soluong_Yeu_cau = 3},
 --["Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 --["Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 1},
 ["Shiny Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
-["Shiny Rose Pooka"] 	= {Soluong_Yeu_cau = 10},
+["Shiny Rose Pooka"] 	= {Soluong_Yeu_cau = 10 , keepAmount = 5},
 --["Shiny Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 --["Shiny Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 
@@ -474,79 +474,86 @@ end
 
 -- Hàm kiểm tra và gửi pet
 local function sendExcessPets()
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+    local Network = require(Client.Network)
+    local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
 
-	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-	local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-	local Network = require(Client.Network)
-	local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()   
-
-    -- Lặp qua từng pet trong list_pet
-    for petName, petData in pairs(getgenv().Settings["list_pet"]) do
+    for petName, petData in pairs(getgenv().Settings_sendpet["list_pet"]) do
         local itemName = petName
-        local requiredAmount = petData.Soluong_Yeu_cau
-        local itemName,SH_find, PT_find = Kiem_tra_ten_co_them_tu_la_(itemName)
-        
-        -- Reset lại danh sách pet
-        itemsFound = {}
+        local requiredAmount = tonumber(petData.Soluong_Yeu_cau) or 0
+        local keepAmount    = tonumber(petData.keepAmount) or 0
+        local itemName, SH_find, PT_find = Kiem_tra_ten_co_them_tu_la_(itemName)
 
-        -- Tìm trong Inventory
+        -- Tập hợp các pet phù hợp điều kiện
+        local itemsFound = {}
         findInInventorySubTable(SaveData.Inventory.Pet, itemName, PT_find, SH_find)
-        
-        -- Kiểm tra số lượng pet có sẵn trong kho
+
+        -- Đếm tổng số lượng đang có
         local totalCount = 0
-        for _, item in pairs(itemsFound) do
-            if item.ID == itemName then
-                totalCount = totalCount + item.Count
+        for _, it in pairs(itemsFound) do
+            if it.ID == itemName then
+                totalCount += (tonumber(it.Count) or 1)
             end
         end
 
-        -- Nếu số lượng pet có trong kho nhiều hơn yêu cầu, gửi pet 
-        if totalCount > requiredAmount then
-            
-            local randomRecipient = ds_nguoi_nhan_pet[math.random(1, #ds_nguoi_nhan_pet)]
-            local message = string.format("Happy birthday %s! You received an excess pet: %s", randomRecipient, itemName)
+        -- Tối thiểu phải giữ lại
+        local mustKeep = math.max(requiredAmount, keepAmount)
+        local toSend = math.max(0, totalCount - mustKeep)
 
-            -- Lặp qua và gửi pet
-            local petSent = 0
-            for _, item in pairs(itemsFound) do
-				
-                if item.ID == itemName and petSent < totalCount then
-                    -- Gửi pet
-					wait(3)
-					if string.find(itemName,"Huge") then
-						--warn("Huge chi send 1")
-						totalCount = 1
-					end
-					if requiredAmount == 1 then
-						--warn("Giữ lại bn con")
-						totalCount = totalCount - requiredAmount
-					end
-                    local success, err = pcall(function()						
-                        return Network.Invoke("Mailbox: Send", randomRecipient, message, "Pet", item.UID, totalCount)
+        if toSend <= 0 then
+            warn(("⚠️ Không có dư để gửi: %s (đang có %d, cần giữ %d)")
+                :format(itemName, totalCount, mustKeep))
+        else
+            -- Nếu là Huge thì chỉ gửi tối đa 1
+            if string.find(itemName, "Huge") then
+                toSend = math.min(toSend, 1)
+            end
+
+            local sent = 0
+            local recipient = ds_nguoi_nhan_pet[math.random(1, #ds_nguoi_nhan_pet)]
+            local message = ("Gift for %s: %s"):format(recipient, itemName)
+
+            -- Gửi lần lượt từng UID cho đến khi đủ 'toSend'
+            for _, it in ipairs(itemsFound) do
+                if sent >= toSend then break end
+                if it.ID == itemName then
+                    local qty = math.min(tonumber(it.Count) or 1, toSend - sent)
+
+                    -- Với PET thường là 1/UID; nếu stackable thì qty > 1 vẫn ok
+                    local ok, err = pcall(function()
+                        return Network.Invoke("Mailbox: Send", recipient, message, "Pet", it.UID, qty)
                     end)
-                    if success then
-                        warn("✅ Đã gửi pet " .. itemName .. " cho " .. randomRecipient .. " với số lượng " .. totalCount)
+
+                    if ok then
+                        sent += qty
+                        warn(("✅ Đã gửi %s - UID %s - SL %d -> %s (đã gửi %d/%d)")
+                            :format(itemName, tostring(it.UID), qty, recipient, sent, toSend))
                     else
-                        warn("❌ Lỗi khi gửi pet " .. itemName .. ": " .. err)
+                        warn(("❌ Lỗi gửi %s - UID %s: %s")
+                            :format(itemName, tostring(it.UID), tostring(err)))
                     end
-                    
+
+                    task.wait(0.25)
                 end
             end
-        else
-            warn("⚠️ Không có đủ pet " .. itemName .. " trong kho để gửi.")
+
+            if sent < toSend then
+                warn(("⚠️ Chỉ gửi được %d/%d cho %s (thiếu UID phù hợp?)")
+                    :format(sent, toSend, itemName))
+            end
         end
     end
 end
 
 -- Gọi hàm gửi pet
 
-
+sendExcessPets()
 
 
 while true do
-
-sendExcessPets()
 wait(36000)
+sendExcessPets()
 end
 
 
