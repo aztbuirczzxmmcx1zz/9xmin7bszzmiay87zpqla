@@ -484,7 +484,7 @@ task.spawn(function()
 
 			if used > 0 then
 				warn("⏸️ Nghỉ 30s trước lượt tiếp theo...")
-				wait(math.random(300,600))
+				wait(30)
 			end
 
 			local startPoints = getTimeTrialPoints()
