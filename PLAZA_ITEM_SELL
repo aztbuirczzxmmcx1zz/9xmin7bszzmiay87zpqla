@@ -37,11 +37,12 @@ getgenv().Settings_autoplaza = {
         {Name = "Time Trial Gift", Data = {Price = "+1%"}},
         {Name = "Huge Machine Egg 5", Data = {Price = "1%"}},
 
-        {Name = "Shiny Palace Pooka", Data = {Price = "400m"}},
-        {Name = "Shiny Rose Pooka", Data = {Price = "+5%"}},
+        {Name = "Shiny Palace Pooka", Data = {Price = "300m"}},
+		{Name = "Shiny Rainbow Palace Pooka", Data = {Price = "5%"}},
+        {Name = "Shiny Rose Pooka", Data = {Price = "1%"}},
 	
 	{Name = "Millionaire Bucks", Data = {Price = "+5%"}},
-        {Name = "Insta Plant Capsule", Data = {Price = 27000}},
+        {Name = "Insta Plant Capsule", Data = {Price = 30000}},
         {Name = "XPPotion Mastery", Data = {Price = "+1%"}},
         {Name = "Royalty TN1", Data = {Price = "+4%"}},
         {Name = "Overload TN1", Data = {Price = "+4%"}},
@@ -62,9 +63,9 @@ getgenv().Settings_autoplaza = {
 	{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "400m", Max_sell = "1b"}},
 	{Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1.5b", Max_sell = "3b"}},
 
-{Name = "All Huges", Data = {Price = "2%", Min_sell = "10m", Max_sell = "30m"}},  
 {Name = "Golden All Huges", Data = {Price = "5%", Min_sell = "12m", Max_sell = "30m"}},
 {Name = "Rainbow All Huges", Data = {Price = "10%", Min_sell = "70m", Max_sell = "200m"}},   
+{Name = "All Huges", Data = {Price = "2%", Min_sell = "10m", Max_sell = "30m"}},  
 
 	{Name = "Magic Shard", Data = {Price = "+1%"}},
     },
