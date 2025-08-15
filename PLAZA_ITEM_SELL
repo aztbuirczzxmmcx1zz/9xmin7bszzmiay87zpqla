@@ -2,7 +2,7 @@
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
-
+----------------------------------
 local SELL_vs_username = {
 	["sijmongirthss"] = "8.9b",
 	["Ash3rP0w3rPanda2018"] = "8.8b",
@@ -13,14 +13,22 @@ local SELL_vs_username = {
 	
 }
 local defaultPrice = "8.75b"
-
+----------------------------------
+local SELL_ttn_rb = {
+	["1953Crutchfield3117"] = "58b",
+	["Xx_VictoriaUltraCybe"] = "50b",	
+}
+local default_ttn_rb = "60b"
+----------------------------------
 
 getgenv().Settings_autoplaza = {
 ["Items"] = {
         {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice}},
+		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = SELL_ttn_rb[player.Name] or default_ttn_rb}},
+
         {Name = "Golden Titanic Starlight Pony", Data = {Price = "12.5b"}},
 	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "150b"}},
-	{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "58b"}},
+
 
         {Name = "MVP Key", Data = {Price = "5%"}},
         {Name = "Summer Block Party Ticket", Data = {Price = "300k"}},
