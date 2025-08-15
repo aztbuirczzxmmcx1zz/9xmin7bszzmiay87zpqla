@@ -262,7 +262,7 @@ local function startMonitor12Min()
 			local startUsed = getRunsUsed()
 			local startTotal = getTotalRuns()
 			local t = 0
-			while t < 600 do
+			while t < 720 do
 				task.wait(10)
 				t += 10
 				if getRunsUsed() ~= startUsed or getTotalRuns() ~= startTotal then break end
@@ -271,7 +271,7 @@ local function startMonitor12Min()
 
 			if getRunsUsed() == startUsed and getTotalRuns() == startTotal then		
 				
-				player:Kick("⏰ 10 phút không đổi lượt hoặc tổng Time Trial → nghi ngờ treo máy.")
+				player:Kick("⏰ 12 phút không đổi lượt hoặc tổng Time Trial → nghi ngờ treo máy.")
 				return
 			end
 		end
@@ -528,20 +528,7 @@ task.spawn(function()
 		_G.SPAM_SWAP_EVENT = true
 		-- Event
 		
-		
-		
-		--local player = game.Players.LocalPlayer			
-		---- 🧭 Teleport vào Block Party & đến vị trí cụ thể
-		--function teleportTo(cf)
-		--	local character = player.Character or player.CharacterAdded:Wait()
-		--	local hrp = character:FindFirstChild("HumanoidRootPart")
-		--	if hrp then
-		--		hrp.CFrame = cf
-		--	end
-		--end
-		--local Enter = workspace.__THINGS.Instances.BlockParty.Teleports.Enter	
-		--teleportTo(Enter.CFrame + Vector3.new(0, 5, 0))
-		--task.wait(9)
+
 		
 		warn("⏳ Theo dõi reset DailyRuns...")
 		while getRunsUsed() >= 10 do 				
@@ -737,7 +724,7 @@ end
 
 ---------------- 🧩 LUỒNG 3: Hatch HUGE CHANCE ----------------
 local function startAutoHatchFarthest()
-
+		wait(5)
 		local saveData = Save.Get()
 		local tileRebirth = saveData.TileRebirth or 0
 
@@ -1011,6 +998,7 @@ local function startAllBlockPartyTasks()
 						startTileHandler()
 					end)
 					task.spawn(function()
+						
 						startAutoHatchFarthest()
 					end)
 			end
@@ -1043,7 +1031,7 @@ while true do
 		_G.VAR_STOP_BLOCK_PARTY = false
 		_G.VAR_START_BLOCK_PARTY = true
 	end
-	wait(4*60)
+	wait(5*60)
 	if _G.SPAM_SWAP_EVENT and getTotalTileCount() > 160 then 
 		warn("Farm")
 		_G.VAR_STOP_BLOCK_PARTY = true
