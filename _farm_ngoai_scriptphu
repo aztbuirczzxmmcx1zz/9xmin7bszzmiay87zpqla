@@ -784,7 +784,7 @@ local function checkInventory()
 
 	-- thời gian đã trôi qua
 	local elapsedSec = os.clock() - startClock
-	local hoursPassed = math.floor(elapsedSec / 3600)
+	local hoursPassed = math.max(1, (os.clock() - startClock) / 3600)
 	if hoursPassed < 1 then hoursPassed = 1 end -- trước 1h, coi như 1 giờ để hiển thị tăng thêm hiện tại
 
 	for _, item in ipairs(itemsToTrack) do
