@@ -73,7 +73,7 @@ task.spawn(function()
     end
 end)
 
-wait(10)
+wait(5)
 -- chọn NAME_USER_SEND để send item
 task.spawn(function()
 while true do
@@ -148,7 +148,7 @@ wait(3600)
 end
 end)
 
-wait(10)
+wait(5)
 -- send all item
 task.spawn(function()
 
@@ -331,7 +331,7 @@ end
 
 end)
 
-wait(10)
+wait(5)
 -- send pet hiem hoac huge gia cao. Soluong_Yeu_cau = 1 thì giữ lại 1 con, khác 1 thì phải chờ nhiều hơn Soluong_Yeu_cau thì mới send tất cả
 task.spawn(function() 
 wait(10)
@@ -561,7 +561,7 @@ end
 
 end)
 
-wait(10)
+wait(5)
 -- Send Huge khi có > 50 con
 task.spawn(function()
 wait(10)
@@ -651,7 +651,7 @@ end
     
 end)
 
-wait(10)
+wait(5)
 -- Send những huge rainbow và shiny
 task.spawn(function()
 wait(10)
