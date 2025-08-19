@@ -1,4 +1,4 @@
-wait(200)
+wait(100)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
 local SaveData = require(Client.Save).Get()
@@ -601,7 +601,7 @@ wait(1)--waitchung
 warn("xem sl 7 sách thường dùng")
 -- xem sl 7 sách thường dùng
 task.spawn(function()
-task.wait(151)
+task.wait(1)
 local booksToCheck = {
     "Diamonds", "Lucky Eggs","Treasure Hunter"
 }
@@ -685,7 +685,7 @@ end)
 wait(1)--waitchung
 -- Xem item kiếm được / 1h ở góc phải dưới
 task.spawn(function()
-wait(200)
+wait(1)
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
