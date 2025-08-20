@@ -1307,7 +1307,7 @@ end
 if slotText then
 	warn(slotText)
     local current, total = slotText:match("^(%d+)/(%d+)$")
-	if tonumber(total) > 5 then
+	if tonumber(total) > 4 then
 		local totalNum = tonumber(total)
 		local maxSlots = 25
 
