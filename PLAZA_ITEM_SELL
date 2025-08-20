@@ -69,7 +69,7 @@ getgenv().Settings_autoplaza = {
         {Name = "Fantasy Key", Data = {Price = "+1%"}},   
 
 	{Name = "Shiny All Huges", Data = {Price = "10%", Min_sell = "70m", Max_sell = "200m"}},
-	{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "400m", Max_sell = "1b"}},
+	{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "400m", Max_sell = "600m"}},
 	{Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1b", Max_sell = "2b"}},
 
 {Name = "Rainbow All Huges", Data = {Price = "10%", Min_sell = "70m", Max_sell = "200m"}},   
