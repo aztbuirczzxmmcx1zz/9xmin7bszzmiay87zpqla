@@ -1,4 +1,4 @@
-wait(15)
+wait(90)
 
 task.spawn(function()
     local Players = game:GetService("Players")
