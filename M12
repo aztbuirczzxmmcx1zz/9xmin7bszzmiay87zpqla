@@ -8,11 +8,8 @@ _G.TAG = true
 task.spawn(function()
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_w1234"))()
 	--loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/CPU-LOW"))()
-
 	------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/SendMail_pet_huge"))()
-
 	------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 end)
 -- check RANK
@@ -21,14 +18,14 @@ local rank = Save.Get().Rank
 
 if EVENT_or_FARM == "E" and rank > 19 then
 	task.spawn(function()	
-		wait(150)
+		wait(10)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/zTest_phu"))()
 	end)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/zTest_setting"))()
 
 else
 	task.spawn(function()	
-		wait(150)
+		wait(10)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_farm_ngoai_scriptphu"))()
 	end)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_farm_ngoai_GS_all_setting"))()
