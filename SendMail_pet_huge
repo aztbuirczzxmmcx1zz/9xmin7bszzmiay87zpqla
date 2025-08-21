@@ -1,4 +1,4 @@
-wait(80)
+wait(15)
 
 task.spawn(function()
     local Players = game:GetService("Players")
@@ -40,33 +40,38 @@ task.spawn(function()
     timeLabel.Parent = mainFrame
 
     -- Hàm cập nhật Fordward_2 và GUI
-    local function updateFordward()
-        local utcTime = os.time(os.date("!*t"))
-        local gmt7Time = utcTime + (7 * 3600)
-        local localTime = os.date("!*t", gmt7Time)
+local startClock = os.clock()
 
-        local hour, min, sec = localTime.hour, localTime.min, localTime.sec
+-- Hàm cập nhật Fordward_2 và GUI
+local function updateFordward()
+    local elapsed = os.clock() - startClock
+    local totalMinutes = math.floor(elapsed / 60)
+    local hours = math.floor(totalMinutes / 60)
+    local minutes = totalMinutes % 60
 
-        -- Kiểm tra ON/OFF
-        if hour >= 1 and hour < 16 then
-            _G.Fordward_2 = false
-            statusLabel.Text = "OFF"
-            statusLabel.TextColor3 = Color3.fromRGB(255, 50, 50) -- đỏ
-        else
-            _G.Fordward_2 = true
-            statusLabel.Text = "ON"
-            statusLabel.TextColor3 = Color3.fromRGB(50, 255, 50) -- xanh
-        end
+    -- Kiểm tra ON/OFF theo giờ hiện tại (UTC+7)
+    local utcTime = os.time(os.date("!*t"))
+    local gmt7Time = utcTime + (7 * 3600)
+    local localTime = os.date("!*t", gmt7Time)
+    local hour = localTime.hour
 
-        -- Hiện thời gian hiện tại (GMT+7)
-        timeLabel.Text = string.format("%02d:%02d", hour, min)
-
-		
-		
-		
+    if hour >= 1 and hour < 16 then
+        _G.Fordward_2 = false
+        statusLabel.Text = "OFF"
+        statusLabel.TextColor3 = Color3.fromRGB(255, 50, 50)
+    else
+        _G.Fordward_2 = true
+        statusLabel.Text = "ON"
+        statusLabel.TextColor3 = Color3.fromRGB(50, 255, 50)
     end
 
-    -- Liên tục cập nhật mỗi giây
+    -- Hiển thị thời gian đã hoạt động thay vì giờ hiện tại
+    timeLabel.Text = string.format("%02d:%02d", hours, minutes)
+end
+
+
+
+    -- Liên tục cập nhật mỗi 60 giây
     while true do
         updateFordward()
         task.wait(61)
