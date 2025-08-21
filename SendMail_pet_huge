@@ -1,5 +1,6 @@
 wait(90)
 
+--view sent on off / time play
 task.spawn(function()
     local Players = game:GetService("Players")
     local player = Players.LocalPlayer
