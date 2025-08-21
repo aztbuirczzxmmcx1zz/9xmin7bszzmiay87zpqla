@@ -1,7 +1,6 @@
 repeat task.wait() until game:IsLoaded()
 local LocalPlayer = game:GetService('Players').LocalPlayer
 repeat task.wait() until not LocalPlayer.PlayerGui:FindFirstChild('__INTRO')
-setfpscap(5)
 repeat
     wait(2)
 until game:IsLoaded() and
@@ -14,7 +13,7 @@ if _G.TAG then
     return
 end
 _G.TAG = true
-
+setfpscap(5)
 	task.spawn(function()			
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/PLAZA_ST"))()
 	end)
