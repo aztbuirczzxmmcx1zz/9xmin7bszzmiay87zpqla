@@ -219,7 +219,7 @@ local function checkInventory()
 		if item.id == "Diamond" then
 			display = tostring(math.floor((avgPerHour / 1_000_000) * 100 + 0.5) / 100) .. "M"
 		else
-			display = math.floor(avgPerHour + 0.5)
+			display = math.floor(avgPerHour * 100 + 0.5) / 100
 		end
 
 		createItemFrame(item, display)
