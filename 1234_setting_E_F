@@ -1,6 +1,6 @@
 
 if name_vps == "vin3" then
-	EVENT_or_FARM = "F"
+	EVENT_or_FARM = "E"
 	Start_ford = 2
 elseif name_vps == "plz" then
 	EVENT_or_FARM = "F"
