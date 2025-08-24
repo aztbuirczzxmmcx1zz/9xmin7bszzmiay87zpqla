@@ -13,6 +13,37 @@ until game:IsLoaded() and
 -- In ra thông báo khi trò chơi đã được tải hoàn toàn.
 print("[CLIENT] Loaded Game")
 
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- Hàm lấy số diamonds
+local function getDiamonds()
+    local amount = 0
+    local inventory = player:FindFirstChild("Inventory")
+    local currency = (inventory and inventory:FindFirstChild("Currency")) or {}
+    
+    for uid, v in pairs(currency) do
+        if v and v.id == "Diamonds" then
+            amount = tonumber(v._am) or 0
+            break
+        end
+    end
+    return amount
+end
+
+-- Script chính
+
+    local diamonds = getDiamonds()
+    print("Diamonds hiện có:", diamonds)
+
+    if diamonds < 200_000_000 then -- 200M
+        print("Diamonds < 200M. Đang chờ 30 giây...")
+        task.wait(30)
+    else
+        print("Diamonds >= 200M. Không cần chờ.")
+    end
+
+
 game:GetService("ReplicatedStorage").Network["Mailbox: Claim All"]:InvokeServer()
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
