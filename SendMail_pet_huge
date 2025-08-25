@@ -184,7 +184,7 @@ getgenv().Settings_senditem = {
 
 ["Daycare egg 5"] = {Class = "Egg", Id = "Huge Machine Egg 5", MinAmount = 1}, -- chưa
 
-["Send all Diamonds"] = {Class = "Currency", Id = "Diamonds", KeepAmount = "20m", MinAmount = "200m"},	--ok
+["Send all Diamonds"] = {Class = "Currency", Id = "Diamonds", KeepAmount = "20m", MinAmount = "300m"},	--ok
 
 ["Secret Key"] = {Class = "Misc", Id = "Secret Key", MinAmount = 400},
 ["Fantasy Key"] = {Class = "Misc", Id = "Fantasy Key", MinAmount = 200},
