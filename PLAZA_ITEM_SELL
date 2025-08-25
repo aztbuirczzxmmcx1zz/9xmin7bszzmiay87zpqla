@@ -16,7 +16,7 @@ local defaultPrice = "8.35b"
 ----------------------------------
 local SELL_ttn_rb = {
 	["1953Crutchfield3117"] = "46b",
-	["Xx_VictoriaUltraCybe"] = "41b",	
+	["Xx_VictoriaUltraCybe"] = "40b",	
 }
 local default_ttn_rb = "60b"
 ----------------------------------
