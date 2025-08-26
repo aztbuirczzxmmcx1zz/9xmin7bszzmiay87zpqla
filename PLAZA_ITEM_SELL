@@ -1230,9 +1230,20 @@ if slotText then
 		else
 			----warn("Da co " .. tostring(totalNum) .. " slot. Khong can dung voucher.\n")
 		end
-		break	
+		break
+	else
+		    local TeleportService = game:GetService("TeleportService")
+			local Players = game:GetService("Players")
+			local player = Players.LocalPlayer
+			local placeId = game.PlaceId    
+			-- Reload game
+			TeleportService:Teleport(placeId, player)
 	end
+
 end
+
+
+
 
 wait(3)
 end
