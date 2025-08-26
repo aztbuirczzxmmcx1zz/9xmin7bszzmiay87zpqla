@@ -16,17 +16,23 @@ local defaultPrice = "8.35b"
 ----------------------------------
 local SELL_ttn_rb = {
 	["1953Crutchfield3117"] = "46b",
-	["Xx_VictoriaUltraCybe"] = "40b",	
+	["Xx_VictoriaUltraCybe"] = "37b",	
 }
 local default_ttn_rb = "60b"
+----------------------------------
+local SELL_ttn_gold = {
+	["sijmongirthss"] = "11b",
+	["1971Nowak3135"] = "12b",	
+}
+local default_ttn_gold = "11.5b"
 ----------------------------------
 
 getgenv().Settings_autoplaza = {
 ["Items"] = {
         {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice}},
 		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = SELL_ttn_rb[player.Name] or default_ttn_rb}},
-
-        {Name = "Golden Titanic Starlight Pony", Data = {Price = "11.5b"}},
+		{Name = "Golden Titanic Starlight Pony", Data = {Price = SELL_ttn_gold[player.Name] or default_ttn_gold}},
+        
 	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "150b"}},
     {Name = "Titanic Bobcat", Data = {Price = "12b"}},
 
