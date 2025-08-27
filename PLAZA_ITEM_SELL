@@ -4,15 +4,15 @@ local player = Players.LocalPlayer
 
 ----------------------------------
 local SELL_vs_username = {
-	["sijmongirthss"] = "8.42b",
+	["sijmongirthss"] = "8.22b",
 	["Ash3rP0w3rPanda2018"] = "8.32b",
-	["soystaylan5"] = "8.33b",
-	["dreddyewele60"] = "8.41b",
-	["1971Nowak3135"] = "8.52b",
-	["Br00klynSkat3r2022"] = "8.55b",
+	["soystaylan5"] = "8.13b",
+	["dreddyewele60"] = "8.11b",
+	["1971Nowak3135"] = "8.12b",
+	["Br00klynSkat3r2022"] = "8.15b",
 	
 }
-local defaultPrice = "8b"
+local defaultPrice = "7.8b"
 ----------------------------------
 local SELL_ttn_rb = {
 	["1953Crutchfield3117"] = "40b",
