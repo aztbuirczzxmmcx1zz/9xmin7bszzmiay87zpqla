@@ -21,8 +21,8 @@ local SELL_ttn_rb = {
 local default_ttn_rb = "60b"
 ----------------------------------
 local SELL_ttn_gold = {
-	["sijmongirthss"] = "11b",
-	["1971Nowak3135"] = "12b",	
+	["AceInferno202467"] = "10.5b",
+	["1971Nowak3135"] = "11b",	
 }
 local default_ttn_gold = "11.5b"
 ----------------------------------
