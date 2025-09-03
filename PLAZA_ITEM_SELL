@@ -22,7 +22,7 @@ local SELL_ttn_rb = {
 	["FusionShadowCyber"] = "36b",
 	["Xx_VictoriaUltraCybe"] = "37b",	
 }
-local default_ttn_rb = "37b"
+local default_ttn_rb = "36b"
 ----------------------------------
 local SELL_ttn_gold = {
 	["AceInferno202467"] = "10.4b",
@@ -37,7 +37,7 @@ getgenv().Settings_autoplaza = {
 		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = SELL_ttn_rb[player.Name] or default_ttn_rb}},
 		{Name = "Golden Titanic Starlight Pony", Data = {Price = SELL_ttn_gold[player.Name] or default_ttn_gold}},
         
-	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "80b"}},
+	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "70b"}},
     {Name = "Titanic Bobcat", Data = {Price = "12b"}},
 
 		{Name = "MVP Key", Data = {Price = "+1%"}},
