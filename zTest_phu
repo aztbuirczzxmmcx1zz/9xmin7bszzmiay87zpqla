@@ -591,7 +591,6 @@ while true do
 	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
 	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
 	if Thu_7_openall == true then
-		openChest(3000, 2)  -- Mở chest yêu cầu 3000 điểm	
 		openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
 	end
 	if getTimeTrialPoints() < diem_toi_thieu_thoat then
