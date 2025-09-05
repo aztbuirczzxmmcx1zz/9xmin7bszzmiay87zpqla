@@ -5,7 +5,7 @@ elseif  name_vps == "M6" or name_vps == "M11" then
 	script_key = "lBbQRNJrJUSXDBuRVkRDvRTNamXqWEcL";		--discord chrome GPT 5-9 18h
 	loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()	
 elseif  name_vps == "H592" or name_vps == "H929"  or name_vps == "H763" then
-	script_key = "yCSzjMDrrmvCOqAkAxQkKCUxwsQnZakE";		--KEY không redem 5-9 18h
+	script_key = "XMtxNPPegJColbcqeYmInkYxBlpoxebf";		--KEY không redem 5-9 18h
 	loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()
 elseif  name_vps == "V6" or name_vps == "V7" then
 	script_key = "PVuuAOylEANqdHGIfyRCZULSVrmEAxsV";		--discord chrome huuluan
