@@ -550,7 +550,7 @@ end
 -- 🎁 Đổi quà
 local function claimReward()
 
-Thu_7_openall = true
+Thu_7_openall = false
 if Thu_7_openall == true then
 	diem_toi_thieu_thoat = 999
 else
