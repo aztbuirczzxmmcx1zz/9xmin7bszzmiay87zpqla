@@ -22,7 +22,7 @@ local SELL_ttn_rb = {
 	["AceInferno202467"] = "35b",
 	["Xx_VictoriaUltraCybe"] = "37b",	
 }
-local default_ttn_rb = "36b"
+local default_ttn_rb = "35b"
 ----------------------------------
 local SELL_ttn_gold = {
 	["AceInferno202467"] = "10.4b",
