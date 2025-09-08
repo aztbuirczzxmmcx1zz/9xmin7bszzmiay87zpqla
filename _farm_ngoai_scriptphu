@@ -776,30 +776,40 @@ end
 
 
 local function teleportToFarmInServer()
-    local ok, children = pcall(function() return workspace.__THINGS.Instances.FarmingWorld.Teleports:GetChildren() end)
-    if not ok or type(children) ~= "table" then return false end
-    local enter = children[5]
-    if not enter then return false end
-    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-    if hrp and enter:IsA("BasePart") then
-        hrp.CFrame = enter.CFrame + Vector3.new(0,3,0)
-        runtime.farm.last = os.time()
-        saveData()
-        return true
-    end
-    return false
+
+    repeat task.wait() until game:IsLoaded()
+
+	local targetPlaceId = 119454325063278
+
+	if game.PlaceId == targetPlaceId then
+		print("✅ Nhân vật đang ở trong Place ID: " .. targetPlaceId)
+		return
+	else
+		warn("tele farn")
+		local TeleportService = game:GetService("TeleportService")
+		local Players = game:GetService("Players")
+		local player = Players.LocalPlayer
+		-- Reload game
+		TeleportService:Teleport(119454325063278, player)
+	end
 end
+
 local function teleportToFishingInServer()
-    local ok, enter = pcall(function() return workspace.__THINGS.Instances.FishingEvent.Teleports.Enter end)
-    if not ok or not enter then return false end
-    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-    if hrp and enter:IsA("BasePart") then
-        hrp.CFrame = enter.CFrame + Vector3.new(0,3,0)
-        runtime.fish.last = os.time()
-        saveData()
-        return true
-    end
-    return false
+    repeat task.wait() until game:IsLoaded()
+
+	local targetPlaceId = 95635359880599
+
+	if game.PlaceId == targetPlaceId then
+		print("✅ Nhân vật đang ở trong Place ID: " .. targetPlaceId)
+		return
+	else
+		warn("tele fish")
+		local TeleportService = game:GetService("TeleportService")
+		local Players = game:GetService("Players")
+		local player = Players.LocalPlayer
+		-- Reload game
+		TeleportService:Teleport(95635359880599, player)
+	end
 end
 
 local function trackFarm()
@@ -859,7 +869,7 @@ local function main()
     resetIfNewDay()
 
     task.spawn(function()
-        task.wait(2)
+        task.wait(90)
         pcall(createGUI)
     end)
 
@@ -884,7 +894,7 @@ local function main()
             end
 
             if not runtime.fish.done then
-                task.wait(2) -- 3 minutes
+                task.wait(180) -- 3 minutes
                 loadData()
                 resetIfNewDay()
                 if runtime.fish.done and runtime.farm.done then
