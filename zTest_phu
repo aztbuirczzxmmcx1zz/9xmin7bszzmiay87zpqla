@@ -1946,7 +1946,7 @@ end
 
 end)
 
-wait(5)--waitchung
+wait(1)--waitchung
 warn("phát hiện không farm ở svv thoát game")
 -- phát hiện không farm ở svv thoát game
 task.spawn(function()
@@ -1956,9 +1956,8 @@ local player = Players.LocalPlayer
 function autoShutdownIfNotAlone()
     local playerCount = #Players:GetPlayers()
 
-    if playerCount > 1 then
-        --game:Shutdown() -- ⚠️ Lệnh shutdown client
-		Players.LocalPlayer:Kick("kick non svv")
+    if playerCount > 1 and game.PlaceId == 140403681187145 then
+		Players.LocalPlayer:Kick("kick severvip")
     end
 end
 
