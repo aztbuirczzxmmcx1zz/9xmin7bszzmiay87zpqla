@@ -173,7 +173,22 @@ local function getRunsUsed()
 end
 
 local function invokeWorld4()
-    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
+        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
+    task.wait(20) -- chờ 3 phút
+
+    if game.PlaceId ~= PLACE_WORLD_4 then
+        print("⚠️ Teleport World4 lần 1 thất bại, thử lại...")
+        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
+        task.wait(20)
+
+        if game.PlaceId ~= PLACE_WORLD_4 then
+            LocalPlayer:Kick("⚠️ Tele World4 thất bại!")
+        else
+            print("✅ Teleport World4 lần 2 thành công.")
+        end
+    else
+        print("✅ Teleport World4 lần 1 thành công.")
+    end
 end
 
 local function serverhopToFishing()
