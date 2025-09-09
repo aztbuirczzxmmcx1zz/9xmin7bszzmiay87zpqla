@@ -13,7 +13,7 @@ local TeleportMapping = {
 }
 
 -- Nếu đang ở đúng map cần thoát
-if game.PlaceId == PLACE_ID then
+if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
     
 if Y_or_N_delay_60s_farming == "y" then
         wait(90)
