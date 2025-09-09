@@ -1,5 +1,9 @@
 wait(90)
 
+if game.PlaceId ~= 140403681187145 then
+    return
+end
+
 --view sent on off / time play
 task.spawn(function()
     local Players = game:GetService("Players")
