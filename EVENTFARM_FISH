@@ -173,15 +173,7 @@ local function getRunsUsed()
 end
 
 local function invokeWorld4()
-    pcall(function()
-        local net = ReplicatedStorage:FindFirstChild("Network")
-        if net then
-            local w4 = net:FindFirstChild(WORLD4_REMOTE_NAME)
-            if w4 and w4.InvokeServer then
-                pcall(function() w4:InvokeServer() end)
-            end
-        end
-    end)
+    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
 end
 
 local function serverhopToFishing()
