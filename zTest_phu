@@ -1,4 +1,4 @@
-wait(150)
+wait(250)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
 local SaveData = require(Client.Save).Get()
@@ -522,11 +522,12 @@ task.spawn(function()
 		task.wait(3)
 		cleanupAllThreads()
 		autoEquipEnchantBooks({"Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power"})
-		_G.VAR_STOP_BLOCK_PARTY = false
-		_G.VAR_START_BLOCK_PARTY = true
-		_G.SPAM_SWAP_EVENT = true
+		if runtime.farm.done and runtime.fish.done then
+			_G.VAR_STOP_BLOCK_PARTY = false
+			_G.VAR_START_BLOCK_PARTY = true
+			_G.SPAM_SWAP_EVENT = true
 		-- Event
-		
+		end
 
 		
 		warn("⏳ Theo dõi reset DailyRuns...")
