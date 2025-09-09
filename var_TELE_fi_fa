@@ -1,7 +1,8 @@
 wait(50)
+
 if _G.TeleEventManager then
     warn("⛔ Script đã được chạy trước đó!")
-    return
+    --return
 end
 _G.TeleEventManager = true
 
@@ -15,7 +16,7 @@ local LocalPlayer = Players.LocalPlayer
 local PLACE_WORLD_4 = 140403681187145
 local PLACE_FISHING = 95635359880599
 local PLACE_FARM = 119454325063278
-local TIME_DONE_FIFA = 10
+
 -- 📂 Đọc log comboEventLog.json
 local function readComboLog()
     local success, data = pcall(readfile, "comboEventLog.json")
@@ -46,31 +47,33 @@ end
 
 -- 🔁 Serverhop links (dùng cho Farm/Fishing)
 local function serverhopToFishing()
-    local ok = false
-    pcall(function()
-        ok = loadstring(game:HttpGet("https://raw.githubusercontent.com/Hoith95/Pet-99/main/ServerHop-Event-Fish"))() or true
-    end)
-    return ok
+    local TeleportService = game:GetService("TeleportService")
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    -- Reload game
+    TeleportService:Teleport(95635359880599, player)
 end
 local function serverhopToFarm()
-    local ok = false
-    pcall(function()
-        ok = loadstring(game:HttpGet("https://raw.githubusercontent.com/Hoith95/Pet-99/main/ServerHop-Event-World"))() or true
-    end)
-    return ok
+    local TeleportService = game:GetService("TeleportService")
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    -- Reload game
+    TeleportService:Teleport(119454325063278, player)
 end
 
 -- 🧭 Logic chính
 task.spawn(function()
+
 while true do
+
     local logData = readComboLog()
     if not logData then
         warn("⚠️ Không đọc được file comboEventLog.json")
         return
     end
 
-    local fishDone = (logData.fishing or 0) >= TIME_DONE_FIFA
-    local farmDone = (logData.farm or 0) >= TIME_DONE_FIFA
+local fishDone = logData.fish and logData.fish.done
+local farmDone = logData.farm and logData.farm.done
 
     if fishDone and farmDone then
         -- ✅ Cả 2 đã đủ
@@ -78,8 +81,7 @@ while true do
             print("✅ Đang ở World4 và đã đủ Farm + Fishing → Dừng script.")
             return
         else
-            print("➡️ Teleport qua World4...")
-            teleportWorld4()
+            game:Shutdown() 
         end
     else
         -- ⏸ Chưa đủ 30p
@@ -94,9 +96,12 @@ while true do
                 print("⚠️ Trường hợp bất thường: farmDone=", farmDone, " fishDone=", fishDone)
             end
         else
-            print("⏸ Chưa đủ 30p, nhưng không ở World4 → Không làm gì.")
+            print("⏸ Chưa đủ , nhưng không ở World4 → Không làm gì.")
         end
     end
-wait(10)
-end
+
+wait(30)	
+end	
+
+
 end)
