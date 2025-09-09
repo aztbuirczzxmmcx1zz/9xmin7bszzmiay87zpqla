@@ -1,7 +1,3 @@
-wait(1)--waitchung
---FISH+FARM
-task.spawn(function()
-wait(2)
 if _G.COMBO_EVENT then
     warn("⛔ Script đã chạy trước đó!")
     return
@@ -128,7 +124,7 @@ local function createGUI()
         lbl.TextColor3 = Color3.fromRGB(230,230,230)
         lbl.TextXAlignment = Enum.TextXAlignment.Left
         lbl.Font = Enum.Font.SourceSansBold
-        lbl.TextSize = 30
+        lbl.TextSize = 26
         lbl.Text = text .. ": 0%"
         lbl.Parent = parent
 
@@ -177,87 +173,57 @@ local function getRunsUsed()
 end
 
 local function invokeWorld4()
-
-if game.PlaceId ~= 140403681187145 then
-	game:Shutdown()
-end
-
+    pcall(function()
+        local net = ReplicatedStorage:FindFirstChild("Network")
+        if net then
+            local w4 = net:FindFirstChild(WORLD4_REMOTE_NAME)
+            if w4 and w4.InvokeServer then
+                pcall(function() w4:InvokeServer() end)
+            end
+        end
+    end)
 end
 
 local function serverhopToFishing()
-    repeat task.wait() until game:IsLoaded()
-
-	local targetPlaceId = 95635359880599
-
-	if game.PlaceId == targetPlaceId then
-		print("✅ Nhân vật đang ở trong Place ID: " .. targetPlaceId)
-		return
-	else
-		warn("tele fish")
-		local TeleportService = game:GetService("TeleportService")
-		local Players = game:GetService("Players")
-		local player = Players.LocalPlayer
-		-- Reload game
-		TeleportService:Teleport(95635359880599, player)
-	end
-	
-	
+    local ok = false
+    pcall(function()
+        ok = loadstring(game:HttpGet("https://raw.githubusercontent.com/Hoith95/Pet-99/main/ServerHop-Event-Fish"))() or true
+    end)
+    return ok
 end
-
 local function serverhopToFarm()
-    repeat task.wait() until game:IsLoaded()
-
-	local targetPlaceId = 119454325063278
-
-	if game.PlaceId == targetPlaceId then
-		print("✅ Nhân vật đang ở trong Place ID: " .. targetPlaceId)
-		return
-	else
-		warn("tele farn")
-		local TeleportService = game:GetService("TeleportService")
-		local Players = game:GetService("Players")
-		local player = Players.LocalPlayer
-		-- Reload game
-		TeleportService:Teleport(119454325063278, player)
-	end
+    local ok = false
+    pcall(function()
+        ok = loadstring(game:HttpGet("https://raw.githubusercontent.com/Hoith95/Pet-99/main/ServerHop-Event-World"))() or true
+    end)
+    return ok
 end
-
 
 local function teleportToFarmInServer()
-
-    repeat task.wait() until game:IsLoaded()
-
-	local targetPlaceId = 119454325063278
-
-	if game.PlaceId == targetPlaceId then
-		print("✅ Nhân vật đang ở trong Place ID: " .. targetPlaceId)
-		return
-	else
-		warn("tele farn")
-		local TeleportService = game:GetService("TeleportService")
-		local Players = game:GetService("Players")
-		local player = Players.LocalPlayer
-		-- Reload game
-		TeleportService:Teleport(119454325063278, player)
-	end
+    local ok, children = pcall(function() return workspace.__THINGS.Instances.FarmingWorld.Teleports:GetChildren() end)
+    if not ok or type(children) ~= "table" then return false end
+    local enter = children[5]
+    if not enter then return false end
+    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+    if hrp and enter:IsA("BasePart") then
+        hrp.CFrame = enter.CFrame + Vector3.new(0,3,0)
+        runtime.farm.last = os.time()
+        saveData()
+        return true
+    end
+    return false
 end
-
 local function teleportToFishingInServer()
-    repeat task.wait() until game:IsLoaded()
-
-	local targetPlaceId = 95635359880599
-
-	if game.PlaceId == targetPlaceId then
-		print("✅ Nhân vật đang ở trong Place ID: " .. targetPlaceId)
-		return
-	else
-		warn("tele fish")
-		local TeleportService = game:GetService("TeleportService")
-		local Players = game:GetService("Players")
-		local player = Players.LocalPlayer
-		-- Reload game
-		TeleportService:Teleport(95635359880599, player)
-	end
+    local ok, enter = pcall(function() return workspace.__THINGS.Instances.FishingEvent.Teleports.Enter end)
+    if not ok or not enter then return false end
+    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+    if hrp and enter:IsA("BasePart") then
+        hrp.CFrame = enter.CFrame + Vector3.new(0,3,0)
+        runtime.fish.last = os.time()
+        saveData()
+        return true
+    end
+    return false
 end
 
 local function trackFarm()
@@ -317,7 +283,7 @@ local function main()
     resetIfNewDay()
 
     task.spawn(function()
-        task.wait(5)
+        task.wait(90)
         pcall(createGUI)
     end)
 
@@ -342,7 +308,7 @@ local function main()
             end
 
             if not runtime.fish.done then
-                task.wait(5) -- 3 minutes
+                task.wait(180) -- 3 minutes
                 loadData()
                 resetIfNewDay()
                 if runtime.fish.done and runtime.farm.done then
@@ -380,9 +346,6 @@ local function main()
 
     if runtime.farm.done and runtime.fish.done then
         invokeWorld4()
-		_G.VAR_STOP_BLOCK_PARTY = false
-		_G.VAR_START_BLOCK_PARTY = true
-		_G.SPAM_SWAP_EVENT = true
         return
     end
 
@@ -439,6 +402,3 @@ local function main()
 end
 
 pcall(main)
-
-
-end)
