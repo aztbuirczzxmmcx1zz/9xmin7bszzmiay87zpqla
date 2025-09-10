@@ -29,19 +29,43 @@ local function getFileName() return "comboEventLog.json" end
 local function loadData()
     if isfile(getFileName()) then
         local ok, data = pcall(function() return HttpService:JSONDecode(readfile(getFileName())) end)
-        if ok and type(data) == "table" then
+        if ok and type(data) == "table" and data.farm and data.fish then
             runtime = data
             runtime.farm = runtime.farm or { total = 0, last = os.time(), done = false }
             runtime.fish = runtime.fish or { total = 0, last = os.time(), done = false }
             runtime.lastDay = runtime.lastDay or os.date("%d/%m/%Y")
+        else
+            warn("⚠️ File comboEventLog.json bị hỏng, reset lại")
+            runtime = {
+                farm = { total = 0, last = os.time(), done = false },
+                fish = { total = 0, last = os.time(), done = false },
+                lastDay = os.date("%d/%m/%Y"),
+                reset23Date = nil
+            }
+            saveData()
         end
     end
 end
 
+
 local function saveData()
     runtime.lastDay = os.date("%d/%m/%Y")
-    pcall(function() writefile(getFileName(), HttpService:JSONEncode(runtime)) end)
+    task.spawn(function()
+        local success, err = pcall(function()
+            writefile(getFileName(), HttpService:JSONEncode(runtime))
+        end)
+        if not success then
+            warn("❌ Ghi file thất bại:", err)
+        end
+    end)
 end
+
+task.spawn(function()
+    while true do
+        task.wait(60)
+        saveData()
+    end
+end)
 
 local function resetIfNewDay()
     local today = os.date("%d/%m/%Y")
@@ -87,12 +111,16 @@ local function updateProgress(which)
     local now = os.time()
     local data = runtime[which]
     if not data then return end
+
     if type(data.last) ~= "number" then data.last = now end
+
     local delta = math.max(0, now - data.last)
-    data.total = (data.total or 0) + delta
-    data.last = now
-    if data.total >= REQUIRED_SECONDS then data.done = true end
-    saveData()
+    if delta > 0 then
+        data.total = (data.total or 0) + delta
+        data.last = now
+        if data.total >= REQUIRED_SECONDS then data.done = true end
+        saveData()
+    end
 end
 
 -- GUI creation (right-bottom small progress)
@@ -161,12 +189,6 @@ local function createGUI()
     end)
 end
 
-local function getRunsUsed()
-    if not Save then return 0 end
-    local ok, res = pcall(function() return Save.Get() end)
-    if not ok or not res then return 0 end
-    return res and res.TimeTrialStats and (res.TimeTrialStats.DailyRuns or 0) or 0
-end
 
 local function invokeWorld4()
         game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
@@ -251,16 +273,6 @@ local function trackFishing()
             pcall(serverhopToFarm)
         end
     end)
-end
-
-local function waitUntilRunsUsed()
-    while true do
-        local runs = 0
-        local ok, res = pcall(getRunsUsed)
-        if ok and type(res) == "number" then runs = res end
-        if runs >= 10 then break end
-        task.wait(30)
-    end
 end
 
 local function waitForNewDay()
