@@ -1,6 +1,6 @@
 if _G.COMBO_EVENT then
     warn("⛔ Script đã chạy trước đó!")
-    return
+    --return
 end
 _G.COMBO_EVENT = true
 
