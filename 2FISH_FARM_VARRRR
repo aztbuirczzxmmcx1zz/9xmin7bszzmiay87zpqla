@@ -82,6 +82,7 @@ local farmDone = logData.farm and logData.farm.done
             return
         else
             game:Shutdown() 
+						Players.LocalPlayer:Kick("kick_done_2compo")
         end
     else
         -- ⏸ Chưa đủ 30p
@@ -117,5 +118,6 @@ warn("25*60")
 warn("Kick")
 	if game.PlaceId ~= 140403681187145 then
 		game:Shutdown() 
+Players.LocalPlayer:Kick("kickcompo")
 	end
 end)
