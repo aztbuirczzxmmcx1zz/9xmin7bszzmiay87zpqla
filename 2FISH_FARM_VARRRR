@@ -108,7 +108,7 @@ task.spawn(function()
 		return
 	end
 warn("25*60")
-	wait(25*60)
+	wait(20*60)
 warn("Kick")
 	if game.PlaceId ~= 140403681187145 then
 		game:Shutdown() 
