@@ -15,7 +15,7 @@ local FARM_PLACEID = 119454325063278
 local FISH_PLACEID = 95635359880599
 local LOBBY_PLACEID_SPECIAL = 140403681187145 -- special lobby id
 local WORLD4_REMOTE_NAME = "World4Teleport"
-local REQUIRED_SECONDS = 20 * 60 -- 30 minutes
+local REQUIRED_SECONDS = 1 * 10 -- 30 minutes
 
 local runtime = {
     farm = { total = 0, last = os.time(), done = false },
@@ -117,20 +117,37 @@ end
 local function updateProgress(which)
     local now = os.time()
     local data = runtime[which]
-    if not data then return end
-
-    if type(data.last) ~= "number" then data.last = now end
+    if not data then 
+		--warn("[updateProgress] Không tìm thấy runtime." .. which) 
+		return 
+	end
+    if type(data.last) ~= "number" then
+        --warn("[updateProgress] last bị lỗi, gán lại")
+        data.last = now
+    end
 
     local delta = math.max(0, now - data.last)
-    if delta > 0 then
-        data.total = (data.total or 0) + delta
-        data.last = now
-        if not data.done and data.total >= REQUIRED_SECONDS then
-			data.done = true
-			saveData()
-		end
+    data.total = (data.total or 0) + delta
+    data.last = now
+
+    --warn(string.format("[updateProgress] %s: +%ds, total=%d", which, delta, data.total))
+
+    if not data.done and data.total >= REQUIRED_SECONDS then
+        data.done = true
+        warn(string.format("[updateProgress] %s DONE ✅", which))
+    end
+
+    local success, err = pcall(function()
+        writefile(getFileName(), HttpService:JSONEncode(runtime))
+    end)
+    if not success then
+        --warn("[updateProgress] ❌ Ghi file thất bại:", err)
+    else
+        --warn("[updateProgress] ✅ Đã lưu vào file")
     end
 end
+
+
 
 -- GUI creation (right-bottom small progress)
 local function createGUI()
@@ -218,47 +235,31 @@ local function invokeWorld4()
     end
 end
 
-local function serverhopToFishing()
-    local ok = false
-    pcall(function()
-        ok = loadstring(game:HttpGet("https://raw.githubusercontent.com/Hoith95/Pet-99/main/ServerHop-Event-Fish"))() or true
-    end)
-    return ok
-end
-local function serverhopToFarm()
-    local ok = false
-    pcall(function()
-        ok = loadstring(game:HttpGet("https://raw.githubusercontent.com/Hoith95/Pet-99/main/ServerHop-Event-World"))() or true
-    end)
-    return ok
+local function serverhopTo(placeId)
+	TeleportService:Teleport(placeId, LocalPlayer)
 end
 
-local function teleportToFarmInServer()
-    local ok, children = pcall(function() return workspace.__THINGS.Instances.FarmingWorld.Teleports:GetChildren() end)
-    if not ok or type(children) ~= "table" then return false end
-    local enter = children[5]
-    if not enter then return false end
-    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-    if hrp and enter:IsA("BasePart") then
-        hrp.CFrame = enter.CFrame + Vector3.new(0,3,0)
-        runtime.farm.last = os.time()
-        saveData()
-        return true
-    end
-    return false
+local function serverhopToFishing()
+	if game.PlaceId ~= 95635359880599 then
+		serverhopTo(95635359880599)
+	end
+end
+local function serverhopToFarm()
+	if game.PlaceId ~= 119454325063278 then
+		serverhopTo(119454325063278)
+	end
 end
 local function teleportToFishingInServer()
-    local ok, enter = pcall(function() return workspace.__THINGS.Instances.FishingEvent.Teleports.Enter end)
-    if not ok or not enter then return false end
-    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-    if hrp and enter:IsA("BasePart") then
-        hrp.CFrame = enter.CFrame + Vector3.new(0,3,0)
-        runtime.fish.last = os.time()
-        saveData()
-        return true
-    end
-    return false
+	if game.PlaceId ~= 95635359880599 then
+		serverhopTo(95635359880599)
+	end
 end
+local function teleportToFarmInServer()
+	if game.PlaceId ~= 119454325063278 then
+		serverhopTo(119454325063278)
+	end
+end
+
 
 local function trackFarm()
     task.spawn(function()
@@ -307,6 +308,7 @@ task.spawn(function()
 end)
 
 local function main()
+	warn("PLAY")
     loadData()
     resetIfNewDay()
 
@@ -320,7 +322,7 @@ local function main()
         return
     end
 
-    if placeId == FARM_PLACEID then
+    if game.PlaceId == FARM_PLACEID then
         runtime.farm.last = os.time()
         saveData()
         if (not runtime.farm.done) and (not runtime.fish.done) then
@@ -339,7 +341,7 @@ local function main()
         end
     end
 
-    if placeId == FISH_PLACEID then
+    if game.PlaceId == FISH_PLACEID then
         runtime.fish.last = os.time()
         saveData()
         if not runtime.fish.done then
