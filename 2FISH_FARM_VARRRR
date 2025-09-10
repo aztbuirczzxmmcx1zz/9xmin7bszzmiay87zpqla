@@ -105,3 +105,15 @@ end
 
 
 end)
+
+task.spawn(function()
+	task.wait(50)
+    if game.PlaceId == 140403681187145 then
+		warn("OK")
+		return
+	end
+	wait(25*60)
+	if game.PlaceId ~= 140403681187145 then
+		game:Shutdown() 
+	end
+end)
