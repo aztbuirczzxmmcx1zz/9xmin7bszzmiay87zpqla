@@ -29,23 +29,24 @@ local function getFileName() return "comboEventLog.json" end
 local function loadData()
     if isfile(getFileName()) then
         local ok, data = pcall(function() return HttpService:JSONDecode(readfile(getFileName())) end)
-        if ok and type(data) == "table" and data.farm and data.fish then
+        if ok and type(data) == "table" then
             runtime = data
             runtime.farm = runtime.farm or { total = 0, last = os.time(), done = false }
             runtime.fish = runtime.fish or { total = 0, last = os.time(), done = false }
+
+            -- 👉 Check lại trạng thái done nếu bị thiếu
+            if not runtime.farm.done and runtime.farm.total >= REQUIRED_SECONDS then
+                runtime.farm.done = true
+            end
+            if not runtime.fish.done and runtime.fish.total >= REQUIRED_SECONDS then
+                runtime.fish.done = true
+            end
+
             runtime.lastDay = runtime.lastDay or os.date("%d/%m/%Y")
-        else
-            warn("⚠️ File comboEventLog.json bị hỏng, reset lại")
-            runtime = {
-                farm = { total = 0, last = os.time(), done = false },
-                fish = { total = 0, last = os.time(), done = false },
-                lastDay = os.date("%d/%m/%Y"),
-                reset23Date = nil
-            }
-            saveData()
         end
     end
 end
+
 
 
 local function saveData()
@@ -118,8 +119,10 @@ local function updateProgress(which)
     if delta > 0 then
         data.total = (data.total or 0) + delta
         data.last = now
-        if data.total >= REQUIRED_SECONDS then data.done = true end
-        saveData()
+        if not data.done and data.total >= REQUIRED_SECONDS then
+			data.done = true
+			saveData()
+		end
     end
 end
 
