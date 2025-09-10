@@ -1,8 +1,4 @@
-if _G.COMBO_EVENT then
-    warn("⛔ Script đã chạy trước đó!")
-    --return
-end
-_G.COMBO_EVENT = true
+
 
 -- Services & data
 local Players = game:GetService("Players")
