@@ -156,7 +156,7 @@ local function createGUI()
             fishLbl.Text = string.format("Fishing: %d%%", fishPct)
             fishBar.Size = UDim2.new(fishPct/100, 0, 1, 0)
 
-            task.wait(1)
+            task.wait(30)
         end
     end)
 end
@@ -289,64 +289,7 @@ local function main()
         task.wait(90)
         pcall(createGUI)
     end)
-
-    -- read runs
-    local runs = 0
-    local ok, res = pcall(getRunsUsed)
-    if ok and type(res) == "number" then runs = res else runs = 0 end
-
-    local placeId = game.PlaceId
-runs = 10
-    if runs < 10 then
-        -- If player is in special lobby id 140403681187145, wait until runs used, then proceed
-        if placeId == LOBBY_PLACEID_SPECIAL then
-            -- wait until runs used up
-            waitUntilRunsUsed()
-            loadData()
-            resetIfNewDay()
-
-            if runtime.farm.done and runtime.fish.done then
-                waitForNewDay()
-                return
-            end
-
-            if not runtime.fish.done then
-                task.wait(180) -- 3 minutes
-                loadData()
-                resetIfNewDay()
-                if runtime.fish.done and runtime.farm.done then
-                    waitForNewDay()
-                    return
-                end
-                if game.PlaceId == FISH_PLACEID then
-                    runtime.fish.last = os.time()
-                    saveData()
-                    trackFishing()
-                    return
-                end
-                local okHop = pcall(serverhopToFishing)
-                if not okHop then
-                    teleportToFishingInServer()
-                end
-                return
-            else
-                if game.PlaceId == FARM_PLACEID then
-                    runtime.farm.last = os.time()
-                    saveData()
-                    trackFarm()
-                    return
-                end
-                local okHop = pcall(serverhopToFarm)
-                if not okHop then teleportToFarmInServer() end
-                return
-            end
-
-        else
-            invokeWorld4()
-            return
-        end
-    end
-
+    
     if runtime.farm.done and runtime.fish.done then
         invokeWorld4()
         return
