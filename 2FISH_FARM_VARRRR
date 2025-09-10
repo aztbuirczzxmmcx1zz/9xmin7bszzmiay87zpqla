@@ -1,11 +1,5 @@
 wait(50)
 
-if _G.TeleEventManager then
-    warn("⛔ Script đã được chạy trước đó!")
-    --return
-end
-_G.TeleEventManager = true
-
 -- ⚙️ Dịch vụ
 local HttpService = game:GetService("HttpService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
