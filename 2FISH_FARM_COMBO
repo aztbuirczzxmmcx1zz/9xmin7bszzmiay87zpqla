@@ -269,6 +269,10 @@ local function trackFarm()
         if not runtime.fish.done then
             pcall(serverhopToFishing)
         end
+		if runtime.farm.done and runtime.fish.done then
+			game:Shutdown()
+			LocalPlayer:Kick("kick_compo_track_farm")
+		end
     end)
 end
 
@@ -307,7 +311,7 @@ local function main()
     resetIfNewDay()
 
     task.spawn(function()
-        task.wait(90)
+        task.wait(3)
         pcall(createGUI)
     end)
     
