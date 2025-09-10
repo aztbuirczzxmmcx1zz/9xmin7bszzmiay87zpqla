@@ -35,12 +35,18 @@ local function loadData()
             runtime.fish = runtime.fish or { total = 0, last = os.time(), done = false }
 
             -- 👉 Check lại trạng thái done nếu bị thiếu
-            if not runtime.farm.done and runtime.farm.total >= REQUIRED_SECONDS then
-                runtime.farm.done = true
-            end
-            if not runtime.fish.done and runtime.fish.total >= REQUIRED_SECONDS then
-                runtime.fish.done = true
-            end
+            local updated = false
+			if not runtime.farm.done and runtime.farm.total >= REQUIRED_SECONDS then
+				runtime.farm.done = true
+				updated = true
+			end
+			if not runtime.fish.done and runtime.fish.total >= REQUIRED_SECONDS then
+				runtime.fish.done = true
+				updated = true
+			end
+			if updated then
+				saveData()
+			end
 
             runtime.lastDay = runtime.lastDay or os.date("%d/%m/%Y")
         end
