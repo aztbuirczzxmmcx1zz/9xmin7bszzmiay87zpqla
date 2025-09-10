@@ -1,117 +1,86 @@
-wait(50)
+-- ⏳ Delay khởi đầu
+task.wait(50)
 
--- ⚙️ Dịch vụ
+-- ⚙️ Services
 local HttpService = game:GetService("HttpService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
+local TeleportService = game:GetService("TeleportService")
 local LocalPlayer = Players.LocalPlayer
 
--- 🌍 PlaceId
+-- 🌍 PlaceIds
 local PLACE_WORLD_4 = 140403681187145
 local PLACE_FISHING = 95635359880599
 local PLACE_FARM = 119454325063278
 
--- 📂 Đọc log comboEventLog.json
+-- 📂 Đọc file comboEventLog.json an toàn
 local function readComboLog()
-    local success, data = pcall(readfile, "comboEventLog.json")
-    if not success or not data then return nil end
-    local decoded = HttpService:JSONDecode(data)
-    return decoded
+	for _ = 1, 3 do
+		local success, data = pcall(readfile, "comboEventLog.json")
+		if success and data then
+			local ok, decoded = pcall(HttpService.JSONDecode, HttpService, data)
+			if ok and type(decoded) == "table" then return decoded end
+		end
+		task.wait(1)
+	end
+	return nil
 end
 
--- 🚪 Hàm teleport riêng cho World4
-local function teleportWorld4()
-    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
-    task.wait(10) -- chờ 3 phút
-
-    if game.PlaceId ~= PLACE_WORLD_4 then
-        print("⚠️ Teleport World4 lần 1 thất bại, thử lại...")
-        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
-        task.wait(10)
-
-        if game.PlaceId ~= PLACE_WORLD_4 then
-            LocalPlayer:Kick("⚠️ Tele World4 thất bại!")
-        else
-            print("✅ Teleport World4 lần 2 thành công.")
-        end
-    else
-        print("✅ Teleport World4 lần 1 thành công.")
-    end
+-- 🔁 Teleport Functions
+local function serverhopTo(placeId)
+	TeleportService:Teleport(placeId, LocalPlayer)
 end
 
--- 🔁 Serverhop links (dùng cho Farm/Fishing)
-local function serverhopToFishing()
-    local TeleportService = game:GetService("TeleportService")
-    local Players = game:GetService("Players")
-    local player = Players.LocalPlayer
-    -- Reload game
-    TeleportService:Teleport(95635359880599, player)
-end
-local function serverhopToFarm()
-    local TeleportService = game:GetService("TeleportService")
-    local Players = game:GetService("Players")
-    local player = Players.LocalPlayer
-    -- Reload game
-    TeleportService:Teleport(119454325063278, player)
-end
-
--- 🧭 Logic chính
+-- 🧭 Main Checker
 task.spawn(function()
+	while true do
+		local logData = readComboLog()
+		if not logData then
+			warn("⚠️ Không đọc được file comboEventLog.json (3 lần).")
+			break
+		end
 
-while true do
+		local fishDone = logData.fish and logData.fish.done
+		local farmDone = logData.farm and logData.farm.done
 
-    local logData = readComboLog()
-    if not logData then
-        warn("⚠️ Không đọc được file comboEventLog.json")
-        return
-    end
+		if fishDone and farmDone then
+			if game.PlaceId == PLACE_WORLD_4 then
+				warn("✅ Đã ở World4 và đủ farm+fish. Dừng script.")
+				break
+			else
+				warn("✅ Đủ farm+fish. Shutdown và Kick...")
+				game:Shutdown()
+				LocalPlayer:Kick("kick_done_2compo")
+				break
+			end
+		elseif game.PlaceId == PLACE_WORLD_4 then
+			if not farmDone then
+				warn("➡️ Teleport đến FARM...")
+				serverhopTo(PLACE_FARM)
+			elseif not fishDone then
+				warn("➡️ Teleport đến FISHING...")
+				serverhopTo(PLACE_FISHING)
+			else
+				warn("⚠️ Lỗi logic không xác định.")
+			end
+		else
+			warn("⏸ Chưa đủ combo, và không ở World4 → chờ...")
+		end
 
-local fishDone = logData.fish and logData.fish.done
-local farmDone = logData.farm and logData.farm.done
-
-    if fishDone and farmDone then
-        -- ✅ Cả 2 đã đủ
-        if game.PlaceId == PLACE_WORLD_4 then
-            print("✅ Đang ở World4 và đã đủ Farm + Fishing → Dừng script.")
-            return
-        else
-            game:Shutdown() 
-						Players.LocalPlayer:Kick("kick_done_2compo")
-        end
-    else
-        -- ⏸ Chưa đủ 30p
-        if game.PlaceId == PLACE_WORLD_4 then
-            if not farmDone then
-                print("➡️ Serverhop qua Farm...")
-                serverhopToFarm()
-            elseif not fishDone then
-                print("➡️ Serverhop qua Fishing...")
-                serverhopToFishing()
-            else
-                print("⚠️ Trường hợp bất thường: farmDone=", farmDone, " fishDone=", fishDone)
-            end
-        else
-            print("⏸ Chưa đủ , nhưng không ở World4 → Không làm gì.")
-        end
-    end
-
-wait(30)	
-end	
-
-
+		task.wait(30)
+	end
 end)
 
+-- 🧨 Timeout nếu không vào World4 trong 20 phút
 task.spawn(function()
-	task.wait(50)
-    if game.PlaceId == 140403681187145 then
-		warn("OK")
-		return
-	end
-warn("25*60")
-	wait(20*60)
-warn("Kick")
-	if game.PlaceId ~= 140403681187145 then
-		game:Shutdown() 
-Players.LocalPlayer:Kick("kickcompo")
+	task.wait(30)
+	if game.PlaceId == PLACE_WORLD_4 then return end
+
+	warn("⏱ Đếm ngược 20 phút để vào World4...")
+	task.wait(20 * 60)
+
+	if game.PlaceId ~= PLACE_WORLD_4 then
+		warn("❌ Timeout → Kick do không vào được World4.")
+		game:Shutdown()
+		LocalPlayer:Kick("kickcompo")
 	end
 end)
