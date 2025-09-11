@@ -42,14 +42,7 @@ local function loadData()
 				runtime.fish.done = true
 				updated = true
 			end
-			if runtime.farm.done and runtime.farm.total < REQUIRED_SECONDS then
-				runtime.farm.done = false
-				updated = true
-			end
-			if runtime.fish.done and runtime.fish.total < REQUIRED_SECONDS then
-				runtime.fish.done = false
-				updated = true
-			end
+
 			if updated then
 				saveData()
 			end
