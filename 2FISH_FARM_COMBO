@@ -1,6 +1,4 @@
 
-
--- Services & data
 local Players = game:GetService("Players")
 local TeleportService = game:GetService("TeleportService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -13,9 +11,9 @@ if not okSave then Save = nil end
 
 local FARM_PLACEID = 119454325063278
 local FISH_PLACEID = 95635359880599
-local LOBBY_PLACEID_SPECIAL = 140403681187145 -- special lobby id
+local LOBBY_PLACEID_SPECIAL = 140403681187145 
 local WORLD4_REMOTE_NAME = "World4Teleport"
-local REQUIRED_SECONDS = 20 * 60 -- 30 minutes
+local REQUIRED_SECONDS = 20 * 60 
 
 local runtime = {
     farm = { total = 0, last = os.time(), done = false },
@@ -158,7 +156,6 @@ end
 
 
 
--- GUI creation (right-bottom small progress)
 local function createGUI()
     if PlayerGui:FindFirstChild("EventProgressUI") then PlayerGui.EventProgressUI:Destroy() end
 
@@ -168,7 +165,7 @@ local function createGUI()
 
     local frame = Instance.new("Frame")
     frame.Size = UDim2.new(0, 250, 0, 68)
-    frame.Position = UDim2.new(1, -260, 1, -100)
+    frame.Position = UDim2.new(0, 10, 1, -150)
     frame.BackgroundColor3 = Color3.fromRGB(25,25,25)
     frame.BackgroundTransparency = 0.25
     frame.BorderSizePixel = 0
