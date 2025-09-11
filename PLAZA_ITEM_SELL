@@ -16,7 +16,7 @@ local SELL_vs_username = {
 	["1953Crutchfield3117"] = "7.2b",
 	
 }
-local defaultPrice = "7.15b"
+local defaultPrice = "7.11b"
 ----------------------------------
 local SELL_ttn_rb = {
 	["AceInferno202467"] = "35b",
