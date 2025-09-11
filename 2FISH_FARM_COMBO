@@ -77,17 +77,24 @@ end)
 local function resetIfNewDay()
     local today = os.date("%d/%m/%Y")
     if runtime.lastDay ~= today then
-        runtime = {
-            farm = { total = 0, last = os.time(), done = false },
-            fish = { total = 0, last = os.time(), done = false },
-            lastDay = today,
-            reset23Date = nil
-        }
-        saveData()
 		runtime.farm.done = false
 		runtime.fish.done = false
+		
+        runtime.lastDay = today
+        runtime.reset23Date = nil
+
+        for _, key in pairs({ "farm", "fish" }) do
+            runtime[key].total = 0
+            runtime[key].last = os.time()
+            runtime[key].done = false
+        end
+
+        warn("🔁 Reset vì sang ngày mới:", today)
+        saveData()
+		
     end
 end
+
 
 local function getVNNow()
     local now = os.date("!*t", os.time(os.date("!*t")) + 7 * 3600)
@@ -310,7 +317,7 @@ task.spawn(function()
 end)
 
 local function main()
-	warn("PLAY")
+
     loadData()
     resetIfNewDay()
 
