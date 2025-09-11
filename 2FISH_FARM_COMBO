@@ -13,7 +13,7 @@ local FARM_PLACEID = 119454325063278
 local FISH_PLACEID = 95635359880599
 local LOBBY_PLACEID_SPECIAL = 140403681187145 
 local WORLD4_REMOTE_NAME = "World4Teleport"
-local REQUIRED_SECONDS = 20 * 60 
+local REQUIRED_SECONDS = 30 * 60 
 
 local runtime = {
     farm = { total = 0, last = os.time(), done = false },
