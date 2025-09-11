@@ -76,7 +76,7 @@ task.spawn(function()
 	if game.PlaceId == PLACE_WORLD_4 then return end
 
 	warn("⏱ Đếm ngược 20 phút để vào World4...")
-	task.wait(20 * 60)
+	task.wait(30 * 60)
 
 	if game.PlaceId ~= PLACE_WORLD_4 then
 		warn("❌ Timeout → Kick do không vào được World4.")
