@@ -84,6 +84,8 @@ local function resetIfNewDay()
             reset23Date = nil
         }
         saveData()
+		runtime.farm.done = false
+		runtime.fish.done = false
     end
 end
 
