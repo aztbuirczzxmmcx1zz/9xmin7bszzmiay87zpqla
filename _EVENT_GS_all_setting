@@ -6,7 +6,7 @@ getgenv().GEVENT_FPS  = 3
 --getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_TITANIC = true
 --getgenv().GBLOCK_PARTY_STOP_REBIRTHING_ON_MULTIPLIER2 = 25
 
-getgenv().GLOOTBOXES = {"Locked Hype Egg","Tropical Gift"}
+getgenv().GLOOTBOXES = {"Tropical Gift"}
 
 getgenv().GENCHANTS = {}
 
