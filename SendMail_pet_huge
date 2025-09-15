@@ -173,7 +173,7 @@ getgenv().Settings_senditem = {
 ["Summer Block Party Ticket"] = {Class = "Misc", Id = "Summer Block Party Ticket", MinAmount = 230},
 
 ["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 100},	--ok
-["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 500},	
+--["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 500},	
 ["Mega Charm Chest"] = {Class = "Lootbox", Id = "Mega Charm Chest", MinAmount = 1},
 
 ["Overload"] = {Class = "Charm", Id = "Overload", MinAmount = 2},
