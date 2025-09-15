@@ -4,19 +4,19 @@ local player = Players.LocalPlayer
 
 ----------------------------------
 local SELL_vs_username = {
-	["sijmongirthss"] = "7.01b",
-	["Ash3rP0w3rPanda2018"] = "7.02b",
-	["soystaylan5"] = "7.03b",
-	["dreddyewele60"] = "7.04b",
-	["1971Nowak3135"] = "7.05b",
-	["Sky_Giga2017"] = "7.06b",
-	["Inferno_Eagle200889"] = "7.07b",
-	["XxOwenC0dexX2023"] = "7.08b",
-	["TurboTig3rStr3am"] = "7.09b",
-	["1953Crutchfield3117"] = "7.1b",
+	["sijmongirthss"] = "6.91b",
+	["Ash3rP0w3rPanda2018"] = "6.92b",
+	["soystaylan5"] = "6.93b",
+	["dreddyewele60"] = "6.94b",
+	["1971Nowak3135"] = "6.95b",
+	["Sky_Giga2017"] = "6.96b",
+	["Inferno_Eagle200889"] = "6.97b",
+	["XxOwenC0dexX2023"] = "6.98b",
+	["TurboTig3rStr3am"] = "6.99b",
+	["1953Crutchfield3117"] = "7b",
 	
 }
-local defaultPrice = "7.04b"
+local defaultPrice = "6.9b"
 ----------------------------------
 local SELL_ttn_rb = {
 	["AceInferno202467"] = "35b",
