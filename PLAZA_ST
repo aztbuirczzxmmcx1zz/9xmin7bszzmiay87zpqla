@@ -1,5 +1,5 @@
 wait(50)
-PAUSE_or_SEND = "s"
+PAUSE_or_SEND = "p"
 
 wait(1)
 -- view góc trái
