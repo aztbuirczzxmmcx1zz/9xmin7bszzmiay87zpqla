@@ -243,6 +243,7 @@ local function invokeWorld4()
 end
 
 local function serverhopTo(placeId)
+	wait(7)
 	TeleportService:Teleport(placeId, LocalPlayer)
 end
 
