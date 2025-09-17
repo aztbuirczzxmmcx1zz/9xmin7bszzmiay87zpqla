@@ -29,7 +29,7 @@ local SELL_ttn_gold = {
 	["soystaylan5"] = "10.5b",	
 	["AceInferno202467"] = "10.3b",	
 }
-local default_ttn_gold = "11b"
+local default_ttn_gold = "10b"
 ----------------------------------
 
 getgenv().Settings_autoplaza = {
