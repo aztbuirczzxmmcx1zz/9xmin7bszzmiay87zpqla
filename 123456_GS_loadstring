@@ -1,14 +1,14 @@
 wait(7)
 if name_vps == "V5" or name_vps == "vin2" or name_vps == "vin3" or name_vps == "vin4" then
-	script_key = "SdQpXMmoTyuiGGBXDblFyTwTjvfDLKCT";		--discord máy tính 12-9 19h
+	script_key = "SdQpXMmoTyuiGGBXDblFyTwTjvfDLKCT";
 	loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()	
 elseif  name_vps == "M6" or name_vps == "M11" then			
-	script_key = "kaLzlRDOUSqTFTnsJEyXwUVhTtRyOtex";		-- 12-9 19h
+	script_key = "kaLzlRDOUSqTFTnsJEyXwUVhTtRyOtex";	
 	loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()	
 elseif  name_vps == "H592" or name_vps == "H929"  or name_vps == "H763" then
-	script_key = "nGvuXBNHukgUQKqKzqJQXwBLWkswyuSo";		--12-9 19h
+	script_key = "nGvuXBNHukgUQKqKzqJQXwBLWkswyuSo";
 	loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()
 elseif  name_vps == "V6" or name_vps == "V7" then
-	script_key = "PVuuAOylEANqdHGIfyRCZULSVrmEAxsV";		--discord chrome huuluan
+	script_key = "BUfyPynYWqzbmDiAZDxXxPrOCqwpwezf";
 	loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()
 end
