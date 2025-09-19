@@ -172,16 +172,16 @@ getgenv().Settings_senditem = {
 ["Coins"] = {Class = "Enchant", Id = "Coins", TN = 7, MinAmount = 1000}, 
 ["Summer Block Party Ticket"] = {Class = "Misc", Id = "Summer Block Party Ticket", MinAmount = 230},
 
-["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 100},	--ok
+["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 200},	--ok
 --["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 500},	
 ["Mega Charm Chest"] = {Class = "Lootbox", Id = "Mega Charm Chest", MinAmount = 1},
 
-["Overload"] = {Class = "Charm", Id = "Overload", MinAmount = 2},
-["Royalty"] = {Class = "Charm", Id = "Royalty", MinAmount = 2},
-["Glittering"] = {Class = "Charm", Id = "Glittering", MinAmount = 60},
-["XP"] = {Class = "Charm", Id = "XP", MinAmount = 60},
+["Overload"] = {Class = "Charm", Id = "Overload", MinAmount = 4},
+["Royalty"] = {Class = "Charm", Id = "Royalty", MinAmount = 4},
+["Glittering"] = {Class = "Charm", Id = "Glittering", MinAmount = 120},
+["XP"] = {Class = "Charm", Id = "XP", MinAmount = 120},
 
-["Charm Chisel"] = {Class = "Misc", Id = "Charm Chisel", MinAmount = 100},
+["Charm Chisel"] = {Class = "Misc", Id = "Charm Chisel", MinAmount = 200},
 
 ["Chest Spell"] = {Class = "Ultimate", Id = "Chest Spell", MinAmount = 1}, 
 ["Tsunami"] = {Class = "Ultimate", Id = "Tsunami", KeepAmount = 1, MinAmount = 2}, 
@@ -190,15 +190,15 @@ getgenv().Settings_senditem = {
 
 ["Send all Diamonds"] = {Class = "Currency", Id = "Diamonds", KeepAmount = "20m", MinAmount = "300m"},	--ok
 
-["Secret Key"] = {Class = "Misc", Id = "Secret Key", MinAmount = 400},
-["Fantasy Key"] = {Class = "Misc", Id = "Fantasy Key", MinAmount = 200},
+["Secret Key"] = {Class = "Misc", Id = "Secret Key", MinAmount = 800},
+["Fantasy Key"] = {Class = "Misc", Id = "Fantasy Key", MinAmount = 300},
 ["Void Key"] = {Class = "Misc", Id = "Void Key", MinAmount = 200},
-["Tech Key"] = {Class = "Misc", Id = "Tech Key", MinAmount = 200},
-["Crystal Key"] = {Class = "Misc", Id = "Crystal Key", MinAmount = 1000},
+["Tech Key"] = {Class = "Misc", Id = "Tech Key", MinAmount = 500},
+["Crystal Key"] = {Class = "Misc", Id = "Crystal Key", MinAmount = 2000},
 ["Hacker Key"] = {Class = "Misc", Id = "Hacker Key", MinAmount = 2},
 
 ["Insta Plant Capsule"] = {Class = "Misc", Id = "Insta Plant Capsule", MinAmount = 500},
-["Time Trial Gift"] = {Class = "Lootbox", Id = "Time Trial Gift", MinAmount = 36}, --ok
+["Time Trial Gift"] = {Class = "Lootbox", Id = "Time Trial Gift", MinAmount = 100}, --ok
 
 }
 
