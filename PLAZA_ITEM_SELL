@@ -25,9 +25,11 @@ local SELL_ttn_rb = {
 local default_ttn_rb = "35b"
 ----------------------------------
 local SELL_ttn_gold = {
-	["TurboTig3rStr3am"] = "10.4b",
-	["soystaylan5"] = "10.5b",	
-	["AceInferno202467"] = "10.3b",	
+	["1971Nowak3135"] = "9b",
+	["soystaylan5"] = "9.5b",	
+	["Sky_Giga2017"] = "9.8b",	
+	["Inferno_Eagle200889"] = "9.9b",	
+	["XxOwenC0dexX2023"] = "9.7b",	
 }
 local default_ttn_gold = "10b"
 ----------------------------------
