@@ -59,7 +59,7 @@ getgenv().Settings_autoplaza = {
 		{Name = "Rainbow Titanic Pineapple Dog", Data = {Price = "13b"}},
 
 		{Name = "Titanic Pixel Dominus Astra", Data = {Price = "5.4b"}},
-		{Name = "Titanic Narwhal", Data = {Price = "20b"}},
+		{Name = "Titanic Narwhal", Data = {Price = "15b"}},
 
 	{Name = "Breakable Mayhem TN1", Data = {Price = "1.4b"}},
         {Name = "Time Trial Gift", Data = {Price = "+1%"}},
