@@ -22,7 +22,7 @@ local itemsToTrack = {
 	{ id = "Titanic", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, 		--xám
 	{ id = "Summer Block Party Ticket", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },		-- cam
 	{ id = "MVP Key", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },				--trang
-	{ id = "MVP Key Upper Half", guiName = "Item5", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },				--trang
+	{ id = "MVP Key Upper Half", guiName = "Item5", row = 0, col = 2, color = Color3.fromRGB(255, 255, 255) },				--trang
 
 
 }
