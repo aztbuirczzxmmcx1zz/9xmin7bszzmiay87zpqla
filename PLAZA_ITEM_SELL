@@ -801,7 +801,7 @@ function Kiem_tra_ten_co_them_tu_la_(itemName)
     end
 
     -- Kiểm tra nếu itemName có từ "Rainbow"
-    if string.find(itemName, "Rainbow") then
+    if string.find(itemName, "Rainbow") and itemName ~= "Rainbow Swirl" then
         PT_find = 2
         itemName = string.gsub(itemName, "Rainbow ", "") -- Loại bỏ từ "Rainbow"
         --warn("PT_find 2")
