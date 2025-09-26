@@ -626,7 +626,7 @@ task.spawn(function()
 		-- sách trial time
 		autoEquipEnchantBooks({"Explosive","Chest Breaker","Criticals","Strong Pets","Fruity","Happy Pets","Super Lightning","Tap Power","Large Taps"})
 		while getRunsUsed() < 10 do
-			
+			setfpscap(7)
 			local used = getRunsUsed()
 			lagFlag = false
 			endFlag = false
@@ -669,6 +669,8 @@ task.spawn(function()
 			if lagMonitorThread then pcall(task.cancel, lagMonitorThread) lagMonitorThread = nil end
 			if increaseMonitorThread then pcall(task.cancel, increaseMonitorThread) increaseMonitorThread = nil end
 		end
+
+		setfpscap(5)
 		warn("🎉 Hoàn tất 10/10 lượt Time Trial.")
 		claimReward()
 		task.wait(3)
