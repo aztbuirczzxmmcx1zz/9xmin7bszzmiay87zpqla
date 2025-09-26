@@ -25,13 +25,18 @@ local SELL_ttn_rb = {
 local default_ttn_rb = "35b"
 ----------------------------------
 local SELL_ttn_gold = {
-	["1971Nowak3135"] = "9b",
-	["soystaylan5"] = "9.5b",	
-	["Sky_Giga2017"] = "9.8b",	
-	["Inferno_Eagle200889"] = "9.9b",	
-	["XxOwenC0dexX2023"] = "9.7b",	
+	["sijmongirthss"] = "9.51b",
+	["Ash3rP0w3rPanda2018"] = "9.52b",
+	["soystaylan5"] = "9.53b",
+	["dreddyewele60"] = "9.54b",
+	["1971Nowak3135"] = "9.55b",
+	["Sky_Giga2017"] = "9.56b",
+	["Inferno_Eagle200889"] = "9.57b",
+	["XxOwenC0dexX2023"] = "9.58b",
+	["TurboTig3rStr3am"] = "9.59b",
+	["1953Crutchfield3117"] = "9.6b",	
 }
-local default_ttn_gold = "10b"
+local default_ttn_gold = "9.7b"
 ----------------------------------
 
 getgenv().Settings_autoplaza = {
