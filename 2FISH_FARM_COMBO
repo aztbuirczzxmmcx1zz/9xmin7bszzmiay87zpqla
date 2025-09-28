@@ -9,8 +9,9 @@ local PlayerGui = player:WaitForChild("PlayerGui")
 local okSave, Save = pcall(function() return require(ReplicatedStorage.Library.Client.Save) end)
 if not okSave then Save = nil end
 
-local FARM_PLACEID = 119454325063278
-local FISH_PLACEID = 95635359880599
+local FARM_PLACEID = 95635359880599		--119454325063278
+local FISH_PLACEID = 119454325063278	--95635359880599
+
 local LOBBY_PLACEID_SPECIAL = 140403681187145 
 local WORLD4_REMOTE_NAME = "World4Teleport"
 local REQUIRED_SECONDS = 30 * 60 
@@ -248,23 +249,23 @@ local function serverhopTo(placeId)
 end
 
 local function serverhopToFishing()
-	if game.PlaceId ~= 95635359880599 then
-		serverhopTo(95635359880599)
+	if game.PlaceId ~= FISH_PLACEID then
+		serverhopTo(FISH_PLACEID)
 	end
 end
 local function serverhopToFarm()
-	if game.PlaceId ~= 119454325063278 then
-		serverhopTo(119454325063278)
+	if game.PlaceId ~= FARM_PLACEID then
+		serverhopTo(FARM_PLACEID)
 	end
 end
 local function teleportToFishingInServer()
-	if game.PlaceId ~= 95635359880599 then
-		serverhopTo(95635359880599)
+	if game.PlaceId ~= FISH_PLACEID then
+		serverhopTo(FISH_PLACEID)
 	end
 end
 local function teleportToFarmInServer()
-	if game.PlaceId ~= 119454325063278 then
-		serverhopTo(119454325063278)
+	if game.PlaceId ~= FARM_PLACEID then
+		serverhopTo(FARM_PLACEID)
 	end
 end
 
