@@ -56,7 +56,7 @@ getgenv().Settings_autoplaza = {
 
 		{Name = "MVP Key", Data = {Price = "2%"}},
 		{Name = "MVP Key Upper Half", Data = {Price = "2.25m"}},        
-        {Name = "Summer Block Party Ticket", Data = {Price = "445k"}},
+        {Name = "Summer Block Party Ticket", Data = {Price = "405k"}},
 
         {Name = "Huge Splash Angelus", Data = {Price = "20b"}},
         {Name = "Golden Huge Splash Angelus", Data = {Price = "22b"}},
