@@ -35,6 +35,11 @@ local SELL_ttn_gold = {
 	["XxOwenC0dexX2023"] = "9.58b",
 	["TurboTig3rStr3am"] = "9.59b",
 	["1953Crutchfield3117"] = "9.6b",	
+	["Li0nArr0w85"] = "9.26b",
+	["Noah_SKATER35"] = "9.37b",
+	["RowlandCollinq943"] = "9.48b",
+	["GalaxyRider200343"] = "9.29b",
+	["ChillMaster2011"] = "9.4b",	
 }
 local default_ttn_gold = "9.7b"
 ----------------------------------
