@@ -212,10 +212,10 @@ local function createGUI()
             local farmPct = math.min(100, math.floor((runtime.farm.total or 0) / REQUIRED_SECONDS * 100))
             local fishPct = math.min(100, math.floor((runtime.fish.total or 0) / REQUIRED_SECONDS * 100))
 
-            farmLbl.Text = string.format("Farm: %d%%", farmPct)
+            farmLbl.Text = string.format("Fishing: %d%%", farmPct)
             farmBar.Size = UDim2.new(farmPct/100, 0, 1, 0)
 
-            fishLbl.Text = string.format("Fishing: %d%%", fishPct)
+            fishLbl.Text = string.format("Farm: %d%%", fishPct)
             fishBar.Size = UDim2.new(fishPct/100, 0, 1, 0)
 
             task.wait(30)
