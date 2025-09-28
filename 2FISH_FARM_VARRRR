@@ -9,8 +9,8 @@ local LocalPlayer = Players.LocalPlayer
 
 -- 🌍 PlaceIds
 local PLACE_WORLD_4 = 140403681187145
-local PLACE_FISHING = 95635359880599
-local PLACE_FARM = 119454325063278
+local PLACE_FISHING = 119454325063278 	--95635359880599
+local PLACE_FARM = 95635359880599 		--119454325063278
 
 -- 📂 Đọc file comboEventLog.json an toàn
 local function readComboLog()
