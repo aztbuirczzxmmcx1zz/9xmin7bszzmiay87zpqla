@@ -204,8 +204,8 @@ local function createGUI()
         return lbl, bar
     end
 
-    local farmLbl, farmBar = createRow(frame, "Farm", 5, Color3.fromRGB(100,255,100))
-    local fishLbl, fishBar = createRow(frame, "Fishing", 36, Color3.fromRGB(100,150,255))
+    local farmLbl, farmBar = createRow(frame, "Fishing", 5, Color3.fromRGB(100,255,100))
+    local fishLbl, fishBar = createRow(frame, "Farm", 36, Color3.fromRGB(100,150,255))
 
     task.spawn(function()
         while screenGui.Parent do
