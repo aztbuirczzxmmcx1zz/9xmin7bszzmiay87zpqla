@@ -13,7 +13,7 @@ if _G.TAG then
     return
 end
 _G.TAG = true
-setfpscap(10)
+setfpscap(5)
 	task.spawn(function()			
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/PLAZA_ST"))()
 	end)
