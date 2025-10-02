@@ -334,7 +334,7 @@ while true do
     -- Nếu đang ở nhóm Start_ford == 1
     if Start_ford == 1 then
         while not NAME_USER_SEND do
-            wait(60)  -- chờ cho đến khi có NAME_USER_SEND
+            wait(3600)  -- chờ cho đến khi có NAME_USER_SEND
         end
         Sent_item_all()
         wait(36000)
@@ -343,7 +343,7 @@ while true do
     -- Nếu đang ở nhóm Start_ford == 2
     if Start_ford == 2 then
         while (not NAME_USER_SEND) or (not _G.Fordward_2) do
-            wait(60)  -- chờ cho đến khi có NAME_USER_SEND và Fordward_2 bật
+            wait(3600)  -- chờ cho đến khi có NAME_USER_SEND và Fordward_2 bật
         end
         Sent_item_all()
         wait(36000)
