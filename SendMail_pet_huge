@@ -630,7 +630,7 @@ for _, targetId in ipairs(petIds) do
 
     if #pets > 50 then
         table.sort(pets, function(a, b)
-            return a.xp < b.xp
+            return a.xp > b.xp
         end)
 
         warn(string.format("🔒 Giữ lại pet có XP cao nhất: %s | XP: %d", pets[50].uid, pets[50].xp))
