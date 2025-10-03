@@ -1,5 +1,3 @@
-wait(30)
-
 if game.PlaceId ~= 140403681187145 then
     return
 end
