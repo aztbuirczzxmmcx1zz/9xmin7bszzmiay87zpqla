@@ -1,8 +1,8 @@
 
-if name_vps == "vin3" then
+if name_vps == "V3" then
 	EVENT_or_FARM = "F"
 	Start_ford = 2
-elseif name_vps == "vin2" then
+elseif name_vps == "V2" then
 	EVENT_or_FARM = "F"
 	Start_ford = 1
 else
