@@ -58,7 +58,7 @@ local function updateFordward()
     local localTime = os.date("!*t", gmt7Time)
     local hour = localTime.hour
 
-    if hour >= 1 and hour < 16 then
+    if hour >= 1 and hour < 20 then
         _G.Fordward_2 = false
         statusLabel.Text = "OFF"
         statusLabel.TextColor3 = Color3.fromRGB(255, 50, 50)
