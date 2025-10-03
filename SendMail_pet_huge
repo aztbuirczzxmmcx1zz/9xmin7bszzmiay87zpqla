@@ -1,4 +1,3 @@
---xxx
 if game.PlaceId ~= 140403681187145 then
     return
 end
@@ -329,8 +328,6 @@ end
 end
 
 while true do
-
-while true do
     -- Nếu đang ở nhóm Start_ford == 1
     if Start_ford == 1 then
         while not _G.NAME_USER_SEND do
@@ -351,10 +348,6 @@ while true do
 end
 
 
-Sent_item_all()
-wait(36000)
-
-end
 
 end)
 
