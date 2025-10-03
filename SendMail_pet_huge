@@ -1,4 +1,4 @@
-wait(90)
+wait(30)
 
 if game.PlaceId ~= 140403681187145 then
     return
@@ -128,8 +128,12 @@ end
 
 if Start_ford == 2 then
             if _G.Fordward_2 then
-                local names = {...}   -- danh sách Start_ford 2
-                local emails = {...}  -- emails tương ứng
+				
+				local names = {"Atomic_circuitZPk","LegendPrismShadow201","1945Pearson3109","AsherSaberQueen","crowthorirminajg","EzraWraith85","GabrielUltraDuck2019","GraysonDrift27_YT","HenryBeastTiger90","KayleeFireChill2016","Magic_Hyper2006","Mat30Sparkly2015","MateoStealthViper44","N0vaBear200586","NoraBuilderNightYT","OliviaCooki3Lucky201","Pixel_Hero71","Raven_Fury85","Ril3yRogu3Chill2014","StormLionRift2017","XxAbigail_MasterxX15","XxBuilderBac0nFusi0n","XxStreamPixelPhoenix","ZaydenSkyChase2015","ZoomDriftGamer","CircuitRid3r2019","FrostStr3amHawk","LegendOrbitNight","GlitchCraftDawn","Emma_HUNTER65","Jayd3nGalaxy69","XxGabrielBaneDancerx","StealthPowerFlame","ClawStorm2002","Nora_FLASH22","XxOrbitZer0GalaxyxX2","AquaZeroCircuit","tobejwakari37","harvi46288","GoldenZoomGhost28","Jayd3nNightKnight202","Orbit_Hunter26","EthanLavaCraze","LeviEch026","Addis0nOm3ga2016","detmerskanbahlaaq","HannahVortexLava"}
+
+				local emails = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","Sky_Giga2017","Inferno_Eagle200889","XxOwenC0dexX2023","TurboTig3rStr3am","1953Crutchfield3117"}
+
+
 
                 local totalEmails = #emails
                 local found = false
