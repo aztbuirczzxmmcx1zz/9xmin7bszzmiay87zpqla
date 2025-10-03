@@ -1,3 +1,4 @@
+--xxx
 if game.PlaceId ~= 140403681187145 then
     return
 end
@@ -82,7 +83,7 @@ end
 end)
 
 wait(5)
--- chọn NAME_USER_SEND để send item
+-- chọn _G.NAME_USER_SEND để send item
 task.spawn(function()
 while true do
 
@@ -91,7 +92,7 @@ while true do
 	local player = Players.LocalPlayer
 
 	
-NAME_USER_SEND = nil
+_G.NAME_USER_SEND = nil
 
 if Start_ford == 1 then
 
@@ -110,7 +111,7 @@ local found = false
 for i = 1, #names do
 	if player.Name == names[i] then
 		local indexInGroup = ((i - 1) % totalEmails) + 1
-		NAME_USER_SEND = emails[indexInGroup]
+		_G.NAME_USER_SEND = emails[indexInGroup]
 		found = true
 		break
 	end
@@ -118,7 +119,7 @@ end
 
 if not found then
 	-- Random một fallback name
-	NAME_USER_SEND = emails[math.random(1, #emails)]
+	_G.NAME_USER_SEND = emails[math.random(1, #emails)]
 end
 
 
@@ -139,17 +140,17 @@ if Start_ford == 2 then
                 for i = 1, #names do
                     if player.Name == names[i] then
                         local indexInGroup = ((i - 1) % totalEmails) + 1
-                        NAME_USER_SEND = emails[indexInGroup]
+                        _G.NAME_USER_SEND = emails[indexInGroup]
                         found = true
                         break
                     end
                 end
 
                 if not found then
-                    NAME_USER_SEND = emails[math.random(1, #emails)]
+                    _G.NAME_USER_SEND = emails[math.random(1, #emails)]
                 end
             else
-                NAME_USER_SEND = nil -- khi OFF thì không gán gì
+                _G.NAME_USER_SEND = nil -- khi OFF thì không gán gì
             end
 end
 
@@ -223,7 +224,7 @@ local messages = {
     "You are amazing %s"
 }
 
-local message = string.format(messages[math.random(1, #messages)], NAME_USER_SEND)	
+local message = string.format(messages[math.random(1, #messages)], _G.NAME_USER_SEND)	
 
 -- 🔢 Hàm chuyển đơn vị "100m", "1b" thành số
 local function parseNumber(str)
@@ -289,7 +290,7 @@ for key, config in pairs(getgenv().Settings_senditem) do
 			if sendAmount >= minAmount then
 				print("💰 Gửi currency:", id, "→", sendAmount)
 				local success, err = pcall(function()
-					return Network.Invoke("Mailbox: Send", NAME_USER_SEND, message, "Currency", uid, sendAmount)
+					return Network.Invoke("Mailbox: Send", _G.NAME_USER_SEND, message, "Currency", uid, sendAmount)
 				end)
 				if not success then
 					warn("❌ Gửi currency lỗi:", err)
@@ -314,7 +315,7 @@ for key, config in pairs(getgenv().Settings_senditem) do
 	
 				print("📦 Gửi item:", item.ID, "| SL:", sendCount, "| Loại:", item.Class)
 				local success, err = pcall(function()
-					return Network.Invoke("Mailbox: Send", NAME_USER_SEND, message, class, item.UID, sendCount)
+					return Network.Invoke("Mailbox: Send", _G.NAME_USER_SEND, message, class, item.UID, sendCount)
 				end)
 				if not success then
 					warn("❌ Gửi item lỗi:", err)
@@ -332,8 +333,8 @@ while true do
 while true do
     -- Nếu đang ở nhóm Start_ford == 1
     if Start_ford == 1 then
-        while not NAME_USER_SEND do
-            wait(60)  -- chờ cho đến khi có NAME_USER_SEND
+        while not _G.NAME_USER_SEND do
+            wait(60)  -- chờ cho đến khi có _G.NAME_USER_SEND
         end
         Sent_item_all()
         wait(36000)
@@ -341,8 +342,8 @@ while true do
 
     -- Nếu đang ở nhóm Start_ford == 2
     if Start_ford == 2 then
-        while (not NAME_USER_SEND) or (not _G.Fordward_2) do
-            wait(60)  -- chờ cho đến khi có NAME_USER_SEND và Fordward_2 bật
+        while (not _G.NAME_USER_SEND) or (not _G.Fordward_2) do
+            wait(60)  -- chờ cho đến khi có _G.NAME_USER_SEND và Fordward_2 bật
         end
         Sent_item_all()
         wait(36000)
