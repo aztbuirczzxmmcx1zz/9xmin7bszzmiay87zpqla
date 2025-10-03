@@ -25,23 +25,23 @@ local SELL_ttn_rb = {
 local default_ttn_rb = "34b"
 ----------------------------------
 local SELL_ttn_gold = {
-	["sijmongirthss"] = "9.51b",
-	["Ash3rP0w3rPanda2018"] = "9.52b",
-	["soystaylan5"] = "9.53b",
-	["dreddyewele60"] = "9.54b",
-	["1971Nowak3135"] = "9.55b",
-	["Sky_Giga2017"] = "9.56b",
-	["Inferno_Eagle200889"] = "9.57b",
-	["XxOwenC0dexX2023"] = "9.58b",
-	["TurboTig3rStr3am"] = "9.59b",
-	["1953Crutchfield3117"] = "9.6b",	
-	["Li0nArr0w85"] = "9.26b",
-	["Noah_SKATER35"] = "9.37b",
-	["RowlandCollinq943"] = "9.48b",
-	["GalaxyRider200343"] = "9.29b",
-	["ChillMaster2011"] = "9.4b",	
+	["sijmongirthss"] = "8.51b",
+	["Ash3rP0w3rPanda2018"] = "8.52b",
+	["soystaylan5"] = "8.53b",
+	["dreddyewele60"] = "8.54b",
+	["1971Nowak3135"] = "8.55b",
+	["Sky_Giga2017"] = "8.56b",
+	["Inferno_Eagle200889"] = "8.57b",
+	["XxOwenC0dexX2023"] = "8.58b",
+	["TurboTig3rStr3am"] = "8.59b",
+	["1953Crutchfield3117"] = "8.6b",	
+	["Li0nArr0w85"] = "8.26b",
+	["Noah_SKATER35"] = "8.37b",
+	["RowlandCollinq943"] = "8.48b",
+	["GalaxyRider200343"] = "8.29b",
+	["ChillMaster2011"] = "8.4b",	
 }
-local default_ttn_gold = "9.7b"
+local default_ttn_gold = "8.7b"
 ----------------------------------
 
 getgenv().Settings_autoplaza = {
