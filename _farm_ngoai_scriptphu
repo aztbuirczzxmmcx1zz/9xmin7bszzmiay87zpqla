@@ -1086,15 +1086,7 @@ Ghep_pet_len_gold_rainbow(NamePet_ep)
 
 end)
 
-wait(1)--waitchung
-warn("Chạy 9 tiếng out 1 lần")
--- Chạy 9 tiếng out 1 lần
-task.spawn(function()
-wait(9*3600)
---game:Shutdown()
-Players.LocalPlayer:Kick("9h reset")
 
-end)
 
 wait(1)--waitchung
 warn("ghép gift bag và mở gift")
@@ -1395,3 +1387,12 @@ autoShutdownIfNotAlone()
 
 end)
 
+wait(1)--waitchung
+warn("Chạy 9 tiếng out 1 lần")
+-- Chạy 9 tiếng out 1 lần
+task.spawn(function()
+wait(9*3600)
+--game:Shutdown()
+Players.LocalPlayer:Kick("9h reset")
+
+end)
