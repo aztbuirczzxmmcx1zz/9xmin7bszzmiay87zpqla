@@ -16,13 +16,13 @@ local SELL_vs_username = {
 	["1953Crutchfield3117"] = "6.41b",
 	
 }
-local defaultPrice = "6.4b"
+local defaultPrice = "6.3b"
 ----------------------------------
 local SELL_ttn_rb = {
 	["AceInferno202467"] = "35b",
 	["Xx_VictoriaUltraCybe"] = "37b",	
 }
-local default_ttn_rb = "34b"
+local default_ttn_rb = "30b"
 ----------------------------------
 local SELL_ttn_gold = {
 	["sijmongirthss"] = "8.51b",
