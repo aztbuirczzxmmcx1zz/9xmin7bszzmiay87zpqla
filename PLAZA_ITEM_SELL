@@ -77,7 +77,7 @@ getgenv().Settings_autoplaza = {
  	   {Name = "Rainbow Swirl", Data = {Price = "18b"}},
 
 
-    {Name = "Shiny Palace Pooka", Data = {Price = "100m"}},
+    {Name = "Shiny Palace Pooka", Data = {Price = "50m"}},
 	{Name = "Shiny Golden Palace Pooka", Data = {Price = "5%"}},	
 	{Name = "Shiny Rainbow Palace Pooka", Data = {Price = "5%"}},
     {Name = "Shiny Rose Pooka", Data = {Price = "1%"}},
