@@ -1,5 +1,5 @@
 wait(50)
-PAUSE_or_SEND = "p"
+PAUSE_or_SEND = "s"
 
 wait(1)
 -- view góc trái
@@ -131,7 +131,7 @@ function Sent_item_all()
 
 getgenv().Settings_sentitem = {		
 
-["Summer Block Party Ticket"] = {Class = "Misc", Id = "Summer Block Party Ticket",MinAmount = 1000, keepAmount = 7000},	--ok
+["Summer Block Party Ticket"] = {Class = "Misc", Id = "Summer Block Party Ticket",MinAmount = 8000, keepAmount = 7000},	--ok
 ["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 1000},	--ok
 --["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 10000},	
 --["Tech Key"] = {Class = "Misc", Id = "Tech Key", MinAmount = 1000},	
