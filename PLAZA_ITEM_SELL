@@ -159,6 +159,7 @@ task.spawn(function()
 	
 	task.wait(time_swap)
 
+	game.shutdow()
     local TeleportService = game:GetService("TeleportService")
     local Players = game:GetService("Players")
     local player = Players.LocalPlayer
