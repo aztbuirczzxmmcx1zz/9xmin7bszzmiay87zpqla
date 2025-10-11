@@ -74,8 +74,8 @@ getgenv().Settings_autoplaza = {
 	{Name = "Breakable Mayhem TN1", Data = {Price = "1.4b"}},
         {Name = "Time Trial Gift", Data = {Price = "+1%"}},
         {Name = "Huge Machine Egg 5", Data = {Price = "1%"}},
-		{Name = "Coin", Data = {Price = "8b"}},
-		{Name = "Rainbow Swirl", Data = {Price = "8b"}},
+		{Name = "Coin", Data = {Price = "9b"}},
+		{Name = "Rainbow Swirl", Data = {Price = "9b"}},
 
 
     {Name = "Shiny Palace Pooka", Data = {Price = "50m"}},
