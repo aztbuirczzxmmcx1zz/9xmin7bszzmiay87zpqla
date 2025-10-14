@@ -54,7 +54,7 @@ getgenv().Settings_autoplaza = {
     {Name = "Titanic Bobcat", Data = {Price = "12b"}},
     {Name = "Titanic Parrot", Data = {Price = "9.5b"}},
 
-		{Name = "MVP Key", Data = {Price = "1%"}},
+		{Name = "MVP Key", Data = {Price = "3%"}},
 		{Name = "MVP Key Upper Half", Data = {Price = "2.25m"}},        
         {Name = "Summer Block Party Ticket", Data = {Price = "300k"}},
 
