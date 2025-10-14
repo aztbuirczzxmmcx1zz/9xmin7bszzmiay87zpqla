@@ -316,6 +316,14 @@ task.spawn(function()
     end
 end)
 
+local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local rank = Save.Get().Rank
+
+if rank < 20 then
+		invokeWorld4()
+        return
+end
+
 local function main()
 
     loadData()
