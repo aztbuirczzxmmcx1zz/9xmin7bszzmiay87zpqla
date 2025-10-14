@@ -1,6 +1,13 @@
 -- ⏳ Delay khởi đầu
 task.wait(50)
 
+
+local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local rank = Save.Get().Rank
+
+if rank < 20 then
+	return
+end
 -- ⚙️ Services
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
