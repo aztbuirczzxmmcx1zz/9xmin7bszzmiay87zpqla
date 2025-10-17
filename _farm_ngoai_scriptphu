@@ -256,6 +256,7 @@ warn("event time trial")
 task.spawn(function()
 
 --wait(math.random(100,3600))
+_G.going_timetital = true
 _G.STOP_TIME_TRIAL = false
 
 
@@ -680,7 +681,7 @@ task.spawn(function()
 		cleanupAllThreads()
 		autoEquipEnchantBooks({"Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power"})
 
-		
+		_G.going_timetital = false
 		warn("⏳ Theo dõi reset DailyRuns...")
 		while getRunsUsed() >= 10 do 				
 			task.wait(7200) 
@@ -1366,6 +1367,10 @@ end
 
 end)
 
+while _G.going_timetital == true then
+	wait(500)
+end
+
 wait(1)--waitchung
 warn("phát hiện không farm ở svv thoát game")
 -- phát hiện không farm ở svv thoát game
@@ -1388,11 +1393,11 @@ autoShutdownIfNotAlone()
 end)
 
 wait(1)--waitchung
-warn("Chạy 9 tiếng out 1 lần")
+warn("Chạy 12 tiếng out 1 lần")
 -- Chạy 9 tiếng out 1 lần
 task.spawn(function()
-wait(9*3600)
+wait(12*3600)
 --game:Shutdown()
-Players.LocalPlayer:Kick("9h reset")
+Players.LocalPlayer:Kick("12h reset")
 
 end)
