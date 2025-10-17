@@ -406,6 +406,8 @@ local function waitUntilReachMaxZone()
 	end
 end
 
+waitUntilReachMaxZone()
+
 -- ⏱️ Monitor 12 phút không tăng lượt
 local function startMonitor12Min()
 	monitor12minThread = task.spawn(function()
@@ -621,8 +623,6 @@ task.spawn(function()
 	
 		if game.PlaceId ~= 140403681187145 then return end
 		
-		
-	--waitUntilReachMaxZone()
 	startMonitor12Min()		
 		
 		
