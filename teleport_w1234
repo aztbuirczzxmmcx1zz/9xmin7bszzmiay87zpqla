@@ -1,11 +1,19 @@
-Y_or_N_delay_60s_farming = "n"
+Y_or_N_delay_60s_farming = "y"
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
-local PLACE_ID = 119454325063278
 local check_and_tele_w = 4 -- Thay bằng 3 hoặc 4 nếu cần
+
+task.spawn(function()
+
+wait(300)
+if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
+	player:Kick("Fail 300 teleport")
+end
+
+end)
 
 local TeleportMapping = {
     [3] = "World3Teleport",
@@ -28,18 +36,20 @@ end
             end) 
             wait(10)
 
-            -- Nếu đã teleport thành công (không còn ở PLACE_ID), thì thoát vòng lặp
-            if game.PlaceId ~= PLACE_ID then
+            if game.PlaceId == 140403681187145 then
                 warn("✅ Đã teleport thành công!")
                 break
             end
+			
 
-            -- Nếu đến lần thứ 3 vẫn chưa rời khỏi map → kick
-            if attempt == 2 and game.PlaceId == PLACE_ID then
+            if attempt == 2 and game.PlaceId == 119454325063278 then
+                player:Kick("Fail tele 2 times")
+            end
+			if attempt == 2 and game.PlaceId == 95635359880599 then
                 player:Kick("Fail tele 2 times")
             end
         end
     else
-        warn("⚠️ Không tìm thấy teleport phù hợp với check_and_tele_w =", check_and_tele_w)
+		player:Kick("Không tìm thấy teleport phù hợp")
     end
 end
