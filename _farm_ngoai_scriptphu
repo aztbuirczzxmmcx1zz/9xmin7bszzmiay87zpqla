@@ -1367,7 +1367,7 @@ end
 
 end)
 
-while _G.going_timetital == true then
+while _G.going_timetital do
 	wait(500)
 end
 
