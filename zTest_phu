@@ -248,6 +248,7 @@ warn("event time trial")
 -- map 269 event time trial
 task.spawn(function()
 
+_G.going_timetital = true
 _G.STOP_TIME_TRIAL = false
 
 
@@ -678,6 +679,7 @@ task.spawn(function()
 			_G.VAR_STOP_BLOCK_PARTY = false
 			_G.VAR_START_BLOCK_PARTY = true
 			_G.SPAM_SWAP_EVENT = true
+			_G.going_timetital = false
 		-- Event
 
 
@@ -1773,8 +1775,12 @@ end
 
 end)
 
+while _G.going_timetital == true then
+	wait(500)
+end
+
 wait(1)--waitchung
--- Chạy 9 tiếng out 1 lần
+-- Chạy 12 tiếng out 1 lần
 task.spawn(function()
 wait(12*3600)
 --game:Shutdown()
