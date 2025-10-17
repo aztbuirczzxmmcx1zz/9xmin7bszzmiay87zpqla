@@ -1,4 +1,4 @@
-wait(150)
+--wait(150)
 
 if game.PlaceId ~= 140403681187145 then
     return
@@ -1775,7 +1775,7 @@ end
 
 end)
 
-while _G.going_timetital == true then
+while _G.going_timetital do
 	wait(500)
 end
 
