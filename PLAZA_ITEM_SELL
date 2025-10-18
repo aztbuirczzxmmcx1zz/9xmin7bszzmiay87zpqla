@@ -74,8 +74,9 @@ getgenv().Settings_autoplaza = {
 	{Name = "Breakable Mayhem TN1", Data = {Price = "1.4b"}},
         {Name = "Time Trial Gift", Data = {Price = "+1%"}},
         {Name = "Huge Machine Egg 5", Data = {Price = "1%"}},
-
-		{Name = "Coin", Data = {Price = "9b"}},
+		
+		{Name = "Rainbow Banana PetSecret", Data = {Price = "9b"}},
+		{Name = "Coin PetSecret", Data = {Price = "9b"}},
 		--{Name = "Rainbow Swirl", Data = {Price = "9b"}},
 
 
@@ -672,7 +673,7 @@ end
             {name = "Ultimate", category = "Ultimate"},
 			{name = "XPPotion", category = "XPPotion"}
         }
- 			if category_find == "Potion" or category_find == "Enchant" or category_find == "XPPotion" then
+ 			if category_find == "Potion" or category_find == "Enchant" or category_find == "XPPotion" or category_find == "Pet" then
 				local inventorySubTables = {
 					name = category_find , category = category_find
 				}	
@@ -859,6 +860,10 @@ function Kiem_tra_ten_co_them_tu_la_(itemName)
         category_find = "Potion"
         itemName = string.gsub(itemName, "Potion ", "") -- Loại bỏ từ "Potion"
         --warn("category Potion")
+    end
+	if string.find(itemName, "PetSecret") then
+        category_find = "Pet"
+        itemName = string.gsub(itemName, " PetSecret", "") 
     end
     -- Trả về tất cả các giá trị
     return itemName, SH_find, PT_find, TN_find, category_find
