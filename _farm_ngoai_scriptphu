@@ -257,6 +257,12 @@ task.spawn(function()
 
 --wait(math.random(100,3600))
 _G.going_timetital = true
+
+--if _G.going_timetital == true then 
+--_G.going_timetital = false
+--return 
+--end
+
 _G.STOP_TIME_TRIAL = false
 
 
