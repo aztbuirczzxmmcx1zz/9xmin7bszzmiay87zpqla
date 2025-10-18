@@ -1,4 +1,4 @@
---wait(150)
+wait(150)
 
 if game.PlaceId ~= 140403681187145 then
     return
