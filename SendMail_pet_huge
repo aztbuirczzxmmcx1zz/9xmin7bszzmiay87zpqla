@@ -2,6 +2,10 @@ if game.PlaceId ~= 140403681187145 then
     return
 end
 
+while _G.going_timetital do
+	wait(500)
+end
+
 --view sent on off / time play
 task.spawn(function()
     local Players = game:GetService("Players")
