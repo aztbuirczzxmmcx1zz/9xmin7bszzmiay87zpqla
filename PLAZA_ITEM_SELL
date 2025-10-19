@@ -8,8 +8,8 @@ local SELL_vs_username = {
 	["Ash3rP0w3rPanda2018"] = "9.52b",
 	["soystaylan5"] = "8.53b",
 	["dreddyewele60"] = "8.54b",
-	["1971Nowak3135"] = "7.55b",
-	["Sky_Giga2017"] = "7.56b",
+	["1971Nowak3135"] = "7.9",
+	["Sky_Giga2017"] = "7.95b",
 	["Inferno_Eagle200889"] = "8.57b",
 	["XxOwenC0dexX2023"] = "8.58b",
 	["TurboTig3rStr3am"] = "9.59b",
@@ -79,12 +79,6 @@ getgenv().Settings_autoplaza = {
 		{Name = "Coin PetSecret", Data = {Price = "9b"}},
 		--{Name = "Rainbow Swirl", Data = {Price = "9b"}},
 
-
-    {Name = "Shiny Palace Pooka", Data = {Price = "50m"}},
-	{Name = "Shiny Golden Palace Pooka", Data = {Price = "5%"}},	
-	{Name = "Shiny Rainbow Palace Pooka", Data = {Price = "5%"}},
-    {Name = "Shiny Rose Pooka", Data = {Price = "1%"}},
-	
 	{Name = "Millionaire Bucks", Data = {Price = "+5%"}},
         {Name = "Insta Plant Capsule", Data = {Price = 23000}},
         {Name = "XPPotion Mastery", Data = {Price = "2%"}},
