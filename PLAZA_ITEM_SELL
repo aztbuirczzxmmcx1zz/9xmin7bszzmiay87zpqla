@@ -79,7 +79,7 @@ getgenv().Settings_autoplaza = {
 		{Name = "Coin PetSecret", Data = {Price = "9b"}},
 		--{Name = "Rainbow Swirl", Data = {Price = "9b"}},
 
-	{Name = "Millionaire Bucks", Data = {Price = "+5%"}},
+	{Name = "Millionaire Bucks", Data = {Price = "+10%"}},
         {Name = "Insta Plant Capsule", Data = {Price = 23000}},
         {Name = "XPPotion Mastery", Data = {Price = "2%"}},
         {Name = "Royalty TN1", Data = {Price = "+4%"}},
@@ -101,7 +101,7 @@ getgenv().Settings_autoplaza = {
 	{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "400m", Max_sell = "1b"}},
 	{Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1b", Max_sell = "3b"}},
 
-{Name = "Exclusive Egg 56", Data = {Price = "+5%"}},
+{Name = "Exclusive Egg 56", Data = {Price = "+10%"}},
 {Name = "All Huges", Data = {Price = "+3%", Min_sell = "10m", Max_sell = "80m"}},  
 {Name = "Golden All Huges", Data = {Price = "+3%", Min_sell = "12m", Max_sell = "80m"}},
 {Name = "Rainbow All Huges", Data = {Price = "5%", Min_sell = "60m", Max_sell = "200m"}},   
