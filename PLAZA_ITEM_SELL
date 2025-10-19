@@ -75,7 +75,7 @@ getgenv().Settings_autoplaza = {
         {Name = "Time Trial Gift", Data = {Price = "+1%"}},
         {Name = "Huge Machine Egg 5", Data = {Price = "1%"}},
 		
-		{Name = "Rainbow Banana PetSecret", Data = {Price = "9b"}},
+		{Name = "Rainbow Banana PetSecret", Data = {Price = "39b"}},
 		{Name = "Coin PetSecret", Data = {Price = "9b"}},
 		--{Name = "Rainbow Swirl", Data = {Price = "9b"}},
 
