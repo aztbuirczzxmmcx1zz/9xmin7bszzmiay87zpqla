@@ -371,9 +371,9 @@ getgenv().Settings_sendpet = {
 --["Shiny Rose Pooka"] 	= {Soluong_Yeu_cau = 10 },
 --["Shiny Rainbow Rose Pooka"] 	= {Soluong_Yeu_cau = 0, keepAmount = 5},
 
-["Shiny Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
-["Shiny Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
-["Shiny Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 2, keepAmount = 1},
+--["Shiny Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+--["Shiny Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+--["Shiny Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 2, keepAmount = 1},
 }
 }
 
