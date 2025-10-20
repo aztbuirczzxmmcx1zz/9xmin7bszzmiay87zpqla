@@ -170,13 +170,16 @@ function Sent_item_all()
 
 getgenv().Settings_senditem = {		
 
-["Exclusive Egg 56"] = {Class = "Egg", Id = "Exclusive Egg 56", MinAmount = 1}, 
-["Millionaire Bucks"] = {Class = "Misc", Id = "Millionaire Bucks", MinAmount = 500}, 
+["Exclusive Egg 56"] = {Class = "Egg", Id = "Exclusive Egg 56", MinAmount = 1 ,onlysend_one = true}, 
+["Halloween Lucky Block Gift"] = {Class = "Lootbox", Id = "Halloween Lucky Block Gift", MinAmount = 1}, 
+["Spider Gift"] = {Class = "Lootbox", Id = "Spider Gift", MinAmount = 1}, 
 
+
+["Millionaire Bucks"] = {Class = "Misc", Id = "Millionaire Bucks", MinAmount = 500}, 
 ["Coins"] = {Class = "Enchant", Id = "Coins", TN = 7, MinAmount = 1000}, 
 ["Summer Block Party Ticket"] = {Class = "Misc", Id = "Summer Block Party Ticket", MinAmount = 2},
 
-["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 200},	--ok
+["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 200},	
 --["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 500},	
 ["Mega Charm Chest"] = {Class = "Lootbox", Id = "Mega Charm Chest", MinAmount = 1},
 
@@ -184,15 +187,14 @@ getgenv().Settings_senditem = {
 ["Royalty"] = {Class = "Charm", Id = "Royalty", MinAmount = 4},
 ["Glittering"] = {Class = "Charm", Id = "Glittering", MinAmount = 120},
 ["XP"] = {Class = "Charm", Id = "XP", MinAmount = 120},
-
 ["Charm Chisel"] = {Class = "Misc", Id = "Charm Chisel", MinAmount = 200},
 
 ["Chest Spell"] = {Class = "Ultimate", Id = "Chest Spell", MinAmount = 1}, 
 ["Tsunami"] = {Class = "Ultimate", Id = "Tsunami", KeepAmount = 1, MinAmount = 2}, 
 
-["Daycare egg 5"] = {Class = "Egg", Id = "Huge Machine Egg 5", MinAmount = 1}, -- chưa
+["Daycare egg 5"] = {Class = "Egg", Id = "Huge Machine Egg 5", MinAmount = 1, onlysend_one = true}, 
 
-["Send all Diamonds"] = {Class = "Currency", Id = "Diamonds", KeepAmount = "20m", MinAmount = "300m"},	--ok
+["Send all Diamonds"] = {Class = "Currency", Id = "Diamonds", KeepAmount = "20m", MinAmount = "300m"},	
 
 ["Secret Key"] = {Class = "Misc", Id = "Secret Key", MinAmount = 800},
 ["Fantasy Key"] = {Class = "Misc", Id = "Fantasy Key", MinAmount = 300},
@@ -279,9 +281,10 @@ end
 for key, config in pairs(getgenv().Settings_senditem) do
 	local class = config.Class
 	local id = config.Id
-	local minAmount = parseNumber(config.MinAmount)
+	local MinAmount = parseNumber(config.MinAmount)
 	local keepAmount = config.KeepAmount and parseNumber(config.KeepAmount) or 0
 	local allVariants = config.AllVariants or false
+	local onlysend_one = config.onlysend_one or false
 	wait(2)
 	if class == "Currency" then
 
@@ -290,7 +293,7 @@ for key, config in pairs(getgenv().Settings_senditem) do
 			local current = tonumber(v._am) or 0
 			local sendAmount = current - keepAmount
 			
-			if sendAmount >= minAmount then
+			if sendAmount >= MinAmount then
 				print("💰 Gửi currency:", id, "→", sendAmount)
 				local success, err = pcall(function()
 					return Network.Invoke("Mailbox: Send", _G.NAME_USER_SEND, message, "Currency", uid, sendAmount)
@@ -314,8 +317,8 @@ for key, config in pairs(getgenv().Settings_senditem) do
 				sendCount = count - keepAmount
 			end
 
-			if sendCount >= minAmount then
-	
+			if sendCount >= MinAmount then
+				if onlysend_one then sendCount = 1 end
 				print("📦 Gửi item:", item.ID, "| SL:", sendCount, "| Loại:", item.Class)
 				local success, err = pcall(function()
 					return Network.Invoke("Mailbox: Send", _G.NAME_USER_SEND, message, class, item.UID, sendCount)
