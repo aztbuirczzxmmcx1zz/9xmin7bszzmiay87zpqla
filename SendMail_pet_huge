@@ -1,14 +1,11 @@
-if game.PlaceId == 140403681187145 or game.PlaceId == 131952481663528 then
-
-else
+if game.PlaceId ~= 140403681187145 then
     return
 end
 
-if game.PlaceId == 140403681187145 then
 	while _G.going_timetital do
-		wait(500)
+		wait(60)
 	end
-end
+
 --view sent on off / time play
 task.spawn(function()
     local Players = game:GetService("Players")
