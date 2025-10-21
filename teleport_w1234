@@ -9,7 +9,7 @@ local check_and_tele_w = 4 -- Thay bằng 3 hoặc 4 nếu cần
 task.spawn(function()
 
 wait(300)
-if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
+if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 or game.PlaceId == 131952481663528 then
 	player:Kick("Fail 300 teleport")
 end
 
@@ -21,7 +21,7 @@ local TeleportMapping = {
 }
 
 -- Nếu đang ở đúng map cần thoát
-if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
+if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 or game.PlaceId == 131952481663528 then
     
 if Y_or_N_delay_60s_farming == "y" then
         wait(90)
@@ -46,6 +46,9 @@ end
                 player:Kick("Fail tele 2 times")
             end
 			if attempt == 2 and game.PlaceId == 95635359880599 then
+                player:Kick("Fail tele 2 times")
+            end
+			if attempt == 2 and game.PlaceId == 131952481663528 then
                 player:Kick("Fail tele 2 times")
             end
         end
