@@ -1,7 +1,7 @@
 getgenv().Webhook = {
     ['ID'] = "", 
     ['Id Names'] = { "Huge", "Titanic" }, 
-    ['URL'] = dis_event,
+    ['URL'] = vinGWEBHOOK_LINK,
 }
 
 -- Chờ game load xong & bỏ intro
