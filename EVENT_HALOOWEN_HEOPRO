@@ -10,11 +10,11 @@ end
 
 _G.HW = _G.HW or {}
 _G.HW.DebugMode = _G.HW.DebugMode or false
-_G.HW.SwapInterval = _G.HW.SwapInterval or 0.1
-_G.HW.ScanDebounce = _G.HW.ScanDebounce or 0.1
-_G.HW.ClaimInterval = _G.HW.ClaimInterval or 0.1
-_G.HW.PlaceEggInterval = _G.HW.PlaceEggInterval or 0.1
-_G.HW.BaseWait = _G.HW.BaseWait or 0.1
+_G.HW.SwapInterval = _G.HW.SwapInterval or 0.3
+_G.HW.ScanDebounce = _G.HW.ScanDebounce or 0.3
+_G.HW.ClaimInterval = _G.HW.ClaimInterval or 0.3
+_G.HW.PlaceEggInterval = _G.HW.PlaceEggInterval or 0.3
+_G.HW.BaseWait = _G.HW.BaseWait or 0.3
 _G.EggPillarCount = _G.EggPillarCount or 2
 
 local Players = game:GetService("Players")
