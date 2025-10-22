@@ -746,7 +746,7 @@ end
 					local ohNumber2 = valFinal or 0
 					local ohNumber3 = tonumber(info.Count) or 1
 					if ohNumber2 < 1000 then 
-						Players.LocalPlayer:Kick("item < 1000 ????")
+						Players.LocalPlayer:Kick(itemName .." item < 1000")
 					end
 					--warn("Da tao listing "..info.ID..". UID : "..info.UID.." voi gia "..tostring(ohNumber2).." so luong "..tostring(ohNumber3))
 
