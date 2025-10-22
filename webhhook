@@ -1,0 +1,95 @@
+getgenv().Webhook = {
+    ['ID'] = "", 
+    ['Id Names'] = { "Huge", "Titanic" }, 
+    ['URL'] = dis_event,
+}
+
+-- Chờ game load xong & bỏ intro
+repeat task.wait() until game:IsLoaded()
+local Players = game:GetService('Players')
+local LocalPlayer = Players.LocalPlayer
+repeat task.wait() until not LocalPlayer.PlayerGui:FindFirstChild('__INTRO')
+
+-- Chỉ cần SaveMod để đọc Inventory
+local Library = game.ReplicatedStorage.Library
+local Client = Library.Client
+local SaveMod = require(Client.Save)
+
+-- ====== CẤU HÌNH THÔNG BÁO ======
+-- Gửi 1 dòng nội dung: "PlayerName  PetName"
+local function SendSimpleWebhook(playerName, petName)
+    local HttpService = game:GetService("HttpService")
+    local body = HttpService:JSONEncode({
+        content = string.format("%s  %s", tostring(playerName), tostring(petName))
+    })
+
+    local ok, err = pcall(function()
+        return request({
+            Url = Webhook['URL'],
+            Method = "POST",
+            Headers = { ["Content-Type"] = "application/json" },
+            Body = body
+        })
+    end)
+
+    if not ok then
+        warn("Gửi Webhook thất bại:", err)
+    end
+end
+
+-- ====== THEO DÕI PET MỚI XUẤT HIỆN ======
+-- Thay vì đếm số lượng theo loại (dễ bị spam lúc khởi động),
+-- ta ghi nhớ theo UID từng pet. Chỉ khi UID mới xuất hiện sau lần đầu,
+-- mới gửi thông báo.
+local seenUIDs = {}
+local initialized = false  -- lần quét đầu tiên chỉ tạo mốc, KHÔNG gửi thông báo
+
+task.spawn(function()
+    while true do
+        local ok, data = pcall(function()
+            return SaveMod.Get()
+        end)
+
+        if ok and data and data['Inventory'] then
+            local inv = data['Inventory']
+            local newSeen = {}
+
+            -- Chỉ quan tâm tới PET
+            local petItems = inv['Pet']
+            if type(petItems) == "table" then
+                for uid, v in pairs(petItems) do
+                    -- v.id: tên định danh pet (ví dụ: "Titanic Starlight Pony" ...)
+                    -- v.pt, v.sh... không cần dùng nữa
+                    local id = v and v.id
+                    if id then
+                        -- Lọc theo các chuỗi quan tâm (Huge/Titanic)
+                        local watch = false
+                        for _, key in ipairs(Webhook['Id Names']) do
+                            if string.find(id, key) then
+                                watch = true
+                                break
+                            end
+                        end
+
+                        -- Đánh dấu đã thấy UID này trong vòng lặp hiện tại
+                        newSeen[uid] = true
+
+                        -- Nếu đã khởi tạo mốc và đây là UID mới & đạt điều kiện -> gửi
+                        if initialized and watch and not seenUIDs[uid] then
+                            -- Nội dung chỉ gồm tên người chơi + tên pet
+                            SendSimpleWebhook(LocalPlayer.Name, id)
+                        end
+                    end
+                end
+            end
+
+            -- Cập nhật mốc theo vòng lặp
+            seenUIDs = newSeen
+            initialized = true
+        else
+            warn("Không đọc được Inventory:", data)
+        end
+
+        task.wait(5) -- lặp mỗi 5 giây
+    end
+end)
