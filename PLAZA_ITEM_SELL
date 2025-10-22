@@ -88,7 +88,7 @@ getgenv().Settings_autoplaza = {
 		--{Name = "Rainbow Swirl", Data = {Price = "9b"}},
 
 	{Name = "Millionaire Bucks", Data = {Price = "+10%"}},
-        {Name = "Insta Plant Capsule", Data = {Price = 23000}},
+        {Name = "Insta Plant Capsule", Data = {Price = 25000}},
         {Name = "XPPotion Mastery", Data = {Price = "2%"}},
         {Name = "Royalty TN1", Data = {Price = "+4%"}},
         {Name = "Overload TN1", Data = {Price = "+4%"}},
