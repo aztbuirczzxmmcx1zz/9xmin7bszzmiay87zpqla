@@ -176,8 +176,8 @@ getgenv().Settings_senditem = {
 
 
 ["Millionaire Bucks"] = {Class = "Misc", Id = "Millionaire Bucks", MinAmount = 500}, 
-["Coins"] = {Class = "Enchant", Id = "Coins", TN = 7, MinAmount = 1000}, 
-["Summer Block Party Ticket"] = {Class = "Misc", Id = "Summer Block Party Ticket", MinAmount = 2},
+["Coins"] = {Class = "Enchant", Id = "Coins", TN = 7, MinAmount = 2000}, 
+["Summer Block Party Ticket"] = {Class = "Misc", Id = "Summer Block Party Ticket", MinAmount = 2222},
 
 ["MVP Key Upper Half"] = {Class = "Misc", Id = "MVP Key Upper Half", MinAmount = 200},	
 ["MVP Key Lower Half"] = {Class = "Misc", Id = "MVP Key Lower Half", MinAmount = 5000},	
@@ -196,15 +196,15 @@ getgenv().Settings_senditem = {
 
 ["Send all Diamonds"] = {Class = "Currency", Id = "Diamonds", KeepAmount = "20m", MinAmount = "300m"},	
 
-["Secret Key"] = {Class = "Misc", Id = "Secret Key", MinAmount = 800},
-["Fantasy Key"] = {Class = "Misc", Id = "Fantasy Key", MinAmount = 300},
-["Void Key"] = {Class = "Misc", Id = "Void Key", MinAmount = 200},
-["Tech Key"] = {Class = "Misc", Id = "Tech Key", MinAmount = 500},
-["Crystal Key"] = {Class = "Misc", Id = "Crystal Key", MinAmount = 2000},
-["Hacker Key"] = {Class = "Misc", Id = "Hacker Key", MinAmount = 2},
+["Secret Key"] = {Class = "Misc", Id = "Secret Key", MinAmount = 2800},
+["Fantasy Key"] = {Class = "Misc", Id = "Fantasy Key", MinAmount = 1200},
+["Void Key"] = {Class = "Misc", Id = "Void Key", MinAmount = 1200},
+["Tech Key"] = {Class = "Misc", Id = "Tech Key", MinAmount = 2500},
+["Crystal Key"] = {Class = "Misc", Id = "Crystal Key", MinAmount = 4000},
+["Hacker Key"] = {Class = "Misc", Id = "Hacker Key", MinAmount = 2000},
 
-["Insta Plant Capsule"] = {Class = "Misc", Id = "Insta Plant Capsule", MinAmount = 500},
-["Time Trial Gift"] = {Class = "Lootbox", Id = "Time Trial Gift", MinAmount = 100}, --ok
+["Insta Plant Capsule"] = {Class = "Misc", Id = "Insta Plant Capsule", MinAmount = 1000},
+["Time Trial Gift"] = {Class = "Lootbox", Id = "Time Trial Gift", MinAmount = 200}, --ok
 
 }
 
