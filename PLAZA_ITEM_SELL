@@ -80,7 +80,7 @@ getgenv().Settings_autoplaza = {
 		{Name = "Titanic Narwhal", Data = {Price = "6.7b"}},
 
 	{Name = "Breakable Mayhem TN1", Data = {Price = "1.4b"}},
-        {Name = "Time Trial Gift", Data = {Price = "+2%"}},
+        {Name = "Time Trial Gift", Data = {Price = "400k"}},
         {Name = "Huge Machine Egg 5", Data = {Price = "+2%"}},
 		
 		{Name = "Rainbow Banana PetSecret", Data = {Price = "39b"}},
