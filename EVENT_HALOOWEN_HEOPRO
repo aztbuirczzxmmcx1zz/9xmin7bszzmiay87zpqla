@@ -10,11 +10,11 @@ end
 
 _G.HW = _G.HW or {}
 _G.HW.DebugMode = _G.HW.DebugMode or false
-_G.HW.SwapInterval = _G.HW.SwapInterval or 0.3
-_G.HW.ScanDebounce = _G.HW.ScanDebounce or 0.3
-_G.HW.ClaimInterval = _G.HW.ClaimInterval or 0.3
-_G.HW.PlaceEggInterval = _G.HW.PlaceEggInterval or 0.3
-_G.HW.BaseWait = _G.HW.BaseWait or 0.3
+_G.HW.SwapInterval = _G.HW.SwapInterval or 0.1
+_G.HW.ScanDebounce = _G.HW.ScanDebounce or 0.1
+_G.HW.ClaimInterval = _G.HW.ClaimInterval or 0.1
+_G.HW.PlaceEggInterval = _G.HW.PlaceEggInterval or 0.1
+_G.HW.BaseWait = _G.HW.BaseWait or 0.1
 _G.EggPillarCount = _G.EggPillarCount or 2
 
 local Players = game:GetService("Players")
@@ -750,18 +750,45 @@ task.spawn(function()
     end
 end)
 
-repeat task.wait() until _G.CurrentPlotId
-local p = workspace.__THINGS.Plots:WaitForChild(tostring(_G.CurrentPlotId))
-local m; repeat task.wait() m = p:FindFirstChild("Interactable") and p.Interactable.Machines:FindFirstChild("HalloweenPetCraftingMachine") until m
-local hrp = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
-repeat
-	local pos = m.Model:GetPivot().Position
-	if (hrp.Position - pos).Magnitude > 3 then hrp.CFrame = CFrame.new(pos + Vector3.new(0,0,0)) end
-	task.wait(1)
-until (hrp.Position - m.Model:GetPivot().Position).Magnitude <= 3
+task.spawn(function()
+	local TeleportService = game:GetService("TeleportService")
+	local player = game.Players.LocalPlayer
+	repeat task.wait() until _G.CurrentPlotId and player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+
+	local hrp = player.Character.HumanoidRootPart
+	local plot = workspace.__THINGS.Plots:WaitForChild(tostring(_G.CurrentPlotId))
+	local machine, start = nil, tick()
+
+	-- ⏳ Đợi máy xuất hiện
+	repeat
+		task.wait()
+		local inter = plot:FindFirstChild("Interactable")
+		machine = inter and inter:FindFirstChild("Machines") and inter.Machines:FindFirstChild("HalloweenPetCraftingMachine")
+	until (machine and machine:IsA("Model")) or tick() - start > 20
+
+	if not machine then return TeleportService:Teleport(game.PlaceId, player) end
+
+local ok, pos = pcall(function() return machine:GetPivot().Position end)
+	if not ok or not pos then return TeleportService:Teleport(game.PlaceId, player) end
+
+	-- 🚀 Teleport liên tục cho tới khi đứng trong bán kính 3 stud
+	start = tick()
+	repeat
+		local target = pos + Vector3.new(0, 6, 0) -- nhảy cao 6 stud
+		if (hrp.Position - target).Magnitude > 5 then hrp.CFrame = CFrame.new(target) end
+		task.wait(1)
+	until (hrp.Position - pos).Magnitude <= 5 or tick() - start > 20
+
+	if (hrp.Position - pos).Magnitude > 5 then
+		TeleportService:Teleport(game.PlaceId, player)
+	else
+		task.wait(3)
+		_G.TeleDone = true
+	end
+end)
 
 task.spawn(function()
-    repeat task.wait(_G.HW.BaseWait) until _G.CurrentPlotId
+    repeat task.wait(15) until _G.CurrentPlotId and _G.TeleDone
     local plotsFolder = Workspace:WaitForChild("__THINGS"):WaitForChild("Plots")
     local Workspace = game:GetService("Workspace")
     local myPlotId = tostring(_G.CurrentPlotId)
@@ -949,7 +976,7 @@ local function scheduleScan()
 end
 
 task.spawn(function()
-    repeat task.wait(_G.HW.BaseWait) until _G.CurrentPlotId
+    repeat task.wait(_G.HW.BaseWait) until _G.CurrentPlotId and _G.TeleDone
     local plotFolder = workspace:WaitForChild("__THINGS"):WaitForChild("Plots")
     local myPlot = plotFolder:FindFirstChild(tostring(_G.CurrentPlotId))
     if myPlot then buildPillarsCFrames(myPlot) end
@@ -982,7 +1009,7 @@ task.spawn(function()
     end
 
     local lastTier = nil
-    repeat task.wait(_G.HW.BaseWait) until _G.PillarScanDone
+    repeat task.wait(_G.HW.BaseWait) until _G.PillarScanDone and _G.TeleDone
 
     while true do
         local candy = getCurrencyAmount("HalloweenCoins")
@@ -1032,7 +1059,7 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-    repeat task.wait(_G.HW.BaseWait) until _G.PillarScanDone
+    repeat task.wait(_G.HW.BaseWait) until _G.PillarScanDone and _G.TeleDone
 
     local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
     local SaveModule = safeRequire(Client.Save)
@@ -1182,7 +1209,7 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-    repeat task.wait(_G.HW.BaseWait) until _G.CurrentPlotId and _G.TotalRate
+    repeat task.wait(_G.HW.BaseWait) until _G.CurrentPlotId and _G.TotalRate and _G.TeleDone
 
     local PlayerSave = safeRequire(ReplicatedStorage.Library.Client.Save)
     while not PlayerSave do task.wait(_G.HW.BaseWait); PlayerSave = safeRequire(ReplicatedStorage.Library.Client.Save) end
@@ -1242,7 +1269,7 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-    repeat task.wait(_G.HW.BaseWait) until _G.TotalRate
+    repeat task.wait(_G.HW.BaseWait) until _G.TotalRate and _G.TeleDone
 
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local PlayerSave = require(ReplicatedStorage.Library.Client.Save)
@@ -1301,7 +1328,7 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-    repeat task.wait(_G.HW.BaseWait) until _G.TotalRate
+    repeat task.wait(_G.HW.BaseWait) until _G.TotalRate and _G.TeleDone
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Network = ReplicatedStorage.Network
     local PlayerSave = require(ReplicatedStorage.Library.Client.Save)
