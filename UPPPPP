@@ -198,6 +198,14 @@ local Network = ReplicatedStorage:WaitForChild("Network")
  update_map("Pet Damage", "Scribes Terrace")
 task.wait(0.5)
  update_map("Pet Damage", "Mirror Tome Path")
+ 
+   	runSequence({Vector3.new(-14220, 20, 1890)})
+	task.wait(0.5)
+	BAM_E_UPDATE() 
+ update_map("Coins", "Faerie Hex Glade")
+ task.wait(0.5)
+ update_map("Coins", "Bloomcourt Terrace")
+ 
 	-- 🌍 Dịch chuyển đến World3
 	task.wait(3.5)
 	STOP_FULL_UP()
