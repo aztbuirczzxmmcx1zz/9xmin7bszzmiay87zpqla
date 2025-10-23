@@ -1,4 +1,4 @@
-local FPS = 5 -- thay nếu muốn
+local FPS = _G.FPSvvv -- thay nếu muốn
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
