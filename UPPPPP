@@ -152,6 +152,8 @@ task.wait(0.1)
 VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.F, false, game)
 task.wait(0.5)
 
+STOP_FULL_UP()
+
 if game.PlaceId == 140403681187145 and RunService:IsRunning() then
 
 
