@@ -117,7 +117,21 @@ if missingUpgrade then
     textLabel.BorderSizePixel = 0
     textLabel.Parent = screenGui
 else
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "FULLLLLLL"
+    screenGui.ResetOnSpawn = false
+    screenGui.Parent = playerGui
 
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Size = UDim2.new(0, 120, 0, 30)
+    textLabel.Position = UDim2.new(0, 10, 0, 10)
+    textLabel.BackgroundColor3 = Color3.new(0.2, 0, 0)
+    textLabel.TextColor3 = Color3.new(0, 0, 1)
+    textLabel.Text = "Upgrades"
+    textLabel.Font = Enum.Font.SourceSansBold
+    textLabel.TextSize = 18
+    textLabel.BorderSizePixel = 0
+    textLabel.Parent = screenGui
 Players.LocalPlayer:Kick("Full UP")
 
 end
@@ -520,5 +534,5 @@ if game.PlaceId == 8737899170 then
 	runSequence({Vector3.new(530, 26, -272)})
 	
 STOP_FULL_UP()
-
+game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
 end
