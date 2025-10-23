@@ -536,7 +536,7 @@ end)
 
 task.spawn(function()
 wait(30)
-loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/startGuiUpdater"))()	
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/startGuiUpdater_HALOOWEN"))()	
 end)
 
 _G.PillarPets = _G.PillarPets or {}
