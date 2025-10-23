@@ -1,5 +1,5 @@
 wait(7)
-if EVENT_or_FARM == "E" then
+if game.PlaceId ~= 140403681187145 then
     return
 end
 if name_vps == "V1" or name_vps == "V0" or name_vps == "V5" or name_vps == "V2" or name_vps == "V4" then
