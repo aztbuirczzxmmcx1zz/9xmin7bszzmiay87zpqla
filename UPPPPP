@@ -126,8 +126,8 @@ else
     local textLabel = Instance.new("TextLabel")
     textLabel.Size = UDim2.new(0, 120, 0, 30)
     textLabel.Position = UDim2.new(0, 10, 0, 10)
-    textLabel.BackgroundColor3 = Color3.new(0.2, 0, 0)
-    textLabel.TextColor3 = Color3.new(0, 0, 1)
+	textLabel.BackgroundColor3 = Color3.new(0, 0, 1) -- xanh dương
+    textLabel.TextColor3 = Color3.new(0, 1, 0)
     textLabel.Text = "Upgrades"
     textLabel.Font = Enum.Font.SourceSansBold
     textLabel.TextSize = 18
@@ -190,14 +190,14 @@ local Network = ReplicatedStorage:WaitForChild("Network")
  update_map("Pet Speed", "Runestone Bluff")
 
 
-  	runSequence({Vector3.new(-14219, 20, 1894)})
+  	runSequence({Vector3.new(-14494, 20, 1288)})
 	task.wait(0.5)
 	BAM_E_UPDATE() 
  update_map("Pet Damage", "Scribes Terrace")
 task.wait(0.5)
  update_map("Pet Damage", "Mirror Tome Path")
 	-- 🌍 Dịch chuyển đến World3
-	task.wait(0.5)
+	task.wait(3.5)
 	STOP_FULL_UP()
 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World3Teleport"):InvokeServer()
 end
