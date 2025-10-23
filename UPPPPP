@@ -19,6 +19,7 @@ task.spawn(function()
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/SET_5FPSp"))()
 end)
 
+--setfpscap(30)
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -139,7 +140,7 @@ end
 end
 
 -- ⚙️ Thiết lập ban đầu
-setfpscap(30)
+
 
 VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.F, false, game)
 task.wait(0.1)
@@ -193,7 +194,8 @@ local Network = ReplicatedStorage:WaitForChild("Network")
 	task.wait(0.5)
 	BAM_E_UPDATE() 
  update_map("Pet Damage", "Scribes Terrace")
-
+task.wait(0.5)
+ update_map("Pet Damage", "Mirror Tome Path")
 	-- 🌍 Dịch chuyển đến World3
 	task.wait(0.5)
 	STOP_FULL_UP()
