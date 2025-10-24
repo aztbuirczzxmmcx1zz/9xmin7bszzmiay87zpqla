@@ -1,0 +1,69 @@
+local HttpService = game:GetService("HttpService")
+local TeleportService = game:GetService("TeleportService")
+local Player = game:GetService("Players").LocalPlayer
+local mathRandom = math.random
+
+local function getServerPing(_)
+    return mathRandom(50, 150)
+end
+
+local function teleportToMostPopulatedServer(placeId, retryLimit)
+    retryLimit = retryLimit or 5
+    local attempts = 0
+    local minPlayers = 1
+
+    local function getCurrentServerId()
+        return game:GetService("Players").LocalPlayer.Team or "Unknown"
+    end
+
+    while attempts < retryLimit do
+        attempts += 1
+        local success, result = pcall(function()
+            return HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. placeId .. '/servers/Public?sortOrder=Asc&limit=100&excludeFullServers=true')).data
+        end)
+
+        if success and result and #result > 0 then
+            local validServers = {}
+            for _, server in ipairs(result) do
+                if server.playing >= minPlayers and server.playing < server.maxPlayers then
+                    table.insert(validServers, {
+                        server = server,
+                        ping = getServerPing(server.id)
+                    })
+                end
+            end
+
+            if #validServers > 0 then
+                table.sort(validServers, function(a, b)
+                    return a.ping < b.ping
+                end)
+
+                local serverToTeleport = validServers[1].server
+                local teleportSuccess = pcall(function()
+                    TeleportService:TeleportToPlaceInstance(placeId, serverToTeleport.id, Player)
+                end)
+
+                if teleportSuccess then
+                    local originalServerId = getCurrentServerId()
+                    task.wait(3)
+                    if getCurrentServerId() == originalServerId then
+                        table.remove(validServers, 1)
+                        if #validServers > 0 then
+                            return teleportToMostPopulatedServer(placeId, retryLimit)
+                        else
+                            return false
+                        end
+                    else
+                        return true
+                    end
+                end
+            end
+        end
+        task.wait(2)
+    end
+
+    return false
+end
+
+task.wait(1)
+teleportToMostPopulatedServer(131952481663528, 25)
