@@ -4,11 +4,11 @@ local leaderstats = LocalPlayer:WaitForChild("leaderstats")
 local diamondStat = leaderstats:WaitForChild("💎 Diamonds")
 
 local function check_diamond_10min()
+    local lastDiamonds = diamondStat.Value
     while task.wait(600) do
-        local initialDiamonds = diamondStat.Value
-        task.wait(600)
         local currentDiamonds = diamondStat.Value
-        local diamondsEarned = currentDiamonds - initialDiamonds
+        local diamondsEarned = currentDiamonds - lastDiamonds
+        lastDiamonds = currentDiamonds
 
         if diamondsEarned < 1500000 then
             pcall(function()
