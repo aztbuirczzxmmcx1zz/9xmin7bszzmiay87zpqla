@@ -672,8 +672,7 @@ for _, targetId in ipairs(petIds) do
             else
                 warn("❌ Lỗi khi gửi:", err)
             end
-			wait(28000)
-	
+						wait(14400)
         end
     else
         warn("⚠️ Không có pet dư để gửi .")
