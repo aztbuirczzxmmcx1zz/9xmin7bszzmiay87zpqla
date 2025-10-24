@@ -1,7 +1,6 @@
 wait(7)
-if game.PlaceId ~= 140403681187145 then
-    return
-end
+
+--if game.PlaceId ~= 140403681187145 then    return	end
 
 --------------
 if _G.DELTOPBARAPP then
