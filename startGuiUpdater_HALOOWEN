@@ -144,7 +144,7 @@ local function startGuiUpdater()
         coinsLabel.Text   = Formatint(getCurrencyAmount("HalloweenCoins")) .. " COINS"
         updateLabelSize(coinsLabel)
 
-        chanceLabel.Text  = tostring(_G.TotalRate or 0) .. "/s | TEAM"
+        chanceLabel.Text  = tostring(_G.TotalRate or 0) .. "/s "
         updateLabelSize(chanceLabel)
 
         timeTrialLabel.Text = tostring(getRunsLeft()) .. "/10"
