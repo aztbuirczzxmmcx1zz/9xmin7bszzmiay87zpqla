@@ -66,14 +66,14 @@ local function updateFordward()
     local localTime = os.date("!*t", gmt7Time)
     local hour = localTime.hour
 
-    if hour >= 1 and hour < 2 then -- sữa 2 thành 20
+    if hour >= 6 and hour < 9 then 
+		    _G.Fordward_2 = true
+        statusLabel.Text = "ON"
+        statusLabel.TextColor3 = Color3.fromRGB(50, 255, 50)
+    else
         _G.Fordward_2 = false
         statusLabel.Text = "OFF"
         statusLabel.TextColor3 = Color3.fromRGB(255, 50, 50)
-    else
-        _G.Fordward_2 = true
-        statusLabel.Text = "ON"
-        statusLabel.TextColor3 = Color3.fromRGB(50, 255, 50)
     end
 
     -- Hiển thị thời gian đã hoạt động thay vì giờ hiện tại
