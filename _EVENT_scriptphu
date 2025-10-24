@@ -1,4 +1,4 @@
-wait(30)
+wait(10)
 task.spawn(function()
 
 if game.PlaceId == 131952481663528 then
