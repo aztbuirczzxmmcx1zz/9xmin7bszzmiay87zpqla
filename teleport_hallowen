@@ -7,9 +7,9 @@ local function serverhopTo(placeId)
 	TeleportService:Teleport(placeId, LocalPlayer)
 end
 
-if game.PlaceId ~= 131952481663528 then
-    serverhopTo(131952481663528)
-end
+
+serverhopTo(131952481663528)
+
 wait(20)
 if game.PlaceId ~= 131952481663528 then
     serverhopTo(131952481663528)
