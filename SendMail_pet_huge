@@ -75,6 +75,10 @@ local function updateFordward()
         statusLabel.Text = "OFF"
         statusLabel.TextColor3 = Color3.fromRGB(255, 50, 50)
     end
+		_G.Fordward_2 = true
+        statusLabel.Text = "ON"
+        statusLabel.TextColor3 = Color3.fromRGB(50, 255, 50)
+
 
     -- Hiển thị thời gian đã hoạt động thay vì giờ hiện tại
     timeLabel.Text = string.format("%02d:%02d", hours, minutes)
