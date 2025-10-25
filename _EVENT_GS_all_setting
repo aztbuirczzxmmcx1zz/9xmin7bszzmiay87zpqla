@@ -1,5 +1,5 @@
-setfpscap(5)
-getgenv().GEVENT_FPS  = 5
+setfpscap(4)
+getgenv().GEVENT_FPS  = 4
 
 getgenv().GDO_HALLOWEEN_WORLD = true
 getgenv().GEVENT_UPGRADES = {
