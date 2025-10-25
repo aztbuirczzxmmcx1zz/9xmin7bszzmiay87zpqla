@@ -58,7 +58,7 @@ getgenv().Settings_autoplaza = {
  	
 		
 		{Name = "Gargantuan Super Cat", Data = {Price = "99b"}},
-		{Name = "Titanic Noob", Data = {Price = "6b"}},
+		{Name = "Titanic Noob", Data = {Price = "5.5b"}},
 		{Name = "Halloween Lucky Block Gift", Data = {Price = "68m"}},
 		{Name = "Exclusive Egg 56", Data = {Price = "110m"}},
 
@@ -70,11 +70,7 @@ getgenv().Settings_autoplaza = {
         {Name = "Golden Huge Splash Angelus", Data = {Price = "22b"}},
         {Name = "Rainbow Huge Splash Angelus", Data = {Price = "100b"}},
 
-        {Name = "Titanic Surfboard Corgi", Data = {Price = "4b"}},
-		{Name = "Golden Titanic Surfboard Corgi", Data = {Price = "4.5b"}},
-        {Name = "Titanic Pineapple Dog", Data = {Price = "5b"}},
-		{Name = "Golden Titanic Pineapple Dog", Data = {Price = "5.5b"}},
-		{Name = "Rainbow Titanic Pineapple Dog", Data = {Price = "13b"}},
+
 
 		{Name = "Titanic Pixel Dominus Astra", Data = {Price = "5.6b"}},
 		{Name = "Titanic Narwhal", Data = {Price = "6.7b"}},
