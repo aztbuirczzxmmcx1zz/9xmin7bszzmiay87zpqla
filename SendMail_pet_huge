@@ -377,19 +377,19 @@ getgenv().Settings_sendpet = {
 
 --["Palace Pooka"] 	= {Soluong_Yeu_cau = 3},
 --["Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
---["Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 1},
 
---["Shiny Rose Pooka"] 	= {Soluong_Yeu_cau = 10 },
---["Shiny Rainbow Rose Pooka"] 	= {Soluong_Yeu_cau = 0, keepAmount = 5},
+["Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 50},
+["Shiny Rose Pooka"] 	= {Soluong_Yeu_cau = 30 },
+["Shiny Rainbow Rose Pooka"] 	= {Soluong_Yeu_cau = 40, keepAmount = 15},
 
---["Shiny Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
---["Shiny Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
---["Shiny Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 2, keepAmount = 1},
+["Shiny Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 2},
+["Shiny Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 2, keepAmount = 1},
 }
 }
 
 
-ds_nguoi_nhan_pet = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","Sky_Giga2017","Inferno_Eagle200889","XxOwenC0dexX2023","TurboTig3rStr3am","1953Crutchfield3117","FusionShadowCyber","AceInferno202467","R0ck3tClaw2021_YT","Xx_VictoriaUltraCybe","Br00klynSkat3r2022","Li0nArr0w85","Noah_SKATER35","RowlandCollinq943","GalaxyRider200343","ChillMaster2011"}
+ds_nguoi_nhan_pet = {"FusionShadowCyber","AceInferno202467","R0ck3tClaw2021_YT","Xx_VictoriaUltraCybe","Br00klynSkat3r2022","Li0nArr0w85","Noah_SKATER35","RowlandCollinq943","GalaxyRider200343","ChillMaster2011"}
 
 
 -- Hàm kiểm tra tên có chứa từ khóa
