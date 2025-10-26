@@ -1,19 +1,18 @@
+local success, _ = pcall(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Hoith95/Pet-99/main/AntiStaff"))()
+end)
+
 repeat task.wait() until game:IsLoaded()
 local LocalPlayer = game:GetService('Players').LocalPlayer
 repeat task.wait() until not LocalPlayer.PlayerGui:FindFirstChild('__INTRO')
 
-if game.PlaceId ~= 131952481663528 then
-    return
-end
-
-
 _G.HW = _G.HW or {}
 _G.HW.DebugMode = _G.HW.DebugMode or false
 _G.HW.SwapInterval = _G.HW.SwapInterval or 1
-_G.HW.ScanDebounce = _G.HW.ScanDebounce or 1
+_G.HW.ScanDebounce = _G.HW.ScanDebounce or 0.5
 _G.HW.ClaimInterval = _G.HW.ClaimInterval or 5
-_G.HW.PlaceEggInterval = _G.HW.PlaceEggInterval or 1
-_G.HW.BaseWait = _G.HW.BaseWait or 1
+_G.HW.PlaceEggInterval = _G.HW.PlaceEggInterval or 0.5
+_G.HW.BaseWait = _G.HW.BaseWait or 0.5
 _G.EggPillarCount = _G.EggPillarCount or 1
 
 local Players = game:GetService("Players")
@@ -22,7 +21,15 @@ local TeleportService = game:GetService("TeleportService")
 local player = Players.LocalPlayer
 local Network = ReplicatedStorage:WaitForChild("Network")
 
+local placeId = 131952481663528
+if game.PlaceId ~= placeId then
+    --TeleportService:Teleport(placeId, player)
+    return
+end
 
+spawn(function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Hoith95/Pet-99/main/VAR-GEMS2"))()
+end)
 
 _G.PillarPets = _G.PillarPets or {}
 _G.PillarScanDone = _G.PillarScanDone or false
@@ -75,23 +82,7 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
-    local p = game.Players.LocalPlayer
-    local c = p and (p.Character or p.CharacterAdded:Wait())
-    local hrp = c and c:FindFirstChild("HumanoidRootPart")
-    local hum = c and c:FindFirstChild("Humanoid")
-    if not (hrp and hum) then return end
-    pcall(function()
-        hum.PlatformStand, hrp.Anchored = true, true
-        hrp.CFrame += Vector3.new(math.random(-30,10), -30, math.random(-30,10))
-    end)
-    local part = Instance.new("Part")
-    part.Name, part.Size, part.Anchored, part.CanCollide, part.Transparency =
-        "TeleportPlatform", Vector3.new(5,1,5), true, true, 1
-    part.CFrame = hrp.CFrame + Vector3.new(0, -5, 0)
-    part.Parent = workspace
-    _G.TeleDone = true
-end)
+_G.TeleDone = true
 
 local debrisFolder
 local pillarsCFrames = {}
@@ -332,7 +323,7 @@ task.spawn(function()
         pcall(function()
             Network.Plots_Invoke:InvokeServer(_G.CurrentPlotId, "PurchaseEgg", tier, 3)
         end)
-        task.wait(1)
+        task.wait(0.05)
     end
 end)
 
@@ -528,7 +519,7 @@ task.spawn(function()
             end
         end
 
-        if rate <= 50000 then
+        if rate <= 55000 then
             craft(4) craft(3) craft(2) craft(1)
         else
             craft(4)
@@ -548,8 +539,7 @@ task.spawn(function()
             if data.id == name then return uid end
         end
     end
-
-    while task.wait(1) do
+    while task.wait(0.5) do
         local inv = PlayerSave.Get().Inventory
         local eggHave = false
         for _, data in pairs(inv.EggHalloween or {}) do
@@ -558,7 +548,6 @@ task.spawn(function()
                 break
             end
         end
-
         local used = false
         if eggHave then
             local luckyEggId = getItemIdByName("Consumable", "Halloween Lucky Egg")
@@ -571,7 +560,6 @@ task.spawn(function()
                 used = true
                 task.wait(1)
             end
-
             if trickLuckId then
                 pcall(function()
                     Network.Consumables_Consume:InvokeServer(trickLuckId, 1)
@@ -579,6 +567,64 @@ task.spawn(function()
                 used = true
             end
         end
-        task.wait(used and 600 or 1)
+        task.wait(used and 600 or 0.5)
+    end
+end)
+-- PHẦN 9: TỰ ĐỘNG TELE TỚI _G.CurrentEggPillars KHI CÓ (KHÔNG CÓ LOG)
+task.spawn(function()
+    repeat task.wait(_G.HW.BaseWait) until _G.CurrentPlotId and _G.TeleDone and _G.PillarScanDone
+    local function ensurePillarsBuilt()
+        if next(pillarsCFrames or {}) then return end
+        local plotFolder = workspace:FindFirstChild("__THINGS") and workspace.__THINGS:FindFirstChild("Plots")
+        if not plotFolder then return end
+        local myPlot = plotFolder:FindFirstChild(tostring(_G.CurrentPlotId))
+        if myPlot then buildPillarsCFrames(myPlot) end
+    end
+    local function teleportToCFrameSafe(cf)
+        if not cf then return false end
+        local char = player.Character or player.CharacterAdded:Wait()
+        local hrp = char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Torso") or char:FindFirstChild("UpperTorso")
+        if not hrp then return false end
+        local target = cf + Vector3.new(0, 3, 0)
+        for i = 1, 6 do
+            local ok = pcall(function() hrp.CFrame = target end)
+            if ok then return true end
+            task.wait(0.12)
+        end
+        return false
+    end
+    local lastSnapshot = nil
+    while true do
+        if _G.CurrentEggPillars and next(_G.CurrentEggPillars) then
+            ensurePillarsBuilt()
+            local keys = {}
+            for k,_ in pairs(_G.CurrentEggPillars) do table.insert(keys, tostring(k)) end
+            table.sort(keys)
+            local s = table.concat(keys, ",")
+            if s ~= lastSnapshot then
+                lastSnapshot = s
+                for pid,_ in pairs(_G.CurrentEggPillars) do
+                    local id = tonumber(pid) or pid
+                    local cf = pillarsCFrames[id]
+                    if not cf then
+                        local plotFolder = workspace:FindFirstChild("__THINGS") and workspace.__THINGS:FindFirstChild("Plots")
+                        if plotFolder then
+                            local myPlot = plotFolder:FindFirstChild(tostring(_G.CurrentPlotId))
+                            if myPlot then buildPillarsCFrames(myPlot); cf = pillarsCFrames[id] end
+                        end
+                    end
+                    if cf then
+                        teleportToCFrameSafe(cf)
+                        task.wait(0.8)
+                    end
+                end
+                task.wait(4)
+            else
+                task.wait(_G.HW.BaseWait)
+            end
+        else
+            lastSnapshot = nil
+            task.wait(_G.HW.BaseWait)
+        end
     end
 end)
