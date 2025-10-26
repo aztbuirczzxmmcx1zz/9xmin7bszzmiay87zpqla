@@ -30,10 +30,14 @@ elseif EVENT_or_FARM == "E2" and rank > 3 then
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_scriptphu"))()
 	end)
 
-if game.PlaceId == 131952481663528 then
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_GS_all_setting"))()
-else
+if game.PlaceId == 140403681187145 then
+
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_farm_ngoai_GS_all_setting"))()
+
+else
+
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_GS_all_setting"))()
+
 end
 
 		
