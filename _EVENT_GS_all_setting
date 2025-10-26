@@ -21,6 +21,7 @@ getgenv().GKEEP_CURRENCY_FOR_CRAFTS = "6m"
 getgenv().GLOOTBOXES = {"Tropical Gift"}
 
 getgenv().GRANK_FIRST = true
+getgenv().GRANK_TO = 2
 getgenv().GREBIRTH_TO = 2
 getgenv().GZONE_TO = 52  -- to enter event from W1 put 1, from W2 put 100, from W3 200, from W4 240
 
