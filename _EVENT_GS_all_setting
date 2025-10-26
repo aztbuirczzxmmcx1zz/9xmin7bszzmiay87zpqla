@@ -18,14 +18,11 @@ getgenv().GHALLOWEEN_WORLD_USE_BOOSTS = true
 --getgenv().GALLOW_HOPPING = true
 --getgenv().GHALLOWEEN_WORLD_RECIPES_TO_DO = {4,5}
 --getgenv().GKEEP_CURRENCY_FOR_CRAFTS = "20m"
-
-
 getgenv().GLOOTBOXES = {"Tropical Gift"}
 
 getgenv().GRANK_FIRST = true
 getgenv().GREBIRTH_TO = 3
-
-getgenv().GZONE_TO = 999  -- to enter event from W1 put 1, from W2 put 100, from W3 200, from W4 240
+getgenv().GZONE_TO = 50  -- to enter event from W1 put 1, from W2 put 100, from W3 200, from W4 240
 
 getgenv().GPROGRESS_MODE = "Hybrid" -- Hatch  Hybrid
 getgenv().GGFX_MODE = 1
