@@ -19,7 +19,7 @@ wait(50)
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/skadidau/unfazedfree/main/pet99"))()
 end)
 
-if EVENT_or_FARM == "E" then
+if EVENT_or_FARM == "E" or EVENT_or_FARM == "E2" then
 	vinGWEBHOOK_LINK = dis_event
 else
 	vinGWEBHOOK_LINK = dis_farm
