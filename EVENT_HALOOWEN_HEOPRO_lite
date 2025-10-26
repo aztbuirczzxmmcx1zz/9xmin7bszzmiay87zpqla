@@ -21,8 +21,7 @@ local TeleportService = game:GetService("TeleportService")
 local player = Players.LocalPlayer
 local Network = ReplicatedStorage:WaitForChild("Network")
 
-local placeId = 131952481663528
-if game.PlaceId ~= placeId then
+if game.PlaceId == 131952481663528 then
     --TeleportService:Teleport(placeId, player)
     return
 end
