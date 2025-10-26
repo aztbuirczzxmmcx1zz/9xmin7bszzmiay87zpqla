@@ -96,19 +96,6 @@ local function startGuiDefault()
 	local lastUpdate = tick()
 	local frameCount = 0
 
-	RunService.RenderStepped:Connect(function()
-		frameCount += 1
-		local now = tick()
-		if now - lastUpdate >= 1 then
-			local fps = frameCount / (now - lastUpdate)
-			fpsLabel.Text = string.format(" %d", fps + 0.5)
-			updateLabelSize(fpsLabel)
-			frameCount = 0
-			lastUpdate = now
-		end
-		task.wait(10)
-	end)
-
 	-- Vòng lặp cập nhật GUI
 	while true do
 		pcall(function()
