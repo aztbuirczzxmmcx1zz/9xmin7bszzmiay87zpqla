@@ -122,7 +122,7 @@ end
 wait(1)--waitchung
 -- Xem item kiếm được / 1h ở góc phải dưới
 task.spawn(function()
-wait(2)
+wait(200)
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
