@@ -18,7 +18,7 @@ local function check_diamond_10min()
 
         if diamondsEarned < 1700000 then
             pcall(function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/Hallo_tele_lowjoin"))()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/Hallo_lowjoinheopro"))()
             end)
         end
     end
