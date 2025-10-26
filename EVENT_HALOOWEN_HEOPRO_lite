@@ -9,10 +9,10 @@ repeat task.wait() until not LocalPlayer.PlayerGui:FindFirstChild('__INTRO')
 _G.HW = _G.HW or {}
 _G.HW.DebugMode = _G.HW.DebugMode or false
 _G.HW.SwapInterval = _G.HW.SwapInterval or 1
-_G.HW.ScanDebounce = _G.HW.ScanDebounce or 0.5
+_G.HW.ScanDebounce = _G.HW.ScanDebounce or 1.5
 _G.HW.ClaimInterval = _G.HW.ClaimInterval or 5
-_G.HW.PlaceEggInterval = _G.HW.PlaceEggInterval or 0.5
-_G.HW.BaseWait = _G.HW.BaseWait or 0.5
+_G.HW.PlaceEggInterval = _G.HW.PlaceEggInterval or 1.5
+_G.HW.BaseWait = _G.HW.BaseWait or 1.5
 _G.EggPillarCount = _G.EggPillarCount or 1
 
 local Players = game:GetService("Players")
@@ -318,7 +318,7 @@ task.spawn(function()
         pcall(function()
             Network.Plots_Invoke:InvokeServer(_G.CurrentPlotId, "PurchaseEgg", tier, 3)
         end)
-        task.wait(0.05)
+        task.wait(1)
     end
 end)
 
@@ -534,7 +534,7 @@ task.spawn(function()
             if data.id == name then return uid end
         end
     end
-    while task.wait(0.5) do
+    while task.wait(1.5) do
         local inv = PlayerSave.Get().Inventory
         local eggHave = false
         for _, data in pairs(inv.EggHalloween or {}) do
@@ -562,7 +562,7 @@ task.spawn(function()
                 used = true
             end
         end
-        task.wait(used and 600 or 0.5)
+        task.wait(used and 600 or 1.5)
     end
 end)
 -- PHẦN 9: TỰ ĐỘNG TELE TỚI _G.CurrentEggPillars KHI CÓ (KHÔNG CÓ LOG)
@@ -584,7 +584,7 @@ task.spawn(function()
         for i = 1, 6 do
             local ok = pcall(function() hrp.CFrame = target end)
             if ok then return true end
-            task.wait(0.12)
+            task.wait(2)
         end
         return false
     end
@@ -610,7 +610,7 @@ task.spawn(function()
                     end
                     if cf then
                         teleportToCFrameSafe(cf)
-                        task.wait(0.8)
+                        task.wait(1.8)
                     end
                 end
                 task.wait(4)
