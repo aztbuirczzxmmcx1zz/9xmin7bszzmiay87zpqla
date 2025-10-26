@@ -27,10 +27,6 @@ if game.PlaceId ~= placeId then
     return
 end
 
-spawn(function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Hoith95/Pet-99/main/VAR-GEMS2"))()
-end)
-
 _G.PillarPets = _G.PillarPets or {}
 _G.PillarScanDone = _G.PillarScanDone or false
 _G.CurrentPlotId = _G.CurrentPlotId or nil
