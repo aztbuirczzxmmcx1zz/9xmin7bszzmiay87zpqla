@@ -10,7 +10,7 @@ local function check_diamond_10min()
         local diamondsEarned = currentDiamonds - lastDiamonds
         lastDiamonds = currentDiamonds
 
-        if diamondsEarned > -1000000 and diamondsEarned < 1500000 then
+        if diamondsEarned < 1700000 then
             pcall(function()
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/Hallo_tele_lowjoin"))()
             end)
