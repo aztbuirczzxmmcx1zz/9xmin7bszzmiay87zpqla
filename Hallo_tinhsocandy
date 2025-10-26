@@ -1,0 +1,139 @@
+-- === ONLY _G.TotalRate (candies per second) ===
+repeat task.wait() until game:IsLoaded()
+
+-- [Tuỳ chọn] Nếu nhãn Rate là *per minute*, bật dòng này để chia 60:
+_G.RATE_IS_PER_MINUTE = _G.RATE_IS_PER_MINUTE or false
+
+-- [Tuỳ chọn] Đánh dấu cột đang đặt trứng để *không cộng rate*:
+_G.CurrentEggPillars = _G.CurrentEggPillars or {}  -- ví dụ: { [1]=true, [3]=true }
+
+_G.TotalRate = 0
+
+-- ==== helpers ====
+local function parseRateText(text)
+    if not text then return 0 end
+    local s = tostring(text):lower():gsub(",", "")
+    local mult = 1
+    if s:find("k") then mult = 1e3
+    elseif s:find("m") then mult = 1e6
+    elseif s:find("b") then mult = 1e9 end
+    local num = tonumber((s:gsub("[^%d%.]", ""))) or 0
+    return num * mult
+end
+
+local function findDebrisFolder()
+    return workspace:FindFirstChild("__DEBRIS") or workspace:FindFirstChild("DEBRIS")
+end
+
+local function findPlayerPlot()
+    local plots = workspace:FindFirstChild("__THINGS") and workspace.__THINGS:FindFirstChild("Plots") or workspace:FindFirstChild("Plots")
+    if not plots then return end
+    local player = game:GetService("Players").LocalPlayer
+    for _, plot in ipairs(plots:GetChildren()) do
+        local sign = plot:FindFirstChild("Build") and plot.Build:FindFirstChild("Sign")
+        local host = sign and sign:FindFirstChild("Host")
+        local sg   = host and host:FindFirstChild("SurfaceGui")
+        local fr   = sg and sg:FindFirstChild("Frame")
+        local tl   = fr and fr:FindFirstChild("Title")
+        if tl and typeof(tl.Text)=="string" and tl.Text:find(player.Name) then
+            return plot
+        end
+    end
+end
+
+local function buildPillarsCFrames(plot)
+    local map = {}
+    local pillars = plot and plot:FindFirstChild("Interactable") and plot.Interactable:FindFirstChild("Pillars")
+    if not pillars then return map end
+    for _, pillar in ipairs(pillars:GetChildren()) do
+        local baseTrim = pillar:FindFirstChild("BaseTrim")
+        if baseTrim and baseTrim:IsA("BasePart") then
+            local key = tonumber(pillar.Name) or pillar.Name
+            map[key] = baseTrim.CFrame
+        end
+    end
+    return map
+end
+
+-- ==== core compute ====
+local MAX_DISTANCE = 3 -- studs: pet phải “sát” pillar này mới tính cho pillar đó
+local pillarsCFrames = {}
+local debris = nil
+
+local function computeTotalRate()
+    debris = debris or findDebrisFolder()
+    if not debris then _G.TotalRate = 0; return end
+
+    if next(pillarsCFrames) == nil then
+        local plot = findPlayerPlot()
+        pillarsCFrames = buildPillarsCFrames(plot)
+        if next(pillarsCFrames) == nil then _G.TotalRate = 0; return end
+    end
+
+    -- cộng theo cột, rồi gộp (bỏ cột đang đặt trứng)
+    local perPillar = {}
+    for pid in pairs(pillarsCFrames) do perPillar[pid] = 0 end
+
+    for _, petFolder in ipairs(debris:GetChildren()) do
+        local root = petFolder:FindFirstChild("RootPart")
+        if root and root:IsA("BasePart") then
+            -- pillar gần nhất (chỉ nhận nếu <= MAX_DISTANCE)
+            local pos = root.Position
+            local nearest, best = nil, math.huge
+            for pid, cf in pairs(pillarsCFrames) do
+                local d = (pos - cf.Position).Magnitude
+                if d < best then best, nearest = d, pid end
+            end
+            if nearest and best <= MAX_DISTANCE then
+                -- tìm nhãn Rate
+                local rateText
+                for _, d in ipairs(petFolder:GetDescendants()) do
+                    if (d:IsA("TextLabel") or d:IsA("TextBox")) then
+                        local n = (d.Name or ""):lower()
+                        if n == "rate" or n:find("rate") then
+                            rateText = d.Text; break
+                        end
+                    end
+                end
+                if rateText then
+                    perPillar[nearest] = (perPillar[nearest] or 0) + parseRateText(rateText)
+                end
+            end
+        end
+    end
+
+    local total = 0
+    for pid, sum in pairs(perPillar) do
+        if not _G.CurrentEggPillars[pid] then
+            total += (sum or 0)
+        end
+    end
+
+    -- chuẩn hoá về *per second* nếu nhãn là per minute
+    if _G.RATE_IS_PER_MINUTE then
+        total = total / 60
+    end
+
+    _G.TotalRate = total
+end
+
+-- tính lần đầu
+computeTotalRate()
+
+-- tự cập nhật khi __DEBRIS thay đổi (vẫn chỉ chạm _G.TotalRate)
+debris = findDebrisFolder()
+if debris then
+    debris.ChildAdded:Connect(function() task.defer(computeTotalRate) end)
+    debris.ChildRemoved:Connect(function() task.defer(computeTotalRate) end)
+end
+
+-- phòng trường hợp đổi plot/map → rebuild trụ định kỳ nhẹ
+task.spawn(function()
+    while true do
+        if next(pillarsCFrames) == nil then
+            local plot = findPlayerPlot()
+            pillarsCFrames = buildPillarsCFrames(plot)
+        end
+        task.wait(2)
+    end
+end)
