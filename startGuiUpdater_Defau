@@ -89,12 +89,8 @@ local function startGuiDefault()
 	end
 
 	-- Tạo các label
-	local fpsLabel    = createLabel("FPSLabel",   rightRegion,   Color3.fromRGB(0, 102, 204))
 	local gemsLabel   = createLabel("GemsLabel",  leftRegion,    Color3.fromRGB(0, 102, 204))
 
-	-- FPS đo theo thời gian thực
-	local lastUpdate = tick()
-	local frameCount = 0
 
 	-- Vòng lặp cập nhật GUI
 	while true do
