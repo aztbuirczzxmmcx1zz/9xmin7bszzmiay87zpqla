@@ -1,7 +1,3 @@
-if game.PlaceId ~= 140403681187145 and EVENT_or_FARM == "E" then    
-	return	
-end
-
 --------------
 if _G.DELTOPBARAPP then
     return
