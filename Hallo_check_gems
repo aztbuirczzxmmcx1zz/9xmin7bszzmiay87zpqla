@@ -5,7 +5,7 @@ local diamondStat = leaderstats:WaitForChild("💎 Diamonds")
 
 local function check_diamond_10min()
     local lastDiamonds = diamondStat.Value
-    while task.wait(300) do
+    while task.wait(600) do
         local currentDiamonds = diamondStat.Value
         local diamondsEarned = currentDiamonds - lastDiamonds
 
@@ -16,7 +16,7 @@ local function check_diamond_10min()
             continue
         end
 
-        if diamondsEarned < 850000 then
+        if diamondsEarned < 1700000 then
             pcall(function()
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/Hallo_lowjoinheopro"))()
             end)
