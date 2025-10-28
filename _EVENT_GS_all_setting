@@ -16,8 +16,8 @@ getgenv().GHALLOWEEN_WORLD_BUY_FROM_HOUSES_BELOW = true
 getgenv().GHALLOWEEN_WORLD_USE_BOOSTS = true
 
 --getgenv().GALLOW_HOPPING = true
-getgenv().GHALLOWEEN_WORLD_RECIPES_TO_DO = {1,2,3,4}
-getgenv().GKEEP_CURRENCY_FOR_CRAFTS = "6m"
+--getgenv().GHALLOWEEN_WORLD_RECIPES_TO_DO = {1,2,3,4}
+--getgenv().GKEEP_CURRENCY_FOR_CRAFTS = "6m"
 getgenv().GLOOTBOXES = {"Tropical Gift"}
 
 getgenv().GRANK_FIRST = true
