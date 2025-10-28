@@ -1,14 +1,28 @@
-setfpscap(5)
-getgenv().GEVENT_FPS  = 5
+setfpscap(4)
+getgenv().GEVENT_FPS  = 4
+
+getgenv().GDO_HALLOWEEN_WORLD = true
+getgenv().GEVENT_UPGRADES = {
+  "HalloweenCandyMultiplier",
+  "HalloweenEggLuck",
+  "HalloweenTrickOrTreatLuck",
+  "HalloweenMoreDiamonds",
+  "HalloweenMoreWitchHats",
+  "HalloweenHugeLuck",
+  "HalloweenTitanicLuck"
+}
+getgenv().GHALLOWEEN_WORLD_BUY_FROM_SPECIFIC_HOUSE = 1
+getgenv().GHALLOWEEN_WORLD_BUY_FROM_HOUSES_BELOW = true
 
 getgenv().GLOOTBOXES = {"Tropical Gift"}
 
---getgenv().GRANK_FIRST = true
-getgenv().GZONE_TO = 999
+getgenv().GRANK_FIRST = true
+getgenv().GRANK_TO = 2
+getgenv().GREBIRTH_TO = 2
+getgenv().GZONE_TO = 52  -- to enter event from W1 put 1, from W2 put 100, from W3 200, from W4 240
 
 getgenv().GPROGRESS_MODE = "Hybrid" -- Hatch  Hybrid
 getgenv().GGFX_MODE = 1
-
 getgenv().GHATCH_SPEED_MS = 0
 getgenv().GHATCH_CHARGED_EGGS = false
 getgenv().GHATCH_GOLDEN_EGGS = false
@@ -51,11 +65,14 @@ getgenv().GHUGE_COUNT = 50999
 getgenv().GMAIL_ITEMS = {		
 
 ["Huge Splash Angelus"] = {Class = "Pet", Id = "Huge Splash Angelus", MinAmount = 1, AllVariants = true},
+["Huge Evil Raven"] = {Class = "Pet", Id = "Huge Evil Raven", MinAmount = 1, AllVariants = true},
 
 ["Secret pet1"] = {Class = "Pet", Id = "Rainbow Swirl", MinAmount = 1, AllVariants = true},
 ["Secret pet2"] = {Class = "Pet", Id = "Banana", MinAmount = 1, AllVariants = true},
 ["Secret pet3"] = {Class = "Pet", Id = "Coin", MinAmount = 1, AllVariants = true},
 ["Secret pet4"] = {Class = "Pet", Id = "Yellow Lucky Block", MinAmount = 1, AllVariants = true},	
 
+["Send Diamonds"] = {Class = "Currency", Id = "Diamonds", KeepAmount = "5m", MinAmount = "300m"},
 }
-getgenv().GMAIL_RECEIVERS = {"veriotiai779"}
+getgenv().GMAIL_RECEIVERS = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","Sky_Giga2017","Inferno_Eagle200889","XxOwenC0dexX2023","TurboTig3rStr3am","1953Crutchfield3117","FusionShadowCyber","AceInferno202467","R0ck3tClaw2021_YT","Xx_VictoriaUltraCybe","Br00klynSkat3r2022","Li0nArr0w85","Noah_SKATER35","RowlandCollinq943","GalaxyRider200343","ChillMaster2011"}
+   
