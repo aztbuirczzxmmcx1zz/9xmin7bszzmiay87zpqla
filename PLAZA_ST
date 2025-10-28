@@ -578,7 +578,21 @@ end
 end)
 
 
-
+task.spawn(function()
+	if _G.DELTOPBARAPP then
+	    return
+	end
+	_G.DELTOPBARAPP = true
+	local CoreGui = game:GetService("CoreGui")
+	for _, gui in ipairs(CoreGui:GetChildren()) do
+	    if gui.Name == "TopBarApp" and gui.ClassName == "Folder" then
+	        pcall(function()
+	            gui:Destroy()
+	            print("Đã xoá:", gui.Name, "-", gui.ClassName)
+	        end)
+	    end
+	end
+end)
 
 
 
