@@ -27,8 +27,13 @@ elseif EVENT_or_FARM == "E2" then
 		wait(50)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_scriptphu"))()
 	end)
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_GS_all_setting"))()
 
+	if game.PlaceId == 140403681187145 then
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_farm_ngoai_GS_all_setting"))()
+	else
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_EVENT_GS_all_setting"))()
+	end
+	
 		
 
 else
