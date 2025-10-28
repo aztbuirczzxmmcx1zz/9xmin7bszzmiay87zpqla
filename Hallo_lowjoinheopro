@@ -128,6 +128,8 @@ local function monitorPlayerCount()
 			warn("🚨 Server đông (" .. count .. " người)! Nhảy sang server mới...")
 			task.wait(3)
 			teleportToLeastPopulatedServer(placeId, false, 5)
+			wait(20)
+			game:Shutdown()
 			break
 		end
 		task.wait(21600) -- 6 tiếng = 21600 giây
