@@ -282,20 +282,44 @@ task.spawn(function()
             lastTier = nil
         end
         local tier = lastTier or 2
-
-            if candy >= 100000000 then
+        if totalRate >= 15000 then
+            if candy >= 1000000000 then
+                tier = 4
+            elseif candy >= 500000000 then
+                tier = 3
+            else
+                tier = 2
+            end
+        elseif totalRate >= 10000 then
+            if tier == 4 then
+                if candy < 2400000 then tier = 3 end
+            else
+                if candy >= 10500000 then tier = 4 end
+            end
+        elseif totalRate >= 6000 then
+            if tier == 3 then
+                if candy < 50000 then tier = 2 end
+            else
+                if candy >= 500000 then tier = 3 end
+            end
+        else
+            -- totalRate < 6000:
+            if candy >= 30000000 then
+                tier = 5
+            elseif candy >= 5000000 then
                 tier = 4
             elseif candy >= 500000 then
                 tier = 3
             elseif candy >= 50000 then
                 tier = 2
             else
-                tier = 1
+                tier = 2
             end
+        end
         lastTier = tier
         prevCategory = currCategory
         pcall(function()
-            Network.Plots_Invoke:InvokeServer(_G.CurrentPlotId, "PurchaseEgg", tier, 1)
+            Network.Plots_Invoke:InvokeServer(_G.CurrentPlotId, "PurchaseEgg", tier, 3)
         end)
         task.wait(1)
     end
