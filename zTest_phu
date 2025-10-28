@@ -1,9 +1,25 @@
-local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-local rank = Save.Get().Rank
+task.spawn(function()
 
-if rank < 20 then
-	return
+if game.PlaceId == 131952481663528 then
+	wait(60)
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/Hallo_check_gems"))()
 end
+
+end)
+
+task.spawn(function()
+wait(10)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/startGuiUpdater_HALOOWEN"))()	
+end)
+task.spawn(function()
+wait(10)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/startGuiUpdater_Defau"))()	
+end)
+task.spawn(function()
+wait(10)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/EVENT_HALOOWEN_HEOPRO_lite_FAST"))()	
+end)
+
 
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -106,7 +122,7 @@ end
 wait(1)--waitchung
 -- Xem item kiếm được / 1h ở góc phải dưới
 task.spawn(function()
-wait(2)
+wait(200)
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -245,6 +261,13 @@ end
 
 
 end)
+
+local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local rank = Save.Get().Rank
+
+if rank < 29 then
+	return
+end
 
 if game.PlaceId ~= 140403681187145 then
     return
@@ -681,11 +704,10 @@ task.spawn(function()
 		warn("🎉 Hoàn tất 10/10 lượt Time Trial.")
 		claimReward()
 		task.wait(3)
-
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_hallowen"))()
-
+		
 		cleanupAllThreads()
-		autoEquipEnchantBooks({"Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power"})
+		autoEquipEnchantBooks({"Lucky Eggs","Lucky Eggs","Lucky Eggs","Diamonds","Treasure Hunter","Huge Hunter","Diamonds","Huge Hunter","Tap Power"})
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/Hallo_tele_lowjoin"))()
 
 		_G.going_timetital = false
 		warn("⏳ Theo dõi reset DailyRuns...")
@@ -703,4 +725,3 @@ end)
 
 
 end)
-
