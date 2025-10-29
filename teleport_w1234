@@ -12,10 +12,12 @@ if rank > 10 then
 elseif rank > 6 then
 	check_and_tele_w = 2 
 else
-	local Players = game:GetService("Players")
-	local TeleportService = game:GetService("TeleportService")
-	TeleportService:Teleport(8737899170, LocalPlayer)
-	wait(10)
+	if game.PlaceId == 95635359880599 then
+		local Players = game:GetService("Players")
+		local TeleportService = game:GetService("TeleportService")
+		TeleportService:Teleport(8737899170, LocalPlayer)
+		wait(10)
+	end
 end
 
 task.spawn(function()
