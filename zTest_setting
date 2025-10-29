@@ -19,10 +19,10 @@ getgenv().GHALLOWEEN_WORLD_USE_BOOSTS = true
 
 getgenv().GLOOTBOXES = {"Tropical Gift"}
 
---getgenv().GRANK_FIRST = true
+getgenv().GRANK_FIRST = true
 --getgenv().GRANK_TO = 2
 --getgenv().GREBIRTH_TO = 2
---getgenv().GZONE_TO = 52  -- to enter event from W1 put 1, from W2 put 100, from W3 200, from W4 240
+getgenv().GZONE_TO = 102  -- to enter event from W1 put 1, from W2 put 100, from W3 200, from W4 240
 
 getgenv().GPROGRESS_MODE = "Hybrid" -- Hatch  Hybrid
 getgenv().GGFX_MODE = 1
