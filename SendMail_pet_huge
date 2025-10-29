@@ -2,6 +2,8 @@ if game.PlaceId == 140403681187145 then
 
 elseif game.PlaceId == 131952481663528 then
 	_G.going_timetital = false
+elseif game.PlaceId == 16498369169 then
+	_G.going_timetital = false
 else
     return
 end
