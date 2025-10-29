@@ -18,15 +18,6 @@ local TeleportService = game:GetService("TeleportService")
 local player = Players.LocalPlayer
 local Network = ReplicatedStorage:WaitForChild("Network")
 
-
-
-
-if game.PlaceId ~= 131952481663528 then
-    --loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/Hallo_tinhsocandy"))()	
-    --TeleportService:Teleport(placeId, player)
-    return
-end
-
 _G.PillarPets = _G.PillarPets or {}
 _G.PillarScanDone = _G.PillarScanDone or false
 _G.CurrentPlotId = _G.CurrentPlotId or nil
