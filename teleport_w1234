@@ -30,7 +30,7 @@ local TeleportMapping = {
 }
 
 -- Nếu đang ở đúng map cần thoát
-if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 or game.PlaceId == 131952481663528 then
+if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
     
 if Y_or_N_delay_60s_farming == "y" then
         wait(90)
@@ -55,9 +55,6 @@ end
                 player:Kick("Fail tele 2 times")
             end
 			if attempt == 2 and game.PlaceId == 95635359880599 then
-                player:Kick("Fail tele 2 times")
-            end
-			if attempt == 2 and game.PlaceId == 131952481663528 then
                 player:Kick("Fail tele 2 times")
             end
         end
