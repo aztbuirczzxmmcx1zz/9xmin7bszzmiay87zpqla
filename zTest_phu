@@ -1,7 +1,6 @@
-wait(1)--waitchung
-warn("phát hiện không farm ở svv thoát game")
--- phát hiện không farm ở svv thoát game
+
 task.spawn(function()
+
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 -- Hàm kiểm tra số người và shutdown nếu cần
@@ -14,10 +13,10 @@ end
 
 -- Gọi ngay khi script chạy
 while true do
-
-wait(10)
-autoShutdownIfNotAlone()
-wait(600)
+	wait(10)
+	autoShutdownIfNotAlone()
+	wait(600)
+end
 
 end)
 
