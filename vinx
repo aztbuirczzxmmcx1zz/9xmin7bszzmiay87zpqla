@@ -15,6 +15,8 @@ local rank = Save.Get().Rank
 
 if EVENT_or_FARM == "E" then
 
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_w1234"))()
+
 	task.spawn(function()	
 		wait(50)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/zTest_phu"))()
