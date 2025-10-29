@@ -13,7 +13,7 @@ end)
 local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local rank = Save.Get().Rank
 
-if EVENT_or_FARM == "E" and rank > 6 then
+if EVENT_or_FARM == "E" and rank > 7 then
 
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_w1234"))()
 
@@ -23,7 +23,7 @@ if EVENT_or_FARM == "E" and rank > 6 then
 	end)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/zTest_setting"))()
 
-elseif EVENT_or_FARM == "E2" and rank > 6 then
+elseif EVENT_or_FARM == "E2" and rank > 7 then
 
 	task.spawn(function()	
 		wait(50)
