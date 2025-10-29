@@ -8,9 +8,9 @@ local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local rank = Save.Get().Rank
 
 if rank > 10 then
-	check_and_tele_w = 4 -- Thay bằng 3 hoặc 4 nếu cần
+	check_and_tele_w = 4 
 elseif rank > 6 then
-	check_and_tele_w = 2 -- Thay bằng 3 hoặc 4 nếu cần
+	check_and_tele_w = 2 
 else
 	local Players = game:GetService("Players")
 	local TeleportService = game:GetService("TeleportService")
