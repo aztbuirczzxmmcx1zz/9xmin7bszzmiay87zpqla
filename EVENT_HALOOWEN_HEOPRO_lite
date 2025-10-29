@@ -283,7 +283,7 @@ task.spawn(function()
         end
         local tier = lastTier or 2
         if totalRate >= 15000 then
-            if candy >= 1000000000 then
+            if candy >= 500000000 then
                 tier = 4
             elseif candy >= 100000000 then
                 tier = 3
