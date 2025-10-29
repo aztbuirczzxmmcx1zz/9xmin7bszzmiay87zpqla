@@ -10,7 +10,7 @@ local rank = Save.Get().Rank
 if rank > 7 then
 	check_and_tele_w = 4 -- Thay bằng 3 hoặc 4 nếu cần
 else
-	check_and_tele_w = 1
+	check_and_tele_w = 2
 end
 
 task.spawn(function()
