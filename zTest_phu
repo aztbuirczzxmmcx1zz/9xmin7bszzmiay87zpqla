@@ -13,8 +13,11 @@ function autoShutdownIfNotAlone()
 end
 
 -- Gọi ngay khi script chạy
-autoShutdownIfNotAlone()
+while true do
 
+wait(10)
+autoShutdownIfNotAlone()
+wait(600)
 
 end)
 
