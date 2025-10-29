@@ -23,7 +23,7 @@ end
 task.spawn(function()
 
 wait(300)
-if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 or game.PlaceId == 131952481663528 then
+if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
 	player:Kick("Fail 300 teleport")
 end
 
