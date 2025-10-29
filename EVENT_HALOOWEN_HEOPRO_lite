@@ -319,7 +319,7 @@ task.spawn(function()
         lastTier = tier
         prevCategory = currCategory
         pcall(function()
-            Network.Plots_Invoke:InvokeServer(_G.CurrentPlotId, "PurchaseEgg", tier, 1)
+            Network.Plots_Invoke:InvokeServer(_G.CurrentPlotId, "PurchaseEgg", tier, 3)
         end)
         task.wait(1)
     end
