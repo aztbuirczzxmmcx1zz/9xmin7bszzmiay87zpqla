@@ -13,7 +13,7 @@ end
 
 -- Gọi ngay khi script chạy
 while true do
-	wait(10)
+	wait(20)
 	autoShutdownIfNotAlone()
 	wait(600)
 end
