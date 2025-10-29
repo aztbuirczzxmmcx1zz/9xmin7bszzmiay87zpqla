@@ -2,7 +2,7 @@ task.spawn(function()
 
 if game.PlaceId == 131952481663528 then
 	wait(60)
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/Hallo_check_gems"))()
+	--loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/Hallo_check_gems"))()
 end
 
 end)
@@ -17,7 +17,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9x
 end)
 task.spawn(function()
 wait(10)
-loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/EVENT_HALOOWEN_HEOPRO_lite_FAST"))()	
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/EVENT_HALOOWEN_HEOPRO_lite"))()	
 end)
 
 
@@ -269,7 +269,7 @@ if rank < 29 then
 	return
 end
 
-if game.PlaceId ~= 140403681187145 then
+if game.PlaceId ~= 1 then	--140403681187145
     return
 end
 
