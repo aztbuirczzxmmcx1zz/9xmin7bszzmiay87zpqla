@@ -15,6 +15,7 @@ else
 	local Players = game:GetService("Players")
 	local TeleportService = game:GetService("TeleportService")
 	TeleportService:Teleport(8737899170, LocalPlayer)
+	wait(10)
 end
 
 task.spawn(function()
