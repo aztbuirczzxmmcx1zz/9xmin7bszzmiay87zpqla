@@ -4,7 +4,14 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
-local check_and_tele_w = 4 -- Thay bằng 3 hoặc 4 nếu cần
+local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local rank = Save.Get().Rank
+
+if rank > 7 then
+	check_and_tele_w = 4 -- Thay bằng 3 hoặc 4 nếu cần
+else
+	check_and_tele_w = 1
+end
 
 task.spawn(function()
 
@@ -16,6 +23,8 @@ end
 end)
 
 local TeleportMapping = {
+	[1] = "World1Teleport",
+	[2] = "World2Teleport",
     [3] = "World3Teleport",
     [4] = "World4Teleport"
 }
