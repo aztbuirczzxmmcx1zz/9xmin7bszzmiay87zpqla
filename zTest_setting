@@ -26,7 +26,6 @@ getgenv().GZONE_TO = 999  -- to enter event from W1 put 1, from W2 put 100, from
 
 getgenv().GPROGRESS_MODE = "Hybrid" -- Hatch  Hybrid
 getgenv().GGFX_MODE = 1
-getgenv().GHATCH_SPEED_MS = 0
 getgenv().GHATCH_CHARGED_EGGS = false
 getgenv().GHATCH_GOLDEN_EGGS = false
 getgenv().GCLEAR_FAVORITE_PETS = true
@@ -34,7 +33,6 @@ getgenv().GCLEAR_FAVORITE_PETS = true
 
 -----------------------
 getgenv().GUSE_SPINNY_WHEEL = true
-getgenv().GAUTO_UPGRADE_PETS = true
 getgenv().GCOMBINE_KEYS = true
 getgenv().GMASTERY_TO_MAX = "Pets"
 getgenv().GCONSUME_CHARMS = true
@@ -60,7 +58,7 @@ getgenv().GEVENT_ITEMS_TO_USE = {"Mini Pinata","Party Box","Mini Lucky Block"}
 getgenv().GFRUITS = {"Watermelon","Candycane","Apple","Rainbow","Pineapple","Orange","Banana"}
 getgenv().GPOTIONS = {"Coins","Lucky","The Cocktail","Huge","Treasure Hunter","Walkspeed","Diamonds","Damage"}
 getgenv().GPOTIONS_MAX_TIER = 99
-getgenv().GENCHANTS = {}
+getgenv().GENCHANTS = {"Lucky Eggs","Lucky Eggs","Lucky Eggs","Huge Hunter","Treasure Hunter","Diamonds"}
 
 
 getgenv().GHUGE_COUNT = 50999
