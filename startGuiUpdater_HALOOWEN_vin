@@ -142,7 +142,7 @@ local function startGuiUpdater()
 
     local chanceLabel     = createLabel("ChanceLabel",       rightRegion,   Color3.fromRGB(34, 139, 34))
     local coinsLabel      = createLabel("CoinsLabel",        rightRegion,   Color3.fromRGB(34, 139, 34))
-    --local timeTrialLabel  = createLabel("timeTrialLabel",    leftRegion,    Color3.fromRGB(34, 139, 34))
+    local timeTrialLabel  = createLabel("timeTrialLabel",    leftRegion,    Color3.fromRGB(34, 139, 34))
     --local pointsLabel     = createLabel("pointsLabel",       centerRegion,  Color3.fromRGB(34, 139, 34))
 
     -- Vòng lặp cập nhật GUI liên tục
@@ -155,8 +155,8 @@ local function startGuiUpdater()
         chanceLabel.Text  = tostring(_G.TotalRate or 0) .. "/s "
         updateLabelSize(chanceLabel)
 
-        --timeTrialLabel.Text = tostring(getRunsLeft()) .. "/10"
-        --updateLabelSize(timeTrialLabel)
+        timeTrialLabel.Text = tostring(getRunsLeft()) .. "/10"
+        updateLabelSize(timeTrialLabel)
 		if getRunsLeft() > 0 then
 			local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 			local rank = Save.Get().Rank
