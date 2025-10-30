@@ -8,13 +8,13 @@ local function serverhopTo(placeId)
 end
 
 
-serverhopTo(131952481663528)
+serverhopTo(_G.placeid_tele)
 
 wait(20)
-if game.PlaceId ~= 131952481663528 then
-    serverhopTo(131952481663528)
+if game.PlaceId ~= _G.placeid_tele then
+    serverhopTo(_G.placeid_tele)
 end
 wait(20)
-if game.PlaceId ~= 131952481663528 then
-    Players.LocalPlayer:Kick("Fail 131952481663528")
+if game.PlaceId ~= _G.placeid_tele then
+    Players.LocalPlayer:Kick("Fail ".._G.placeid_tele)
 end
