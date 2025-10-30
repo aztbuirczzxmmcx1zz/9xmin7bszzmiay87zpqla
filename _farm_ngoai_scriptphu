@@ -1398,11 +1398,7 @@ autoShutdownIfNotAlone()
 end)
 
 wait(1)--waitchung
-warn("Chạy 12 tiếng out 1 lần")
--- Chạy 9 tiếng out 1 lần
 task.spawn(function()
 wait(12*3600)
---game:Shutdown()
---Players.LocalPlayer:Kick("12h reset")
-
+Players.LocalPlayer:Kick("12h reset")
 end)
