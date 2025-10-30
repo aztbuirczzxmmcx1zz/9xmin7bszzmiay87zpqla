@@ -1,3 +1,7 @@
+if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
+	return
+end
+
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local leaderstats = LocalPlayer:WaitForChild("leaderstats")
