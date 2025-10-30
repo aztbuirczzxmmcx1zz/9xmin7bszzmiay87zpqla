@@ -17,24 +17,12 @@ if EVENT_or_FARM == "E" and rank > 7 then
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_w1234"))()
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/CHECK_G_GGgetRunsLeft_"))()
-
-if name_vps == "V1" and rank > 20 and _G.GGgetRunsLeft > 0 then
-	task.spawn(function()	
-		wait(50)
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/zTest_tria"))()
-	end)
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/_farm_ngoai_GS_all_setting"))()
-
-else
-	
-
 	task.spawn(function()	
 		wait(50)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/zTest_phu"))()
 	end)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/zTest_setting"))()
-end
+
 elseif EVENT_or_FARM == "E2" and rank > 7 then
 
 	task.spawn(function()	
