@@ -1,8 +1,9 @@
 setfpscap(4)
 getgenv().GEVENT_FPS  = 4
 
-if game.PlaceId == 131952481663528 then
-
+if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
+	
+else
   getgenv().GDO_HALLOWEEN_WORLD = true
   getgenv().GEVENT_UPGRADES = {
     "HalloweenCandyMultiplier",
