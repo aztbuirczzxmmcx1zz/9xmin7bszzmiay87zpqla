@@ -59,8 +59,8 @@ local default_ttn_gold = "8.5b"
 getgenv().Settings_autoplaza = {
 ["Items"] = {
 
-		{Name = "MVP Key", Data = {Price = "3.55m"}},
-		{Name = "MVP Key Upper Half", Data = {Price = "3.5m"}}, 
+		{Name = "MVP Key", Data = {Price = "3m"}},
+		{Name = "MVP Key Upper Half", Data = {Price = "2.95m"}}, 
 
         {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice}},
 		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = SELL_ttn_rb[player.Name] or default_ttn_rb}},
