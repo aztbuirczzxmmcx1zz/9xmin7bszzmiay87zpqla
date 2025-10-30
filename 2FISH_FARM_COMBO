@@ -330,7 +330,7 @@ local function main()
     resetIfNewDay()
 
     task.spawn(function()
-        task.wait(160)
+        task.wait(60)
         pcall(createGUI)
     end)
     
