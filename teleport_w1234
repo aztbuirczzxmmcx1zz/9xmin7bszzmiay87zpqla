@@ -9,7 +9,7 @@ local rank = Save.Get().Rank
 
 if rank > 7 then
 	check_and_tele_w = 4 
-elseif rank > 6 then
+elseif rank > 5 then
 	check_and_tele_w = 2 
 else
 	if game.PlaceId == 95635359880599 then
