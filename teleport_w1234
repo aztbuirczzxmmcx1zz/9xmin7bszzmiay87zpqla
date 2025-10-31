@@ -8,7 +8,7 @@ local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local rank = Save.Get().Rank
 
 if rank > 6 then
-	check_and_tele_w = 4 
+	check_and_tele_w = 3 
 elseif rank > 5 then
 	check_and_tele_w = 2 
 else
