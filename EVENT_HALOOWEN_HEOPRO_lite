@@ -277,7 +277,7 @@ task.spawn(function()
         end
         local tier = lastTier or 2
 				number_egghatch = 3
-        if totalRate >= 40000 then
+        if totalRate >= 50000 then
 						if candy >= 10000000 then
                 tier = 3
             else
