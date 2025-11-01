@@ -18,6 +18,13 @@ local function Formatint(int)
     return string.format("%.2f%s", int, Suffix[Index])
 end
 
+-- Hàm format thời gian từ giây thành HH:MM:SS
+local function FormatTime(seconds)
+	local hours = math.floor(seconds / 3600)
+	local minutes = math.floor((seconds % 3600) / 60)
+	return string.format("%02d:%02d", hours, minutes)
+end
+
 -- Hàm cập nhật kích thước label theo text
 local function updateLabelSize(label)
 	label.Size = UDim2.new(0, label.TextBounds.X + 20, 0, 38)
@@ -66,8 +73,8 @@ local function startGuiDefault()
 		return frame
 	end
 
-	local rightRegion  = createRegion(UDim2.new(1, 0, 0, -55), Vector2.new(1, 0), Enum.HorizontalAlignment.Right)
-	local centerRegion = createRegion(UDim2.new(0.5, 70, 0, -55), Vector2.new(0.5, 0), Enum.HorizontalAlignment.Center)
+	local rightRegion  = createRegion(UDim2.new(0.85, 0, 0, -55), Vector2.new(1, 0), Enum.HorizontalAlignment.Right)
+	local centerRegion = createRegion(UDim2.new(0.45, 70, 0, -55), Vector2.new(0.5, 0), Enum.HorizontalAlignment.Center)
 	local leftRegion   = createRegion(UDim2.new(0, 0, 0, -55), Vector2.new(0, 0), Enum.HorizontalAlignment.Left)
 
 	-- Hàm tạo label
@@ -89,14 +96,37 @@ local function startGuiDefault()
 	end
 
 	-- Tạo các label
+	local fpsLabel    = createLabel("FPSLabel",   rightRegion,   Color3.fromRGB(0, 102, 204))
+	local timeLabel   = createLabel("TimesLabel", centerRegion,  Color3.fromRGB(0, 102, 204))
 	local gemsLabel   = createLabel("GemsLabel",  leftRegion,    Color3.fromRGB(0, 102, 204))
 
+	-- FPS đo theo thời gian thực
+	local lastUpdate = tick()
+	local frameCount = 0
+
+	RunService.RenderStepped:Connect(function()
+		frameCount += 1
+		local now = tick()
+		if now - lastUpdate >= 1 then
+			local fps = frameCount / (now - lastUpdate)
+			fpsLabel.Text = string.format(" %d", fps + 0.5)
+			updateLabelSize(fpsLabel)
+			frameCount = 0
+			lastUpdate = now
+		end
+	end)
+
+	-- Bắt đầu đếm thời gian
+	local startTime = os.time()
 
 	-- Vòng lặp cập nhật GUI
 	while true do
 		pcall(function()
 			gemsLabel.Text = Formatint(getDiamondsFromLeaderstats())
 			updateLabelSize(gemsLabel)
+
+			timeLabel.Text = FormatTime(os.time() - startTime)
+			updateLabelSize(timeLabel)
 		end)
 		task.wait(10)
 	end
