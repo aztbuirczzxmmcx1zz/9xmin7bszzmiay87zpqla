@@ -169,7 +169,7 @@ local function createGUI()
     frame.Size = UDim2.new(0, 250, 0, 68)
     frame.Position = UDim2.new(0, 10, 1, -60)
     frame.BackgroundColor3 = Color3.fromRGB(25,25,25)
-    frame.BackgroundTransparency = 0.25
+    frame.BackgroundTransparency = 1
     frame.BorderSizePixel = 0
     frame.Parent = screenGui
     Instance.new("UICorner", frame).CornerRadius = UDim.new(0,12)
