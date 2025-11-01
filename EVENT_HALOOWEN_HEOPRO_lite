@@ -276,14 +276,17 @@ task.spawn(function()
             lastTier = nil
         end
         local tier = lastTier or 2
-				number_egghatch = 3
+		number_egghatch = 3
+
         if totalRate >= 50000 then
-						if candy >= 10000000 then
+
+			if candy >= 10000000 then
                 tier = 3
             else
                 tier = 3
-								number_egghatch = 1
-            end
+				number_egghatch = 1
+        	end
+
         elseif totalRate >= 15000 then
             if tier == 5 then
                 if candy < 15000000 then tier = 2 end
