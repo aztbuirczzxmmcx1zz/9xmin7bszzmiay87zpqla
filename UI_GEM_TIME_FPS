@@ -22,8 +22,7 @@ end
 local function FormatTime(seconds)
 	local hours = math.floor(seconds / 3600)
 	local minutes = math.floor((seconds % 3600) / 60)
-	local remainingSeconds = math.floor(seconds % 60)
-	return string.format("%02d:%02d:%02d", hours, minutes, remainingSeconds)
+	return string.format("%02d:%02d", hours, minutes)
 end
 
 -- Hàm cập nhật kích thước label theo text
@@ -74,8 +73,8 @@ local function startGuiDefault()
 		return frame
 	end
 
-	local rightRegion  = createRegion(UDim2.new(1, 0, 0, -55), Vector2.new(1, 0), Enum.HorizontalAlignment.Right)
-	local centerRegion = createRegion(UDim2.new(0.5, 70, 0, -55), Vector2.new(0.5, 0), Enum.HorizontalAlignment.Center)
+	local rightRegion  = createRegion(UDim2.new(0.85, 0, 0, -55), Vector2.new(1, 0), Enum.HorizontalAlignment.Right)
+	local centerRegion = createRegion(UDim2.new(0.45, 70, 0, -55), Vector2.new(0.5, 0), Enum.HorizontalAlignment.Center)
 	local leftRegion   = createRegion(UDim2.new(0, 0, 0, -55), Vector2.new(0, 0), Enum.HorizontalAlignment.Left)
 
 	-- Hàm tạo label
@@ -123,10 +122,10 @@ local function startGuiDefault()
 	-- Vòng lặp cập nhật GUI
 	while true do
 		pcall(function()
-			gemsLabel.Text = "GEMS | " .. Formatint(getDiamondsFromLeaderstats())
+			gemsLabel.Text = Formatint(getDiamondsFromLeaderstats())
 			updateLabelSize(gemsLabel)
 
-			timeLabel.Text = "TIME | " .. FormatTime(os.time() - startTime)
+			timeLabel.Text = FormatTime(os.time() - startTime)
 			updateLabelSize(timeLabel)
 		end)
 		task.wait(10)
