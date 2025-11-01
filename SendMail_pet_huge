@@ -42,16 +42,6 @@ task.spawn(function()
     statusLabel.Text = "..."
     statusLabel.Parent = mainFrame
 
-    local timeLabel = Instance.new("TextLabel")
-    timeLabel.Size = UDim2.new(0.6, 0, 1, 0)
-    timeLabel.Position = UDim2.new(0.4, 0, 0, 0)
-    timeLabel.BackgroundTransparency = 1
-    timeLabel.Font = Enum.Font.GothamBold
-    timeLabel.TextScaled = true
-    timeLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
-    timeLabel.Text = "..."
-    timeLabel.Parent = mainFrame
-
     -- Hàm cập nhật Fordward_2 và GUI
 local startClock = os.clock()
 
@@ -82,8 +72,6 @@ local function updateFordward()
         statusLabel.TextColor3 = Color3.fromRGB(50, 255, 50)
 
 
-    -- Hiển thị thời gian đã hoạt động thay vì giờ hiện tại
-    timeLabel.Text = string.format("%02d:%02d", hours, minutes)
 end
 
 
