@@ -7,7 +7,7 @@ elseif name_vps == "V4" or name_vps == "V5" then
 	local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 	local rank = Save.Get().Rank
 	if rank > 30 then
-		EVENT_or_FARM = "E"
+		EVENT_or_FARM = "F"
 	else
 		EVENT_or_FARM = "E"
 	end
