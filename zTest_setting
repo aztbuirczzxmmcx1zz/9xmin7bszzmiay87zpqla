@@ -1,5 +1,5 @@
-setfpscap(4)
-getgenv().GEVENT_FPS  = 4
+setfpscap(3)
+getgenv().GEVENT_FPS  = 3
 
 if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
 	
