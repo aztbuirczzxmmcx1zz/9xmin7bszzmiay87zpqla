@@ -20,7 +20,7 @@ local function check_diamond_10min()
             continue
         end
 
-        if diamondsEarned < 1000000 then
+        if diamondsEarned < 1000000 and _G.TotalRate > 50000 then
             pcall(function()
                 local Players = game:GetService("Players")
                 local player = Players.LocalPlayer
