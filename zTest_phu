@@ -9,7 +9,7 @@ local player = Players.LocalPlayer
 function autoShutdownIfNotAlone()
     local playerCount = #Players:GetPlayers()
     if playerCount > 1 and game.PlaceId ~= 8737899170 then
-		Players.LocalPlayer:Kick("kick severvip")
+		--Players.LocalPlayer:Kick("kick severvip")
     end
 end
 
