@@ -284,5 +284,5 @@ end)
 
 task.spawn(function()
 wait(6*3600)
-Players.LocalPlayer:Kick("6h reset")
+game:Shutdown()
 end)
