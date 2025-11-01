@@ -155,7 +155,7 @@ local function startGuiUpdater()
         chanceLabel.Text  = tostring(_G.TotalRate or 0) .. "/s "
         updateLabelSize(chanceLabel)
 
-        timeTrialLabel.Text = tostring(getRunsLeft()) .. "/10"
+        timeTrialLabel.Text = tostring(getRunsLeft())
         updateLabelSize(timeTrialLabel)
 		if getRunsLeft() > 0 then
 			local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
