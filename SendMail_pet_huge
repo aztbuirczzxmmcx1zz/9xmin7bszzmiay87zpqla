@@ -28,7 +28,7 @@ task.spawn(function()
     mainFrame.Size = UDim2.new(0, 220, 0, 50)
     mainFrame.Position = UDim2.new(0, 10, 1, -60) -- Góc trái dưới
     mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    mainFrame.BackgroundTransparency = 0.3
+    mainFrame.BackgroundTransparency = 1
     mainFrame.BorderSizePixel = 0
     mainFrame.Parent = screenGui
 
