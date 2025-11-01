@@ -321,7 +321,7 @@ task.spawn(function()
         pcall(function()
             Network.Plots_Invoke:InvokeServer(_G.CurrentPlotId, "PurchaseEgg", tier, number_egghatch)
         end)
-        task.wait(1)
+        task.wait(0.5)
     end
 end)
 
