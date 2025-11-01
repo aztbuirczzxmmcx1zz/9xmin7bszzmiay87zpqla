@@ -3,18 +3,18 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 ----------------------------------
 local SELL_vs_GAGAN = {
-	["sijmongirthss"] = "92b",
-	["Ash3rP0w3rPanda2018"] = "93b",
-	["soystaylan5"] = "94b",
-	["dreddyewele60"] = "95b",
-	["1971Nowak3135"] = "96b",
-	["Sky_Giga2017"] = "97b",
-	["Inferno_Eagle200889"] = "98b",
-	["XxOwenC0dexX2023"] = "99b",
-	["TurboTig3rStr3am"] = "90b",
-	["1953Crutchfield3117"] = "91b",	
+	["sijmongirthss"] = "72b",
+	["Ash3rP0w3rPanda2018"] = "73b",
+	["soystaylan5"] = "74b",
+	["dreddyewele60"] = "75b",
+	["1971Nowak3135"] = "76b",
+	["Sky_Giga2017"] = "77b",
+	["Inferno_Eagle200889"] = "78b",
+	["XxOwenC0dexX2023"] = "79b",
+	["TurboTig3rStr3am"] = "70b",
+	["1953Crutchfield3117"] = "71b",	
 }
-local defaultSELL_vs_GAGAN = "100b"
+local defaultSELL_vs_GAGAN = "70b"
 ----------------------------------
 local SELL_vs_username = {
 	["sijmongirthss"] = "8.51b",
@@ -129,7 +129,8 @@ getgenv().Settings_autoplaza = {
 	{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "400m", Max_sell = "1b"}},
 	{Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1b", Max_sell = "3b"}},
 
-		{Name = "Huge Evil Raven", Data = {Price = "15m"}},
+	{Name = "Huge Skeleton Snake", Data = {Price = "200m"}},
+	{Name = "Huge Evil Raven", Data = {Price = "15m"}},
 
 {Name = "All Huges", Data = {Price = "+10%", Min_sell = "10m", Max_sell = "80m", sold_by_convention = true}},  
 {Name = "Golden All Huges", Data = {Price = "+10%", Min_sell = "12m", Max_sell = "80m", sold_by_convention = true}},
