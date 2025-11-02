@@ -1,14 +1,14 @@
-if _G.VARHLW then
-    warn("Script đã được chạy trước đó!")
-    return -- Dừng script nếu đã chạy
-end
-
--- Đánh dấu script đã được chạy
-_G.VARHLW = true
-
 repeat task.wait() until game:IsLoaded()
 local LocalPlayer = game:GetService('Players').LocalPlayer
 repeat task.wait() until not LocalPlayer.PlayerGui:FindFirstChild('__INTRO')
+
+local function inHalloweenWorld()
+	local c = workspace:FindFirstChild("__THINGS") and workspace.__THINGS:FindFirstChild("__INSTANCE_CONTAINER")
+	return c and c:FindFirstChild("Active") and c.Active:FindFirstChild("HalloweenWorld")
+end
+
+repeat task.wait(1) until inHalloweenWorld()
+print("🎃 Đã vào HalloweenWorld! Bắt đầu chạy code...")
 
 _G.HW = _G.HW or {}
 _G.HW.DebugMode = _G.HW.DebugMode or false
@@ -24,12 +24,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TeleportService = game:GetService("TeleportService")
 local player = Players.LocalPlayer
 local Network = ReplicatedStorage:WaitForChild("Network")
-
-local placeId = 131952481663528
-if game.PlaceId ~= placeId then
-    --TeleportService:Teleport(placeId, player)
-    return
-end
 
 _G.PillarPets = _G.PillarPets or {}
 _G.PillarScanDone = _G.PillarScanDone or false
@@ -67,7 +61,6 @@ local function findPlayerPlot()
     end
     return nil
 end
-
 
 task.spawn(function()
     while not _G.CurrentPlotId do
@@ -250,81 +243,39 @@ end)
 
 task.spawn(function()
     task.wait(9)
-    local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
-    local SaveModule = nil
+    local Client = game:GetService("ReplicatedStorage"):WaitForChild("Library"):WaitForChild("Client")
+    local SaveModule
     while not SaveModule do
-        SaveModule = safeRequire(Client.Save)
-        if not SaveModule then task.wait(_G.HW.BaseWait) end
+        SaveModule = safeRequire(Client:WaitForChild("Save"))
+        if not SaveModule then
+            task.wait(_G.HW and _G.HW.BaseWait or 1)
+        end
     end
-    local function getCurrencyAmount(currencyId)
+    local function getCandy()
         local ok, data = pcall(function() return SaveModule.Get() end)
         if not ok or not data or not data.Inventory or not data.Inventory.Currency then return 0 end
         for _, v in pairs(data.Inventory.Currency) do
-            if v.id == currencyId then return tonumber(v._am) or 0 end
+            if v.id == "HalloweenCoins" then
+                return tonumber(v._am) or 0
+            end
         end
         return 0
     end
-    local function rateCategory(totalRate)
-        totalRate = tonumber(totalRate) or 0
-        if totalRate >= 15000 then
-            return 3
-        elseif totalRate >= 10000 then
-            return 2
-        elseif totalRate >= 6000 then
-            return 1
-        else
-            return 0
-        end
-    end
-    local lastTier = nil
-    local prevCategory = rateCategory(_G.TotalRate)
-    repeat task.wait(_G.HW.BaseWait) until _G.PillarScanDone and _G.TeleDone
+    repeat task.wait(_G.HW and _G.HW.BaseWait or 1) until _G.PillarScanDone and _G.TeleDone
     while true do
-        local candy = getCurrencyAmount("HalloweenCoins")
-        local totalRate = tonumber(_G.TotalRate) or 0
-        local currCategory = rateCategory(totalRate)
-        if currCategory ~= prevCategory then
-            lastTier = nil
+        local candy = getCandy()
+        if candy >= 915000000 then
+            pcall(function()
+                Network.Plots_Invoke:InvokeServer(_G.CurrentPlotId, "PurchaseEgg", 6, 3)
+            end)
+            task.wait(0.05)
+        elseif candy < 15000000 then
+            repeat
+                task.wait(5)
+                candy = getCandy()
+            until candy >= 915000000
         end
-        local tier = lastTier or 2
-        if totalRate >= 15000 then
-            if tier == 5 then
-                if candy < 15000000 then tier = 2 end
-            else
-                if candy >= 90000000 then tier = 5 end
-            end
-        elseif totalRate >= 10000 then
-            if tier == 4 then
-                if candy < 2400000 then tier = 3 end
-            else
-                if candy >= 10500000 then tier = 4 end
-            end
-        elseif totalRate >= 6000 then
-            if tier == 3 then
-                if candy < 50000 then tier = 2 end
-            else
-                if candy >= 500000 then tier = 3 end
-            end
-        else
-            -- totalRate < 6000:
-            if candy >= 30000000 then
-                tier = 5
-            elseif candy >= 5000000 then
-                tier = 4
-            elseif candy >= 500000 then
-                tier = 3
-            elseif candy >= 50000 then
-                tier = 2
-            else
-                tier = 2
-            end
-        end
-        lastTier = tier
-        prevCategory = currCategory
-        pcall(function()
-            Network.Plots_Invoke:InvokeServer(_G.CurrentPlotId, "PurchaseEgg", tier, 3)
-        end)
-        task.wait(0.05)
+        task.wait(0.1)
     end
 end)
 
@@ -335,7 +286,7 @@ task.spawn(function()
     local SaveModule = safeRequire(Client.Save)
     while not SaveModule do task.wait(_G.HW.BaseWait); SaveModule = safeRequire(Client.Save) end
 
-    local eggPriority = {"Coffin Egg","Reaper Egg","Spider Egg","Cauldron Egg","Ghost Egg","Bat Egg","Grave Egg","Pumpkin Egg"}
+    local eggPriority = {"Clown Egg","Coffin Egg","Reaper Egg","Spider Egg","Cauldron Egg","Ghost Egg","Bat Egg","Grave Egg","Pumpkin Egg"}
     local currentEgg = nil
 
     while true do
@@ -475,64 +426,6 @@ task.spawn(function()
     repeat task.wait(_G.HW.BaseWait) until _G.TotalRate and _G.TeleDone
 
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
-    local PlayerSave = require(ReplicatedStorage.Library.Client.Save)
-    local Network = ReplicatedStorage:WaitForChild("Network")
-    local function craft(recipeIndex)
-        local args = {
-            [1] = "HalloweenPetCraftingMachine",
-            [2] = recipeIndex,
-            [3] = {
-                ["shiny"] = false,
-                ["pt"] = 0
-            }
-        }
-        pcall(function()
-            Network:FindFirstChild("HalloweenCraftingMachine_StartCraft"):InvokeServer(unpack(args))
-        end)
-        task.wait(5)
-    end
-
-    local function claimCraft(id)
-        local args = { id }
-        pcall(function()
-            Network:FindFirstChild("HalloweenCraftingMachine_Claim"):InvokeServer(unpack(args))
-        end)
-        task.wait(5)
-    end
-
-    local function getCraftQueue()
-        local data = PlayerSave.Get().HalloweenCraftingQueue or {}
-        local ids = {}
-        for id, v in pairs(data) do
-            if v.Result and v.Result.Data and v.Result.Data.id then
-                table.insert(ids, id)
-            end
-        end
-        return ids
-    end
-
-    while task.wait(5) do
-        local rate = _G.TotalRate or 0
-        local queue = getCraftQueue()
-
-        if #queue > 0 then
-            for _, id in ipairs(queue) do
-                claimCraft(id)
-            end
-        end
-
-        if rate <= 68000 then
-            craft(4) craft(3) craft(2) craft(1)
-        else
-            craft(4)
-        end
-    end
-end)
-
-task.spawn(function()
-    repeat task.wait(_G.HW.BaseWait) until _G.TotalRate and _G.TeleDone
-
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Network = ReplicatedStorage.Network
     local PlayerSave = require(ReplicatedStorage.Library.Client.Save)
     local function getItemIdByName(invType, name)
@@ -546,7 +439,7 @@ task.spawn(function()
         local inv = PlayerSave.Get().Inventory
         local eggHave = false
         for _, data in pairs(inv.EggHalloween or {}) do
-            if data.id == "Coffin Egg" or data.id == "Reaper Egg" then
+            if data.id == "Clown Egg" or data.id == "Coffin Egg" then
                 eggHave = true
                 break
             end
@@ -571,64 +464,5 @@ task.spawn(function()
             end
         end
         task.wait(used and 600 or 0.5)
-    end
-end)
-
-task.spawn(function()
-    repeat task.wait(_G.HW.BaseWait) until _G.CurrentPlotId and _G.TeleDone and _G.PillarScanDone
-
-    local function ensurePillarsBuilt()
-        if next(pillarsCFrames or {}) then return end
-        local plotFolder = workspace:FindFirstChild("__THINGS") and workspace.__THINGS:FindFirstChild("Plots")
-        if not plotFolder then return end
-        local myPlot = plotFolder:FindFirstChild(tostring(_G.CurrentPlotId))
-        if myPlot then buildPillarsCFrames(myPlot) end
-    end
-    local function teleportToCFrameSafe(cf)
-        if not cf then return false end
-        local char = player.Character or player.CharacterAdded:Wait()
-        local hrp = char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Torso") or char:FindFirstChild("UpperTorso")
-        if not hrp then return false end
-        local target = cf + Vector3.new(0, 3, 0)
-        for i = 1, 6 do
-            local ok = pcall(function() hrp.CFrame = target end)
-            if ok then return true end
-            task.wait(0.12)
-        end
-        return false
-    end
-    local lastSnapshot = nil
-    while true do
-        if _G.CurrentEggPillars and next(_G.CurrentEggPillars) then
-            ensurePillarsBuilt()
-            local keys = {}
-            for k,_ in pairs(_G.CurrentEggPillars) do table.insert(keys, tostring(k)) end
-            table.sort(keys)
-            local s = table.concat(keys, ",")
-            if s ~= lastSnapshot then
-                lastSnapshot = s
-                for pid,_ in pairs(_G.CurrentEggPillars) do
-                    local id = tonumber(pid) or pid
-                    local cf = pillarsCFrames[id]
-                    if not cf then
-                        local plotFolder = workspace:FindFirstChild("__THINGS") and workspace.__THINGS:FindFirstChild("Plots")
-                        if plotFolder then
-                            local myPlot = plotFolder:FindFirstChild(tostring(_G.CurrentPlotId))
-                            if myPlot then buildPillarsCFrames(myPlot); cf = pillarsCFrames[id] end
-                        end
-                    end
-                    if cf then
-                        teleportToCFrameSafe(cf)
-                        task.wait(0.8)
-                    end
-                end
-                task.wait(4)
-            else
-                task.wait(_G.HW.BaseWait)
-            end
-        else
-            lastSnapshot = nil
-            task.wait(_G.HW.BaseWait)
-        end
     end
 end)
