@@ -1,3 +1,6 @@
+repeat task.wait() until game:IsLoaded()
+local LocalPlayer = game:GetService('Players').LocalPlayer
+repeat task.wait() until not LocalPlayer.PlayerGui:FindFirstChild('__INTRO')
 
 if name_vps == "V3" then
 	EVENT_or_FARM = "E"
@@ -41,9 +44,7 @@ task.spawn(function()
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/webhhook"))()	
 end)
 
-repeat task.wait() until game:IsLoaded()
-local LocalPlayer = game:GetService('Players').LocalPlayer
-repeat task.wait() until not LocalPlayer.PlayerGui:FindFirstChild('__INTRO')
+
 
 repeat
     wait(2)
