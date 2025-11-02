@@ -129,7 +129,7 @@ getgenv().Settings_autoplaza = {
 	{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "400m", Max_sell = "1b"}},
 	{Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1b", Max_sell = "3b"}},
 
-	{Name = "Huge Skeleton Snake", Data = {Price = "200m"}},
+	{Name = "Huge Skeleton Snake", Data = {Price = "170m"}},
 	{Name = "Huge Evil Raven", Data = {Price = "15m"}},
 
 {Name = "All Huges", Data = {Price = "+10%", Min_sell = "10m", Max_sell = "80m", sold_by_convention = true}},  
