@@ -278,14 +278,15 @@ task.spawn(function()
         local tier = lastTier or 2
 		number_egghatch = 3
 
-        if totalRate >= 50000 then
+        if totalRate >= 16000 then
 
-			if candy >= 400000000 then
-                tier = 4
+			if candy >= 90000000 then
+                tier = 6
             elseif candy >= 10000000 then
-                tier = 3
+                tier = 2
+				number_egghatch = 1
             else
-                tier = 3
+                tier = 2
 				number_egghatch = 1
         	end
 
@@ -337,7 +338,7 @@ task.spawn(function()
     local SaveModule = safeRequire(Client.Save)
     while not SaveModule do task.wait(_G.HW.BaseWait); SaveModule = safeRequire(Client.Save) end
 
-    local eggPriority = {"Coffin Egg","Reaper Egg","Spider Egg","Cauldron Egg","Ghost Egg","Bat Egg","Grave Egg","Pumpkin Egg"}
+    local eggPriority = {"Clown Egg","Coffin Egg","Reaper Egg","Spider Egg","Cauldron Egg","Ghost Egg","Bat Egg","Grave Egg","Pumpkin Egg"}
     local currentEgg = nil
 
     while true do
