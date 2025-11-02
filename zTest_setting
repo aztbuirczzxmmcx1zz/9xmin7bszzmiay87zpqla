@@ -75,6 +75,8 @@ getgenv().GMAIL_ITEMS = {
 
 ["Huge Splash Angelus"] = {Class = "Pet", Id = "Huge Splash Angelus", MinAmount = 1, AllVariants = true},
 ["Huge Skeleton Snake"] = {Class = "Pet", Id = "Huge Skeleton Snake", MinAmount = 1, AllVariants = true},
+["Huge Specter Owl"] = {Class = "Pet", Id = "Huge Skeleton Snake", MinAmount = 1, AllVariants = true},
+["Huge Shark Cat"] = {Class = "Pet", Id = "Huge Skeleton Snake", MinAmount = 1, AllVariants = true},
 
 ["Secret pet1"] = {Class = "Pet", Id = "Rainbow Swirl", MinAmount = 1, AllVariants = true},
 ["Secret pet2"] = {Class = "Pet", Id = "Banana", MinAmount = 1, AllVariants = true},
