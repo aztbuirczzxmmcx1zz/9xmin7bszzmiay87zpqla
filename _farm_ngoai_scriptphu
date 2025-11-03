@@ -1276,6 +1276,6 @@ end)
 
 wait(1)--waitchung
 task.spawn(function()
-wait(24*3600)
+wait(20*3600)
 game:Shutdown()
 end)
