@@ -1276,6 +1276,6 @@ end)
 
 wait(1)--waitchung
 task.spawn(function()
-wait(12*3600)
-Players.LocalPlayer:Kick("12h reset")
+wait(24*3600)
+game:Shutdown()
 end)
