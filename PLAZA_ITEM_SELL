@@ -3,18 +3,18 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 ----------------------------------
 local SELL_vs_GAGAN = {
-	["sijmongirthss"] = "72b",
-	["Ash3rP0w3rPanda2018"] = "73b",
-	["soystaylan5"] = "74b",
-	["dreddyewele60"] = "75b",
-	["1971Nowak3135"] = "76b",
-	["Sky_Giga2017"] = "77b",
-	["Inferno_Eagle200889"] = "78b",
-	["XxOwenC0dexX2023"] = "79b",
-	["TurboTig3rStr3am"] = "70b",
+	["sijmongirthss"] = "60b",
+	["Ash3rP0w3rPanda2018"] = "63b",
+	["soystaylan5"] = "64b",
+	["dreddyewele60"] = "65b",
+	["1971Nowak3135"] = "66b",
+	["Sky_Giga2017"] = "67b",
+	["Inferno_Eagle200889"] = "68b",
+	["XxOwenC0dexX2023"] = "69b",
+	["TurboTig3rStr3am"] = "60b",
 	["1953Crutchfield3117"] = "71b",	
 }
-local defaultSELL_vs_GAGAN = "70b"
+local defaultSELL_vs_GAGAN = "65b"
 ----------------------------------
 local SELL_vs_username = {
 	["sijmongirthss"] = "8.51b",
