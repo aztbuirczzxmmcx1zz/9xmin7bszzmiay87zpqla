@@ -60,7 +60,7 @@ getgenv().Settings_autoplaza = {
 ["Items"] = {
 
 		{Name = "MVP Key", Data = {Price = "4m"}},
-		{Name = "MVP Key Upper Half", Data = {Price = "3.9m"}}, 
+		{Name = "MVP Key Upper Half", Data = {Price = "4.3m"}}, 
 
         {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice}},
 		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = SELL_ttn_rb[player.Name] or default_ttn_rb}},
