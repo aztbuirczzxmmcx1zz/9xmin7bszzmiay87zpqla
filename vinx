@@ -19,7 +19,7 @@ end)
 local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local rank = Save.Get().Rank
 
-if EVENT_or_FARM == "E" and rank > 10 then
+if EVENT_or_FARM == "E" and rank > 19 then
 
 	task.spawn(function()	
 		wait(50)
