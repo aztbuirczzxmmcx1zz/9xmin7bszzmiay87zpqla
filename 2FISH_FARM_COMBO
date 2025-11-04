@@ -320,8 +320,15 @@ local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local rank = Save.Get().Rank
 
 if rank < 7 then
-		invokeWorld4()
-        return
+
+	if game.PlaceId == 95635359880599 then
+		local Players = game:GetService("Players")
+		local TeleportService = game:GetService("TeleportService")
+		TeleportService:Teleport(8737899170, LocalPlayer)
+		wait(10)
+	end
+
+    return
 end
 
 local function main()
