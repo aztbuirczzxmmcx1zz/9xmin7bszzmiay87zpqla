@@ -153,7 +153,7 @@ local function startGuiUpdater()
         --pointsLabel.Text = tostring(getTimeTrialPoints())
         --updateLabelSize(pointsLabel)
 
-        task.wait(3)
+        task.wait(10)
     end
 end
 
