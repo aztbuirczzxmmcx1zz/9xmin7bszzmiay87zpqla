@@ -4,8 +4,8 @@ local player = Players.LocalPlayer
 ----------------------------------
 local SELL_vs_GAGAN = {
 	["sijmongirthss"] = "60b",
-	["Ash3rP0w3rPanda2018"] = "63b",
-	["soystaylan5"] = "64b",
+	["Ash3rP0w3rPanda2018"] = "61b",
+	["soystaylan5"] = "62b",
 	["dreddyewele60"] = "65b",
 	["1971Nowak3135"] = "66b",
 	["Sky_Giga2017"] = "67b",
