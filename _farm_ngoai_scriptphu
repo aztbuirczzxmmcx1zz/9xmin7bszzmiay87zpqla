@@ -388,7 +388,7 @@ local function startMonitor12Min()
 			end
 
 			if getRunsUsed() == startUsed and getTotalRuns() == startTotal then	
-				_G.placeid_tele = 95635359880599
+				_G.placeid_tele = 140403681187145
 				loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_G_placeid_tele"))()	
 				--player:Kick("⏰ 12 phút không đổi lượt hoặc tổng Time Trial → nghi ngờ treo máy.")
 				return
@@ -415,7 +415,7 @@ local function startLagMonitor()
 				warn("⚠️ Đứng im " .. retryCount .. " lần")
 
 				if retryCount > 3 then
-					_G.placeid_tele = 95635359880599
+					_G.placeid_tele = 140403681187145
 					loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_G_placeid_tele"))()	
 					--player:Kick("Lag quá lâu trong Time Trial.")
 					return
