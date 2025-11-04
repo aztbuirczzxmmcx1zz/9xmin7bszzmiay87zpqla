@@ -1,25 +1,5 @@
 
 task.wait(150)
-
-
-local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-local rank = Save.Get().Rank
-
-if rank < 7 then
-
-	if game.PlaceId == 95635359880599 or game.PlaceId == 119454325063278 then
-		local Players = game:GetService("Players")
-		local TeleportService = game:GetService("TeleportService")
-		TeleportService:Teleport(8737899170, LocalPlayer)
-		wait(10)
-	end
-
-    return
-end
-
-
-
-
 local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local rank = Save.Get().Rank
 
