@@ -54,6 +54,10 @@ local function startGuiDefault()
 	screenGui.ResetOnSpawn = false
 	screenGui.Parent = playerGui
 
+screenGui.DisplayOrder = 9999  -- 🔹 Ưu tiên hiển thị cao nhất
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global  -- 🔹 Cho phép toàn bộ con dùng thứ tự tuyệt đối
+
+
 	-- Hàm tạo khu vực (region)
 	local function createRegion(position, anchor, alignment)
 		local frame = Instance.new("Frame")
