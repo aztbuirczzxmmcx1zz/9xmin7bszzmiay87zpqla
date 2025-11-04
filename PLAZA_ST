@@ -1,5 +1,5 @@
 wait(50)
-PAUSE_or_SEND = "s"
+PAUSE_or_SEND = "p"
 
 task.spawn(function()
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/UI_GEM_TIME_FPS"))()
