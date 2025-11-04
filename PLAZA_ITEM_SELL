@@ -68,7 +68,7 @@ getgenv().Settings_autoplaza = {
         {Name = "Gargantuan Super Cat", Data = {Price = SELL_vs_GAGAN[player.Name] or defaultSELL_vs_GAGAN}},
 
 
-	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "60b"}},
+	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "100b"}},
 
     {Name = "Titanic Bobcat", Data = {Price = "12b"}},
     {Name = "Titanic Parrot", Data = {Price = "9.5b"}},
