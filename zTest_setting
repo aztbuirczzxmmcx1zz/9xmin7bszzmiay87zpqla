@@ -1,3 +1,23 @@
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Save = require(ReplicatedStorage.Library.Client.Save)
+local function safeFetchSave()
+    for i = 1, 3 do
+        local ok, data = pcall(Save.Get)
+        if ok and data and data.TimeTrialStats then
+            return data.TimeTrialStats
+        end
+        task.wait(1)
+    end
+    return { DailyRuns = 0, Points = 0 }
+end
+local function getRunsLeft()
+    local stats = safeFetchSave()
+    return 10 - (stats.DailyRuns or 0)
+end
+_G.RunsLeft_TIMEtritral = getRunsLeft()
+
+
 setfpscap(3)
 getgenv().GEVENT_FPS  = 3
 
