@@ -81,20 +81,17 @@ getgenv().Settings_autoplaza = {
 
 		{Name = "Halloween Lucky Block Gift", Data = {Price = "10m"}},
 		{Name = "Exclusive Egg 56", Data = {Price = "100m"}},
-		{Name = "Titanic Pink Lucky Block", Data = {Price = "8b"}},
+		{Name = "Titanic Pink Lucky Block", Data = {Price = "7.5b"}},
        
-        {Name = "Summer Block Party Ticket", Data = {Price = "50k"}}, 
 
         {Name = "Huge Splash Angelus", Data = {Price = "20b"}},
         {Name = "Golden Huge Splash Angelus", Data = {Price = "22b"}},
         {Name = "Rainbow Huge Splash Angelus", Data = {Price = "100b"}},
 
-
-
 		{Name = "Titanic Pixel Dominus Astra", Data = {Price = "5.6b"}},
 		{Name = "Titanic Narwhal", Data = {Price = "6b"}},
 
-	{Name = "Breakable Mayhem TN1", Data = {Price = "1.4b"}},
+		{Name = "Breakable Mayhem TN1", Data = {Price = "1.4b"}},
         {Name = "Time Trial Gift", Data = {Price = "500k"}},
         {Name = "Huge Machine Egg 5", Data = {Price = "+2%"}},
 		
@@ -132,7 +129,7 @@ getgenv().Settings_autoplaza = {
 	{Name = "Huge Shark Cat", Data = {Price = "4b"}},
 	{Name = "Huge Specter Owl", Data = {Price = "2b"}},
 	{Name = "Huge Skeleton Snake", Data = {Price = "60m"}},
-	--{Name = "Huge Evil Raven", Data = {Price = "15m"}},
+	{Name = "Huge Evil Raven", Data = {Price = "15m"}},
 
 {Name = "All Huges", Data = {Price = "+10%", Min_sell = "10m", Max_sell = "80m", sold_by_convention = true}},  
 {Name = "Golden All Huges", Data = {Price = "+10%", Min_sell = "12m", Max_sell = "80m", sold_by_convention = true}},
