@@ -148,6 +148,7 @@ local function startGuiUpdater()
 
         timeTrialLabel.Text = tostring(getRunsLeft())
         updateLabelSize(timeTrialLabel)
+		_G.RunsLeft_TIMEtritral = getRunsLeft()
 	
         --pointsLabel.Text = tostring(getTimeTrialPoints())
         --updateLabelSize(pointsLabel)
