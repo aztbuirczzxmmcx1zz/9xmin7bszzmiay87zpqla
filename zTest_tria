@@ -1,3 +1,253 @@
+local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local rank = Save.Get().Rank
+
+if rank < 20 then
+	return
+end
+if game.PlaceId ~= 140403681187145 then
+    return
+end
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local SaveData = require(Client.Save).Get()
+
+local Enchants_Equip = ReplicatedStorage.Network.Enchants_Equip
+local Enchants_ClearSlot = ReplicatedStorage.Network.Enchants_ClearSlot
+
+-- Gom stack theo bookName và sort theo tn giảm dần
+local function getBookStackListFull(bookName)
+    local stacks = {}
+
+    for uid, v in pairs(SaveData.Inventory.Enchant) do
+        if v.id and string.find(v.id, bookName) and (v._am or 1) > 0 then
+            table.insert(stacks, {
+                uid = uid,
+                tn = v.tn or 0,
+                amount = v._am or 1
+            })
+        end
+    end
+
+    table.sort(stacks, function(a, b)
+        return a.tn > b.tn
+    end)
+
+    return stacks
+end
+
+function autoEquipEnchantBooks(bookList)
+
+	local MaxEnchantsEquipped = SaveData.MaxEnchantsEquipped or 0
+    local MaxPaidEnchantsEquipped = SaveData.MaxPaidEnchantsEquipped or 0
+    local MaxEnchantsEquipped = MaxEnchantsEquipped + MaxPaidEnchantsEquipped
+
+
+    -- Clear all slots
+    for i = 1, 9 do
+        Enchants_ClearSlot:FireServer(i)
+        task.wait(0.3)
+    end
+
+    local equippedCount = 0
+
+    -- Đếm số lượng mỗi bookName được yêu cầu
+    local requestedCounts = {}
+    for _, bookName in ipairs(bookList) do
+        requestedCounts[bookName] = (requestedCounts[bookName] or 0) + 1
+    end
+
+    for bookName, requestCount in pairs(requestedCounts) do
+        if equippedCount >= MaxEnchantsEquipped then
+            break
+        end
+
+        local stacks = getBookStackListFull(bookName)
+        local countForThisBook = 0
+
+        for _, stack in ipairs(stacks) do
+            for n = 1, stack.amount do
+                if equippedCount >= MaxEnchantsEquipped or countForThisBook >= requestCount then
+                    break
+                end
+
+                Enchants_Equip:FireServer(stack.uid)
+                equippedCount = equippedCount + 1
+                countForThisBook = countForThisBook + 1
+                task.wait(0.3)
+            end
+            if countForThisBook >= requestCount then
+                break
+            end
+        end
+    end
+end
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local function waitForMapLoaded()
+    local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+    local hrp = char:WaitForChild("HumanoidRootPart")
+
+    local function isStablePosition()
+        -- Nếu map chưa load → nhân vật hay bị spawn ở (0,0,0) hoặc Y rất thấp
+        if hrp.Position.Y < 2 then return false end
+
+        -- So sánh vị trí trong 0.5s → nếu không đổi nhiều thì coi như ổn định
+        local p1 = hrp.Position
+        task.wait(0.5)
+        local p2 = hrp.Position
+        return (p1 - p2).Magnitude < 1
+    end
+
+    repeat task.wait(1) until isStablePosition()
+    return true
+end
+
+wait(1)--waitchung
+-- Xem item kiếm được / 1h ở góc phải dưới
+task.spawn(function()
+wait(2)
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local SaveModule = require(Client:WaitForChild("Save"))
+
+local previousCounts = {}
+local baselineCounts = {}     -- NEW: lưu số lượng ban đầu
+local startClock = os.clock() -- NEW: mốc thời gian bắt đầu
+
+-- cấu hình item cần theo dõi
+local itemsToTrack = {
+	--{ id = "xxxxxxx", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(255, 165, 0) }, -- cam
+	{ id = "Diamond", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 255, 255) }, -- trắng
+	{ id = "MVP Key Upper Half", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(192,192,192) },       -- xám
+}
+
+local function createItemFrame(itemConfig, displayNumber)
+	local frameSize = 100
+	local spacing = 10
+	local cols = 2
+	local rows = 2
+
+	-- tính vị trí chính giữa màn hình
+	local offsetX = (itemConfig.col * (frameSize + spacing)) - ((cols - 1) * (frameSize + spacing) / 2)
+	local offsetY = (itemConfig.row * (frameSize + spacing)) - ((rows - 1) * (frameSize + spacing) / 2) + 80
+
+	local screenGui = Instance.new("ScreenGui")
+	screenGui.Name = itemConfig.guiName
+	screenGui.Parent = PlayerGui
+	screenGui.ResetOnSpawn = false
+	screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+	local frame = Instance.new("Frame")
+	frame.Name = "ItemFrame"
+	frame.Size = UDim2.new(0, frameSize, 0, frameSize)
+	frame.Position = UDim2.new(0.75, offsetX, 1, -offsetY)
+	frame.AnchorPoint = Vector2.new(0.5, 1)
+	frame.BackgroundColor3 = itemConfig.color
+	frame.BorderSizePixel = 2
+	frame.Parent = screenGui
+
+	local label = Instance.new("TextLabel")
+	label.Size = UDim2.new(1, 0, 1, 0)
+	label.BackgroundTransparency = 1
+	label.Text = tostring(displayNumber)
+	label.TextColor3 = Color3.fromRGB(0, 0, 0)
+	label.TextScaled = true
+	label.Font = Enum.Font.GothamBold
+	label.Parent = frame
+end
+
+-- NEW: hàm đếm số lượng theo yêu cầu (Diamond dùng Inventory.Currency)
+-- THAY HÀM NÀY trong script của bạn
+-- REPLACE countItem WITH THIS
+local function countItem(inventory, itemId)
+	-- Đặc biệt: Diamond đọc trong Inventory.Currency với v.id == "Diamonds"
+	if itemId == "Diamond" then
+		local amount = 0
+		local currency = (inventory and inventory.Currency) or {}
+		for uid, v in pairs(currency) do
+			if v and v.id == "Diamonds" then
+				amount = tonumber(v._am) or 0
+				break
+			end
+		end
+		return amount
+	end
+
+	-- Mặc định: đếm như code gốc
+	local total = 0
+	for _, group in pairs(inventory or {}) do
+		for _, obj in pairs(group) do
+			if obj and obj.id == itemId then
+				total += (tonumber(obj._am) or 1)
+			end
+		end
+	end
+	return total
+end
+
+
+
+local function checkInventory()
+	local save = SaveModule.Get()
+	local inventory = (save and save.Inventory) or {}
+	local currentCounts = {}
+
+	-- Xóa GUI cũ
+	for _, item in ipairs(itemsToTrack) do
+		local oldGui = PlayerGui:FindFirstChild(item.guiName)
+		if oldGui then oldGui:Destroy() end
+	end
+
+	-- Tính thời gian trôi qua (đơn vị phút)
+	local elapsedMin = math.max(1, (os.clock() - startClock) / 60)
+
+	for _, item in ipairs(itemsToTrack) do
+		-- Lấy số lượng hiện tại
+		local count = countItem(inventory, item.id)
+		currentCounts[item.id] = count
+
+		-- Lưu số lượng gốc lần đầu
+		if baselineCounts[item.id] == nil then
+			baselineCounts[item.id] = count
+		end
+
+		-- Tính trung bình tăng/giờ theo phút
+		local delta = count - baselineCounts[item.id]
+		if delta < 0 then delta = 0 end
+
+		local avgPerHour = (delta / elapsedMin) * 60
+
+		-- Định dạng hiển thị
+		local display
+		if item.id == "Diamond" then
+			display = tostring(math.floor((avgPerHour / 1_000_000) * 100 *24 + 0.5) / 100)
+		else
+			display = math.floor(avgPerHour * 100 *24 + 0.5) / 100
+		end
+
+		createItemFrame(item, display)
+	end
+
+	previousCounts = currentCounts
+end
+
+checkInventory()
+while true do
+	task.wait(60)
+	checkInventory()
+end
+
+
+
+end)
+
 wait(1)--waitchung
 warn("event time trial")
 -- map 269 event time trial
@@ -391,9 +641,18 @@ task.spawn(function()
 		warn("🎉 Hoàn tất 10/10 lượt Time Trial.")
 		claimReward()
 		task.wait(3)
+		cleanupAllThreads()
 		autoEquipEnchantBooks({"Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power"})
 		game:Shutdown()
+		_G.going_timetital = false
+		warn("⏳ Theo dõi reset DailyRuns...")
+		while getRunsUsed() >= 10 do 				
+			task.wait(7200) 
+		end
 
+		warn("🔁 DailyRuns reset → tiếp tục farm.")
+		if monitor12minThread then pcall(task.cancel, monitor12minThread) monitor12minThread = nil end
+		startMonitor12Min()
 	end
 	
 end)
