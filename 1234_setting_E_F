@@ -29,7 +29,7 @@ task.spawn(function()
 	while true do
 		wait(600)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/101Restart"))()	
-		wait(600)
+		wait(2600)
 	end
 end)
 
