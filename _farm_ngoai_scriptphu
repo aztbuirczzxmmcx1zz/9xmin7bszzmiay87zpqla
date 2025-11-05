@@ -1,9 +1,16 @@
-local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-local rank = Save.Get().Rank
+wait(1)--waitchung
+task.spawn(function()
+wait(20*3600)
+game:Shutdown()
+end)
 
-if rank < 20 then
-	return
+
+local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+while Save.Get().Rank < 20 do
+	wait(7200)  -- chờ 2 giờ
 end
+
+
 if game.PlaceId ~= 140403681187145 then
     return
 end
@@ -1274,8 +1281,4 @@ autoShutdownIfNotAlone()
 
 end)
 
-wait(1)--waitchung
-task.spawn(function()
-wait(20*3600)
-game:Shutdown()
-end)
+
