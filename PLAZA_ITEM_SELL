@@ -14,7 +14,7 @@ local SELL_vs_GAGAN = {
 	["TurboTig3rStr3am"] = "60b",
 	["1953Crutchfield3117"] = "71b",	
 }
-local defaultSELL_vs_GAGAN = "65b"
+local defaultSELL_vs_GAGAN = "64b"
 ----------------------------------
 local SELL_vs_username = {
 	["sijmongirthss"] = "8.51b",
