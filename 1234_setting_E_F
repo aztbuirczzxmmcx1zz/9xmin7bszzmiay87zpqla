@@ -3,7 +3,7 @@ local LocalPlayer = game:GetService('Players').LocalPlayer
 repeat task.wait() until not LocalPlayer.PlayerGui:FindFirstChild('__INTRO')
 
 if name_vps == "V4" or name_vps == "V5" then
-	EVENT_or_FARM = "E"
+	EVENT_or_FARM = "F"
 	Start_ford = 1
 else
 	EVENT_or_FARM = "E"
