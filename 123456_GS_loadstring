@@ -17,7 +17,6 @@ task.spawn(function()
 end)
 --------------
 wait(5)
-
 if name_vps == "V5" or name_vps == "V2" or name_vps == "V4" then
 	script_key = "TRWNvnabMDIvAgQLZyNjPtfafffYpkBF";
 	loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()	
