@@ -280,8 +280,9 @@ task.spawn(function()
 
         if totalRate >= 40000 then
 
-			if candy >= 99000000 then
+			if candy >= 36000000 then
                 tier = 6
+				number_egghatch = 1
             elseif candy >= 6000000 then
                 tier = 2
             else
