@@ -24,7 +24,7 @@ local itemsToTrack = {
 	
 	{ id = "Huge", guiName = "Item3", row = 1, col = 0, color = Color3.fromRGB(0, 255, 255) },			--xanh	trái
 	{ id = "Titanic", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, 		--xám
-	{ id = "Summer Block Party Ticket", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },		-- cam
+	{ id = "Huge Specter Owl", guiName = "Item1", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },		-- cam
 	{ id = "MVP Key", guiName = "Item2", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) },				--trang
 	{ id = "MVP Key Upper Half", guiName = "Item5", row = 0, col = 2, color = Color3.fromRGB(255, 255, 255) },				--trang
 
