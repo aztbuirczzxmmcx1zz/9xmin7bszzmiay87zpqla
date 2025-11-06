@@ -606,6 +606,9 @@ task.spawn(function()
 		while getRunsUsed() < 10 do
 			setfpscap(7)
 			local used = getRunsUsed()
+			if getRunsUsed() == 9 then
+				_G.going_timetital = false
+			end
 			lagFlag = false
 			endFlag = false
 
@@ -1260,7 +1263,7 @@ end
 end)
 
 while _G.going_timetital do
-	wait(500)
+	wait(30)
 end
 
 wait(1)--waitchung
@@ -1281,7 +1284,4 @@ end
 -- Gọi ngay khi script chạy
 autoShutdownIfNotAlone()
 
-
 end)
-
-
