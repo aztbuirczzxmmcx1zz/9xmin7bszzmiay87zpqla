@@ -291,6 +291,6 @@ end
 end)
 
 task.spawn(function()
-wait(6*3600)
+wait(20*3600)
 game:Shutdown()
 end)
