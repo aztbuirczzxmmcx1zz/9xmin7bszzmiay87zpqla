@@ -596,6 +596,9 @@ task.spawn(function()
 		while getRunsUsed() < 10 do
 			setfpscap(7)
 			local used = getRunsUsed()
+			if getRunsUsed() == 9 then
+				_G.going_timetital = false
+			end
 			lagFlag = false
 			endFlag = false
 
@@ -658,5 +661,480 @@ task.spawn(function()
 end)
 
 
+
+end)
+
+
+wait(1)--waitchung
+warn("Ghép sách + thuốc nếu lv < 99 ")
+-- Ghép sách + thuốc nếu lv < 99 
+task.spawn(function()
+
+local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local level = Save.Get().Mastery and Save.Get().Mastery.Potions
+
+if level and level < 13034430 then
+
+    -- Hàm nâng cấp thuốc
+    local function _update_sach_theo_level(name_sach, level_sach)
+        local saveModule = require(game.ReplicatedStorage.Library.Client.Save)
+        local inventory = saveModule.Get() and saveModule.Get().Inventory and saveModule.Get().Inventory.Potion
+        if not inventory then return end
+
+        local count = 0
+        local uid_sach = nil
+
+        for itemUID, itemData in pairs(inventory) do
+            if itemData.id == name_sach and itemData.tn == level_sach then
+                count += (itemData._am or 1)
+                uid_sach = tostring(itemUID)
+            end
+        end
+
+        local totalUpgradeAmount = count // 3
+        if uid_sach and totalUpgradeAmount > 0 then
+            game:GetService("ReplicatedStorage").Network.UpgradePotionsMachine_Activate:InvokeServer(uid_sach, totalUpgradeAmount)
+            --warn("Upgrade: " .. name_sach .. " UID : " .. uid_sach .. " x" .. totalUpgradeAmount .. "\n")
+        end
+    end
+
+    -- Danh sách sách cần nâng cấp
+    local list = {
+        "Treasure Hunter", "Walkspeed", "Strong Pets", 
+        "Lucky Eggs", "Diamonds", "Coins"
+    }
+
+    for _, name in ipairs(list) do
+        _update_sach_theo_level(name, 1)
+		task.wait(2)
+        _update_sach_theo_level(name, 2)
+		task.wait(2)
+    end
+	
+end
+
+
+-----------------------
+local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+local level = Save.Get().Mastery and Save.Get().Mastery.Enchants
+
+if level and level < 13034430 then
+
+    -- Hàm nâng cấp sách
+    local function _update_sach_theo_level(name_sach, level_sach)
+        local saveModule = require(game.ReplicatedStorage.Library.Client.Save)
+        local inventory = saveModule.Get() and saveModule.Get().Inventory and saveModule.Get().Inventory.Enchant
+        if not inventory then return end
+
+        local count = 0
+        local uid_sach = nil
+
+        for itemUID, itemData in pairs(inventory) do
+            if itemData.id == name_sach and itemData.tn == level_sach then
+                count += (itemData._am or 1)
+                uid_sach = tostring(itemUID)
+            end
+        end
+
+        local totalUpgradeAmount = count // 5
+        if uid_sach and totalUpgradeAmount > 0 then
+            game:GetService("ReplicatedStorage").Network.UpgradeEnchantsMachine_Activate:InvokeServer(uid_sach, totalUpgradeAmount)
+            --warn("Upgrade: " .. name_sach .. " lv" .. level_sach .. " x" .. totalUpgradeAmount .. "\n")
+        end
+    end
+
+    -- Danh sách sách cần nâng cấp
+    local list = {
+        "Treasure Hunter", "Tap Power", "Strong Pets", "Walkspeed",
+        "Magnet", "Lucky Eggs", "Diamonds", "Criticals", "Coins"
+    }
+
+    for _, name in ipairs(list) do
+        _update_sach_theo_level(name, 1)
+		task.wait(2)
+        _update_sach_theo_level(name, 2)
+		task.wait(2)
+    end
+	
+end
+
+end)
+
+
+wait(1)--waitchung
+warn("up pet gold + rainbow")
+-- up pet gold + rainbow : Quartz Fox  Wise Cat
+task.spawn(function() 
+
+local NamePet_ep = {
+    "Palace Pooka",
+	"Rose Pooka",
+}
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
+local Manager = {}
+
+function Manager:GetPets(name_pet, PT_yeucau)
+    local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
+    local Huges = {}
+    for uid, v in pairs(SaveData.Inventory.Pet) do
+        if string.find(v.id, name_pet) then
+            if (PT_yeucau == nil and v.pt == nil) or (PT_yeucau ~= nil and v.pt == PT_yeucau) then
+                table.insert(Huges, {
+                    UID   = uid,
+                    SH    = v.sh,
+                    PT    = v.pt,
+                    Count = v._am or 1
+                })
+            end
+        end
+    end
+    return Huges
+end
+
+function Ghep_pet_len_gold_rainbow(danh_sach_ten_pet)
+    for _, ten_pet in ipairs(danh_sach_ten_pet) do
+        -- Gộp Gold
+        local Pet_List1 = Manager:GetPets(ten_pet, nil)
+        for _, pet in ipairs(Pet_List1) do
+            while pet.Count >= 16 do
+                local success, err = pcall(function()
+                    game:GetService("ReplicatedStorage").Network.GoldMachine_Activate:InvokeServer(pet.UID, 2)
+                end)
+                if not success then
+                    warn("❌ Lỗi khi ép pet GOLD: " .. tostring(err))
+                    break
+                end
+                task.wait(1)
+                pet.Count = pet.Count - 16
+            end
+        end
+
+        -- Gộp Rainbow
+        local Pet_List2 = Manager:GetPets(ten_pet, 1)
+        for _, pet in ipairs(Pet_List2) do
+            while pet.Count >= 16 do
+                local success, err = pcall(function()
+                    game:GetService("ReplicatedStorage").Network.RainbowMachine_Activate:InvokeServer(pet.UID, 2)
+                end)
+                if not success then
+                    warn("❌ Lỗi khi ép pet RAINBOW: " .. tostring(err))
+                    break
+                end
+                task.wait(1)
+                pet.Count = pet.Count - 16
+            end
+        end
+    end
+end
+
+-- Gọi hàm ép nhiều pet
+Ghep_pet_len_gold_rainbow(NamePet_ep)
+
+
+
+end)
+
+
+wait(1)--waitchung
+warn("ghép gift bag và mở gift")
+-- ghép gift bag và mở gift
+task.spawn(function()
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
+
+local ForgeMachine_Activate = ReplicatedStorage.Network:WaitForChild("ForgeMachine_Activate")
+local GiftBag_Open = ReplicatedStorage.Network:WaitForChild("GiftBag_Open")
+
+local GIFT_BAG_NAME = "Gift Bag"
+local MIN_REQUIRED = 4
+local List_Open_Giftbag = {
+    "Mini Chest",
+    "Rainbow Mini Chest",
+    "Large Gift Bag"
+}
+
+local function processGiftBags()
+    -- 🔁 Ghép Gift Bag thành Large Gift Bag
+    do
+        local giftBagUID, giftBagAmount = nil, 0
+        for uid, data in pairs(SaveData.Inventory["Misc"]) do
+            if data.id == GIFT_BAG_NAME then
+                giftBagUID = uid
+                giftBagAmount = data._am or 1
+                break
+            end
+        end
+
+        if giftBagUID and giftBagAmount >= MIN_REQUIRED then
+            local usableAmount = math.floor(giftBagAmount / MIN_REQUIRED) * MIN_REQUIRED
+            ForgeMachine_Activate:InvokeServer("Large Gift Bag", {[giftBagUID] = usableAmount})
+            task.wait(1.5)
+        end
+    end
+
+    -- 🎁 Mở giftbags
+    do
+        local inventory = SaveData.Inventory or {}
+        local giftbagCounts = {}
+
+        for _, group in pairs(inventory) do
+            for _, obj in pairs(group) do
+                if obj.id and table.find(List_Open_Giftbag, obj.id) then
+                    giftbagCounts[obj.id] = (giftbagCounts[obj.id] or 0) + (obj._am or 1)
+                end
+            end
+        end
+
+        for _, giftName in ipairs(List_Open_Giftbag) do
+            local count = giftbagCounts[giftName] or 0
+            if count > 0 then
+                if giftName == "Large Gift Bag" then
+                    if count >= 50 then
+                        pcall(function() GiftBag_Open:InvokeServer(giftName, 50) end)
+                        count -= 50
+                        task.wait(1)
+                    end
+                    while count >= 10 do
+                        pcall(function() GiftBag_Open:InvokeServer(giftName, 10) end)
+                        count -= 10
+                        task.wait(1)
+                    end
+                end
+                for i = 1, count do
+                    pcall(function() GiftBag_Open:InvokeServer(giftName, 1) end)
+                    task.wait(1)
+                end
+            end
+        end
+    end
+end
+
+-- ⏳ Lặp lại mỗi 3600 giây (1 tiếng)
+while true do
+    processGiftBags()
+    task.wait(3600)
+end
+
+
+end)
+
+wait(1)--waitchung
+warn("Phát hiện nick chưa max UpgradesOwned")
+-- Phát hiện nick chưa max UpgradesOwned
+task.spawn(function()
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local Save = require(ReplicatedStorage.Library.Client.Save)
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Các chỉ số và cấp tối đa cần đạt
+local maxUpgrades = {
+    Magnet = 7,
+    Drops = 7,
+    ["Pet Speed"] = 7,
+    ["Tap Damage"] = 8,
+    Diamonds = 9,
+    Luck = 7,
+    Ultimates = 2,
+    Walkspeed = 2,
+    Coins = 8,
+    ["Pet Damage"] = 7,
+}
+
+local current = Save.Get().UpgradesOwned or {}
+local missingUpgrade = false
+
+for name, maxLevel in pairs(maxUpgrades) do
+    local data = current[name]
+    local highest = 0
+    if data then
+        for _, level in pairs(data) do
+            if level > highest then
+                highest = level
+            end
+        end
+    end
+
+    if highest < maxLevel then
+        print("⚠️ Chưa đạt max: " .. name .. " (" .. highest .. "/" .. maxLevel .. ")")
+        missingUpgrade = true
+    end
+end
+
+-- Nếu chưa đạt max, tạo GUI cảnh báo
+if missingUpgrade then
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "UpgradesWarning"
+    screenGui.ResetOnSpawn = false
+    screenGui.Parent = playerGui
+
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Size = UDim2.new(0, 120, 0, 30)
+    textLabel.Position = UDim2.new(0, 10, 0, 10)
+    textLabel.BackgroundColor3 = Color3.new(0.2, 0, 0)
+    textLabel.TextColor3 = Color3.new(1, 0, 0)
+    textLabel.Text = "Upgrades"
+    textLabel.Font = Enum.Font.SourceSansBold
+    textLabel.TextSize = 18
+    textLabel.BorderSizePixel = 0
+    textLabel.Parent = screenGui
+end
+
+
+end)
+
+wait(1)--waitchung
+warn("khảm charm vào Huge")
+-- khảm charm vào Huge
+task.spawn(function()
+local preferredCharms = { "Lightning", "Criticals", "Strength", "Bonus" }
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
+local SaveData = require(Client:WaitForChild("Save")).Get()
+local HttpService = game:GetService("HttpService")
+
+local Charms_AttachToPet = ReplicatedStorage.Network.Charms_AttachToPet
+
+---------------------------------------------------------------------
+
+-- Bảng tổng XP chuẩn (wiki cho biết Lv99 = 13034431)
+local XP_MAX = 13034431
+
+-- Hàm tính XP cần để lên cấp (step cost)
+local function xpStepCost(L)
+    return math.floor((L + 300 * (2 ^ (L/7))) / 4)
+end
+
+-- Hàm lấy Level từ XP
+local function getLevelFromXP(xp)
+    if xp >= XP_MAX then
+        return 99
+    end
+
+    local total = 0
+    for L = 1, 98 do
+        total += xpStepCost(L)
+        if xp < total then
+            return L
+        end
+    end
+    return 98
+end
+
+
+-- Slot charm theo Level
+local function slotsByLevel(lv)
+    if lv < 50 then return 1
+    elseif lv < 85 then return 2
+    elseif lv < 99 then return 3
+    else return 4 end
+end
+
+-- Tìm UID charm theo tên
+local function findCharmUID(charmName)
+    for uid, v in pairs(SaveData.Inventory.Charm or {}) do
+        if v.id == charmName and (v._am or 0) > 0 then
+            return uid
+        end
+    end
+    return nil
+end
+
+---------------------------------------------------------------------
+-- 🚀 Duyệt qua toàn bộ Huge Pet
+for uid, data in pairs(SaveData.Inventory.Pet or {}) do
+    if data.id and string.find(data.id, "Huge") then
+        --print("======================================")
+        --print("🐾 Pet:", data.id, "| UID:", uid)
+
+        local uq = data._uq or {}
+        local xp = uq.xp or 0
+        local lv = getLevelFromXP(xp)
+        local maxSlots = slotsByLevel(lv)
+
+        --print("📈 Level:", lv, "| XP:", xp, "| Slot khảm:", maxSlots)
+
+        -- Charm hiện tại
+        local currentCharms = {}
+        if uq.ch then
+            for _, charm in ipairs(uq.ch) do
+                table.insert(currentCharms, charm.id)
+            end
+        end
+        --print("💎 Charm hiện tại:", #currentCharms > 0 and table.concat(currentCharms, ", ") or "Chưa khảm")
+
+        -- Danh sách charm cần khảm (ưu tiên preferredCharms, loại trừ charm đã khảm)
+        local needCharms = {}
+        for _, cname in ipairs(preferredCharms) do
+            local already = false
+            for _, c in ipairs(currentCharms) do
+                if c == cname then
+                    already = true
+                    break
+                end
+            end
+            if not already then
+                table.insert(needCharms, cname)
+            end
+        end
+
+        -- Số slot trống
+        local remainingSlots = maxSlots - #currentCharms
+        if remainingSlots > 0 and #needCharms > 0 then
+            --print("✨ Bắt đầu khảm", math.min(remainingSlots, #needCharms), "viên")
+            for i = 1, math.min(remainingSlots, #needCharms) do
+                local cname = needCharms[i]
+                local charmUID = findCharmUID(cname)
+                if charmUID then
+                    --print("🔗 Khảm", cname, "vào pet", data.id)
+                    local success, res = pcall(function()
+                        return Charms_AttachToPet:InvokeServer(charmUID, {uid})
+                    end)
+                    if success then
+                        --print("✅ Khảm thành công:", cname)
+                    else
+                        warn("❌ Khảm thất bại:", cname, res)
+                    end
+                else
+                    warn("⚠️ Không tìm thấy đá:", cname)
+                end
+                task.wait(1.5)
+            end
+        else
+            --print("⚠️ Không có slot trống hoặc không còn charm phù hợp để khảm.")
+        end
+    end
+end
+
+
+
+end)
+
+while _G.going_timetital do
+	wait(30)
+end
+
+wait(1)--waitchung
+warn("phát hiện không farm ở svv thoát game")
+-- phát hiện không farm ở svv thoát game
+task.spawn(function()
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+-- Hàm kiểm tra số người và shutdown nếu cần
+function autoShutdownIfNotAlone()
+    local playerCount = #Players:GetPlayers()
+
+    if playerCount > 1 and game.PlaceId == 140403681187145 then
+		Players.LocalPlayer:Kick("kick severvip")
+    end
+end
+
+-- Gọi ngay khi script chạy
+autoShutdownIfNotAlone()
 
 end)
