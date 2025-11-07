@@ -1,3 +1,4 @@
+
 local _Config_Online = 6
 local FILE_NAME = "OFFLINE.txt"
 local Players = game:GetService("Players")
@@ -28,3 +29,15 @@ local _Config_Offline = getOffline()
         --game:Shutdown()
     end
  end
+
+	local FILE_NAMEHLtotal = "HLtotal.txt"
+	if not writefile then
+		return warn("writefile không được hỗ trợ trong môi trường này.")
+	end
+	if not isfile or not isfile(FILE_NAMEHLtotal) then
+		writefile(FILE_NAMEHLtotal, "0")
+	end
+
+	if _G.TotalRate ~= nil then
+		writefile(FILE_NAMEHLtotal, tostring(_G.TotalRate))
+	end
