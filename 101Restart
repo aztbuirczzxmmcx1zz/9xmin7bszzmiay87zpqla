@@ -1,15 +1,4 @@
-	local FILE_NAMEHLtotal = "HLtotal.txt"
-	if not writefile then
-	end
-	if not isfile or not isfile(FILE_NAMEHLtotal) then
-		writefile(FILE_NAMEHLtotal, "0")
-	end
-
-	if _G.TotalRate ~= nil then
-		writefile(FILE_NAMEHLtotal, tostring(_G.TotalRate))
-	end
-
-
+	
 local _Config_Online = 7
 local FILE_NAME = "OFFLINE.txt"
 local Players = game:GetService("Players")
@@ -36,7 +25,7 @@ local _Config_Offline = getOffline()
  if _Config_Offline ~= _Config_Online then
     setOffline(_Config_Online)
     if EVENT_or_FARM == "E" and _G.TotalRate < 50000 then
-        game:Shutdown()
+        --game:Shutdown()
     end
  end
 
