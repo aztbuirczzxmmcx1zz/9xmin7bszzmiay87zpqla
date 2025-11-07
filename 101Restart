@@ -1,5 +1,16 @@
+	local FILE_NAMEHLtotal = "HLtotal.txt"
+	if not writefile then
+	end
+	if not isfile or not isfile(FILE_NAMEHLtotal) then
+		writefile(FILE_NAMEHLtotal, "0")
+	end
 
-local _Config_Online = 6
+	if _G.TotalRate ~= nil then
+		writefile(FILE_NAMEHLtotal, tostring(_G.TotalRate))
+	end
+
+
+local _Config_Online = 7
 local FILE_NAME = "OFFLINE.txt"
 local Players = game:GetService("Players")
 if not writefile or not readfile then
@@ -23,21 +34,10 @@ local function setOffline(v)
 end
 local _Config_Offline = getOffline()
  if _Config_Offline ~= _Config_Online then
-     setOffline(_Config_Online)
-    -- Shutdown
-    if name_vps == "V4" or name_vps == "V5" then
-        --game:Shutdown()
+    setOffline(_Config_Online)
+    if EVENT_or_FARM == "E" and _G.TotalRate < 50000 then
+        game:Shutdown()
     end
  end
 
-	local FILE_NAMEHLtotal = "HLtotal.txt"
-	if not writefile then
-		return warn("writefile không được hỗ trợ trong môi trường này.")
-	end
-	if not isfile or not isfile(FILE_NAMEHLtotal) then
-		writefile(FILE_NAMEHLtotal, "0")
-	end
 
-	if _G.TotalRate ~= nil then
-		writefile(FILE_NAMEHLtotal, tostring(_G.TotalRate))
-	end
