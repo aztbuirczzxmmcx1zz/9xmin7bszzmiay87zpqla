@@ -1,3 +1,5 @@
+setfpscap(3)
+getgenv().GEVENT_FPS  = 3
 
 getgenv().GLOOTBOXES = {"Tropical Gift"}
 
