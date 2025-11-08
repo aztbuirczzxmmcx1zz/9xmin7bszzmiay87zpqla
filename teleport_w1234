@@ -1,5 +1,3 @@
-Y_or_N_delay_60s_farming = "n"
-
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -24,7 +22,7 @@ end
 
 task.spawn(function()
 
-wait(300)
+wait(60)
 if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
 	player:Kick("Fail 300 teleport")
 end
@@ -40,11 +38,6 @@ local TeleportMapping = {
 
 -- Nếu đang ở đúng map cần thoát
 if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
-    
-if Y_or_N_delay_60s_farming == "y" then
-        wait(90)
-end
-
     local teleportName = TeleportMapping[check_and_tele_w]
     
     if teleportName then
