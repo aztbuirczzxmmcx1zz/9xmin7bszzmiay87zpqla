@@ -8,8 +8,8 @@ end
 local content = readfile(FILE_NAMEHL)
 local val = tonumber(content)
 if val == nil then
-    val = 0
-    writefile(FILE_NAMEHL, "0")
+    val = 51000
+    writefile(FILE_NAMEHL, "51000")
 end
 _G.TotalHLGet = val
 
