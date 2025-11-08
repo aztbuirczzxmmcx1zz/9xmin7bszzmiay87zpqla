@@ -37,8 +37,25 @@ _G.RunsLeft_TIMEtritral = getRunsLeft()
 setfpscap(3)
 getgenv().GEVENT_FPS  = 3
 
-if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
-	
+if game.PlaceId == 119454325063278 then 
+
+		getgenv().GDO_FARMING_WORLD = true
+    getgenv().GEVENT_UPGRADES = {
+            "FarmingHugeChance",
+            "FarmingTitanicChance",
+            "FarmingPixelRainbowLuck",
+            "FarmingGoldHatchChance",
+            "FarmingRainbowHatchChance",
+            "FarmingShinyHatchChance"
+        }
+		getgenv().GENCHANTS = {"Lucky Eggs","Lucky Eggs","Lucky Eggs","Huge Hunter","Treasure Hunter","Diamonds"}
+        
+elseif game.PlaceId == 95635359880599 then
+
+		getgenv().GDO_FISHING_EVENT = true
+    getgenv().GUSE_BOOSTS = true
+		getgenv().GENCHANTS = {"Lucky Eggs","Lucky Eggs","Lucky Eggs","Huge Hunter","Treasure Hunter","Diamonds"}
+
 else
 	if _G.RunsLeft_TIMEtritral == 0 then
 	  getgenv().GDO_HALLOWEEN_WORLD = true
