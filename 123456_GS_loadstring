@@ -27,6 +27,6 @@ elseif  name_vps == "H911" or name_vps == "H929"  or name_vps == "H763" then
 	script_key = "lBbQRNJrJUSXDBuRVkRDvRTNamXqWEcL";
 	loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()
 elseif  name_vps == "V1" or name_vps == "V0" then
-	script_key = "AqHUhZRrSUlkwbShUPwcElDieeilRPxR";
+	script_key = "TRWNvnabMDIvAgQLZyNjPtfafffYpkBF";
 	loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()
 end
