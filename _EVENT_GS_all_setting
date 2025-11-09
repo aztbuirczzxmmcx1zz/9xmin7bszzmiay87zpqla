@@ -3,7 +3,7 @@ if not readfile then
     return warn("readfile không được hỗ trợ trong môi trường này.")
 end
 if not isfile or not isfile(FILE_NAMEHL) then
-    writefile(FILE_NAMEHL, "0")
+    writefile(FILE_NAMEHL, "51000")
 end
 local content = readfile(FILE_NAMEHL)
 local val = tonumber(content)
