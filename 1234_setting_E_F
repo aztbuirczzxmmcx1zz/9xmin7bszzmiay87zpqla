@@ -22,7 +22,7 @@ if name_vps == "V4" or name_vps == "V5" then
 				EVENT_or_FARM = isSuperName(player.Name) and "F" or "E"
 
 	Start_ford = 1
-elseif name_vps == "V3" or name_vps == "V2" then
+elseif name_vps == "V3" or name_vps == "V2" or name_vps == "V1" or name_vps == "V0" then
 	EVENT_or_FARM = "E2"
 	Start_ford = 1
 else
