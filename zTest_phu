@@ -5,21 +5,21 @@ end
 if _G.RunsLeft_TIMEtritral > 0 then
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/zTest_tria"))()
 end
-if _G.RunsLeft_TIMEtritral > 0 then
-	return
-end
 
 task.spawn(function()
 	while true do
-		wait(1800)
-		if _G.RunsLeft_TIMEtritral == 10 then
+		wait(180)
+		if _G.RunsLeft_TIMEtritral > 0 and game.PlaceId ~= 140403681187145 then
 			_G.placeid_tele = 140403681187145
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_G_placeid_tele"))()	
 		end
-		wait(1800)
+		wait(3200)
 	end
 end)
 
+if _G.RunsLeft_TIMEtritral > 0 then
+	return
+end
 
 task.spawn(function()
 local Players = game:GetService("Players")
