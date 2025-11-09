@@ -26,7 +26,7 @@ elseif name_vps == "V3" or name_vps == "V2" or name_vps == "V1" or name_vps == "
 	EVENT_or_FARM = "E2"
 	Start_ford = 1
 else
-	EVENT_or_FARM = "E"
+	EVENT_or_FARM = "E2"
 	Start_ford = 1
 end
 
