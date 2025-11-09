@@ -69,19 +69,19 @@ elseif game.PlaceId == 131952481663528 then
 	    "HalloweenTitanicLuck"
 	  }
 	  
-	  getgenv().GKICK_ON_STAFF = true
+	  
 
 if _G.TotalHLGet < 50000 then
 		getgenv().GHALLOWEEN_WORLD_BUY_FROM_SPECIFIC_HOUSE = 1
 else	  
-		getgenv().GHALLOWEEN_WORLD_BUY_FROM_SPECIFIC_HOUSE = {1,3}
+		getgenv().GHALLOWEEN_WORLD_BUY_FROM_SPECIFIC_HOUSE = 3
 end
-
+		getgenv().GKICK_ON_STAFF = true
 	  getgenv().GHALLOWEEN_OPEN_HOUSE_6 = true
-	  getgenv().GHALLOWEEN_WORLD_BUY_FROM_HOUSES_BELOW = false
+	  getgenv().GHALLOWEEN_WORLD_BUY_FROM_HOUSES_BELOW = true
 	  getgenv().GHALLOWEEN_WORLD_USE_BOOSTS = true
+		getgenv().GHALLOWEEN_WORLD_HATCH_SPOTS = 0
 	  getgenv().GHALLOWEEN_WORLD_RECIPES_TO_DO = {1,2,3,4}
-	  getgenv().GKEEP_CURRENCY_FOR_CRAFTS = "6m"
 	end	
 
 end
