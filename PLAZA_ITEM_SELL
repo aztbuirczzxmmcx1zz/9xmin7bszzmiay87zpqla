@@ -17,18 +17,18 @@ local SELL_vs_GAGAN = {
 local defaultSELL_vs_GAGAN = "60b"
 ----------------------------------
 local SELL_vs_username = {
-	["sijmongirthss"] = "8.51b",
-	["Ash3rP0w3rPanda2018"] = "8.52b",
-	["soystaylan5"] = "8.53b",
-	["dreddyewele60"] = "8.54b",
-	["1971Nowak3135"] = "8.79b",
-	["Sky_Giga2017"] = "8.75b",
-	["Inferno_Eagle200889"] = "8.57b",
-	["XxOwenC0dexX2023"] = "8.58b",
-	["TurboTig3rStr3am"] = "8.59b",
-	["1953Crutchfield3117"] = "8.6b",	
+	["sijmongirthss"] = "8.41b",
+	["Ash3rP0w3rPanda2018"] = "8.42b",
+	["soystaylan5"] = "8.43b",
+	["dreddyewele60"] = "8.44b",
+	["1971Nowak3135"] = "8.49b",
+	["Sky_Giga2017"] = "8.45b",
+	["Inferno_Eagle200889"] = "8.47b",
+	["XxOwenC0dexX2023"] = "8.48b",
+	["TurboTig3rStr3am"] = "8.49b",
+	["1953Crutchfield3117"] = "8.4b",	
 }
-local defaultPrice = "8.5b"
+local defaultPrice = "8.39b"
 ----------------------------------
 local SELL_ttn_rb = {
 	["AceInferno202467"] = "35b",
@@ -68,7 +68,7 @@ getgenv().Settings_autoplaza = {
         {Name = "Gargantuan Super Cat", Data = {Price = SELL_vs_GAGAN[player.Name] or defaultSELL_vs_GAGAN}},
 
 
-	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "85b"}},
+	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "75b"}},
 
     {Name = "Titanic Bobcat", Data = {Price = "12b"}},
     {Name = "Titanic Parrot", Data = {Price = "9.5b"}},
@@ -126,10 +126,10 @@ getgenv().Settings_autoplaza = {
 	{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "400m", Max_sell = "1b"}},
 	{Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1b", Max_sell = "3b"}},
 
-	{Name = "Huge Shark Cat", Data = {Price = "4b"}},
+	{Name = "Huge Shark Cat", Data = {Price = "3.8b"}},
 	{Name = "Golden Huge Shark Cat", Data = {Price = "6b"}},
 	{Name = "Huge Specter Owl", Data = {Price = "2b"}},
-	{Name = "Golden Huge Specter Owl", Data = {Price = "2.5b"}},
+	{Name = "Golden Huge Specter Owl", Data = {Price = "2b"}},
 
 	{Name = "Huge Skeleton Snake", Data = {Price = "50m"}},
 	--{Name = "Huge Evil Raven", Data = {Price = "13.5m"}},
