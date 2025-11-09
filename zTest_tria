@@ -596,9 +596,6 @@ task.spawn(function()
 		while getRunsUsed() < 10 do
 			setfpscap(7)
 			local used = getRunsUsed()
-			if getRunsUsed() == 9 then
-				_G.going_timetital = false
-			end
 			lagFlag = false
 			endFlag = false
 
