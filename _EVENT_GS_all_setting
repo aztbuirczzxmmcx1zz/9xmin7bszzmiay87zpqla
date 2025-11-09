@@ -1,33 +1,100 @@
-setfpscap(4)
-getgenv().GEVENT_FPS  = 4
+local FILE_NAMEHL = "HLtotal.txt"
+if not readfile then
+    return warn("readfile không được hỗ trợ trong môi trường này.")
+end
+if not isfile or not isfile(FILE_NAMEHL) then
+    writefile(FILE_NAMEHL, "0")
+end
+local content = readfile(FILE_NAMEHL)
+local val = tonumber(content)
+if val == nil then
+    val = 51000
+    writefile(FILE_NAMEHL, "51000")
+end
+_G.TotalHLGet = val
 
-getgenv().GDO_HALLOWEEN_WORLD = true
-getgenv().GEVENT_UPGRADES = {
-  "HalloweenCandyMultiplier",
-  "HalloweenEggLuck",
-  "HalloweenTrickOrTreatLuck",
-  "HalloweenMoreDiamonds",
-  "HalloweenMoreWitchHats",
-  "HalloweenHugeLuck",
-  "HalloweenTitanicLuck"
-}
-getgenv().GHALLOWEEN_WORLD_BUY_FROM_SPECIFIC_HOUSE = 3
-getgenv().GHALLOWEEN_WORLD_BUY_FROM_HOUSES_BELOW = true
-getgenv().GHALLOWEEN_WORLD_USE_BOOSTS = true
 
---getgenv().GALLOW_HOPPING = true
-getgenv().GHALLOWEEN_WORLD_RECIPES_TO_DO = {1,2,3,4}
-getgenv().GKEEP_CURRENCY_FOR_CRAFTS = "6m"
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Save = require(ReplicatedStorage.Library.Client.Save)
+local function safeFetchSave()
+    for i = 1, 3 do
+        local ok, data = pcall(Save.Get)
+        if ok and data and data.TimeTrialStats then
+            return data.TimeTrialStats
+        end
+        task.wait(1)
+    end
+    return { DailyRuns = 0, Points = 0 }
+end
+local function getRunsLeft()
+    local stats = safeFetchSave()
+    return 10 - (stats.DailyRuns or 0)
+end
+_G.RunsLeft_TIMEtritral = getRunsLeft()
+
+
+setfpscap(3)
+getgenv().GEVENT_FPS  = 3
+
+if game.PlaceId == 119454325063278 then 
+
+		getgenv().GDO_FARMING_WORLD = true
+    getgenv().GEVENT_UPGRADES = {
+            "FarmingHugeChance",
+            "FarmingTitanicChance",
+            "FarmingPixelRainbowLuck",
+            "FarmingGoldHatchChance",
+            "FarmingRainbowHatchChance",
+            "FarmingShinyHatchChance"
+        }
+		getgenv().GENCHANTS = {"Lucky Eggs","Lucky Eggs","Lucky Eggs","Huge Hunter","Treasure Hunter","Diamonds"}
+        
+elseif game.PlaceId == 95635359880599 then
+
+		getgenv().GDO_FISHING_EVENT = true
+    getgenv().GUSE_BOOSTS = true
+		getgenv().GENCHANTS = {"Lucky Eggs","Lucky Eggs","Lucky Eggs","Huge Hunter","Treasure Hunter","Diamonds"}
+
+elseif game.PlaceId == 131952481663528 then
+	if _G.RunsLeft_TIMEtritral == 0 then
+	  getgenv().GDO_HALLOWEEN_WORLD = true
+	  getgenv().GEVENT_UPGRADES = {
+	    "HalloweenCandyMultiplier",
+	    "HalloweenEggLuck",
+	    "HalloweenTrickOrTreatLuck",
+	    "HalloweenMoreDiamonds",
+	    "HalloweenMoreWitchHats",
+	    "HalloweenHugeLuck",
+	    "HalloweenTitanicLuck"
+	  }
+	  
+	  getgenv().GKICK_ON_STAFF = true
+
+if _G.TotalHLGet < 50000 then
+		getgenv().GHALLOWEEN_WORLD_BUY_FROM_SPECIFIC_HOUSE = 1
+else	  
+		getgenv().GHALLOWEEN_WORLD_BUY_FROM_SPECIFIC_HOUSE = {1,3}
+end
+
+	  getgenv().GHALLOWEEN_OPEN_HOUSE_6 = true
+	  getgenv().GHALLOWEEN_WORLD_BUY_FROM_HOUSES_BELOW = false
+	  getgenv().GHALLOWEEN_WORLD_USE_BOOSTS = true
+	  getgenv().GHALLOWEEN_WORLD_RECIPES_TO_DO = {1,2,3,4}
+	  getgenv().GKEEP_CURRENCY_FOR_CRAFTS = "6m"
+	end	
+
+end
+
 getgenv().GLOOTBOXES = {"Tropical Gift"}
 
-getgenv().GRANK_FIRST = true
-getgenv().GRANK_TO = 2
-getgenv().GREBIRTH_TO = 2
-getgenv().GZONE_TO = 52  -- to enter event from W1 put 1, from W2 put 100, from W3 200, from W4 240
+--getgenv().GRANK_FIRST = true
+--getgenv().GRANK_TO = 2
+--getgenv().GREBIRTH_TO = 2
+getgenv().GZONE_TO = 999  -- to enter event from W1 put 1, from W2 put 100, from W3 200, from W4 240
 
 getgenv().GPROGRESS_MODE = "Hybrid" -- Hatch  Hybrid
 getgenv().GGFX_MODE = 1
-getgenv().GHATCH_SPEED_MS = 0
 getgenv().GHATCH_CHARGED_EGGS = false
 getgenv().GHATCH_GOLDEN_EGGS = false
 getgenv().GCLEAR_FAVORITE_PETS = true
@@ -35,7 +102,6 @@ getgenv().GCLEAR_FAVORITE_PETS = true
 
 -----------------------
 getgenv().GUSE_SPINNY_WHEEL = true
-getgenv().GAUTO_UPGRADE_PETS = true
 getgenv().GCOMBINE_KEYS = true
 getgenv().GMASTERY_TO_MAX = "Pets"
 getgenv().GCONSUME_CHARMS = true
@@ -69,14 +135,16 @@ getgenv().GHUGE_COUNT = 50999
 getgenv().GMAIL_ITEMS = {		
 
 ["Huge Splash Angelus"] = {Class = "Pet", Id = "Huge Splash Angelus", MinAmount = 1, AllVariants = true},
-["Huge Evil Raven"] = {Class = "Pet", Id = "Huge Evil Raven", MinAmount = 1, AllVariants = true},
+["Huge Skeleton Snake"] = {Class = "Pet", Id = "Huge Skeleton Snake", MinAmount = 1, AllVariants = true},
+["Huge Specter Owl"] = {Class = "Pet", Id = "Huge Specter Owl", MinAmount = 1, AllVariants = true},
+["Huge Shark Cat"] = {Class = "Pet", Id = "Huge Shark Cat", MinAmount = 1, AllVariants = true},
 
 ["Secret pet1"] = {Class = "Pet", Id = "Rainbow Swirl", MinAmount = 1, AllVariants = true},
 ["Secret pet2"] = {Class = "Pet", Id = "Banana", MinAmount = 1, AllVariants = true},
 ["Secret pet3"] = {Class = "Pet", Id = "Coin", MinAmount = 1, AllVariants = true},
 ["Secret pet4"] = {Class = "Pet", Id = "Yellow Lucky Block", MinAmount = 1, AllVariants = true},	
 
-["Send Diamonds"] = {Class = "Currency", Id = "Diamonds", KeepAmount = "5m", MinAmount = "300m"},
+["Send Diamonds"] = {Class = "Currency", Id = "Diamonds", KeepAmount = "5m", MinAmount = "350m"},
 }
 getgenv().GMAIL_RECEIVERS = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","Sky_Giga2017","Inferno_Eagle200889","XxOwenC0dexX2023","TurboTig3rStr3am","1953Crutchfield3117","FusionShadowCyber","AceInferno202467","R0ck3tClaw2021_YT","Xx_VictoriaUltraCybe","Br00klynSkat3r2022","Li0nArr0w85","Noah_SKATER35","RowlandCollinq943","GalaxyRider200343","ChillMaster2011"}
    
