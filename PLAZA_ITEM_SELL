@@ -1,74 +1,16 @@
--- Bảng thiết lập riêng cho từng player
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-----------------------------------
-local SELL_vs_GAGAN = {
-	["sijmongirthss"] = "60b",
-	["Ash3rP0w3rPanda2018"] = "61b",
-	["soystaylan5"] = "62b",
-	["dreddyewele60"] = "65b",
-	["1971Nowak3135"] = "58b",
-	["Sky_Giga2017"] = "67b",
-	["Inferno_Eagle200889"] = "58b",
-	["XxOwenC0dexX2023"] = "60.5b",
-	["TurboTig3rStr3am"] = "60b",
-	["1953Crutchfield3117"] = "71b",	
-}
-local defaultSELL_vs_GAGAN = "60b"
-----------------------------------
-local SELL_vs_username = {
-	["sijmongirthss"] = "8.41b",
-	["Ash3rP0w3rPanda2018"] = "8.42b",
-	["soystaylan5"] = "8.43b",
-	["dreddyewele60"] = "8.44b",
-	["1971Nowak3135"] = "8.49b",
-	["Sky_Giga2017"] = "8.45b",
-	["Inferno_Eagle200889"] = "8.47b",
-	["XxOwenC0dexX2023"] = "8.48b",
-	["TurboTig3rStr3am"] = "8.49b",
-	["1953Crutchfield3117"] = "8.4b",	
-}
-local defaultPrice = "8.39b"
-----------------------------------
-local SELL_ttn_rb = {
-	["AceInferno202467"] = "35b",
-	["Xx_VictoriaUltraCybe"] = "37b",	
-}
-local default_ttn_rb = "32b"
-----------------------------------
-local SELL_ttn_gold = {
-	["sijmongirthss"] = "6.91b",
-	["Ash3rP0w3rPanda2018"] = "6.92b",
-	["soystaylan5"] = "6.93b",
-	["dreddyewele60"] = "6.94b",
-	["1971Nowak3135"] = "6.95b",
-	["Sky_Giga2017"] = "6.96b",
-	["Inferno_Eagle200889"] = "6.97b",
-	["XxOwenC0dexX2023"] = "6.98b",
-	["TurboTig3rStr3am"] = "6.99b",
-	["1953Crutchfield3117"] = "6.8b",	
-	["Li0nArr0w85"] = "6.96b",
-	["Noah_SKATER35"] = "6.97b",
-	["RowlandCollinq943"] = "6.98b",
-	["GalaxyRider200343"] = "6.99b",
-	["ChillMaster2011"] = "6.9b",	
-}
-local default_ttn_gold = "6.9b"
-----------------------------------
-
 getgenv().Settings_autoplaza = {
 ["Items"] = {
 
 		{Name = "MVP Key", Data = {Price = "4.5m"}},
 		{Name = "MVP Key Upper Half", Data = {Price = "4.4m"}}, 
 
-        {Name = "Titanic Starlight Pony", Data = {Price = SELL_vs_username[player.Name] or defaultPrice}},
-		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = SELL_ttn_rb[player.Name] or default_ttn_rb}},
-		{Name = "Golden Titanic Starlight Pony", Data = {Price = SELL_ttn_gold[player.Name] or default_ttn_gold}},
-        {Name = "Gargantuan Super Cat", Data = {Price = SELL_vs_GAGAN[player.Name] or defaultSELL_vs_GAGAN}},
+        {Name = "Titanic Starlight Pony", Data = {Price = math.random(1,10)*0.01 + 8.4 .."b"}}, 		
+		{Name = "Golden Titanic Starlight Pony", Data = {Price = math.random(1,10)*0.01 + 7.1 .."b"}}, 
 
+        {Name = "Gargantuan Super Cat", Data = {Price = "61b"},
+		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "32b"},
 
-	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "75b"}},
+	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "70b"}},
 
     {Name = "Titanic Bobcat", Data = {Price = "12b"}},
     {Name = "Titanic Parrot", Data = {Price = "9.5b"}},
