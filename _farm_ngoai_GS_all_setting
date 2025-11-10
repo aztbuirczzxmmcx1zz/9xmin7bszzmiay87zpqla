@@ -14,6 +14,25 @@ getgenv().GHATCH_CHARGED_EGGS = false
 getgenv().GHATCH_GOLDEN_EGGS = false
 getgenv().GCLEAR_FAVORITE_PETS = true
 
+if game.PlaceId == 119454325063278 then 
+		getgenv().GDO_FARMING_WORLD = true
+    getgenv().GEVENT_UPGRADES = {
+            "FarmingHugeChance",
+            "FarmingTitanicChance",
+            "FarmingPixelRainbowLuck",
+            "FarmingGoldHatchChance",
+            "FarmingRainbowHatchChance",
+            "FarmingShinyHatchChance"
+        }
+		getgenv().GENCHANTS = {"Lucky Eggs","Lucky Eggs","Lucky Eggs","Huge Hunter","Treasure Hunter","Diamonds"}        
+elseif game.PlaceId == 95635359880599 then
+		getgenv().GDO_FISHING_EVENT = true
+    getgenv().GUSE_BOOSTS = true
+		getgenv().GENCHANTS = {"Lucky Eggs","Lucky Eggs","Lucky Eggs","Huge Hunter","Treasure Hunter","Diamonds"}
+else
+    getgenv().GENCHANTS = {}
+end
+
 
 -----------------------
 getgenv().GUSE_SPINNY_WHEEL = true
@@ -43,7 +62,7 @@ getgenv().GEVENT_ITEMS_TO_USE = {"Mini Pinata","Party Box","Mini Lucky Block"}
 getgenv().GFRUITS = {"Watermelon","Candycane","Apple","Rainbow","Pineapple","Orange","Banana"}
 getgenv().GPOTIONS = {"Coins","Lucky","The Cocktail","Huge","Treasure Hunter","Walkspeed","Diamonds","Damage"}
 getgenv().GPOTIONS_MAX_TIER = 99
-getgenv().GENCHANTS = {}
+
 
 
 getgenv().GHUGE_COUNT = 50999
