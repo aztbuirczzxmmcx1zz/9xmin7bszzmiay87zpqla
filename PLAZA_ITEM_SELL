@@ -4,8 +4,8 @@ getgenv().Settings_autoplaza = {
 		{Name = "MVP Key", Data = {Price = "4.5m"}},
 		{Name = "MVP Key Upper Half", Data = {Price = "4.4m"}}, 
 
-        {Name = "Titanic Starlight Pony", Data = {Price = math.random(1,10)*0.01 + 8.4 .."b"}}, 		
-		{Name = "Golden Titanic Starlight Pony", Data = {Price = math.random(1,10)*0.01 + 7.1 .."b"}}, 
+        {Name = "Titanic Starlight Pony", Data = {Price = math.random(1,30)*0.01 + 8.4 .."b"}}, 		
+		{Name = "Golden Titanic Starlight Pony", Data = {Price = math.random(1,30)*0.01 + 7.1 .."b"}}, 
 
         {Name = "Gargantuan Super Cat", Data = {Price = "61b"}}, 
 		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "32b"}},
