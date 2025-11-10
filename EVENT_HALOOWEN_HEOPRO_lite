@@ -218,7 +218,7 @@ local function scheduleScan()
     if scanScheduled then return end
     scanScheduled = true
     task.spawn(function()
-        task.wait(_G.HW.ScanDebounce)
+        task.wait(5)
         scanScheduled = false
         scanDebris()
     end)
@@ -335,14 +335,21 @@ task.spawn(function()
 end)
 
 task.spawn(function()
+
+task.wait(10)
+
     repeat task.wait(_G.HW.BaseWait) until _G.PillarScanDone and _G.TeleDone
 
     local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
     local SaveModule = safeRequire(Client.Save)
     while not SaveModule do task.wait(_G.HW.BaseWait); SaveModule = safeRequire(Client.Save) end
+		if _G.TotalRate < 50000 then
+	    local eggPriority = {"Clown Egg","Coffin Egg","Reaper Egg","Spider Egg","Cauldron Egg","Ghost Egg","Bat Egg","Grave Egg","Pumpkin Egg"}
+    else
+			local eggPriority = {"Clown Egg","Coffin Egg"}
+		end
 
-    local eggPriority = {"Clown Egg","Coffin Egg","Reaper Egg","Spider Egg","Cauldron Egg","Ghost Egg","Bat Egg","Grave Egg","Pumpkin Egg"}
-    local currentEgg = nil
+		local currentEgg = nil
 
     while true do
         local ok, saveData = pcall(function() return SaveModule.Get() end)
