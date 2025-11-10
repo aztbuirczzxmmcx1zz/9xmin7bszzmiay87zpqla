@@ -1,17 +1,10 @@
 local FILE_NAMEHL = "HLtotal.txt"
-if not readfile then
-    return warn("readfile không được hỗ trợ trong môi trường này.")
-end
-if not isfile or not isfile(FILE_NAMEHL) then
-    writefile(FILE_NAMEHL, "51000")
-end
 local content = readfile(FILE_NAMEHL)
 local val = tonumber(content)
-if val == nil then
-    val = 51000
-    writefile(FILE_NAMEHL, "51000")
+if _G.TotalHLGet == nil then
+    _G.TotalHLGet = 51000
 end
-_G.TotalHLGet = val
+warn(_G.TotalHLGet)
 
 
 local Players = game:GetService("Players")
