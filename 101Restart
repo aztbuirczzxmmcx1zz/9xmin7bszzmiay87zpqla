@@ -24,7 +24,7 @@ end
 local _Config_Offline = getOffline()
  if _Config_Offline ~= _Config_Online then
     setOffline(_Config_Online)
-    game:Shutdown()
+    --game:Shutdown()
  end
 
 
