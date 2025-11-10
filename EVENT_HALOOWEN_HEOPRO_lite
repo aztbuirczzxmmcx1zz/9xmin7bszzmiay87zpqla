@@ -546,11 +546,11 @@ task.spawn(function()
             if data.id == name then return uid end
         end
     end
-    while task.wait(1.5) do
+    while task.wait(1) do
         local inv = PlayerSave.Get().Inventory
         local eggHave = false
         for _, data in pairs(inv.EggHalloween or {}) do
-            if data.id == "Coffin Egg" or data.id == "Reaper Egg" then
+            if data.id == "Coffin Egg" or data.id == "Clown Egg" then
                 eggHave = true
                 break
             end
