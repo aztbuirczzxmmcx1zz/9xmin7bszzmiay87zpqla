@@ -10,7 +10,7 @@ getgenv().Settings_autoplaza = {
         {Name = "Gargantuan Super Cat", Data = {Price = "61b"}}, 
 		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = "32b"}},
 
-	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "70b"}},
+	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "66b"}},
 
     {Name = "Titanic Bobcat", Data = {Price = "12b"}},
     {Name = "Titanic Parrot", Data = {Price = "9.5b"}},
@@ -60,9 +60,10 @@ getgenv().Settings_autoplaza = {
         {Name = "Hacker Key", Data = {Price = "+1%"}},
         {Name = "Fantasy Key", Data = {Price = "+1%"}},  
 
-  	{Name = "Shiny Palace Pooka", Data = {Price = "50m"}},
-	{Name = "Shiny Golden Palace Pooka", Data = {Price = "5%"}},	
-	{Name = "Shiny Rainbow Palace Pooka", Data = {Price = "5%"}},
+  	{Name = "Shiny Palace Pooka", Data = {Price = "100m"}},
+	{Name = "Shiny Golden Palace Pooka", Data = {Price = "50m"}},	
+	{Name = "Shiny Rainbow Palace Pooka", Data = {Price = "250m"}},
+
     {Name = "Shiny Rose Pooka", Data = {Price = "1%"}},
 
 	{Name = "Shiny All Huges", Data = {Price = "10%", Min_sell = "70m", Max_sell = "300m"}},
