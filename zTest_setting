@@ -131,7 +131,7 @@ getgenv().GHUGE_COUNT = 50999
 getgenv().GMAIL_ITEMS = {		
 
 ["Huge Splash Angelus"] = {Class = "Pet", Id = "Huge Splash Angelus", MinAmount = 1, AllVariants = true},
---["Huge Skeleton Snake"] = {Class = "Pet", Id = "Huge Skeleton Snake", MinAmount = 1, AllVariants = true},
+["Breakable Mayhem"] = {Class = "Enchant", Id = "Breakable Mayhem", Tier = 4 ,Amount = 1},
 ["Huge Specter Owl"] = {Class = "Pet", Id = "Huge Specter Owl", MinAmount = 1, AllVariants = true},
 ["Huge Shark Cat"] = {Class = "Pet", Id = "Huge Shark Cat", MinAmount = 1, AllVariants = true},
 
