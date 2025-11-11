@@ -1,8 +1,8 @@
 getgenv().Settings_autoplaza = {
 ["Items"] = {
 
-		{Name = "MVP Key", Data = {Price = "4.5m"}},
-		{Name = "MVP Key Upper Half", Data = {Price = "4.4m"}}, 
+		{Name = "MVP Key", Data = {Price = "4.7m"}},
+		{Name = "MVP Key Upper Half", Data = {Price = "4.7m"}}, 
 
         {Name = "Titanic Starlight Pony", Data = {Price = math.random(1,30)*0.01 + 8.4 .."b"}}, 		
 		{Name = "Golden Titanic Starlight Pony", Data = {Price = math.random(1,30)*0.01 + 7.1 .."b"}}, 
