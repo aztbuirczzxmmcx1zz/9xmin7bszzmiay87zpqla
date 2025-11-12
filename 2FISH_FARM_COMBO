@@ -29,7 +29,7 @@ local FISH_PLACEID = 119454325063278	--95635359880599
 
 local LOBBY_PLACEID_SPECIAL = 140403681187145 
 local WORLD4_REMOTE_NAME = "World4Teleport"
-local REQUIRED_SECONDS = 15 * 60 
+local REQUIRED_SECONDS = 30 * 60 
 
 local runtime = {
     farm = { total = 0, last = os.time(), done = false },
@@ -120,7 +120,7 @@ local function checkResetAt23()
     local vn = getVNNow()
     if not vn then return end
     local vnDateStr = string.format("%02d/%02d/%04d", vn.day, vn.month, vn.year)
-    if vn.hour == 12 then
+    if vn.hour == 23 then
         if runtime.reset23Date ~= vnDateStr then
             runtime.farm.total = 0
             runtime.farm.last = os.time()
