@@ -7,8 +7,6 @@ local rank = Save.Get().Rank
 
 if rank > 10 then
 	check_and_tele_w = 4 
-elseif rank > 6 then
-	check_and_tele_w = 3 
 elseif rank > 5 then
 	check_and_tele_w = 2 
 else
