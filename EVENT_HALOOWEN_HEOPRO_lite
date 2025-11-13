@@ -281,8 +281,7 @@ task.spawn(function()
         if totalRate >= 50000 then
 
 			if candy >= 36000000 then
-                tier = 6
-				number_egghatch = 1
+                tier = 3
             elseif candy >= 6000000 then
                 tier = 2
             else
@@ -291,9 +290,9 @@ task.spawn(function()
         	end
 
         elseif totalRate >= 15000 then
-            if candy >= 90000000 then
+            if candy > 90000000 then
                 tier = 5
-            elseif candy >= 6000000 then
+            elseif candy > 6000000 then
                 tier = 2
             else
                 tier = 2
@@ -330,7 +329,7 @@ task.spawn(function()
         pcall(function()
             Network.Plots_Invoke:InvokeServer(_G.CurrentPlotId, "PurchaseEgg", tier, number_egghatch)
         end)
-        task.wait(1)
+        task.wait(0.5)
     end
 end)
 
