@@ -32,8 +32,8 @@ end
 _G.RunsLeft_TIMEtritral = getRunsLeft()
 
 
-setfpscap(3)
-getgenv().GEVENT_FPS  = 3
+setfpscap(5)
+getgenv().GEVENT_FPS  = 5
 
 if game.PlaceId == 119454325063278 then 
 
