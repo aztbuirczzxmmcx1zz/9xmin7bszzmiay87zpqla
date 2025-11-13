@@ -1,18 +1,17 @@
 getgenv().Settings_autoplaza = {
 ["Items"] = {
 
-		{Name = "MVP Key", Data = {Price = "4.7m"}},
-		{Name = "MVP Key Upper Half", Data = {Price = "4.7m"}}, 
+		{Name = "MVP Key", Data 		   = {Price = 5 + math.random(1,30)*0.01 .."m"}}, 	
+		{Name = "MVP Key Upper Half", Data = {Price = 5 + math.random(1,30)*0.01 .."m"}}, 	
 
         {Name = "Titanic Starlight Pony", Data = {Price = 9.5 + math.random(1,30)*0.01 .."b"}}, 		
 		{Name = "Golden Titanic Starlight Pony", Data = {Price =8.5 + math.random(1,30)*0.01 .."b"}}, 
 
         {Name = "Gargantuan Super Cat", Data = {Price = "61b"}}, 
-		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = 40 + math.random(1,30)*0.01 .."b"}}, 
+		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = 39 + math.random(1,30)*0.01 .."b"}}, 
+		{Name = "Shiny Titanic Starlight Pony", Data = {Price = 64 + math.random(1,30)*0.01 .."b"}}, 
 
-	{Name = "Shiny Titanic Starlight Pony", Data = {Price = "66b"}},
-
-    {Name = "Titanic Bobcat", Data = {Price = "14b"}},
+    {Name = "Titanic Bobcat", Data = {Price = 13 + math.random(1,30)*0.01 .."b"}}, 
     {Name = "Titanic Parrot", Data = {Price = "9.5b"}},
  	
 		
@@ -76,10 +75,10 @@ getgenv().Settings_autoplaza = {
 	{Name = "Golden Huge Specter Owl", Data = {Price = "2b"}},
 
 	{Name = "Huge Skeleton Snake", Data = {Price = "14m"}},
-	--{Name = "Huge Evil Raven", Data = {Price = "11.5m"}},
+	{Name = "Huge Evil Raven", Data = {Price = "11.5m"}},
 
-{Name = "All Huges", Data = {Price = "+10%", Min_sell = "10m", Max_sell = "80m", sold_by_convention = true}},  
-{Name = "Golden All Huges", Data = {Price = "+10%", Min_sell = "12m", Max_sell = "80m", sold_by_convention = true}},
+{Name = "All Huges", Data = {Price = "+5%", Min_sell = "10m", Max_sell = "80m", sold_by_convention = true}},  
+{Name = "Golden All Huges", Data = {Price = "+5%", Min_sell = "12m", Max_sell = "80m", sold_by_convention = true}},
 {Name = "Rainbow All Huges", Data = {Price = "5%", Min_sell = "60m", Max_sell = "200m", sold_by_convention = true}},   
 
 
