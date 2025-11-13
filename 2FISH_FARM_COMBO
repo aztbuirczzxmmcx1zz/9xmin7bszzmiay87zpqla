@@ -48,7 +48,7 @@ local function loadData()
             runtime.farm = runtime.farm or { total = 0, last = os.time(), done = false }
             runtime.fish = runtime.fish or { total = 0, last = os.time(), done = false }
 
-            -- 👉 Check lại trạng thái done nếu bị thiếu
+            -- ?? Check l?i tr?ng thái done n?u b? thi?u
             local updated = false
 			if not runtime.farm.done and runtime.farm.total >= REQUIRED_SECONDS then
 				runtime.farm.done = true
@@ -77,7 +77,7 @@ local function saveData()
             writefile(getFileName(), HttpService:JSONEncode(runtime))
         end)
         if not success then
-            warn("❌ Ghi file thất bại:", err)
+            warn("? Ghi file th?t b?i:", err)
         end
     end)
 end
@@ -104,7 +104,7 @@ local function resetIfNewDay()
             runtime[key].done = false
         end
 
-        warn("🔁 Reset vì sang ngày mới:", today)
+        warn("?? Reset vì sang ngày m?i:", today)
         saveData()
 		
     end
@@ -131,7 +131,7 @@ local function checkResetAt23()
             runtime.reset23Date = vnDateStr
             runtime.lastDay = vnDateStr
             saveData()
-            warn(("🔁 Reset progress at 23:00 VN (%s)"):format(vnDateStr))
+            warn(("?? Reset progress at 23:00 VN (%s)"):format(vnDateStr))
         end
     else
         -- do nothing; reset23Date kept until new day or next 23:00
@@ -142,11 +142,11 @@ local function updateProgress(which)
     local now = os.time()
     local data = runtime[which]
     if not data then 
-		--warn("[updateProgress] Không tìm thấy runtime." .. which) 
+		--warn("[updateProgress] Không tìm th?y runtime." .. which) 
 		return 
 	end
     if type(data.last) ~= "number" then
-        --warn("[updateProgress] last bị lỗi, gán lại")
+        --warn("[updateProgress] last b? l?i, gán l?i")
         data.last = now
     end
 
@@ -158,16 +158,16 @@ local function updateProgress(which)
 
     if not data.done and data.total >= REQUIRED_SECONDS then
         data.done = true
-        warn(string.format("[updateProgress] %s DONE ✅", which))
+        warn(string.format("[updateProgress] %s DONE ?", which))
     end
 
     local success, err = pcall(function()
         writefile(getFileName(), HttpService:JSONEncode(runtime))
     end)
     if not success then
-        --warn("[updateProgress] ❌ Ghi file thất bại:", err)
+        --warn("[updateProgress] ? Ghi file th?t b?i:", err)
     else
-        --warn("[updateProgress] ✅ Đã lưu vào file")
+        --warn("[updateProgress] ? Ðã luu vào file")
     end
 end
 
@@ -240,27 +240,26 @@ end
 
 
 local function invokeWorld4()
-        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
-    task.wait(20) -- chờ 3 phút
+    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
+    task.wait(20) 
 
     if game.PlaceId ~= PLACE_WORLD_4 then
-        print("⚠️ Teleport World4 lần 1 thất bại, thử lại...")
         game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
         task.wait(20)
 
         if game.PlaceId ~= PLACE_WORLD_4 then
-            LocalPlayer:Kick("⚠️ Tele World4 thất bại!")
-        else
-            print("✅ Teleport World4 lần 2 thành công.")
+            LocalPlayer:Kick("tele World4 FAIL")
         end
-    else
-        print("✅ Teleport World4 lần 1 thành công.")
     end
 end
 
 local function serverhopTo(placeId)
 	wait(7)
 	TeleportService:Teleport(placeId, LocalPlayer)
+	wait(30)
+	if game.PlaceId ~= placeId then
+		LocalPlayer:Kick("tele placeId FAIL")
+	end
 end
 
 local function serverhopToFishing()
@@ -270,7 +269,7 @@ local function serverhopToFishing()
 end
 local function serverhopToFarm()
 	if game.PlaceId ~= FARM_PLACEID then
-		serverhopTo(FARM_PLACEID)
+		serverhopTo(FARM_PLACEID)		
 	end
 end
 local function teleportToFishingInServer()
