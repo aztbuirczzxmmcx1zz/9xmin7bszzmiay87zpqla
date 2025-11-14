@@ -19,14 +19,14 @@ if name_vps == "V4" or name_vps == "V5" then
 					end
 					return false
 				end
-				EVENT_or_FARM = isSuperName(player.Name) and "F" or "E"
+				EVENT_or_FARM = isSuperName(player.Name) and "F" or "F"
 
 	Start_ford = 1
 elseif name_vps == "V3" or name_vps == "V2" or name_vps == "V1" or name_vps == "V0" then
-	EVENT_or_FARM = "E"
+	EVENT_or_FARM = "F"
 	Start_ford = 1
 else
-	EVENT_or_FARM = "E"
+	EVENT_or_FARM = "F"
 	Start_ford = 1
 end
 
