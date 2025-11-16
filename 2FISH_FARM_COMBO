@@ -32,8 +32,8 @@ local WORLD4_REMOTE_NAME = "World4Teleport"
 local REQUIRED_SECONDS = 30 * 60 
 
 local runtime = {
-    farm = { total = 0, last = os.time(), done = false },
-    fish = { total = 0, last = os.time(), done = false },
+    farm = { total = 1800, last = os.time(), done = true },
+    fish = { total = 1800, last = os.time(), done = true },
     lastDay = os.date("%d/%m/%Y"),
     reset23Date = nil
 }
