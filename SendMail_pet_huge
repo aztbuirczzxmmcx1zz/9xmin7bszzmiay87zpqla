@@ -579,7 +579,7 @@ wait(10)
 
 	--local username_rd = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","Sky_Giga2017","Inferno_Eagle200889","XxOwenC0dexX2023","TurboTig3rStr3am","1953Crutchfield3117","FusionShadowCyber","AceInferno202467","R0ck3tClaw2021_YT","Xx_VictoriaUltraCybe","Br00klynSkat3r2022","Li0nArr0w85","Noah_SKATER35","RowlandCollinq943","GalaxyRider200343","ChillMaster2011","XxRocketClawFlashxX","Vip3rB3arDragon2014","Rock3tWolfKing2009","StormyAce15"}
    
-    local username_rd = {"XxRocketClawFlashxX","Vip3rB3arDragon2014","Rock3tWolfKing2009","StormyAce15"}
+    local username_rd = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","Sky_Giga2017","Inferno_Eagle200889","XxOwenC0dexX2023","TurboTig3rStr3am","1953Crutchfield3117","FusionShadowCyber","AceInferno202467","R0ck3tClaw2021_YT","Xx_VictoriaUltraCybe","Br00klynSkat3r2022","Li0nArr0w85","Noah_SKATER35","RowlandCollinq943","GalaxyRider200343","ChillMaster2011","XxRocketClawFlashxX","Vip3rB3arDragon2014","Rock3tWolfKing2009","StormyAce15"}
    
     local username = username_rd[math.random(1, #username_rd)]
 
