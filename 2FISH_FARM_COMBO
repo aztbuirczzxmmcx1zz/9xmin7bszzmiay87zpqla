@@ -19,6 +19,7 @@ local TeleportService = game:GetService("TeleportService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local HttpService = game:GetService("HttpService")
 local player = Players.LocalPlayer
+local LocalPlayer = Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui")
 
 local okSave, Save = pcall(function() return require(ReplicatedStorage.Library.Client.Save) end)
