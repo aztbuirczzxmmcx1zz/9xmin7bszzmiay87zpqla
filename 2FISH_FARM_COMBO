@@ -246,9 +246,9 @@ local function invokeWorld4()
     if game.PlaceId ~= PLACE_WORLD_4 then
         game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
         task.wait(30)
-
-        LocalPlayer:Kick("tele World4 FAIL")
-
+				if game.PlaceId ~= PLACE_WORLD_4 then
+					LocalPlayer:Kick("tele World4 FAIL")
+				end
     end
 end
 
@@ -256,8 +256,9 @@ local function serverhopTo(placeId)
 	wait(7)
 	TeleportService:Teleport(placeId, LocalPlayer)
 	wait(30)
-	LocalPlayer:Kick("tele placeId FAIL")
-
+	if game.PlaceId ~= placeId then
+		LocalPlayer:Kick("tele placeId FAIL")
+	end
 end
 
 local function serverhopToFishing()
