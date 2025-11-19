@@ -240,8 +240,11 @@ end
 
 
 local function invokeWorld4()
-    game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
-    task.wait(20) 
+
+	if game.PlaceId ~= 140403681187145 then
+    	game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
+	    task.wait(20) 
+	end
 
     if game.PlaceId ~= 140403681187145 then
         game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("World4Teleport"):InvokeServer()
