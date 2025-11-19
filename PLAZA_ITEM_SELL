@@ -58,7 +58,7 @@ getgenv().Settings_autoplaza = {
         {Name = "Fantasy Key", Data = {Price = "+1%"}},  
 
   	{Name = "Shiny Palace Pooka", Data = {Price = "100m"}},
-	{Name = "Shiny Golden Palace Pooka", Data = {Price = "50m"}},	
+	{Name = "Shiny Golden Palace Pooka", Data = {Price = "20m"}},	
 	{Name = "Shiny Rainbow Palace Pooka", Data = {Price = "250m"}},
 
     {Name = "Shiny Rose Pooka", Data = {Price = "1%"}},
