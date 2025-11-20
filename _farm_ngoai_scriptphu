@@ -1,4 +1,4 @@
-wait(1)--waitchung
+wait(1)
 task.spawn(function()
 wait(20*3600)
 game:Shutdown()
@@ -7,7 +7,7 @@ end)
 
 local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 while Save.Get().Rank < 20 do
-	wait(7200)  -- chờ 2 giờ
+	wait(7200)  -- ch? 2 gi?
 end
 
 
@@ -22,7 +22,7 @@ local SaveData = require(Client.Save).Get()
 local Enchants_Equip = ReplicatedStorage.Network.Enchants_Equip
 local Enchants_ClearSlot = ReplicatedStorage.Network.Enchants_ClearSlot
 
--- Gom stack theo bookName và sort theo tn giảm dần
+-- Gom stack theo bookName và sort theo tn gi?m d?n
 local function getBookStackListFull(bookName)
     local stacks = {}
 
@@ -58,7 +58,7 @@ function autoEquipEnchantBooks(bookList)
 
     local equippedCount = 0
 
-    -- Đếm số lượng mỗi bookName được yêu cầu
+    -- Ð?m s? lu?ng m?i bookName du?c yêu c?u
     local requestedCounts = {}
     for _, bookName in ipairs(bookList) do
         requestedCounts[bookName] = (requestedCounts[bookName] or 0) + 1
@@ -98,10 +98,10 @@ local function waitForMapLoaded()
     local hrp = char:WaitForChild("HumanoidRootPart")
 
     local function isStablePosition()
-        -- Nếu map chưa load → nhân vật hay bị spawn ở (0,0,0) hoặc Y rất thấp
+        -- N?u map chua load ? nhân v?t hay b? spawn ? (0,0,0) ho?c Y r?t th?p
         if hrp.Position.Y < 2 then return false end
 
-        -- So sánh vị trí trong 0.5s → nếu không đổi nhiều thì coi như ổn định
+        -- So sánh v? trí trong 0.5s ? n?u không d?i nhi?u thì coi nhu ?n d?nh
         local p1 = hrp.Position
         task.wait(0.5)
         local p2 = hrp.Position
@@ -112,8 +112,8 @@ local function waitForMapLoaded()
     return true
 end
 
-wait(1)--waitchung
--- Xem item kiếm được / 1h ở góc phải dưới
+wait(1)
+-- Xem item ki?m du?c / 1h ? góc ph?i du?i
 task.spawn(function()
 wait(2)
 local Players = game:GetService("Players")
@@ -125,15 +125,15 @@ local Client = ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client")
 local SaveModule = require(Client:WaitForChild("Save"))
 
 local previousCounts = {}
-local baselineCounts = {}     -- NEW: lưu số lượng ban đầu
-local startClock = os.clock() -- NEW: mốc thời gian bắt đầu
+local baselineCounts = {}     -- NEW: luu s? lu?ng ban d?u
+local startClock = os.clock() -- NEW: m?c th?i gian b?t d?u
 
--- cấu hình item cần theo dõi
+-- c?u hình item c?n theo dõi
 local itemsToTrack = {
 	--{ id = "xxxxxxx", guiName = "Item4", row = 1, col = 1, color = Color3.fromRGB(192,192,192) }, -- xám
 
 	{ id = "MVP Key Upper Half", guiName = "Item2", row = 0, col = 0, color = Color3.fromRGB(255, 165, 0) },       -- cam
-	{ id = "Diamond", guiName = "Item1", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) }, -- trắng
+	{ id = "Diamond", guiName = "Item1", row = 0, col = 1, color = Color3.fromRGB(255, 255, 255) }, -- tr?ng
 	
 	
 }
@@ -144,7 +144,7 @@ local function createItemFrame(itemConfig, displayNumber)
 	local cols = 2
 	local rows = 2
 
-	-- tính vị trí chính giữa màn hình
+	-- tính v? trí chính gi?a màn hình
 	local offsetX = (itemConfig.col * (frameSize + spacing)) - ((cols - 1) * (frameSize + spacing) / 2)
 	local offsetY = (itemConfig.row * (frameSize + spacing)) - ((rows - 1) * (frameSize + spacing) / 2) + 80
 
@@ -173,11 +173,11 @@ local function createItemFrame(itemConfig, displayNumber)
 	label.Parent = frame
 end
 
--- NEW: hàm đếm số lượng theo yêu cầu (Diamond dùng Inventory.Currency)
--- THAY HÀM NÀY trong script của bạn
+-- NEW: hàm d?m s? lu?ng theo yêu c?u (Diamond dùng Inventory.Currency)
+-- THAY HÀM NÀY trong script c?a b?n
 -- REPLACE countItem WITH THIS
 local function countItem(inventory, itemId)
-	-- Đặc biệt: Diamond đọc trong Inventory.Currency với v.id == "Diamonds"
+	-- Ð?c bi?t: Diamond d?c trong Inventory.Currency v?i v.id == "Diamonds"
 	if itemId == "Diamond" then
 		local amount = 0
 		local currency = (inventory and inventory.Currency) or {}
@@ -190,7 +190,7 @@ local function countItem(inventory, itemId)
 		return amount
 	end
 
-	-- Mặc định: đếm như code gốc
+	-- M?c d?nh: d?m nhu code g?c
 	local total = 0
 	for _, group in pairs(inventory or {}) do
 		for _, obj in pairs(group) do
@@ -209,32 +209,32 @@ local function checkInventory()
 	local inventory = (save and save.Inventory) or {}
 	local currentCounts = {}
 
-	-- Xóa GUI cũ
+	-- Xóa GUI cu
 	for _, item in ipairs(itemsToTrack) do
 		local oldGui = PlayerGui:FindFirstChild(item.guiName)
 		if oldGui then oldGui:Destroy() end
 	end
 
-	-- Tính thời gian trôi qua (đơn vị phút)
+	-- Tính th?i gian trôi qua (don v? phút)
 	local elapsedMin = math.max(1, (os.clock() - startClock) / 60)
 
 	for _, item in ipairs(itemsToTrack) do
-		-- Lấy số lượng hiện tại
+		-- L?y s? lu?ng hi?n t?i
 		local count = countItem(inventory, item.id)
 		currentCounts[item.id] = count
 
-		-- Lưu số lượng gốc lần đầu
+		-- Luu s? lu?ng g?c l?n d?u
 		if baselineCounts[item.id] == nil then
 			baselineCounts[item.id] = count
 		end
 
-		-- Tính trung bình tăng/giờ theo phút
+		-- Tính trung bình tang/gi? theo phút
 		local delta = count - baselineCounts[item.id]
 		if delta < 0 then delta = 0 end
 
 		local avgPerHour = (delta / elapsedMin) * 60
 
-		-- Định dạng hiển thị
+		-- Ð?nh d?ng hi?n th?
 		local display
 		if item.id == "Diamond" then
 			display = tostring(math.floor((avgPerHour / 1_000_000) * 100 *24 + 0.5) / 100)
@@ -258,7 +258,7 @@ end
 
 end)
 
-wait(1)--waitchung
+wait(1)
 warn("event time trial")
 -- map 269 event time trial
 task.spawn(function()
@@ -283,7 +283,7 @@ local lagFlag = false
 local endFlag = false
 local lagMonitorThread, increaseMonitorThread, monitor12minThread
 
--- 🛡️ Lấy HumanoidRootPart an toàn
+-- ??? L?y HumanoidRootPart an toàn
 local function getHumanoidRootPart()
 	local character = player.Character or player.CharacterAdded:Wait()
 	if not character then return nil end
@@ -299,7 +299,7 @@ local function getHumanoidRootPart()
 	return hrp
 end
 
--- 📊 Hàm tiện ích
+-- ?? Hàm ti?n ích
 local function getRunsUsed()
 	local saveData = Save.Get()
 	return saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.DailyRuns or 0) or 0
@@ -319,7 +319,7 @@ local function getTotalRuns()
 	return saveData and saveData.TimeTrialStats and (saveData.TimeTrialStats.TotalRuns or 0) or 0
 end
 
--- 🗺️ Teleport hỗ trợ
+-- ??? Teleport h? tr?
 local function teleportTo(part)
 	local hrp = getHumanoidRootPart()
 	if hrp and part and part.CFrame then
@@ -328,7 +328,7 @@ local function teleportTo(part)
 end
 
 local function teleportToLocation()
-	warn("🚶‍♂️ Đang teleport về vị trí map 269...")
+	warn("????? Ðang teleport v? v? trí map 269...")
 	local hrp = getHumanoidRootPart()
 	if hrp then
 		hrp.CFrame = CFrame.new(-14251, 20, 1336)
@@ -343,7 +343,7 @@ local function safeTeleportOut()
 	if lagMonitorThread then pcall(task.cancel, lagMonitorThread) lagMonitorThread = nil end
 end
 
--- 🔍 Chờ đến khi đạt MaxZone ở map 4
+-- ?? Ch? d?n khi d?t MaxZone ? map 4
 local function getMaxZoneFromMap4()
 	local mapFolder = workspace:FindFirstChild("Map4")
 	if not mapFolder then return 0 end
@@ -368,22 +368,22 @@ local function waitUntilReachMaxZone()
 		end)
 		local current = success and data and data.ZoneNumber or 0
 		if current >= maxMapZone then
-			warn("✅ Đã đạt Zone tối đa (" .. tostring(current) .. ")")
+			warn("? Ðã d?t Zone t?i da (" .. tostring(current) .. ")")
 			break
 		end
-		warn("⏳ Chưa đạt Zone tối đa (" .. tostring(current) .. "/" .. tostring(maxMapZone) .. "), đợi 60s...")
+		warn("? Chua d?t Zone t?i da (" .. tostring(current) .. "/" .. tostring(maxMapZone) .. "), d?i 60s...")
 		task.wait(6000)
 	end
 end
 
 waitUntilReachMaxZone()
 
--- ⏱️ Monitor 12 phút không tăng lượt
+-- ?? Monitor 12 phút không tang lu?t
 local function startMonitor12Min()
 	monitor12minThread = task.spawn(function()
 		while true do
 			if getRunsUsed() >= 10 then
-				warn("🛑 Đã đủ 10 lượt → dừng theo dõi 12 phút.")
+				warn("?? Ðã d? 10 lu?t ? d?ng theo dõi 12 phút.")
 				return
 			end
 
@@ -400,14 +400,14 @@ local function startMonitor12Min()
 			if getRunsUsed() == startUsed and getTotalRuns() == startTotal then	
 				_G.placeid_tele = 140403681187145
 				loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/teleport_G_placeid_tele"))()	
-				--player:Kick("⏰ 12 phút không đổi lượt hoặc tổng Time Trial → nghi ngờ treo máy.")
+				--player:Kick("? 12 phút không d?i lu?t ho?c t?ng Time Trial ? nghi ng? treo máy.")
 				return
 			end
 		end
 	end)
 end
 
--- 📌 Theo dõi đứng yên
+-- ?? Theo dõi d?ng yên
 local function startLagMonitor()
 	lagMonitorThread = task.spawn(function()
 		local retryCount = 0
@@ -422,7 +422,7 @@ local function startLagMonitor()
 			local currentPos = hrp.Position
 			if (lastPosition - currentPos).Magnitude < 1 then
 				retryCount += 1
-				warn("⚠️ Đứng im " .. retryCount .. " lần")
+				warn("?? Ð?ng im " .. retryCount .. " l?n")
 
 				if retryCount > 3 then
 					_G.placeid_tele = 140403681187145
@@ -441,14 +441,14 @@ local function startLagMonitor()
 	end)
 end
 
--- 🧠 Theo dõi tăng điểm
+-- ?? Theo dõi tang di?m
 local function startIncreaseMonitor(startPoints, startRuns)
 	increaseMonitorThread = task.spawn(function()
-		warn("⏳ Theo dõi tăng Điểm/TotalRuns")
+		warn("? Theo dõi tang Ði?m/TotalRuns")
 		while true do
 			if lagFlag then return end
 			if getTimeTrialPoints() > startPoints or getTotalRuns() > startRuns then
-				warn("✅ Điểm hoặc TotalRuns tăng → Thoát Time Trial")
+				warn("? Ði?m ho?c TotalRuns tang ? Thoát Time Trial")
 				endFlag = true
 				safeTeleportOut()
 				return
@@ -458,18 +458,18 @@ local function startIncreaseMonitor(startPoints, startRuns)
 	end)
 end
 
--- 🔁 Teleport farm breakables
+-- ?? Teleport farm breakables
 local function teleportFarmLoop(startPoints, startRuns)
 	while true do
 		if lagFlag or endFlag or _G.STOP_TIME_TRIAL then
-			warn("⚠️ Dừng teleportFarmLoop")
+			warn("?? D?ng teleportFarmLoop")
 			return
 		end
 
-		-- 🔍 Kiểm tra nhân vật đã hồi sinh và có HRP chưa
+		-- ?? Ki?m tra nhân v?t dã h?i sinh và có HRP chua
 		local hrp = getHumanoidRootPart()
 		if not hrp then
-			warn("⚠️ Không tìm thấy HumanoidRootPart → đợi hồi sinh...")
+			warn("?? Không tìm th?y HumanoidRootPart ? d?i h?i sinh...")
 			task.wait(3)
 			continue
 		end
@@ -497,7 +497,7 @@ local function teleportFarmLoop(startPoints, startRuns)
 				end
 			end
 		else
-			warn("⏳ Không có rương, chờ 20s...")
+			warn("? Không có ruong, ch? 20s...")
 			local found = false
 			for i = 1, 200 do
 				if lagFlag or endFlag or _G.STOP_TIME_TRIAL then return end
@@ -511,7 +511,7 @@ local function teleportFarmLoop(startPoints, startRuns)
 				if found then break end
 			end
 			if not found then
-				warn("❌ Hết rương → kết thúc lượt")
+				warn("? H?t ruong ? k?t thúc lu?t")
 				endFlag = true
 				safeTeleportOut()
 				return
@@ -522,9 +522,9 @@ local function teleportFarmLoop(startPoints, startRuns)
 	end
 end
 
--- 🧹 Cleanup toàn bộ threads
+-- ?? Cleanup toàn b? threads
 local function cleanupAllThreads()
-	warn("🧹 Cleanup toàn bộ thread & trạng thái")
+	warn("?? Cleanup toàn b? thread & tr?ng thái")
 	if lagMonitorThread then pcall(task.cancel, lagMonitorThread) lagMonitorThread = nil end
 	if increaseMonitorThread then pcall(task.cancel, increaseMonitorThread) increaseMonitorThread = nil end
 	if monitor12minThread then pcall(task.cancel, monitor12minThread) monitor12minThread = nil end
@@ -534,7 +534,7 @@ local function cleanupAllThreads()
 	_G.VAR_TIME_TRIAL = nil
 end
 
--- 🎁 Đổi quà
+-- ?? Ð?i quà
 local function claimReward()
 
 Thu_7_openall = false
@@ -553,13 +553,13 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
--- Hàm teleport đến vị trí nhận thưởng
+-- Hàm teleport d?n v? trí nh?n thu?ng
 local function teleportToRewardLocation()
-    warn("🚶‍♂️ Đang teleport đến vị trí đổi quà...")
+    warn("????? Ðang teleport d?n v? trí d?i quà...")
     player.Character.HumanoidRootPart.CFrame = CFrame.new(-14186, 20, 2206)
 end
 
--- Hàm mở chest với số điểm nhất định
+-- Hàm m? chest v?i s? di?m nh?t d?nh
 local function openChest(pointsRequired, chestId)
     if getTimeTrialPoints() >= pointsRequired then
         teleportToRewardLocation()
@@ -574,12 +574,12 @@ end
 
 while true do
 
-	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
-	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
-	openChest(5000, 3)  -- Mở chest yêu cầu 5000 điểm
+	openChest(5000, 3)  -- M? chest yêu c?u 5000 di?m
+	openChest(5000, 3)  -- M? chest yêu c?u 5000 di?m
+	openChest(5000, 3)  -- M? chest yêu c?u 5000 di?m
 	if Thu_7_openall == true then
-		openChest(3000, 2)  -- Mở chest yêu cầu 3000 điểm	
-		openChest(1000, 1)  -- Mở chest yêu cầu 1000 điểm
+		openChest(3000, 2)  -- M? chest yêu c?u 3000 di?m	
+		openChest(1000, 1)  -- M? chest yêu c?u 1000 di?m
 	end
 	if getTimeTrialPoints() < diem_toi_thieu_thoat then
 		break
@@ -591,7 +591,7 @@ end
 end
 
 
--- ✅ VÒNG LẶP CHÍNH
+-- ? VÒNG L?P CHÍNH
 task.spawn(function()
 
 	
@@ -611,28 +611,28 @@ task.spawn(function()
 			endFlag = false
 
 			if used > 0 then
-				warn("⏸️ Nghỉ 30s trước lượt tiếp theo...")
+				warn("?? Ngh? 30s tru?c lu?t ti?p theo...")
 				wait(30)
 			end
 
 			local startPoints = getTimeTrialPoints()
 			local startRuns = getTotalRuns()
 
-			warn("🔁 Bắt đầu lượt: " .. tostring(used))
+			warn("?? B?t d?u lu?t: " .. tostring(used))
 			teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
 			waitForMapLoaded()
 			task.wait(5)
 			local retry = 0
 			while not workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("TimeTrial") and retry < 3 do
 				retry += 1
-				warn("❌ Vào thất bại, thử lại...")
+				warn("? Vào th?t b?i, th? l?i...")
 				teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
 				waitForMapLoaded()
 				task.wait(5)
 			end
 
 			if not workspace.__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("TimeTrial") then
-				warn("⛔ Không thể vào Time Trial.")
+				warn("? Không th? vào Time Trial.")
 				safeTeleportOut()
 				task.wait(5)
 				teleportTo(workspace.__THINGS.Instances.TimeTrial.Teleports.Enter)
@@ -649,19 +649,19 @@ task.spawn(function()
 			if increaseMonitorThread then pcall(task.cancel, increaseMonitorThread) increaseMonitorThread = nil end
 		end
 		setfpscap(5)
-		warn("🎉 Hoàn tất 10/10 lượt Time Trial.")
+		warn("?? Hoàn t?t 10/10 lu?t Time Trial.")
 		claimReward()
 		task.wait(3)
 		cleanupAllThreads()
 		autoEquipEnchantBooks({"Breakable Mayhem","Criticals","Lucky Eggs","Diamonds","Treasure Hunter","Super Lightning","Diamonds","Huge Hunter","Tap Power"})
 
 		_G.going_timetital = false
-		warn("⏳ Theo dõi reset DailyRuns...")
+		warn("? Theo dõi reset DailyRuns...")
 		while getRunsUsed() >= 10 do 				
 			task.wait(7200) 
 		end
 
-		warn("🔁 DailyRuns reset → tiếp tục farm.")
+		warn("?? DailyRuns reset ? ti?p t?c farm.")
 		if monitor12minThread then pcall(task.cancel, monitor12minThread) monitor12minThread = nil end
 		startMonitor12Min()
 	end
@@ -672,18 +672,20 @@ end)
 
 end)
 
-wait(1)--waitchung
-warn("send sách thừa")
---  nếu nó > 2 / 1 loại
+wait(1)
+--sent sach du thua
 task.spawn(function()
 
 local username = "BarzARoy1107"
 
--- Định dạng: "SốLượngGiữLại TênSách GiáTrịTN"
+-- Ð?nh d?ng: "S?Lu?ngGi?L?i TênSách GiáTr?TN"
 local booksToCheck = {
 
     "2 Lucky Eggs 10",
 	"1 Chest Breaker 1",
+	"1 Criticals 10",
+	"1 Treasure Hunter 10",
+	"2 Diamonds 10",
 }
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -692,18 +694,18 @@ local Network = require(Client.Network)
 local SaveData = require(Client.Save).Get()
 local HttpService = game:GetService("HttpService")
 
--- Hàm gửi sách
+-- Hàm g?i sách
 local function sendBook(uid, count)
     local message = "free " .. username
     local success, result = Network.Invoke("Mailbox: Send", username, message, "Enchant", uid, count)
     if success then
-        warn("✅ Đã gửi", count, "cuốn", uid, "cho", username)
+        warn("? Ðã g?i", count, "cu?n", uid, "cho", username)
     else
-        warn("❌ Lỗi gửi", uid, ":", tostring(result))
+        warn("? L?i g?i", uid, ":", tostring(result))
     end
 end
 
--- Duyệt từng mục trong danh sách
+-- Duy?t t?ng m?c trong danh sách
 for _, item in ipairs(booksToCheck) do
     local keepCount, bookName, tn = string.match(item, "(%d+)%s+([%w%s]+)%s+(%d+)")
     keepCount = tonumber(keepCount)
@@ -724,9 +726,9 @@ end
 
 end)
 
-wait(1)--waitchung
-warn("xem sl 7 sách thường dùng")
--- xem sl 7 sách thường dùng
+wait(1)
+warn("xem sl 7 sách thu?ng dùng")
+-- xem sl 7 sách thu?ng dùng
 task.spawn(function()
 task.wait(1)
 
@@ -741,7 +743,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local LocalPlayer = Players.LocalPlayer
 local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
 
--- Đếm số sách TN = 10 theo tên
+-- Ð?m s? sách TN = 10 theo tên
 local function findBookAmount(bookName)
     local results = 0
     local subTable = SaveData.Inventory.Enchant
@@ -756,7 +758,7 @@ local function findBookAmount(bookName)
     return results
 end
 
--- Tạo UI 1 hàng ngang với kích thước vuông
+-- T?o UI 1 hàng ngang v?i kích thu?c vuông
 local function createCounterUI()
     local screenGui = Instance.new("ScreenGui")
     screenGui.Name = "BookCounterUI"
@@ -767,7 +769,7 @@ local function createCounterUI()
     local container = Instance.new("Frame", screenGui)
     container.Name = "Container"
     container.AnchorPoint = Vector2.new(0.5, 0)
-    container.Position = UDim2.new(0.5, 0, 0.2, 0) -- Trên đầu, dưới tên người chơi
+    container.Position = UDim2.new(0.5, 0, 0.2, 0) -- Trên d?u, du?i tên ngu?i choi
     container.Size = UDim2.new(0, 75 * #booksToCheck, 0, 75)
     container.BackgroundTransparency = 1
 
@@ -789,7 +791,7 @@ local function createCounterUI()
     end
 end
 
--- Cập nhật số mỗi 5s
+-- C?p nh?t s? m?i 5s
 local function updateCounterUI()
     local container = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("BookCounterUI"):WaitForChild("Container")
     for i, bookName in ipairs(booksToCheck) do
@@ -801,7 +803,7 @@ local function updateCounterUI()
     end
 end
 
--- Khởi động UI và cập nhật
+-- Kh?i d?ng UI và c?p nh?t
 createCounterUI()
 task.spawn(function()
     while true do
@@ -813,9 +815,9 @@ end)
 end)
 
 
-wait(1)--waitchung
-warn("Ghép sách + thuốc nếu lv < 99 ")
--- Ghép sách + thuốc nếu lv < 99 
+wait(1)
+warn("Ghép sách + thu?c n?u lv < 99 ")
+-- Ghép sách + thu?c n?u lv < 99 
 task.spawn(function()
 
 local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
@@ -823,7 +825,7 @@ local level = Save.Get().Mastery and Save.Get().Mastery.Potions
 
 if level and level < 13034430 then
 
-    -- Hàm nâng cấp thuốc
+    -- Hàm nâng c?p thu?c
     local function _update_sach_theo_level(name_sach, level_sach)
         local saveModule = require(game.ReplicatedStorage.Library.Client.Save)
         local inventory = saveModule.Get() and saveModule.Get().Inventory and saveModule.Get().Inventory.Potion
@@ -846,7 +848,7 @@ if level and level < 13034430 then
         end
     end
 
-    -- Danh sách sách cần nâng cấp
+    -- Danh sách sách c?n nâng c?p
     local list = {
         "Treasure Hunter", "Walkspeed", "Strong Pets", 
         "Lucky Eggs", "Diamonds", "Coins"
@@ -868,7 +870,7 @@ local level = Save.Get().Mastery and Save.Get().Mastery.Enchants
 
 if level and level < 13034430 then
 
-    -- Hàm nâng cấp sách
+    -- Hàm nâng c?p sách
     local function _update_sach_theo_level(name_sach, level_sach)
         local saveModule = require(game.ReplicatedStorage.Library.Client.Save)
         local inventory = saveModule.Get() and saveModule.Get().Inventory and saveModule.Get().Inventory.Enchant
@@ -891,7 +893,7 @@ if level and level < 13034430 then
         end
     end
 
-    -- Danh sách sách cần nâng cấp
+    -- Danh sách sách c?n nâng c?p
     local list = {
         "Treasure Hunter", "Tap Power", "Strong Pets", "Walkspeed",
         "Magnet", "Lucky Eggs", "Diamonds", "Criticals", "Coins"
@@ -909,7 +911,7 @@ end
 end)
 
 
-wait(1)--waitchung
+wait(1)
 warn("up pet gold + rainbow")
 -- up pet gold + rainbow : Quartz Fox  Wise Cat
 task.spawn(function() 
@@ -943,7 +945,7 @@ end
 
 function Ghep_pet_len_gold_rainbow(danh_sach_ten_pet)
     for _, ten_pet in ipairs(danh_sach_ten_pet) do
-        -- Gộp Gold
+        -- G?p Gold
         local Pet_List1 = Manager:GetPets(ten_pet, nil)
         for _, pet in ipairs(Pet_List1) do
             while pet.Count >= 16 do
@@ -951,15 +953,15 @@ function Ghep_pet_len_gold_rainbow(danh_sach_ten_pet)
                     game:GetService("ReplicatedStorage").Network.GoldMachine_Activate:InvokeServer(pet.UID, 2)
                 end)
                 if not success then
-                    warn("❌ Lỗi khi ép pet GOLD: " .. tostring(err))
+                    warn("? L?i khi ép pet GOLD: " .. tostring(err))
                     break
                 end
-                task.wait(1)
+                task.wait(3)
                 pet.Count = pet.Count - 16
             end
         end
 
-        -- Gộp Rainbow
+        -- G?p Rainbow
         local Pet_List2 = Manager:GetPets(ten_pet, 1)
         for _, pet in ipairs(Pet_List2) do
             while pet.Count >= 16 do
@@ -967,17 +969,17 @@ function Ghep_pet_len_gold_rainbow(danh_sach_ten_pet)
                     game:GetService("ReplicatedStorage").Network.RainbowMachine_Activate:InvokeServer(pet.UID, 2)
                 end)
                 if not success then
-                    warn("❌ Lỗi khi ép pet RAINBOW: " .. tostring(err))
+                    warn("? L?i khi ép pet RAINBOW: " .. tostring(err))
                     break
                 end
-                task.wait(1)
+                task.wait(3)
                 pet.Count = pet.Count - 16
             end
         end
     end
 end
 
--- Gọi hàm ép nhiều pet
+-- G?i hàm ép nhi?u pet
 Ghep_pet_len_gold_rainbow(NamePet_ep)
 
 
@@ -985,9 +987,9 @@ Ghep_pet_len_gold_rainbow(NamePet_ep)
 end)
 
 
-wait(1)--waitchung
-warn("ghép gift bag và mở gift")
--- ghép gift bag và mở gift
+wait(1)
+warn("ghép gift bag và m? gift")
+-- ghép gift bag và m? gift
 task.spawn(function()
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -1005,7 +1007,7 @@ local List_Open_Giftbag = {
 }
 
 local function processGiftBags()
-    -- 🔁 Ghép Gift Bag thành Large Gift Bag
+    -- ?? Ghép Gift Bag thành Large Gift Bag
     do
         local giftBagUID, giftBagAmount = nil, 0
         for uid, data in pairs(SaveData.Inventory["Misc"]) do
@@ -1023,7 +1025,7 @@ local function processGiftBags()
         end
     end
 
-    -- 🎁 Mở giftbags
+    -- ?? M? giftbags
     do
         local inventory = SaveData.Inventory or {}
         local giftbagCounts = {}
@@ -1060,7 +1062,7 @@ local function processGiftBags()
     end
 end
 
--- ⏳ Lặp lại mỗi 3600 giây (1 tiếng)
+-- ? L?p l?i m?i 3600 giây (1 ti?ng)
 while true do
     processGiftBags()
     task.wait(3600)
@@ -1069,9 +1071,9 @@ end
 
 end)
 
-wait(1)--waitchung
-warn("Phát hiện nick chưa max UpgradesOwned")
--- Phát hiện nick chưa max UpgradesOwned
+wait(1)
+warn("Phát hi?n nick chua max UpgradesOwned")
+-- Phát hi?n nick chua max UpgradesOwned
 task.spawn(function()
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
@@ -1080,7 +1082,7 @@ local Save = require(ReplicatedStorage.Library.Client.Save)
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
--- Các chỉ số và cấp tối đa cần đạt
+-- Các ch? s? và c?p t?i da c?n d?t
 local maxUpgrades = {
     Magnet = 7,
     Drops = 7,
@@ -1109,12 +1111,12 @@ for name, maxLevel in pairs(maxUpgrades) do
     end
 
     if highest < maxLevel then
-        print("⚠️ Chưa đạt max: " .. name .. " (" .. highest .. "/" .. maxLevel .. ")")
+        print("?? Chua d?t max: " .. name .. " (" .. highest .. "/" .. maxLevel .. ")")
         missingUpgrade = true
     end
 end
 
--- Nếu chưa đạt max, tạo GUI cảnh báo
+-- N?u chua d?t max, t?o GUI c?nh báo
 if missingUpgrade then
     local screenGui = Instance.new("ScreenGui")
     screenGui.Name = "UpgradesWarning"
@@ -1136,9 +1138,9 @@ end
 
 end)
 
-wait(1)--waitchung
-warn("khảm charm vào Huge")
--- khảm charm vào Huge
+wait(1)
+warn("kh?m charm vào Huge")
+-- kh?m charm vào Huge
 task.spawn(function()
 local preferredCharms = { "Lightning", "Criticals", "Strength", "Bonus" }
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -1150,15 +1152,15 @@ local Charms_AttachToPet = ReplicatedStorage.Network.Charms_AttachToPet
 
 ---------------------------------------------------------------------
 
--- Bảng tổng XP chuẩn (wiki cho biết Lv99 = 13034431)
+-- B?ng t?ng XP chu?n (wiki cho bi?t Lv99 = 13034431)
 local XP_MAX = 13034431
 
--- Hàm tính XP cần để lên cấp (step cost)
+-- Hàm tính XP c?n d? lên c?p (step cost)
 local function xpStepCost(L)
     return math.floor((L + 300 * (2 ^ (L/7))) / 4)
 end
 
--- Hàm lấy Level từ XP
+-- Hàm l?y Level t? XP
 local function getLevelFromXP(xp)
     if xp >= XP_MAX then
         return 99
@@ -1194,29 +1196,29 @@ local function findCharmUID(charmName)
 end
 
 ---------------------------------------------------------------------
--- 🚀 Duyệt qua toàn bộ Huge Pet
+-- ?? Duy?t qua toàn b? Huge Pet
 for uid, data in pairs(SaveData.Inventory.Pet or {}) do
     if data.id and string.find(data.id, "Huge") then
         --print("======================================")
-        --print("🐾 Pet:", data.id, "| UID:", uid)
+        --print("?? Pet:", data.id, "| UID:", uid)
 
         local uq = data._uq or {}
         local xp = uq.xp or 0
         local lv = getLevelFromXP(xp)
         local maxSlots = slotsByLevel(lv)
 
-        --print("📈 Level:", lv, "| XP:", xp, "| Slot khảm:", maxSlots)
+        --print("?? Level:", lv, "| XP:", xp, "| Slot kh?m:", maxSlots)
 
-        -- Charm hiện tại
+        -- Charm hi?n t?i
         local currentCharms = {}
         if uq.ch then
             for _, charm in ipairs(uq.ch) do
                 table.insert(currentCharms, charm.id)
             end
         end
-        --print("💎 Charm hiện tại:", #currentCharms > 0 and table.concat(currentCharms, ", ") or "Chưa khảm")
+        --print("?? Charm hi?n t?i:", #currentCharms > 0 and table.concat(currentCharms, ", ") or "Chua kh?m")
 
-        -- Danh sách charm cần khảm (ưu tiên preferredCharms, loại trừ charm đã khảm)
+        -- Danh sách charm c?n kh?m (uu tiên preferredCharms, lo?i tr? charm dã kh?m)
         local needCharms = {}
         for _, cname in ipairs(preferredCharms) do
             local already = false
@@ -1231,30 +1233,30 @@ for uid, data in pairs(SaveData.Inventory.Pet or {}) do
             end
         end
 
-        -- Số slot trống
+        -- S? slot tr?ng
         local remainingSlots = maxSlots - #currentCharms
         if remainingSlots > 0 and #needCharms > 0 then
-            --print("✨ Bắt đầu khảm", math.min(remainingSlots, #needCharms), "viên")
+            --print("? B?t d?u kh?m", math.min(remainingSlots, #needCharms), "viên")
             for i = 1, math.min(remainingSlots, #needCharms) do
                 local cname = needCharms[i]
                 local charmUID = findCharmUID(cname)
                 if charmUID then
-                    --print("🔗 Khảm", cname, "vào pet", data.id)
+                    --print("?? Kh?m", cname, "vào pet", data.id)
                     local success, res = pcall(function()
                         return Charms_AttachToPet:InvokeServer(charmUID, {uid})
                     end)
                     if success then
-                        --print("✅ Khảm thành công:", cname)
+                        --print("? Kh?m thành công:", cname)
                     else
-                        warn("❌ Khảm thất bại:", cname, res)
+                        warn("? Kh?m th?t b?i:", cname, res)
                     end
                 else
-                    warn("⚠️ Không tìm thấy đá:", cname)
+                    warn("?? Không tìm th?y dá:", cname)
                 end
                 task.wait(1.5)
             end
         else
-            --print("⚠️ Không có slot trống hoặc không còn charm phù hợp để khảm.")
+            --print("?? Không có slot tr?ng ho?c không còn charm phù h?p d? kh?m.")
         end
     end
 end
@@ -1267,13 +1269,13 @@ while _G.going_timetital do
 	wait(30)
 end
 
-wait(1)--waitchung
-warn("phát hiện không farm ở svv thoát game")
--- phát hiện không farm ở svv thoát game
+wait(1)
+warn("phát hi?n không farm ? svv thoát game")
+-- phát hi?n không farm ? svv thoát game
 task.spawn(function()
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
--- Hàm kiểm tra số người và shutdown nếu cần
+-- Hàm ki?m tra s? ngu?i và shutdown n?u c?n
 function autoShutdownIfNotAlone()
     local playerCount = #Players:GetPlayers()
 
@@ -1282,7 +1284,7 @@ function autoShutdownIfNotAlone()
     end
 end
 
--- Gọi ngay khi script chạy
+-- G?i ngay khi script ch?y
 autoShutdownIfNotAlone()
 
 end)
