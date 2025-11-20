@@ -47,7 +47,7 @@ getgenv().GMAX_EGG_SLOTS = 99
 getgenv().GMAX_EQUIP_SLOTS = 99
 
 
-getgenv().GHOLD_GIFTS = true
+getgenv().GHOLD_GIFTS = false
 getgenv().GHOLD_BUNDLES = false
 getgenv().GCONSUME_SEED_BAGS = true  -- mở túi seed
 getgenv().GOPEN_ITEMS_IN_BULK = true -- mở hộp quà sl lớn
