@@ -988,90 +988,6 @@ end)
 
 
 wait(1)
-warn("ghép gift bag và m? gift")
--- ghép gift bag và m? gift
-task.spawn(function()
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
-
-local ForgeMachine_Activate = ReplicatedStorage.Network:WaitForChild("ForgeMachine_Activate")
-local GiftBag_Open = ReplicatedStorage.Network:WaitForChild("GiftBag_Open")
-
-local GIFT_BAG_NAME = "Gift Bag"
-local MIN_REQUIRED = 4
-local List_Open_Giftbag = {
-    "Mini Chest",
-    "Rainbow Mini Chest",
-    "Large Gift Bag"
-}
-
-local function processGiftBags()
-    -- ?? Ghép Gift Bag thành Large Gift Bag
-    do
-        local giftBagUID, giftBagAmount = nil, 0
-        for uid, data in pairs(SaveData.Inventory["Misc"]) do
-            if data.id == GIFT_BAG_NAME then
-                giftBagUID = uid
-                giftBagAmount = data._am or 1
-                break
-            end
-        end
-
-        if giftBagUID and giftBagAmount >= MIN_REQUIRED then
-            local usableAmount = math.floor(giftBagAmount / MIN_REQUIRED) * MIN_REQUIRED
-            ForgeMachine_Activate:InvokeServer("Large Gift Bag", {[giftBagUID] = usableAmount})
-            task.wait(1.5)
-        end
-    end
-
-    -- ?? M? giftbags
-    do
-        local inventory = SaveData.Inventory or {}
-        local giftbagCounts = {}
-
-        for _, group in pairs(inventory) do
-            for _, obj in pairs(group) do
-                if obj.id and table.find(List_Open_Giftbag, obj.id) then
-                    giftbagCounts[obj.id] = (giftbagCounts[obj.id] or 0) + (obj._am or 1)
-                end
-            end
-        end
-
-        for _, giftName in ipairs(List_Open_Giftbag) do
-            local count = giftbagCounts[giftName] or 0
-            if count > 0 then
-                if giftName == "Large Gift Bag" then
-                    if count >= 50 then
-                        pcall(function() GiftBag_Open:InvokeServer(giftName, 50) end)
-                        count -= 50
-                        task.wait(1)
-                    end
-                    while count >= 10 do
-                        pcall(function() GiftBag_Open:InvokeServer(giftName, 10) end)
-                        count -= 10
-                        task.wait(1)
-                    end
-                end
-                for i = 1, count do
-                    pcall(function() GiftBag_Open:InvokeServer(giftName, 1) end)
-                    task.wait(1)
-                end
-            end
-        end
-    end
-end
-
--- ? L?p l?i m?i 3600 giây (1 ti?ng)
-while true do
-    processGiftBags()
-    task.wait(3600)
-end
-
-
-end)
-
-wait(1)
 warn("Phát hi?n nick chua max UpgradesOwned")
 -- Phát hi?n nick chua max UpgradesOwned
 task.spawn(function()
@@ -1199,9 +1115,7 @@ end
 -- ?? Duy?t qua toàn b? Huge Pet
 for uid, data in pairs(SaveData.Inventory.Pet or {}) do
     if data.id and string.find(data.id, "Huge") then
-        --print("======================================")
-        --print("?? Pet:", data.id, "| UID:", uid)
-
+   
         local uq = data._uq or {}
         local xp = uq.xp or 0
         local lv = getLevelFromXP(xp)
@@ -1253,7 +1167,7 @@ for uid, data in pairs(SaveData.Inventory.Pet or {}) do
                 else
                     warn("?? Không tìm th?y dá:", cname)
                 end
-                task.wait(1.5)
+                task.wait(15)
             end
         else
             --print("?? Không có slot tr?ng ho?c không còn charm phù h?p d? kh?m.")
