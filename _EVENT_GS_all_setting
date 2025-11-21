@@ -122,7 +122,7 @@ getgenv().GPOTIONS = {"Coins","Lucky","The Cocktail","Huge","Treasure Hunter","W
 getgenv().GPOTIONS_MAX_TIER = 99
 getgenv().GENCHANTS = {}
 
-
+getgenv().GWEBHOOK_LINK = vinGWEBHOOK_LINK
 getgenv().GHUGE_COUNT = 50999
 
 getgenv().GMAIL_ITEMS = {		
