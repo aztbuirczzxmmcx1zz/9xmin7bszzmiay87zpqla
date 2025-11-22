@@ -1,5 +1,5 @@
 	
-local _Config_Online = 13
+local _Config_Online = 14
 local FILE_NAME = "OFFLINE.txt"
 
 if not writefile or not readfile then
@@ -24,9 +24,7 @@ end
 local _Config_Offline = getOffline()
  if _Config_Offline ~= _Config_Online then
     setOffline(_Config_Online)
-		if EVENT_or_FARM == "F" then
-	    	game:Shutdown()
-		end
+	    	game:Shutdown()		
  end
 
 
