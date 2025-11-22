@@ -331,6 +331,20 @@ wait(10)
 getgenv().Settings_sendpet = {
     ["list_pet"] = {
 
+["Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
+["Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
+["Golden Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
+["Golden Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
+["Rainbow Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
+["Rainbow Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
+
+["Shiny Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Golden Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Golden Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
+
 --["Palace Pooka"] 	= {Soluong_Yeu_cau = 3},
 --["Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
 
