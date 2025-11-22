@@ -347,9 +347,9 @@ getgenv().Settings_sendpet = {
 
 --["Palace Pooka"] 	= {Soluong_Yeu_cau = 3},
 --["Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+--["Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 50},
 
-["Rainbow Palace Pooka"] 	= {Soluong_Yeu_cau = 50},
-["Shiny Rose Pooka"] 	= {Soluong_Yeu_cau = 30 },
+["Shiny Rose Pooka"] 	= {Soluong_Yeu_cau = 50 },
 ["Shiny Rainbow Rose Pooka"] 	= {Soluong_Yeu_cau = 40, keepAmount = 15},
 
 ["Shiny Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
@@ -560,7 +560,7 @@ sendExcessPets()
 
 
 while true do
-wait(36000)
+wait(60)
 sendExcessPets()
 end
 
