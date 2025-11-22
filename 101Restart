@@ -1,5 +1,5 @@
 	
-local _Config_Online = 12
+local _Config_Online = 13
 local FILE_NAME = "OFFLINE.txt"
 local Players = game:GetService("Players")
 if not writefile or not readfile then
@@ -24,8 +24,8 @@ end
 local _Config_Offline = getOffline()
  if _Config_Offline ~= _Config_Online then
     setOffline(_Config_Online)
-		if EVENT_or_FARM == "E" then
-	    game:Shutdown()
+		if EVENT_or_FARM == "F" then
+	    	game:Shutdown()
 		end
  end
 
