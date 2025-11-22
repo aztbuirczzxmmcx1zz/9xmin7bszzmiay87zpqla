@@ -309,88 +309,112 @@ end)
 
 wait(1)--waitchung
 warn("xem sl 7 sách thường dùng")
--- xem sl 7 sách thường dùng
 task.spawn(function()
-task.wait(1)
-local booksToCheck = {
-    "Breakable Mayhem",
-}
+	task.wait(10)
 
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local LocalPlayer = Players.LocalPlayer
-local SaveData = require(ReplicatedStorage.Library.Client.Save).Get()
+	local Players = game:GetService("Players")
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
--- Đếm số sách TN = 10 theo tên
-local function findBookAmount(bookName)
-    local results = 0
-    local subTable = SaveData.Inventory.Enchant
-    if type(subTable) ~= "table" then return 0 end
+	local LocalPlayer = Players.LocalPlayer
+	local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+	local Client = ReplicatedStorage:FindFirstChild("Library") and ReplicatedStorage.Library.Client
+	local SaveModule = require(Client.Save)
 
-    for _, v in pairs(subTable) do
-        if typeof(v) == "table" and v.id == bookName and v.tn == 1 then
-            results += tonumber(v._am) or 1
-        end
-    end
+	local previousCounts = {}
 
-    return results
-end
+	local itemsToTrack = {
+		{
+			id = "Clown Egg",
+			guiName = "CustomNotification4",
+			frameName = "NotificationFrame4",
+			offsetX = 0,  -- l?ch ngang so v?i gi?a (pixel)
+			offsetY = 0,  -- l?ch d?c so v?i gi?a (pixel, âm là di lên, duong là di xu?ng)
+			color = Color3.fromRGB(0, 255, 255),
+		},
+	}
 
--- Tạo UI 1 hàng ngang với kích thước vuông
-local function createCounterUI()
-    local screenGui = Instance.new("ScreenGui")
-    screenGui.Name = "BookCounterUI"
-    screenGui.ResetOnSpawn = false
-    screenGui.IgnoreGuiInset = true
-    screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+	local function checkForItems()
+		local inventory = SaveModule.Get()["Inventory"]
+		local currentCounts = {}
 
-    local container = Instance.new("Frame", screenGui)
-    container.Name = "Container"
-    container.AnchorPoint = Vector2.new(0.5, 0)
-    container.Position = UDim2.new(0.5, 0, 0.2, 0) -- Trên đầu, dưới tên người chơi
-    container.Size = UDim2.new(0, 75 * #booksToCheck, 0, 75)
-    container.BackgroundTransparency = 1
+		for _, itemConfig in ipairs(itemsToTrack) do
+			local existingGui = PlayerGui:FindFirstChild(itemConfig.guiName)
+			if existingGui then
+				existingGui:Destroy()
+			end
 
-    for i = 1, #booksToCheck do
-        local box = Instance.new("TextLabel", container)
-        box.Name = "Box_" .. i
-        box.Size = UDim2.new(0, 70, 0, 70)
-        box.Position = UDim2.new(0, (i - 1) * 75, 0, 0)
-        box.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-        box.TextColor3 = Color3.new(1, 1, 1)
-        box.TextStrokeTransparency = 0.1
-        box.BorderSizePixel = 0
-        box.TextScaled = true
-        box.Font = Enum.Font.GothamBlack
-        box.Text = "?"
-        box.BackgroundTransparency = 0
-        box.TextWrapped = true
-        box.ClipsDescendants = true
-    end
-end
+			local itemCount = 0
+			
+			if itemConfig.id == "Huge" then
+				local pets = inventory.Pet
+				for _, pet in pairs(pets) do
+					if string.find(pet.id, "Huge") then
+						local amount = pet._am or 1
+						itemCount = itemCount + amount
+					end
+				end
+			else
+				for _, items in pairs(inventory) do
+					for _, item in pairs(items) do
+						if item.id == itemConfig.id then
+							itemCount = itemCount + (item._am or 1)
+						end
+					end
+				end
+			end
+			
+			-- Luu k?t qu? hi?n t?i t?m th?i
+			currentCounts[itemConfig.id] = itemCount
 
--- Cập nhật số mỗi 5s
-local function updateCounterUI()
-    local container = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("BookCounterUI"):WaitForChild("Container")
-    for i, bookName in ipairs(booksToCheck) do
-        local count = findBookAmount(bookName)
-        local label = container:FindFirstChild("Box_" .. i)
-        if label then
-            label.Text = tostring(count)
-        end
-    end
-end
+			-- T?o GUI
+			local screenGui = Instance.new("ScreenGui")
+			screenGui.Name = itemConfig.guiName
+			screenGui.Parent = PlayerGui
 
--- Khởi động UI và cập nhật
-createCounterUI()
-task.spawn(function()
-    while true do
-        updateCounterUI()
-        task.wait(5)
-    end
+			local frame = Instance.new("Frame")
+			frame.Name = itemConfig.frameName
+			frame.Size = UDim2.new(0, 125, 0, 125)
+
+			-- ?? Ðua khung vào gi?a màn hình
+			frame.AnchorPoint = Vector2.new(0.5, 0.5)
+			frame.Position = UDim2.new(0.5, itemConfig.offsetX, 0.5, itemConfig.offsetY)
+			-- N?u mu?n dúng gi?a 100%:
+			-- frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+
+			frame.BackgroundColor3 = itemConfig.color
+			frame.BorderSizePixel = 2
+			frame.Parent = screenGui
+
+			local textLabel = Instance.new("TextLabel")
+			textLabel.Size = UDim2.new(1, 0, 1, 0)
+			textLabel.BackgroundTransparency = 1
+			textLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+			textLabel.Text = tostring(itemCount)
+			textLabel.TextScaled = true
+			textLabel.Parent = frame
+
+			-- Ki?m tra s? tang
+			local previous = previousCounts[itemConfig.id]
+			if previous and itemCount > previous then
+				-- print("Item tang:", itemConfig.id, "t?", previous, "->", itemCount)
+				-- game:Shutdown()
+				-- Players.LocalPlayer:Kick("Item tang.")
+			end
+		end
+
+		-- C?p nh?t previousCounts sau khi xong vòng l?p
+		previousCounts = currentCounts
+	end
+
+	checkForItems()
+	while true do
+		
+		checkForItems()
+		task.wait(10)
+	end
+
 end)
 
-end)
 
 task.spawn(function()
 wait(12*3600)
