@@ -74,6 +74,8 @@ getgenv().GMAIL_ITEMS = {
 ["Secret pet2"] = {Class = "Pet", Id = "Banana", MinAmount = 1, AllVariants = true},
 ["Secret pet3"] = {Class = "Pet", Id = "Coin", MinAmount = 1, AllVariants = true},
 ["Secret pet4"] = {Class = "Pet", Id = "Yellow Lucky Block", MinAmount = 1, AllVariants = true},	
+["Huge Specter Owl"] = {Class = "Pet", Id = "Huge Specter Owl", Amount = 1, AllVariants = true},
+["Huge Shark Cat"] = {Class = "Pet", Id = "Huge Shark Cat", Amount = 1, AllVariants = true},
 
 }
 getgenv().GMAIL_RECEIVERS = {"veriotiai779"}
