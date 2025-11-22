@@ -166,8 +166,10 @@ end
 getgenv().Settings_sentPET = {
     ["list_pet"] = {
 
-["Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
-["Golden Palace Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
+["Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
+["Golden Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
+["Golden Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
 
 ["Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
 ["Golden Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
