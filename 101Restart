@@ -1,7 +1,7 @@
 	
 local _Config_Online = 13
 local FILE_NAME = "OFFLINE.txt"
-local Players = game:GetService("Players")
+
 if not writefile or not readfile then
     return
 end
