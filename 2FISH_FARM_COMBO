@@ -1,7 +1,7 @@
 local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local rank = Save.Get().Rank
 
-if rank < 7 then
+if rank < 10 then
 
 	if game.PlaceId == 95635359880599 or game.PlaceId == 119454325063278 then
 		local Players = game:GetService("Players")
