@@ -1,10 +1,10 @@
-PAUSE_or_SEND = "s"
+PAUSE_or_SEND = "p"
 
 wait(1)
 --Sent chìa
 task.spawn(function()
 
-if PAUSE_or_SEND == "s" then
+if PAUSE_or_SEND == "p" then
 	return
 end
 
@@ -159,9 +159,6 @@ end)
 wait(1)
 -- send pet hiem hoac huge gia cao. Soluong_Yeu_cau = 1 thì gi? l?i 1 con, khác 1 thì ph?i ch? nhi?u hon Soluong_Yeu_cau thì m?i send t?t c?
 task.spawn(function() 
-if PAUSE_or_SEND == "p" then
-	return
-end
 
 getgenv().Settings_sentPET = {
     ["list_pet"] = {
@@ -170,9 +167,18 @@ getgenv().Settings_sentPET = {
 ["Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
 ["Golden Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
 ["Golden Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
+["Rainbow Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
+["Rainbow Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
 
-["Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
-["Golden Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Golden Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Golden Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
+
+--["Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
+--["Golden Rose Pooka"] 	= {Soluong_Yeu_cau = 0},
 
 },
    
