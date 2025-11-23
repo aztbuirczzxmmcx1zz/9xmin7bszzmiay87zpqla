@@ -16,7 +16,7 @@ getgenv().Settings_autoplaza = {
     {Name = "Titanic Bobcat", Data = {Price = 13 + math.random(1,30)*0.01 .."b"}}, 
     {Name = "Titanic Parrot", Data = {Price = "9.5b"}},
 		
-		{Name = "Titanic Witch Wolf", Data = {Price = "30b"}},
+		{Name = "Titanic Witch Wolf", Data = {Price = "31b"}},
 
 
 		{Name = "Halloween Lucky Block Gift", Data = {Price = "40m"}},
