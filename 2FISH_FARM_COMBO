@@ -1,23 +1,36 @@
 local Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 local rank = Save.Get().Rank
+check_map = Save.Get().UnlockedZones
 
-if rank < 6 then
-	if game.PlaceId == 95635359880599 or game.PlaceId == 119454325063278 then
+local MAP_w2_true = check_map["Tech Spawn"]
+local MAP_w3_true = check_map["Prison HQ"]
+local MAP_w4_true = check_map["Fantasy Spawn"]
+
+if game.PlaceId == 95635359880599 or game.PlaceId == 119454325063278 then
+if not MAP_w2_true then
 		local Players = game:GetService("Players")
 		local TeleportService = game:GetService("TeleportService")
 		TeleportService:Teleport(8737899170, LocalPlayer)
 		wait(10)
-	end
+	
     return
-elseif rank < 8 then
-	if game.PlaceId == 95635359880599 or game.PlaceId == 119454325063278 then
+elseif not MAP_w3_true then
+		local Players = game:GetService("Players")
+		local TeleportService = game:GetService("TeleportService")
+		TeleportService:Teleport(16498369169, LocalPlayer)
+		wait(10)
+    return
+elseif not MAP_w4_true then
 		local Players = game:GetService("Players")
 		local TeleportService = game:GetService("TeleportService")
 		TeleportService:Teleport(17503543197, LocalPlayer)
 		wait(10)
-	end
     return
+else
+	warn("DONE")
 end
+end
+
 
 local Players = game:GetService("Players")
 local TeleportService = game:GetService("TeleportService")
