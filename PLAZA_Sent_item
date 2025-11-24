@@ -169,8 +169,8 @@ getgenv().Settings_sentPET = {
 
 ["Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
 ["Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
-["Golden Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
-["Golden Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
+--["Golden Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
+--["Golden Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
 ["Rainbow Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
 ["Rainbow Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
 
