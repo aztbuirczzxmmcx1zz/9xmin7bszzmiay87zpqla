@@ -7,15 +7,16 @@ getgenv().Settings_autoplaza = {
 
 
         {Name = "Titanic Starlight Pony", Data = {Price = 8.6 + math.random(1,30)*0.01 .."b"}}, 		
-		{Name = "Golden Titanic Starlight Pony", Data = {Price =8.5 + math.random(1,30)*0.01 .."b"}}, 
+		{Name = "Golden Titanic Starlight Pony", Data = {Price =8 + math.random(1,30)*0.01 .."b"}}, 
+		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = 39 + math.random(1,30)*0.01 .."b"}}, 
+		{Name = "Shiny Titanic Starlight Pony", Data = {Price = 47 + math.random(1,100)*0.01 .."b"}}, 
+		{Name = "Shiny Rainbow Titanic Starlight Pony", Data = {Price = 800 + math.random(1,20) .."b"}}, 
 
 		{Name = "Gargantuan Frankenpup Dog", Data = {Price = 150 + math.random(1,50)*0.1 .."b"}}, 
         {Name = "Gargantuan Black Balloon Cat", Data = {Price =80 + math.random(1,50)*0.1 .."b"}}, 
         {Name = "Gargantuan Super Cat", Data = {Price =61 + math.random(1,50)*0.1 .."b"}}, 
 
-		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = 39 + math.random(1,30)*0.01 .."b"}}, 
-		{Name = "Shiny Titanic Starlight Pony", Data = {Price = 47 + math.random(1,100)*0.01 .."b"}}, 
-		{Name = "Shiny Rainbow Titanic Starlight Pony", Data = {Price = 800 + math.random(1,20) .."b"}}, 
+
 
     {Name = "Titanic Bobcat", Data = {Price = 13 + math.random(1,30)*0.01 .."b"}}, 
     {Name = "Titanic Parrot", Data = {Price = "9.5b"}},
@@ -34,9 +35,9 @@ getgenv().Settings_autoplaza = {
         {Name = "Golden Huge Splash Angelus", Data = {Price = "22b"}},
         {Name = "Rainbow Huge Splash Angelus", Data = {Price = "100b"}},
 
-		{Name = "Titanic Pixel Dominus Astra", Data = {Price = "7.5b"}},
-		{Name = "Titanic Narwhal", Data = {Price = "7.5b"}},
-		{Name = "Titanic Pixel Monkey", Data = {Price = "7.5b"}},
+		{Name = "Titanic Pixel Dominus Astra",	Data = {Price = 7 + math.random(1,30)*0.01 .."b"}},
+		{Name = "Titanic Narwhal",				Data = {Price = 7.5 + math.random(1,30)*0.01 .."b"}},
+		{Name = "Titanic Pixel Monkey", 		Data = {Price = 7.5 + math.random(1,30)*0.01 .."b"}},
 
         {Name = "Time Trial Gift", Data = {Price = "500k"}},
         {Name = "Huge Machine Egg 5", Data = {Price = "+2%"}},
