@@ -1027,7 +1027,7 @@ for name, maxLevel in pairs(maxUpgrades) do
     end
 
     if highest < maxLevel then
-        print("?? Chua d?t max: " .. name .. " (" .. highest .. "/" .. maxLevel .. ")")
+        --print("?? Chua d?t max: " .. name .. " (" .. highest .. "/" .. maxLevel .. ")")
         missingUpgrade = true
     end
 end
@@ -1035,18 +1035,18 @@ end
 -- N?u chua d?t max, t?o GUI c?nh báo
 if missingUpgrade then
     local screenGui = Instance.new("ScreenGui")
-    screenGui.Name = "UpgradesWarning"
+    screenGui.Name = "X"
     screenGui.ResetOnSpawn = false
     screenGui.Parent = playerGui
 
     local textLabel = Instance.new("TextLabel")
     textLabel.Size = UDim2.new(0, 120, 0, 30)
     textLabel.Position = UDim2.new(0, 10, 0, 10)
-    textLabel.BackgroundColor3 = Color3.new(0.2, 0, 0)
+    textLabel.BackgroundTransparency = 1 
     textLabel.TextColor3 = Color3.new(1, 0, 0)
-    textLabel.Text = "Upgrades"
+    textLabel.Text = "U"
     textLabel.Font = Enum.Font.SourceSansBold
-    textLabel.TextSize = 18
+    textLabel.TextSize = 10
     textLabel.BorderSizePixel = 0
     textLabel.Parent = screenGui
 end
