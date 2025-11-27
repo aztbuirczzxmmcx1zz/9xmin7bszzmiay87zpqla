@@ -604,7 +604,7 @@ task.spawn(function()
 		-- sách trial time
 		autoEquipEnchantBooks({"Explosive","Chest Breaker","Criticals","Strong Pets","Fruity","Happy Pets","Super Lightning","Tap Power","Large Taps"})
 		while getRunsUsed() < 10 do
-			setfpscap(7)
+			--setfpscap(7)
 			local used = getRunsUsed()
 			
 			lagFlag = false
