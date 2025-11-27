@@ -1,4 +1,4 @@
-setfpscap(5)
+--setfpscap(5)
 --getgenv().GEVENT_FPS  = 5
 
 getgenv().GLOOTBOXES = {"Tropical Gift"}
