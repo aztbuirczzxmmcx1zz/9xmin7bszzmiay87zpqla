@@ -39,7 +39,7 @@ getgenv().Settings_autoplaza = {
 		{Name = "Titanic Narwhal",				Data = {Price = 7.5 + math.random(1,30)*0.01 .."b"}},
 		{Name = "Titanic Pixel Monkey", 		Data = {Price = 7.5 + math.random(1,30)*0.01 .."b"}},
 
-        {Name = "Time Trial Gift", Data = {Price = "500k"}},
+        {Name = "Time Trial Gift", Data = {Price = 500 + math.random(1,100) .."k"}},
 
 		
 		{Name = "Rainbow Banana PetSecret", Data = {Price = "39b"}},
