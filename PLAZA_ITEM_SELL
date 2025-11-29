@@ -81,6 +81,8 @@ getgenv().Settings_autoplaza = {
 	{Name = "Golden Huge Specter Owl", Data = {Price = "2b"}},
 
 	{Name = "Huge Lemur", Data = {Price = "54m"}},
+	{Name = "Huge Gazelle", Data = {Price = "74m"}},
+
 	{Name = "Huge Evil Raven", Data = {Price = "12m"}},
 {Name = "Huge Fiddlefern Cat", Data = {Price = "25m"}},
 {Name = "Huge Frankenpup Dog", Data = {Price = "14m"}},
