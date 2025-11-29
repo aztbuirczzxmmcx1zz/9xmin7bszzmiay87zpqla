@@ -76,7 +76,7 @@ getgenv().Settings_autoplaza = {
 
 	{Name = "Huge Shark Cat", Data = {Price = 3 + math.random(1,10)*0.01 .."b"}}, 
 	{Name = "Golden Huge Shark Cat", Data = {Price = "2b"}},
-	{Name = "Huge Specter Owl", Data = {Price = 7 + math.random(1,100)*0.01 .."b"}}, 
+	{Name = "Huge Specter Owl", Data = {Price = 5 + math.random(1,100)*0.01 .."b"}}, 
 	{Name = "Golden Huge Specter Owl", Data = {Price = "2b"}},
 
 	{Name = "Huge Skeleton Snake", Data = {Price = "14m"}},
