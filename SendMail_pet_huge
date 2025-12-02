@@ -621,7 +621,7 @@ for _, targetId in ipairs(petIds) do
                 xp = xp
             })
 
-            count += amount
+            count = count + amount
         end
     end
 
