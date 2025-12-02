@@ -626,14 +626,11 @@ for _, targetId in ipairs(petIds) do
     end
 
 
-    if #pets > 50 then
+    if #pets > 60 then
         table.sort(pets, function(a, b)
             return a.xp > b.xp
         end)
-
-        warn(string.format("🔒 Giữ lại pet có XP cao nhất: %s | XP: %d", pets[50].uid, pets[50].xp))
-
-        for i = 51, #pets do
+        for i = 61, #pets do
             local pet = pets[i]
             task.wait(2)
 			
@@ -641,16 +638,8 @@ for _, targetId in ipairs(petIds) do
             local success, err = pcall(function()				
                 return Network.Invoke("Mailbox: Send", username, message, "Pet", pet.uid, 1)
             end)
-
-            if success then
-                warn("✅ Đã gửi thành công:", pet.uid)
-            else
-                warn("❌ Lỗi khi gửi:", err)
-            end
-						wait(14400)
+			wait(14400)
         end
-    else
-        warn("⚠️ Không có pet dư để gửi .")
     end
 end
 
