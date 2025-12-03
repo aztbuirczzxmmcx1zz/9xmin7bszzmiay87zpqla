@@ -26,7 +26,7 @@ elseif  name_vps == "V3" or name_vps == "V6" or name_vps == "V7" then
 	
 	loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()	
 elseif  name_vps == "L1" or name_vps == "L3" then
-	script_key = "UwuBjRvWSQjySPdMPndFOuTYTTSGGXTf";  --7 days reset
+	script_key = "qzsFmUkkOuAxpzItlGzMwDmukfpqZytm";  --7 days reset
 	loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()
 elseif  name_vps == "L2" or name_vps == "L4" then
 	script_key = "lBbQRNJrJUSXDBuRVkRDvRTNamXqWEcL";
