@@ -56,7 +56,7 @@ local TeleportMapping = {
 
 -- Nếu đang ở đúng map cần thoát
 if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
-    local teleportName = TeleportMapping[check_and_tele_w]
+    local teleportName = TeleportMapping[4]
     
     if teleportName then
         for attempt = 1, 2 do
