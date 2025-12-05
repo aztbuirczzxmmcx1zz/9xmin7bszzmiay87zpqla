@@ -332,6 +332,15 @@ wait(10)
 getgenv().Settings_sendpet = {
     ["list_pet"] = {
 
+["Candycorn Unicorn"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Candycorn Unicorn"] 	= {Soluong_Yeu_cau = 0},
+["Golden Candycorn Unicorn"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Golden Candycorn Unicorn"] 	= {Soluong_Yeu_cau = 0},
+["Rainbow Candycorn Unicorn"] 	= {Soluong_Yeu_cau = 0},
+["Shiny Rainbow Candycorn Unicorn"] 	= {Soluong_Yeu_cau = 0},
+
+
+
 ["Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
 ["Huge Specter Owl"] 	= {Soluong_Yeu_cau = 0},
 ["Golden Huge Shark Cat"] 	= {Soluong_Yeu_cau = 0},
