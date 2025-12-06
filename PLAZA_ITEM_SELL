@@ -102,7 +102,7 @@ getgenv().Settings_autoplaza = {
 	
 	
 	
-["xoa_Map"] = true,
+["xoa_Map"] = false,
 
 ["send_gem"] = {
         Play_mail = true,
