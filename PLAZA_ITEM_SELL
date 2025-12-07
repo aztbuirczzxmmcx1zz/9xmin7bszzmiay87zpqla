@@ -19,7 +19,7 @@ getgenv().Settings_autoplaza = {
 		
 		{Name = "Titanic Witch Wolf", Data = {Price = 18 + math.random(1,30)*0.01 .."b"}}, 
 
-		{Name = "Breakable Mayhem", Data = {Price = 2.5 + math.random(1,100)*0.01 .."b"}}, 
+		{Name = "Breakable Mayhem", Data = {Price = 2 + math.random(1,100)*0.01 .."b"}}, 
 
 		{Name = "Halloween Lucky Block Gift", Data = {Price = "60m"}},
 
