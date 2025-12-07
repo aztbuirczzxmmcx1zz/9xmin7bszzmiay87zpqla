@@ -12,4 +12,6 @@ serverhopTo(_G.placeid_tele)
 
 wait(20)
 
-Players.LocalPlayer:Kick("Kick yummi ")
+if game.PlaceId ~= _G.placeid_tele then
+	game:Shutdown()
+end
