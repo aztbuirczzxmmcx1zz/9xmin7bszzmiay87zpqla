@@ -8,7 +8,7 @@ getgenv().Settings_autoplaza = {
 		{Name = "Golden Titanic Starlight Pony", Data = {Price =7.5 + math.random(1,100)*0.01 .."b"}}, 
 		{Name = "Rainbow Titanic Starlight Pony", Data = {Price = 30 + math.random(1,200)*0.01 .."b"}}, 
 		{Name = "Shiny Titanic Starlight Pony", Data = {Price = 45 + math.random(1,100)*0.01 .."b"}}, 
-		{Name = "Shiny Rainbow Titanic Starlight Pony", Data = {Price = 500 + math.random(1,50) .."b"}}, 
+		{Name = "Shiny Rainbow Titanic Starlight Pony", Data = {Price = "500b"}},
 
 		{Name = "Gargantuan Frankenpup Dog", Data = {Price = 180 + math.random(1,50)*0.1 .."b"}}, 
         {Name = "Gargantuan Black Balloon Cat", Data = {Price = 90 + math.random(1,50)*0.1 .."b"}}, 
@@ -36,7 +36,7 @@ getgenv().Settings_autoplaza = {
 
 		{Name = "Titanic Pixel Dominus Astra",	Data = {Price = 6.5 + math.random(1,100)*0.01 .."b"}},
 		{Name = "Titanic Narwhal",				Data = {Price = 7.5 + math.random(1,100)*0.01 .."b"}},
-		{Name = "Titanic Pixel Monkey", 		Data = {Price = 7.5 + math.random(1,100)*0.01 .."b"}},
+		{Name = "Titanic Pixel Monkey", 		Data = {Price = 7 + math.random(1,100)*0.01 .."b"}},
 
         {Name = "Time Trial Gift", Data = {Price = 400 + math.random(1,100) .."k"}},
 
@@ -49,8 +49,8 @@ getgenv().Settings_autoplaza = {
         {Name = "Insta Plant Capsule", Data = {Price = 20 + math.random(1,100)*0.01 .."k"}},
         {Name = "XPPotion Mastery", Data = {Price = 700 + math.random(1,100) .."k"}},
 
-        {Name = "Royalty TN1", Data = {Price = 14 + math.random(1,30)*0.01 .."m"}}, 
-        {Name = "Overload TN1", Data = {Price = 14 + math.random(1,30)*0.01 .."m"}}, 
+        {Name = "Royalty TN1", Data = {Price = 10 + math.random(1,30)*0.01 .."m"}}, 
+        {Name = "Overload TN1", Data = {Price = 10 + math.random(1,30)*0.01 .."m"}}, 
 	{Name = "XP TN1", Data = {Price = "150k"}},
 	{Name = "Glittering TN1", Data = {Price = "200k"}},
 
@@ -85,8 +85,9 @@ getgenv().Settings_autoplaza = {
 	{Name = "Huge Specter Owl", Data = {Price = 6 + math.random(1,100)*0.01 .."b"}}, 
 	{Name = "Golden Huge Specter Owl", Data = {Price = "2b"}},
 
-	{Name = "Huge Lemur", Data = {Price = "54m"}},
-	{Name = "Huge Gazelle", Data = {Price = "74m"}},
+	{Name = "Huge Lemur", Data = {Price = 50 + math.random(1,50)*0.01 .."m"}}, 
+	{Name = "Huge Gazelle", Data = {Price = 70 + math.random(1,50)*0.01 .."m"}}, 
+	{Name = "Huge Moray Eel", Data = {Price = 50 + math.random(1,50)*0.01 .."m"}}, 
 
 	{Name = "Huge Evil Raven", Data = {Price = "12m"}},
 {Name = "Huge Fiddlefern Cat", Data = {Price = "25m"}},
