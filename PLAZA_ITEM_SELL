@@ -77,7 +77,7 @@ getgenv().Settings_autoplaza = {
 
 	{Name = "Shiny All Huges", Data = {Price = "10%", Min_sell = "70m", Max_sell = "300m"}},
 	{Name = "Shiny Golden All Huges", Data = {Price = "5%", Min_sell = "400m", Max_sell = "1b"}},
-	{Name = "Shiny Rainbow All Huges", Data = {Price = "5%", Min_sell = "1b", Max_sell = "3b"}},
+	{Name = "Shiny Rainbow All Huges", Data = {Price = "15%", Min_sell = "1b", Max_sell = "10b"}},
 
 	{Name = "Huge Shark Cat", Data = {Price = 3 + math.random(1,10)*0.01 .."b"}}, 
 	{Name = "Golden Huge Shark Cat", Data = {Price = "2b"}},
