@@ -134,6 +134,8 @@ function Sent_item_all()
 
 getgenv().Settings_senditem = {		
 
+["Breakable Mayhem"] = {Class = "Enchant", Id = "Breakable Mayhem", TN = 1, MinAmount = 1}, 
+
 ["Exclusive Egg 57"] = {Class = "Egg", Id = "Exclusive Egg 57", MinAmount = 1 ,onlysend_one = true}, 
 ["Exclusive Egg 56"] = {Class = "Egg", Id = "Exclusive Egg 56", MinAmount = 1 ,onlysend_one = true}, 
 ["Halloween Lucky Block Gift"] = {Class = "Lootbox", Id = "Halloween Lucky Block Gift", MinAmount = 1}, 
