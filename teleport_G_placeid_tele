@@ -10,8 +10,5 @@ end
 
 serverhopTo(_G.placeid_tele)
 
-wait(20)
-
-if game.PlaceId ~= _G.placeid_tele then
-	game:Shutdown()
-end
+wait(60)
+game:Shutdown()
