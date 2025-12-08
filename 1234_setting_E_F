@@ -21,11 +21,15 @@ if name_vps == "V1" or name_vps == "V5" then
 				end
 				EVENT_or_FARM = isSuperName(player.Name) and "F" or "F"
 
-	Start_ford = 1
+
+elseif name_vps == "V6" or name_vps == "V7" then 
+	EVENT_or_FARM = "E"	
 else
 	EVENT_or_FARM = "F"
-	Start_ford = 1
+	
 end
+
+Start_ford = 1
 
 task.spawn(function()
 wait(50)
