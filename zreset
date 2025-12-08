@@ -1,0 +1,120 @@
+import ctypes
+import time
+import subprocess
+import os
+import sys
+
+EMURB_PATH = r"C:\Users\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\EmuRB.exe"
+INITIAL_COUNTDOWN_SECONDS = 3
+
+# ============================
+#   CẤU TRÚC CHO WriteConsoleInputW
+# ============================
+
+kernel32 = ctypes.windll.kernel32
+
+# Event type
+KEY_EVENT = 0x0001
+
+class KEY_EVENT_RECORD(ctypes.Structure):
+    _fields_ = [
+        ("bKeyDown", ctypes.c_int),
+        ("wRepeatCount", ctypes.c_uint16),
+        ("wVirtualKeyCode", ctypes.c_uint16),
+        ("wVirtualScanCode", ctypes.c_uint16),
+        ("uChar", ctypes.c_wchar),
+        ("dwControlKeyState", ctypes.c_uint32)
+    ]
+
+class INPUT_RECORD(ctypes.Structure):
+    _fields_ = [
+        ("EventType", ctypes.c_uint16),
+        ("KeyEvent", KEY_EVENT_RECORD)
+    ]
+
+def send_console_key(char):
+    """Gửi một phím bất kỳ vào console buffer của EmuRB"""
+    hIn = kernel32.GetStdHandle(-10)  # STD_INPUT_HANDLE = -10
+
+    record = INPUT_RECORD()
+    record.EventType = KEY_EVENT
+
+    # Key down
+    record.KeyEvent = KEY_EVENT_RECORD(
+        bKeyDown=1,
+        wRepeatCount=1,
+        wVirtualKeyCode=ord(char.upper()),
+        wVirtualScanCode=0,
+        uChar=char,
+        dwControlKeyState=0
+    )
+    kernel32.WriteConsoleInputW(hIn, ctypes.byref(record), 1, ctypes.byref(ctypes.c_ulong()))
+
+    # Key up
+    record.KeyEvent.bKeyDown = 0
+    kernel32.WriteConsoleInputW(hIn, ctypes.byref(record), 1, ctypes.byref(ctypes.c_ulong()))
+
+def send_enter():
+    send_console_key("\r")
+
+# ============================
+# APP
+# ============================
+
+def open_application(app_path):
+    if not os.path.isfile(app_path):
+        print("❌ Không tìm thấy file")
+        return False
+    subprocess.Popen([app_path], cwd=os.path.dirname(app_path))
+    print("✅ Đã mở ứng dụng.")
+    return True
+
+def countdown(seconds):
+    for i in range(seconds, 0, -1):
+        sys.stdout.write(f"\r⏳ Còn lại {i}s")
+        sys.stdout.flush()
+        time.sleep(1)
+    print("\n⏳ Xong!")
+
+# ============================
+# HÀNH ĐỘNG CHÍNH
+# ============================
+
+def execute_actions():
+    print("\n▶ Mở EmuRB...")
+    open_application(EMURB_PATH)
+
+    print("⏳ Chờ 10 giây ứng dụng khởi động...")
+    time.sleep(15)
+
+    print("➡ Gửi phím 3...")
+    send_console_key("3")
+    time.sleep(0.2)
+
+    print("➡ Gửi Enter...")
+    send_enter()
+
+    print("⏳ Chờ 30 giây...")
+    time.sleep(30)
+
+    print("➡ Gửi Enter...")
+    send_enter()
+
+    print("⏳ Chờ 5 giây...")
+    time.sleep(5)
+
+    print("➡ Gửi phím 2...")
+    send_console_key("2")
+    time.sleep(0.2)
+
+    print("➡ Gửi Enter...")
+    send_enter()
+
+    print("🎉 HOÀN THÀNH!")
+
+# ============================
+# MAIN
+# ============================
+
+countdown(INITIAL_COUNTDOWN_SECONDS)
+execute_actions()
