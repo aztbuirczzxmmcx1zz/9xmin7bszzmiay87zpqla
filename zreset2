@@ -21,7 +21,7 @@ MAX_WAIT_TIME_DISK_CHECK = 3600 # Thời gian chờ tối đa 1 giờ
 # --- CẤU HÌNH EMURB ---
 EMURB_PATH = r"C:\Users\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\EmuRB.exe" 
 # Biến này được yêu cầu dùng từ bên ngoài, nhưng phải định nghĩa để script hoạt động độc lập:
-INITIAL_COUNTDOWN_SECONDS = 3 
+#INITIAL_COUNTDOWN_SECONDS = 3 
 
 # ==============================================================================
 # 2. CHỨC NĂNG HỖ TRỢ CHUNG
