@@ -281,7 +281,7 @@ if __name__ == "__main__":
     run_automation_sequence()
     
     # Thực thi chuỗi EmuRB mới
-    #run_emurb_sequence()
+    run_emurb_sequence()
     
     print("\n[KẾT THÚC] Toàn bộ quy trình tự động hóa đã hoàn tất.")
 
