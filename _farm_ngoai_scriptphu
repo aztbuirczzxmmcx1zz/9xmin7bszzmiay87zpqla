@@ -1,6 +1,6 @@
 wait(1)
 task.spawn(function()
-wait(20000*3600)
+wait(24*3600)
 game:Shutdown()
 end)
 
