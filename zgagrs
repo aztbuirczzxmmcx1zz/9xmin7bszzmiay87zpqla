@@ -152,8 +152,8 @@ def execute_single_action_sequence():
     print("----------------------------------------")
     print("▶️ Bắt đầu chuỗi hành động...")
 
-    # 1. Đếm ngược 720 phút (12)
-    # 720 là số phút trong 12 giờ. Vòng lặp này chờ 12 giờ.
+    # 1. Đếm ngược 1440 phút (24h)
+    # 1440 là số phút trong 24 giờ. Vòng lặp này chờ 24 giờ.
     for i in range(720, 0, -1):
         if not running: return # Thoát nếu đã bấm STOP
         # Hiển thị thời gian còn lại theo phút
