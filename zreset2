@@ -14,12 +14,13 @@ BACKUP_APP_PATH = r"C:\Users\ADMIN\Desktop\backupldplayer.exe"
 
 # --- PERFORMANCE COUNTER và DELAY ---
 DISK_ACTIVITY_COUNTER = r'\LogicalDisk(C:)\% Disk Time'
+DISK_ACTIVITY_THRESHOLD = 5.0 # Ngưỡng ổn định đĩa (%)
 STARTUP_DELAY_AFTER_BACKUP = 10 # Chờ 10s sau khi chạy Backup
 MAX_WAIT_TIME_DISK_CHECK = 3600 # Thời gian chờ tối đa 1 giờ
 
 # --- CẤU HÌNH EMURB ---
 EMURB_PATH = r"C:\Users\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\EmuRB.exe" 
-#INITIAL_COUNTDOWN_SECONDS = 55*4+15 
+INITIAL_COUNTDOWN_SECONDS = 3 # Đặt lại 3 giây để dễ dàng kiểm thử
 
 # ==============================================================================
 # 2. CHỨC NĂNG HỖ TRỢ CHUNG
@@ -88,7 +89,7 @@ def run_automation_sequence():
         print(f"LỖI: Không tìm thấy đường dẫn ứng dụng: {LDPLAYER_MULTIPLAYER_PATH}")
         return 
 
-    # CHÈN 4 CÚ CLICK MỚI (Yêu cầu mới)
+    # CHÈN 4 CÚ CLICK MỚI 
     CLICK_SEQUENCE_NEW_INSERT = [
         (652, 749), (786, 750), (822, 719), (891, 602)
     ]
@@ -122,7 +123,6 @@ def run_automation_sequence():
         return
         
     print("\n[PHẦN 3] Bắt đầu vòng lặp kiểm tra hoạt động Đĩa...")
-    DISK_ACTIVITY_THRESHOLD = 5.0  
     start_time = time.time()
     
     while time.time() - start_time < MAX_WAIT_TIME_DISK_CHECK:
@@ -142,7 +142,17 @@ def run_automation_sequence():
 
     else:
         print("\nCẢNH BÁO: Đã hết thời gian chờ tối đa (1 giờ).")
-
+    
+    # --- BƯỚC MỚI: CHỜ VÀ KIỂM TRA ĐĨA LẦN CUỐI (Theo yêu cầu người dùng) ---
+    print("\n[BƯỚC MỚI] Chờ thêm 10 giây và kiểm tra Đĩa lần cuối...")
+    time.sleep(10)
+    
+    disk_time = get_performance_counter_value(DISK_ACTIVITY_COUNTER)
+    if disk_time is not None and disk_time < DISK_ACTIVITY_THRESHOLD:
+        print(f"✅ Xác nhận ĐĨA ỔN ĐỊNH lần cuối: {disk_time:.2f}%.")
+    else:
+        print(f"⚠️ Cảnh báo: ĐĨA vẫn hoạt động cao ({disk_time:.2f}%) hoặc không lấy được giá trị. Vẫn tiếp tục.")
+        
     # Đóng ứng dụng Backup
     if backup_process and backup_process.poll() is None:
         print(f"Đóng ứng dụng Backup: {BACKUP_APP_PATH}")
@@ -163,7 +173,8 @@ def run_automation_sequence():
         return 
 
     # Click theo tọa độ mới (Khởi chạy)
-    CLICK_SEQUENCE_FINAL = [(650, 749), (651, 380), (783, 749), (798, 656),(1236,272)]
+    # Đã thêm click thứ 5: (1236, 272)
+    CLICK_SEQUENCE_FINAL = [(650, 749), (651, 380), (783, 749), (798, 656), (1236, 272)]
     for i, (x, y) in enumerate(CLICK_SEQUENCE_FINAL):
         print(f"Click khởi chạy {i+1}: ({x}, {y})")
         pyautogui.click(x, y)
@@ -173,12 +184,13 @@ def run_automation_sequence():
 
 
 # ==============================================================================
-# 4. CHUỖI HÀNH ĐỘNG EMURB MỚI (Dùng PyAutoGUI)
+# 4. CHUỖI HÀNH ĐỘNG EMURB MỚI (Dùng PyAutoGUI đã chỉnh sửa)
 # ==============================================================================
 
 def run_emurb_sequence():
     
     # 1. Chờ countdown ban đầu
+    print(f"\n[PHẦN 5] Bắt đầu chuỗi hành động EmuRB.exe. Chờ {INITIAL_COUNTDOWN_SECONDS} giây...")
     time.sleep(INITIAL_COUNTDOWN_SECONDS) 
 
     # 2. Mở EmuRB
@@ -188,18 +200,21 @@ def run_emurb_sequence():
     # 3. Chờ 15s ứng dụng khởi động
     time.sleep(15) 
     
-    # Thao tác mới: Click để focus/chọn cửa sổ (giả định)
+    # Thao tác click để focus/chọn cửa sổ
     pyautogui.click(694, 61)
     time.sleep(2)
     pyautogui.press('enter')
     time.sleep(2)
     pyautogui.click(694, 91)
     time.sleep(2)
+    
     # 4. Gửi phím 3 
     pyautogui.press("3")
     time.sleep(2)
+    
     # 5. Gửi Enter 
     pyautogui.press('enter')
+    
     # 6. Chờ 30s
     time.sleep(30)
 
@@ -210,7 +225,7 @@ def run_emurb_sequence():
     pyautogui.press("1")
     time.sleep(2)
     
-    # Thao tác mới: Gửi Enter sau khi gửi phím 1
+    # Gửi Enter sau khi gửi phím 1
     pyautogui.press('enter') 
     time.sleep(5)
     
@@ -233,7 +248,7 @@ def run_emurb_sequence():
     pyautogui.click(1288, 305)
     time.sleep(2)
     
-    # 10. Click để focus/chọn cửa sổ
+    # 10. Click để focus/chọn cửa sổ lần nữa
     pyautogui.click(694, 61)
     time.sleep(2)
     pyautogui.click(694, 61)
@@ -246,7 +261,7 @@ def run_emurb_sequence():
     # 12. Gửi Enter
     pyautogui.press('enter')
 
-    # Do không có print, script sẽ kết thúc lặng lẽ sau bước này.
+    print("\n[PHẦN 5 KẾT THÚC] Chuỗi hành động EmuRB đã hoàn tất.")
 
 
 # ==============================================================================
@@ -259,7 +274,6 @@ if __name__ == "__main__":
     run_automation_sequence()
     
     # Thực thi chuỗi EmuRB mới
-   
     run_emurb_sequence()
     
-
+    print("\n[KẾT THÚC] Toàn bộ quy trình tự động hóa đã hoàn tất.")
