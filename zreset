@@ -26,7 +26,7 @@ STARTUP_DELAY_AFTER_BACKUP = 10
 # ==============================================================================
 # Đường dẫn và thời gian chờ ban đầu cho EmuRB
 [cite_start]EMURB_PATH = r"C:\Users\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\EmuRB.exe" # [cite: 1]
-
+[cite_start]INITIAL_COUNTDOWN_SECONDS = vinvinvin*4+25 # 277 giây [cite: 1]
 
 # CTYPES SETUP for console input (Gửi phím vào console)
 [cite_start]kernel32 = ctypes.windll.kernel32 # [cite: 1]
