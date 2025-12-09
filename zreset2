@@ -191,14 +191,15 @@ def run_emurb_sequence():
     # Thao tác mới: Click để focus/chọn cửa sổ (giả định)
     pyautogui.click(694, 61)
     time.sleep(2)
-    
+    pyautogui.press('enter')
+    time.sleep(2)
+    pyautogui.click(694, 91)
+    time.sleep(2)
     # 4. Gửi phím 3 
     pyautogui.press("3")
     time.sleep(2)
-
     # 5. Gửi Enter 
     pyautogui.press('enter')
-
     # 6. Chờ 30s
     time.sleep(30)
 
@@ -211,24 +212,30 @@ def run_emurb_sequence():
     
     # Thao tác mới: Gửi Enter sau khi gửi phím 1
     pyautogui.press('enter') 
-    time.sleep(3)
+    time.sleep(5)
     
     # 9. Click chuột và chờ
     pyautogui.click(744, 699)
     time.sleep(1)
     pyautogui.click(744, 699)
-    time.sleep(1)
+    time.sleep(2)
     
     pyautogui.click(1047, 542)
     time.sleep(30)
     
     pyautogui.click(984, 542)
     time.sleep(2)
+    pyautogui.click(984, 542)
+    time.sleep(2)
     
+    pyautogui.click(1288, 305)
+    time.sleep(2)
     pyautogui.click(1288, 305)
     time.sleep(2)
     
     # 10. Click để focus/chọn cửa sổ
+    pyautogui.click(694, 61)
+    time.sleep(2)
     pyautogui.click(694, 61)
     time.sleep(2)
 
