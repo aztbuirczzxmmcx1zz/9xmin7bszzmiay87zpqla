@@ -240,13 +240,10 @@ def run_emurb_sequence():
     pyautogui.click(744, 699)
     time.sleep(2)
     
-    pyautogui.click(1047, 542)
-    time.sleep(30)
+    pyautogui.press('enter')
+    time.sleep(40)
     
-    # Double click (984, 542)
-    pyautogui.click(984, 542)
-    time.sleep(2)
-    pyautogui.click(984, 542)
+    pyautogui.press('enter') 
     time.sleep(2)
     
     # Double click (1288, 305)
