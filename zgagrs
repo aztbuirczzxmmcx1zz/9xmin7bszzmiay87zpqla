@@ -1,0 +1,244 @@
+# pip install keyboard
+# Cần Windows OS để hàm ctypes hoạt động
+
+import time
+import threading
+import keyboard
+import os
+import shutil
+import subprocess
+import os 
+from time import sleep # Import sleep rõ ràng hơn
+import ctypes
+
+# Cấu hình đường dẫn
+DATA_FOLDER = r"C:\Users\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\ChangeAcc"
+EMURB_PATH = r"C:\Users\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\EmuRB.exe"
+EMURB_PROCESS_NAME = "EmuRB.exe"
+
+# Biến kiểm soát trạng thái
+running = False
+thread = None
+action_thread = None
+
+# ===============================================
+#   CẤU TRÚC CHO WriteConsoleInputW (Windows API)
+#   Phương pháp nhập mới - KHÔNG CẦN FOCUS
+# ===============================================
+
+kernel32 = ctypes.windll.kernel32
+
+# Event type
+KEY_EVENT = 0x0001
+# STD_INPUT_HANDLE = -10 (0xFFFFFFF6)
+VK_RETURN = 0x0D # Virtual Key Code cho phím Enter
+
+class KEY_EVENT_RECORD(ctypes.Structure):
+    _fields_ = [
+        ("bKeyDown", ctypes.c_int),
+        ("wRepeatCount", ctypes.c_uint16),
+        ("wVirtualKeyCode", ctypes.c_uint16),
+        ("wVirtualScanCode", ctypes.c_uint16),
+        ("uChar", ctypes.c_wchar),
+        ("dwControlKeyState", ctypes.c_uint32)
+    ]
+
+class INPUT_RECORD(ctypes.Structure):
+    _fields_ = [
+        ("EventType", ctypes.c_uint16),
+        ("KeyEvent", KEY_EVENT_RECORD)
+    ]
+
+# Thiết lập kiểu trả về và đối số cho các hàm WinAPI (Đảm bảo an toàn)
+kernel32.GetStdHandle.restype = ctypes.c_void_p
+kernel32.WriteConsoleInputW.argtypes = (
+    ctypes.c_void_p, 
+    ctypes.POINTER(INPUT_RECORD), 
+    ctypes.c_uint32, 
+    ctypes.POINTER(ctypes.c_uint32)
+)
+
+def send_console_key(char):
+    """Gửi một phím bất kỳ (bao gồm \r cho Enter) vào console buffer."""
+    hIn = kernel32.GetStdHandle(-10)  # STD_INPUT_HANDLE = -10
+
+    # Lấy VK Code và char cho Enter
+    if char == "\r":
+        vk_code = VK_RETURN
+        u_char = "\r"
+    else:
+        # Lấy VK Code và char cho ký tự thường
+        vk_code = ord(char.upper())
+        u_char = char
+
+    record = INPUT_RECORD()
+    record.EventType = KEY_EVENT
+
+    # 1. Key down
+    record.KeyEvent = KEY_EVENT_RECORD(
+        bKeyDown=1,
+        wRepeatCount=1,
+        wVirtualKeyCode=vk_code,
+        wVirtualScanCode=0,
+        uChar=u_char,
+        dwControlKeyState=0
+    )
+    bytes_written = ctypes.c_uint32(0)
+    kernel32.WriteConsoleInputW(hIn, ctypes.byref(record), 1, ctypes.byref(bytes_written))
+
+    # 2. Key up
+    record.KeyEvent.bKeyDown = 0
+    kernel32.WriteConsoleInputW(hIn, ctypes.byref(record), 1, ctypes.byref(bytes_written))
+    
+    # Nghỉ ngắn để console xử lý input
+    time.sleep(0.1)
+
+def send_enter():
+    send_console_key("\r")
+
+# ===============================================
+# LOGIC VÒNG LẶP (Giữ nguyên)
+# ===============================================
+
+# ✅ Hàm xóa file trong thư mục
+def clear_folder(folder_path):
+    print(f"\n🔄 Xóa các file trong thư mục: {folder_path}")
+    if not os.path.isdir(folder_path):
+        print(f"❌ Lỗi: Thư mục không tồn tại: {folder_path}")
+        return
+    try:
+        for filename in os.listdir(folder_path):
+            file_path = os.path.join(folder_path, filename)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+        print(f"✅ Đã xóa hoàn tất các file trong {folder_path}")
+    except Exception as e:
+        print(f"❌ Lỗi khi xóa file: {e}")
+
+# ✅ Hàm đóng ứng dụng
+def close_application(process_name):
+    print(f"🔄 Đóng ứng dụng: {process_name}")
+    try:
+        subprocess.run(
+            f"taskkill /IM {process_name} /F",
+            check=True,
+            shell=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+        print(f"✅ Đã gửi lệnh đóng cho {process_name}")
+    except:
+        print(f"   Thông báo: Ứng dụng {process_name} có thể không chạy hoặc đã đóng.")
+
+# ✅ Hàm mở ứng dụng (Phương pháp cũ đã hoạt động)
+def open_application(app_path):
+    print(f"🔄 Mở ứng dụng: {app_path}")
+    if not os.path.isfile(app_path):
+        print(f"❌ Lỗi: File ứng dụng không tồn tại: {app_path}")
+        return
+
+    # Lấy thư mục chứa file EmuRB.exe
+    app_directory = os.path.dirname(app_path)
+    
+    try:
+        # Popen đơn giản để ứng dụng mở và nhận luồng I/O mặc định
+        subprocess.Popen([app_path], cwd=app_directory)
+        print(f"✅ Đã mở ứng dụng: {app_path}")
+    except Exception as e:
+        print(f"❌ Lỗi khi mở ứng dụng: {e}")
+
+# ✅ Hàm thực hiện chuỗi hành động (1 lần)
+def execute_single_action_sequence():
+    print("----------------------------------------")
+    print("▶️ Bắt đầu chuỗi hành động...")
+
+    # 1. Đếm ngược 1440 phút (24h)
+    # 1440 là số phút trong 24 giờ. Vòng lặp này chờ 24 giờ.
+    for i in range(3, 0, -1):
+        if not running: return # Thoát nếu đã bấm STOP
+        # Hiển thị thời gian còn lại theo phút
+        print(f"\r⏳ Còn lại {i} phút...", end='', flush=True) 
+        sleep(1) # Chờ 60 giây (1 phút)
+
+    print("\n⏳ Đã kết thúc đếm ngược 24h.")
+    
+    # 2. Xoá hết các file trong C/yumi/data/
+    if not running: return
+    clear_folder(DATA_FOLDER)
+    sleep(1) 
+
+    # 3. Đóng ứng dụng EmuRB.exe rồi chờ 10s
+    if not running: return
+    close_application(EMURB_PROCESS_NAME)
+    print("⏳ Chờ 10 giây sau khi đóng ứng dụng...")
+    sleep(10)
+
+    # 4. Mở lại ứng dụng EmuRB.exe rồi chờ 15s
+    if not running: return
+    open_application(EMURB_PATH)
+    print("⏳ Chờ 15 giây sau khi mở ứng dụng...")
+    sleep(15)
+
+    # 5. Thực hiện nút bấm số 2 nghỉ 2s rồi nhấn phím Enter
+    # SỬ DỤNG PHƯƠNG PHÁP NHẬP MỚI (ctypes)
+    if not running: return
+    print("🔄 Gửi phím '2' (Console Input)")
+    send_console_key('2')
+    print("⏳ Chờ 2 giây...")
+    sleep(2)
+    print("🔄 Gửi phím 'Enter' (Console Input)")
+    send_enter()
+
+    print("\n✅ Đã hoàn thành 1 chu trình.")
+
+# ✅ Vòng lặp chính - Sẽ chạy liên tục khi running=True
+def run_loop():
+    while running:
+        try:
+            execute_single_action_sequence()
+            # Thêm một chút nghỉ giữa các vòng lặp (ví dụ 5 giây) để dễ theo dõi
+            if running:
+                print("--- Bắt đầu chu trình mới sau 5 giây ---")
+                sleep(5) 
+        except Exception as e:
+            print(f"❌ Lỗi trong vòng lặp: {e}")
+            sleep(5) # Nghỉ để tránh lặp lỗi nhanh
+
+# ✅ Hàm START/STOP (Giữ nguyên)
+def start_loop():
+    global running, thread
+    if not running:
+        print("\n========================================")
+        print("🚀 Script START - Bắt đầu vòng lặp tự động.")
+        print("========================================")
+        running = True
+        # Bắt đầu vòng lặp trong một thread mới
+        thread = threading.Thread(target=run_loop)
+        thread.start()
+    else:
+        print("⚠️ Vòng lặp đang chạy rồi!")
+
+def stop_loop():
+    global running
+    if running:
+        print("\n========================================")
+        print("🛑 Script STOP - Dừng vòng lặp.")
+        print("========================================")
+        running = False
+
+# ===============================================
+# MAIN
+# ===============================================
+
+# ✅ Bắt phím tắt
+print("----------------------------------------")
+print("🎛️ Đang chờ phím tắt...")
+print("👉 Ctrl + 1 để START vòng lặp.")
+print("👉 Ctrl + 2 để STOP vòng lặp.")
+print("👉 Esc để THOÁT script.")
+print("----------------------------------------")
+
+keyboard.add_hotkey('ctrl+1', start_loop)
+keyboard.add_hotkey('ctrl+2', stop_loop)
+keyboard.wait('esc')
+print("⏹️ Script đã dừng hoàn toàn.")
