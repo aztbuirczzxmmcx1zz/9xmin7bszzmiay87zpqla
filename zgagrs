@@ -212,3 +212,34 @@ def start_loop_auto():
         print("========================================")
         running = True
         # Bat dau vong lap trong mot thread moi
+        thread = threading.Thread(target=run_loop)
+        thread.start()
+    # else:
+        # print("Vong lap dang chay roi!") # Da han che print
+
+# Ham STOP
+def stop_loop():
+    global running
+    if running:
+        print("\n========================================")
+        print("Script STOP - Dung vong lap.")
+        print("========================================")
+        running = False
+
+# ===============================================
+# MAIN
+# ===============================================
+
+# Khoi dong vong lap ngay lap tuc
+start_loop_auto()
+
+# Bat phim tat STOP (Ctrl+2) va THOAT (Esc)
+keyboard.add_hotkey('ctrl+2', stop_loop)
+keyboard.wait('esc')
+
+# Dam bao thread ket thuc an toan khi nhan Esc
+stop_loop()
+if thread and thread.is_alive():
+    thread.join()
+
+print("Script da dung hoan toan.")
