@@ -1,5 +1,8 @@
+# Khai bao bien tuy chinh
+WAIT_MINUTES = 720 # So phut cho (ban dau la 720 phut = 12 gio)
+
 # pip install keyboard
-# Cần Windows OS để hàm ctypes hoạt động
+# Can Windows OS de ham ctypes hoat dong
 
 import time
 import threading
@@ -8,22 +11,21 @@ import os
 import shutil
 import subprocess
 import os 
-from time import sleep # Import sleep rõ ràng hơn
+from time import sleep 
 import ctypes
 
-# Cấu hình đường dẫn
+# Cau hinh duong dan
 DATA_FOLDER = r"C:\Users\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\ChangeAcc"
 EMURB_PATH = r"C:\Users\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\EmuRB.exe"
 EMURB_PROCESS_NAME = "EmuRB.exe"
 
-# Biến kiểm soát trạng thái
+# Bien kiem soat trang thai
 running = False
 thread = None
-action_thread = None
 
 # ===============================================
-#   CẤU TRÚC CHO WriteConsoleInputW (Windows API)
-#   Phương pháp nhập mới - KHÔNG CẦN FOCUS
+# CAU TRUC CHO WriteConsoleInputW (Windows API)
+# Phuong phap nhap moi - KHONG CAN FOCUS
 # ===============================================
 
 kernel32 = ctypes.windll.kernel32
@@ -31,7 +33,7 @@ kernel32 = ctypes.windll.kernel32
 # Event type
 KEY_EVENT = 0x0001
 # STD_INPUT_HANDLE = -10 (0xFFFFFFF6)
-VK_RETURN = 0x0D # Virtual Key Code cho phím Enter
+VK_RETURN = 0x0D # Virtual Key Code cho phim Enter
 
 class KEY_EVENT_RECORD(ctypes.Structure):
     _fields_ = [
@@ -49,7 +51,7 @@ class INPUT_RECORD(ctypes.Structure):
         ("KeyEvent", KEY_EVENT_RECORD)
     ]
 
-# Thiết lập kiểu trả về và đối số cho các hàm WinAPI (Đảm bảo an toàn)
+# Thiet lap kieu tra ve va doi so cho cac ham WinAPI
 kernel32.GetStdHandle.restype = ctypes.c_void_p
 kernel32.WriteConsoleInputW.argtypes = (
     ctypes.c_void_p, 
@@ -59,15 +61,15 @@ kernel32.WriteConsoleInputW.argtypes = (
 )
 
 def send_console_key(char):
-    """Gửi một phím bất kỳ (bao gồm \r cho Enter) vào console buffer."""
-    hIn = kernel32.GetStdHandle(-10)  # STD_INPUT_HANDLE = -10
+    """Gui mot phim bat ky (bao gom \r cho Enter) vao console buffer."""
+    hIn = kernel32.GetStdHandle(-10) # STD_INPUT_HANDLE = -10
 
-    # Lấy VK Code và char cho Enter
+    # Lay VK Code va char cho Enter
     if char == "\r":
         vk_code = VK_RETURN
         u_char = "\r"
     else:
-        # Lấy VK Code và char cho ký tự thường
+        # Lay VK Code va char cho ky tu thuong
         vk_code = ord(char.upper())
         u_char = char
 
@@ -90,155 +92,123 @@ def send_console_key(char):
     record.KeyEvent.bKeyDown = 0
     kernel32.WriteConsoleInputW(hIn, ctypes.byref(record), 1, ctypes.byref(bytes_written))
     
-    # Nghỉ ngắn để console xử lý input
+    # Nghi ngan de console xu ly input
     time.sleep(0.1)
 
 def send_enter():
     send_console_key("\r")
 
 # ===============================================
-# LOGIC VÒNG LẶP (Giữ nguyên)
+# LOGIC VONG LAP
 # ===============================================
 
-# ✅ Hàm xóa file trong thư mục
+# Ham xoa file trong thu muc
 def clear_folder(folder_path):
-    print(f"\n🔄 Xóa các file trong thư mục: {folder_path}")
+    # print(f"\nXoa cac file trong thu muc: {folder_path}") # Da han che print
     if not os.path.isdir(folder_path):
-        print(f"❌ Lỗi: Thư mục không tồn tại: {folder_path}")
+        # print(f"Loi: Thu muc khong ton tai: {folder_path}")
         return
     try:
         for filename in os.listdir(folder_path):
             file_path = os.path.join(folder_path, filename)
             if os.path.isfile(file_path):
                 os.remove(file_path)
-        print(f"✅ Đã xóa hoàn tất các file trong {folder_path}")
+        # print(f"Da xoa hoan tat cac file trong {folder_path}")
     except Exception as e:
-        print(f"❌ Lỗi khi xóa file: {e}")
+        # print(f"Loi khi xoa file: {e}")
+        pass
 
-# ✅ Hàm đóng ứng dụng
+# Ham dong ung dung
 def close_application(process_name):
-    print(f"🔄 Đóng ứng dụng: {process_name}")
+    # print(f"Dong ung dung: {process_name}")
     try:
         subprocess.run(
             f"taskkill /IM {process_name} /F",
-            check=True,
+            check=False, # Khong check de tranh Exception neu app khong chay
             shell=True,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL
         )
-        print(f"✅ Đã gửi lệnh đóng cho {process_name}")
+        # print(f"Da gui lenh dong cho {process_name}")
     except:
-        print(f"   Thông báo: Ứng dụng {process_name} có thể không chạy hoặc đã đóng.")
+        # print(f"Thong bao: Ung dung {process_name} co the khong chay hoac da dong.")
+        pass
 
-# ✅ Hàm mở ứng dụng (Phương pháp cũ đã hoạt động)
+# Ham mo ung dung
 def open_application(app_path):
-    print(f"🔄 Mở ứng dụng: {app_path}")
+    # print(f"Mo ung dung: {app_path}")
     if not os.path.isfile(app_path):
-        print(f"❌ Lỗi: File ứng dụng không tồn tại: {app_path}")
+        # print(f"Loi: File ung dung khong ton tai: {app_path}")
         return
 
-    # Lấy thư mục chứa file EmuRB.exe
+    # Lay thu muc chua file EmuRB.exe
     app_directory = os.path.dirname(app_path)
     
     try:
-        # Popen đơn giản để ứng dụng mở và nhận luồng I/O mặc định
         subprocess.Popen([app_path], cwd=app_directory)
-        print(f"✅ Đã mở ứng dụng: {app_path}")
+        # print(f"Da mo ung dung: {app_path}")
     except Exception as e:
-        print(f"❌ Lỗi khi mở ứng dụng: {e}")
+        # print(f"Loi khi mo ung dung: {e}")
+        pass
 
-# ✅ Hàm thực hiện chuỗi hành động (1 lần)
+# Ham thuc hien chuoi hanh dong (1 lan)
 def execute_single_action_sequence():
+    global WAIT_MINUTES
     print("----------------------------------------")
-    print("▶️ Bắt đầu chuỗi hành động...")
+    print("Bat dau chuoi hanh dong...")
 
-    # 1. Đếm ngược 1440 phút (24h)
-    # 1440 là số phút trong 24 giờ. Vòng lặp này chờ 24 giờ.
-    for i in range(720, 0, -1):
-        if not running: return # Thoát nếu đã bấm STOP
-        # Hiển thị thời gian còn lại theo phút
-        print(f"\r⏳ Còn lại {i} phút...", end='', flush=True) 
-        sleep(60) # Chờ 60 giây (1 phút)
+    # 1. Dem nguoc 
+    for i in range(WAIT_MINUTES, 0, -1):
+        if not running: return # Thoat neu da STOP
+        # Hien thi thoi gian con lai theo phut, cap nhat tren mot dong
+        print(f"\rCho: Con lai {i} phut...", end='', flush=True) 
+        sleep(60) # Cho 60 giay (1 phut)
 
-    print("\n⏳ Đã kết thúc đếm ngược 24h.")
+    print("\rHoan thanh thoi gian cho. Bat dau thuc thi hanh dong.")
     
-    # 2. Xoá hết các file trong C/yumi/data/
+    # 2. Xoa het cac file trong thu muc data
     if not running: return
     clear_folder(DATA_FOLDER)
     sleep(1) 
 
-    # 3. Đóng ứng dụng EmuRB.exe rồi chờ 10s
+    # 3. Dong ung dung EmuRB.exe roi cho 10s
     if not running: return
     close_application(EMURB_PROCESS_NAME)
-    print("⏳ Chờ 10 giây sau khi đóng ứng dụng...")
     sleep(10)
 
-    # 4. Mở lại ứng dụng EmuRB.exe rồi chờ 15s
+    # 4. Mo lai ung dung EmuRB.exe roi cho 15s
     if not running: return
     open_application(EMURB_PATH)
-    print("⏳ Chờ 15 giây sau khi mở ứng dụng...")
     sleep(15)
 
-    # 5. Thực hiện nút bấm số 2 nghỉ 2s rồi nhấn phím Enter
-    # SỬ DỤNG PHƯƠNG PHÁP NHẬP MỚI (ctypes)
+    # 5. Thuc hien nut bam so 2 nghi 2s roi nhan phim Enter
     if not running: return
-    print("🔄 Gửi phím '2' (Console Input)")
     send_console_key('2')
-    print("⏳ Chờ 2 giây...")
     sleep(2)
-    print("🔄 Gửi phím 'Enter' (Console Input)")
     send_enter()
 
-    print("\n✅ Đã hoàn thành 1 chu trình.")
+    print("Da hoan thanh 1 chu trinh.")
 
-# ✅ Vòng lặp chính - Sẽ chạy liên tục khi running=True
+# Vong lap chinh - Se chay lien tuc khi running=True
 def run_loop():
     while running:
         try:
             execute_single_action_sequence()
-            # Thêm một chút nghỉ giữa các vòng lặp (ví dụ 5 giây) để dễ theo dõi
+            # Nghi ngan giua cac vong lap (vi du 5 giay)
             if running:
-                print("--- Bắt đầu chu trình mới sau 5 giây ---")
                 sleep(5) 
         except Exception as e:
-            print(f"❌ Lỗi trong vòng lặp: {e}")
-            sleep(5) # Nghỉ để tránh lặp lỗi nhanh
+            # print(f"Loi trong vong lap: {e}")
+            sleep(5) # Nghi de tranh lap loi nhanh
 
-# ✅ Hàm START/STOP (Giữ nguyên)
-def start_loop():
+# Ham START
+def start_loop_auto():
     global running, thread
     if not running:
-        print("\n========================================")
-        print("🚀 Script START - Bắt đầu vòng lặp tự động.")
+        print("========================================")
+        print("Script START - Bat dau vong lap tu dong.")
+        print(f"Thoi gian cho ban dau: {WAIT_MINUTES} phut.")
+        print("Nhan ESC de THOAT.")
         print("========================================")
         running = True
-        # Bắt đầu vòng lặp trong một thread mới
-        thread = threading.Thread(target=run_loop)
-        thread.start()
-    else:
-        print("⚠️ Vòng lặp đang chạy rồi!")
-
-def stop_loop():
-    global running
-    if running:
-        print("\n========================================")
-        print("🛑 Script STOP - Dừng vòng lặp.")
-        print("========================================")
-        running = False
-
-# ===============================================
-# MAIN
-# ===============================================
-
-# ✅ Bắt phím tắt
-print("----------------------------------------")
-print("🎛️ Đang chờ phím tắt...")
-print("👉 Ctrl + 1 để START vòng lặp.")
-print("👉 Ctrl + 2 để STOP vòng lặp.")
-print("👉 Esc để THOÁT script.")
-print("----------------------------------------")
-
-keyboard.add_hotkey('ctrl+1', start_loop)
-keyboard.add_hotkey('ctrl+2', stop_loop)
-keyboard.wait('esc')
-print("⏹️ Script đã dừng hoàn toàn.")
+        # Bat dau vong lap trong mot thread moi
