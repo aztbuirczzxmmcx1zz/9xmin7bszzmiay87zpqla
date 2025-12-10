@@ -1044,7 +1044,7 @@ if missingUpgrade then
     textLabel.Position = UDim2.new(0, 10, 0, 10)
     textLabel.BackgroundTransparency = 1 
     textLabel.TextColor3 = Color3.new(1, 0, 0)
-    textLabel.Text = "U"
+    textLabel.Text = "uuuuuuuU"
     textLabel.Font = Enum.Font.SourceSansBold
     textLabel.TextSize = 10
     textLabel.BorderSizePixel = 0
