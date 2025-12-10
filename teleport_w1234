@@ -40,9 +40,11 @@ end
 
 task.spawn(function()
 
-wait(60)
-if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
-	player:Kick("Fail 300 teleport")
+while true do
+	wait(60)
+	if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
+		game:Shutdown()	
+	end
 end
 
 end)
@@ -72,10 +74,10 @@ if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
 			
 
             if attempt == 2 and game.PlaceId == 119454325063278 then
-                player:Kick("Fail tele 2 times")
+                game:Shutdown()	
             end
 			if attempt == 2 and game.PlaceId == 95635359880599 then
-                player:Kick("Fail tele 2 times")
+                game:Shutdown()	
             end
         end
     else
