@@ -78,14 +78,14 @@ def run_automation_sequence():
     
     # --- PHẦN 1: ĐÓNG LDPLAYER & MỞ MULTIPLAYER ---
     print("\n[BƯỚC 0] Đóng các cửa sổ LDPlayer đang hoạt động...")
-    kill_dnplayer()
-    time.sleep(3) 
+    #kill_dnplayer()
+    #time.sleep(3) 
 
     # Mở LDMultiplayer lần đầu
     try:
         print(f"Mở ứng dụng LDMultiplayer: {LDPLAYER_MULTIPLAYER_PATH}")
         subprocess.Popen(LDPLAYER_MULTIPLAYER_PATH)
-        time.sleep(5) # Chờ ứng dụng load
+        time.sleep(3) # Chờ ứng dụng load
     except FileNotFoundError:
         print(f"LỖI: Không tìm thấy đường dẫn ứng dụng: {LDPLAYER_MULTIPLAYER_PATH}")
         return 
@@ -219,7 +219,7 @@ def run_emurb_sequence():
     pyautogui.press('enter')
     
     # 6. Chờ 30s
-    time.sleep(30)
+    time.sleep(20)
 
     # 7. Gửi Enter
     pyautogui.press('enter')
