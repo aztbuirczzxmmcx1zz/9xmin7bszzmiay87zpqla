@@ -1,7 +1,11 @@
 # Khai bao bien tuy chinh
 WAIT_MINUTES = 720 # So phut cho (ban dau la 720 phut = 12 gio)
 
-# pip install keyboard
+# Toa do cho double-click (Can thay doi cho phu hop)
+CLICK_X = 500 
+CLICK_Y = 940 
+
+# pip install keyboard pyautogui
 # Can Windows OS de ham ctypes hoat dong
 
 import time
@@ -13,10 +17,11 @@ import subprocess
 import os 
 from time import sleep 
 import ctypes
+import pyautogui # <--- DA THEM
 
 # Cau hinh duong dan
-DATA_FOLDER = r"C:\Users\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\ChangeAcc"
-EMURB_PATH = r"C:\Users\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\EmuRB.exe"
+DATA_FOLDER = r"C:\Users\ADMIN\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\ChangeAcc"
+EMURB_PATH = r"C:\Users\ADMIN\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\EmuRB.exe"
 EMURB_PROCESS_NAME = "EmuRB.exe"
 
 # Bien kiem soat trang thai
@@ -104,23 +109,18 @@ def send_enter():
 
 # Ham xoa file trong thu muc
 def clear_folder(folder_path):
-    # print(f"\nXoa cac file trong thu muc: {folder_path}") # Da han che print
     if not os.path.isdir(folder_path):
-        # print(f"Loi: Thu muc khong ton tai: {folder_path}")
         return
     try:
         for filename in os.listdir(folder_path):
             file_path = os.path.join(folder_path, filename)
             if os.path.isfile(file_path):
                 os.remove(file_path)
-        # print(f"Da xoa hoan tat cac file trong {folder_path}")
     except Exception as e:
-        # print(f"Loi khi xoa file: {e}")
         pass
 
 # Ham dong ung dung
 def close_application(process_name):
-    # print(f"Dong ung dung: {process_name}")
     try:
         subprocess.run(
             f"taskkill /IM {process_name} /F",
@@ -129,16 +129,12 @@ def close_application(process_name):
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL
         )
-        # print(f"Da gui lenh dong cho {process_name}")
     except:
-        # print(f"Thong bao: Ung dung {process_name} co the khong chay hoac da dong.")
         pass
 
 # Ham mo ung dung
 def open_application(app_path):
-    # print(f"Mo ung dung: {app_path}")
     if not os.path.isfile(app_path):
-        # print(f"Loi: File ung dung khong ton tai: {app_path}")
         return
 
     # Lay thu muc chua file EmuRB.exe
@@ -146,9 +142,7 @@ def open_application(app_path):
     
     try:
         subprocess.Popen([app_path], cwd=app_directory)
-        # print(f"Da mo ung dung: {app_path}")
     except Exception as e:
-        # print(f"Loi khi mo ung dung: {e}")
         pass
 
 # Ham thuc hien chuoi hanh dong (1 lan)
@@ -181,6 +175,17 @@ def execute_single_action_sequence():
     open_application(EMURB_PATH)
     sleep(15)
 
+    # 4.5. Thuc hien double-click tai vi tri (X, Y)
+    if not running: return
+    print(f"Thuc hien double-click tai toa do ({CLICK_X}, {CLICK_Y}).")
+    try:
+        # pyautogui.click(CLICK_X, CLICK_Y, clicks=2, interval=0.25) # Cach khac
+        pyautogui.doubleClick(CLICK_X, CLICK_Y)
+        sleep(2) # Cho 2 giay sau khi click
+    except Exception as e:
+        print(f"Loi khi thuc hien double-click: {e}")
+        pass
+
     # 5. Thuc hien nut bam so 2 nghi 2s roi nhan phim Enter
     if not running: return
     send_console_key('2')
@@ -198,7 +203,6 @@ def run_loop():
             if running:
                 sleep(5) 
         except Exception as e:
-            # print(f"Loi trong vong lap: {e}")
             sleep(5) # Nghi de tranh lap loi nhanh
 
 # Ham START
@@ -208,14 +212,13 @@ def start_loop_auto():
         print("========================================")
         print("Script START - Bat dau vong lap tu dong.")
         print(f"Thoi gian cho ban dau: {WAIT_MINUTES} phut.")
+        print(f"Double-click tai: ({CLICK_X}, {CLICK_Y})")
         print("Nhan ESC de THOAT.")
         print("========================================")
         running = True
         # Bat dau vong lap trong mot thread moi
         thread = threading.Thread(target=run_loop)
         thread.start()
-    # else:
-        # print("Vong lap dang chay roi!") # Da han che print
 
 # Ham STOP
 def stop_loop():
