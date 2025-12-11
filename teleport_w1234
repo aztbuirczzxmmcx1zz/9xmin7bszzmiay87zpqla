@@ -42,11 +42,11 @@ local TeleportMapping = {
 -- Nếu đang ở đúng map cần thoát
 if game.PlaceId == 119454325063278 or game.PlaceId == 95635359880599 then
 	if not MAP_w3_true then
-		local teleportName = TeleportMapping[2]
+		teleportName = TeleportMapping[2]
 	elseif not MAP_w4_true then
-		local teleportName = TeleportMapping[3]
+		teleportName = TeleportMapping[3]
 	else
-		local teleportName = TeleportMapping[4]
+		teleportName = TeleportMapping[4]
 	end
     
     
