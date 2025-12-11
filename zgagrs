@@ -1,9 +1,9 @@
 # Khai bao bien tuy chinh
-WAIT_MINUTES = 720 # So phut cho (ban dau la 720 phut = 12 gio)
+WAIT_MINUTES = 700 # So phut cho (ban dau la 720 phut = 12 gio)
 
 # Toa do cho double-click (Can thay doi cho phu hop)
-CLICK_X = 500 
-CLICK_Y = 940 
+CLICK_X = 400 
+CLICK_Y = 950 
 
 # pip install keyboard pyautogui
 # Can Windows OS de ham ctypes hoat dong
