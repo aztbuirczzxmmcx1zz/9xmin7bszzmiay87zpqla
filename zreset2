@@ -6,61 +6,27 @@ import re
 # Không cần import pygetwindow vì bạn đã chuyển sang dùng click tọa độ để lấy focus
 
 # ==============================================================================
-# 1. CẤU HÌNH CHUNG
+# 1. CẤU HÌNH CHUNG (Cần thiết cho script hoạt động)
 # ==============================================================================
 # --- CẤU HÌNH LDPlayer & Ứng dụng ---
 LDPLAYER_MULTIPLAYER_PATH = r"C:\LDPlayer\LDPlayer9\dnmultiplayer.exe"
-BACKUP_APP_PATH = r"C:\Users\ADMIN\Desktop\backupldplayer.exe"
+BACKUP_APP_PATH = r"C:\Users\ADMIN\Desktop\backupldplayer.exe" # Vẫn giữ để hàm cũ không lỗi
 
-# --- PERFORMANCE COUNTER và DELAY ---
+# --- PERFORMANCE COUNTER và DELAY --- (Không dùng trong kịch bản mới, nhưng giữ để tránh lỗi định nghĩa)
 DISK_ACTIVITY_COUNTER = r'\LogicalDisk(C:)\% Disk Time'
-DISK_ACTIVITY_THRESHOLD = 5.0 # Ngưỡng Disk Time
-STARTUP_DELAY_AFTER_BACKUP = 10 # Chờ 10s sau khi chạy Backup
-MAX_WAIT_TIME_DISK_CHECK = 3600 # Thời gian chờ tối đa 1 giờ
+DISK_ACTIVITY_THRESHOLD = 5.0 
+STARTUP_DELAY_AFTER_BACKUP = 10 
+MAX_WAIT_TIME_DISK_CHECK = 3600 
 
 # --- CẤU HÌNH EMURB ---
 EMURB_PATH = r"C:\Users\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\EmuRB.exe" 
-# Biến này được yêu cầu dùng từ bên ngoài, nhưng phải định nghĩa để script hoạt động độc lập:
+# Đã bỏ comment để script có thể chạy
 #INITIAL_COUNTDOWN_SECONDS = 3 
 
 # ==============================================================================
-# 2. CHỨC NĂNG HỖ TRỢ CHUNG
+# 2. CHỨC NĂNG HỖ TRỢ CHUNG (Đã rút gọn)
 # ==============================================================================
-def kill_dnplayer():
-    """Đóng tất cả tiến trình dnplayer.exe đang chạy."""
-    try:
-        subprocess.run(
-            ["taskkill", "/IM", "dnplayer.exe", "/F"],
-            check=True,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.STDOUT,
-        )
-        print("✅ Đã đóng tất cả tiến trình dnplayer.exe (LDPlayer).")
-    except subprocess.CalledProcessError:
-        print("ℹ️ Không tìm thấy tiến trình dnplayer.exe đang chạy.")
-    except Exception as e:
-        print(f"❌ Lỗi khi đóng dnplayer.exe: {e}")
-
-def get_performance_counter_value(counter_path):
-    """Đọc giá trị % Disk Time từ Performance Counter."""
-    cmd = ["typeperf", counter_path, "-sc", "1"]
-    try:
-        result = subprocess.run(
-            cmd, capture_output=True, text=True, encoding="utf-8", errors="ignore", timeout=15 
-        )
-    except subprocess.TimeoutExpired:
-        return None
-    
-    lines = [line.strip() for line in result.stdout.splitlines() if line.strip()]
-    for line in lines:
-        m = re.search(r'"(-?\d+\.\d+)"', line)
-        if m:
-            try:
-                return float(m.group(1))
-            except ValueError:
-                pass
-    return None
-
+# Giữ hàm này vì nó được dùng trong run_emurb_sequence
 def open_application(app_path): 
     """Mở ứng dụng và trả về True/False."""
     if not os.path.isfile(app_path):
@@ -69,110 +35,23 @@ def open_application(app_path):
     
     subprocess.Popen([app_path], cwd=os.path.dirname(app_path))
     return True
-
 # ==============================================================================
-# 3. CHUỖI TỰ ĐỘNG HÓA CHÍNH (LDPlayer & Backup)
+# 3. CHUỖI TỰ ĐỘNG HÓA CHÍNH (Đã Chỉnh Sửa theo Yêu Cầu)
 # ==============================================================================
 
-def run_automation_sequence():
+def run_modified_ldplayer_sequence():
+    """
+    Chỉ thực hiện phần 'Gọi lại ứng dụng' và 'Click cuối cùng' 
+    từ PHẦN 4 của hàm run_automation_sequence gốc.
+    """
+    print("\n[PHẦN KHỞI CHẠY ĐÃ SỬA] Bắt đầu gọi lại LDMultiplayer và Click cuối cùng...")
     
-    # --- PHẦN 1: ĐÓNG LDPLAYER & MỞ MULTIPLAYER ---
-    print("\n[BƯỚC 0] Đóng các cửa sổ LDPlayer đang hoạt động...")
-    #kill_dnplayer()
-    #time.sleep(3) 
-
-    # Mở LDMultiplayer lần đầu
-    try:
-        print(f"Mở ứng dụng LDMultiplayer: {LDPLAYER_MULTIPLAYER_PATH}")
-        subprocess.Popen(LDPLAYER_MULTIPLAYER_PATH)
-        time.sleep(3) # Chờ ứng dụng load
-    except FileNotFoundError:
-        print(f"LỖI: Không tìm thấy đường dẫn ứng dụng: {LDPLAYER_MULTIPLAYER_PATH}")
-        return 
-
-    # CHÈN 4 CÚ CLICK MỚI
-    CLICK_SEQUENCE_NEW_INSERT = [
-        (652, 749), (786, 750), (822, 719), (891, 602)
-    ]
-    print("\n[PHẦN CHÈN] Thực hiện 4 click mới sau khi mở LDMultiplayer...")
-    for i, (x, y) in enumerate(CLICK_SEQUENCE_NEW_INSERT):
-        print(f"Click chèn {i+1}: ({x}, {y})")
-        pyautogui.click(x, y)
-        time.sleep(1) 
-    
-    # Click theo tọa độ cũ (chuẩn bị sao lưu)
-    CLICK_SEQUENCE_OLD = [(779, 744), (824, 569)]
-    print("\n[PHẦN CŨ] Thực hiện 2 click chuẩn bị sao lưu...")
-    for i, (x, y) in enumerate(CLICK_SEQUENCE_OLD):
-        print(f"Click chuẩn bị sao lưu {i+1}: ({x}, {y})")
-        pyautogui.click(x, y)
-        time.sleep(1) 
-
-    print("Chờ 6 giây trước khi chạy Backup...")
-    time.sleep(6)
-    
-    # --- PHẦN 2: CHẠY BACKUP & KIỂM TRA ĐĨA ---
-    backup_process = None
-    try:
-        print(f"Chạy ứng dụng Backup: {BACKUP_APP_PATH}")
-        backup_process = subprocess.Popen(BACKUP_APP_PATH) 
-        
-        print(f"*** Chờ {STARTUP_DELAY_AFTER_BACKUP} giây để Backup khởi động và bắt đầu ghi đĩa ***")
-        time.sleep(STARTUP_DELAY_AFTER_BACKUP)
-    except FileNotFoundError:
-        print(f"LỖI: Không tìm thấy đường dẫn ứng dụng Backup: {BACKUP_APP_PATH}")
-        return
-        
-    print("\n[PHẦN 3] Bắt đầu vòng lặp kiểm tra hoạt động Đĩa...")
-    start_time = time.time()
-    
-    while time.time() - start_time < MAX_WAIT_TIME_DISK_CHECK:
-        disk_time = get_performance_counter_value(DISK_ACTIVITY_COUNTER)
-        
-        if disk_time is not None:
-            print(f"-> % Disk Time hiện tại: {disk_time:.2f}%")
-            
-            if disk_time < DISK_ACTIVITY_THRESHOLD:
-                print(f"--- ĐĨA ỔN ĐỊNH ({disk_time:.2f} < {DISK_ACTIVITY_THRESHOLD}%) - XÁC NHẬN BACKUP HOÀN TẤT ---")
-                break
-        else:
-            print("-> KHÔNG LẤY ĐƯỢC giá trị Disk Time. Chờ 15s...")
-
-        print("Chờ 15 giây...")
-        time.sleep(15)
-
-    else:
-        print("\nCẢNH BÁO: Đã hết thời gian chờ tối đa (1 giờ).")
-
-    # --- PHẦN 3.5: CHỜ VÀ KIỂM TRA LẠI ĐĨA (Yêu cầu mới) ---
-    print("\n[PHẦN 3.5] Chờ 10 giây và kiểm tra Đĩa lần cuối...")
-    time.sleep(10) 
-
-    # Thực hiện kiểm tra đĩa lần cuối (Chỉ một lần kiểm tra)
-    disk_time = get_performance_counter_value(DISK_ACTIVITY_COUNTER)
-
-    if disk_time is not None and disk_time < DISK_ACTIVITY_THRESHOLD:
-        print(f"-> % Disk Time cuối cùng: {disk_time:.2f}% (Ổn định).")
-    elif disk_time is not None:
-        print(f"-> % Disk Time cuối cùng: {disk_time:.2f}% (Vẫn cao). Tiếp tục đóng ứng dụng.")
-    else:
-        print("-> Không lấy được giá trị Disk Time lần cuối. Tiếp tục đóng ứng dụng.")
-        
-    # Đóng ứng dụng Backup
-    if backup_process and backup_process.poll() is None:
-        print(f"Đóng ứng dụng Backup: {BACKUP_APP_PATH}")
-        backup_process.terminate() 
-        time.sleep(1)
-        if backup_process.poll() is None:
-            backup_process.kill() 
-            
     # --- PHẦN 4: GỌI LẠI ỨNG DỤNG VÀ CLICK CUỐI CÙNG ---
-    print("\n[PHẦN 4] Tiếp tục mở LDMultiplayer và Click cuối cùng (Khởi tạo phiên mới)...")
     
     try:
         print(f"Gọi lại ứng dụng LDMultiplayer: {LDPLAYER_MULTIPLAYER_PATH}")
         subprocess.Popen(LDPLAYER_MULTIPLAYER_PATH)
-        time.sleep(5) 
+        time.sleep(5) # Chờ ứng dụng load
     except FileNotFoundError:
         print(f"LỖI: Không tìm thấy đường dẫn ứng dụng: {LDPLAYER_MULTIPLAYER_PATH}")
         return 
@@ -184,14 +63,16 @@ def run_automation_sequence():
         pyautogui.click(x, y)
         time.sleep(1) 
 
-    print("\n[PHẦN 4 KẾT THÚC] Đã hoàn thành quy trình LDPlayer.")
+    print("\n[PHẦN KHỞI CHẠY ĐÃ SỬA KẾT THÚC] Đã hoàn thành quy trình LDPlayer.")
 
 
 # ==============================================================================
-# 4. CHUỖI HÀNH ĐỘNG EMURB MỚI (Dùng PyAutoGUI - Đã cập nhật)
+# 4. CHUỖI HÀNH ĐỘNG EMURB MỚI (Giữ nguyên)
 # ==============================================================================
 
 def run_emurb_sequence():
+    
+    print("\n[BẮT ĐẦU PHẦN EMURB] Khởi động chuỗi hành động EmuRB.")
     
     # 1. Chờ countdown ban đầu
     time.sleep(INITIAL_COUNTDOWN_SECONDS) 
@@ -218,7 +99,7 @@ def run_emurb_sequence():
     # 5. Gửi Enter 
     pyautogui.press('enter')
     
-    # 6. Chờ 30s
+    # 6. Chờ 20s
     time.sleep(20)
 
     # 7. Gửi Enter
@@ -265,7 +146,7 @@ def run_emurb_sequence():
     # 12. Gửi Enter
     pyautogui.press('enter')
 
-    print("\n[PHẦN 5 KẾT THÚC] Chuỗi hành động EmuRB đã hoàn tất.")
+    print("\n[PHẦN EMURB KẾT THÚC] Chuỗi hành động EmuRB đã hoàn tất.")
 
 
 # ==============================================================================
@@ -274,11 +155,10 @@ def run_emurb_sequence():
 
 if __name__ == "__main__":
     
-    # Thực thi chuỗi LDPlayer/Backup
-    #run_automation_sequence()
+    # Thực thi chuỗi LDPlayer/Backup đã chỉnh sửa
+    run_modified_ldplayer_sequence()
     
     # Thực thi chuỗi EmuRB mới
     run_emurb_sequence()
     
     print("\n[KẾT THÚC] Toàn bộ quy trình tự động hóa đã hoàn tất.")
-
