@@ -275,7 +275,7 @@ def run_emurb_sequence():
 if __name__ == "__main__":
     
     # Thực thi chuỗi LDPlayer/Backup
-    run_automation_sequence()
+    #run_automation_sequence()
     
     # Thực thi chuỗi EmuRB mới
     run_emurb_sequence()
