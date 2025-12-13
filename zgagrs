@@ -149,16 +149,6 @@ def open_application(app_path):
 def execute_single_action_sequence():
     global WAIT_MINUTES
     print("----------------------------------------")
-    print("Bat dau chuoi hanh dong...")
-
-    # 1. Dem nguoc 
-    for i in range(WAIT_MINUTES, 0, -1):
-        if not running: return # Thoat neu da STOP
-        # Hien thi thoi gian con lai theo phut, cap nhat tren mot dong
-        print(f"\rCho: Con lai {i} phut...", end='', flush=True) 
-        sleep(60) # Cho 60 giay (1 phut)
-
-    print("\rHoan thanh thoi gian cho. Bat dau thuc thi hanh dong.")
     
     # 2. Xoa het cac file trong thu muc data
     if not running: return
@@ -193,6 +183,13 @@ def execute_single_action_sequence():
     send_enter()
 
     print("Da hoan thanh 1 chu trinh.")
+
+    # 6. Dem nguoc 
+    for i in range(WAIT_MINUTES, 0, -1):
+        if not running: return # Thoat neu da STOP
+        # Hien thi thoi gian con lai theo phut, cap nhat tren mot dong
+        print(f"\rCho: Con lai {i} phut...", end='', flush=True) 
+        sleep(60) # Cho 60 giay (1 phut)
 
 # Vong lap chinh - Se chay lien tuc khi running=True
 def run_loop():
