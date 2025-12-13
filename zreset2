@@ -3,170 +3,116 @@ import time
 import subprocess
 import pyautogui
 import re
-# Không cần import pygetwindow vì bạn đã chuyển sang dùng click tọa độ để lấy focus
 
-# ==============================================================================
-# 1. CẤU HÌNH CHUNG (Cần thiết cho script hoạt động)
-# ==============================================================================
-# --- CẤU HÌNH LDPlayer & Ứng dụng ---
 LDPLAYER_MULTIPLAYER_PATH = r"C:\LDPlayer\LDPlayer9\dnmultiplayer.exe"
-BACKUP_APP_PATH = r"C:\Users\ADMIN\Desktop\backupldplayer.exe" # Vẫn giữ để hàm cũ không lỗi
-
-# --- PERFORMANCE COUNTER và DELAY --- (Không dùng trong kịch bản mới, nhưng giữ để tránh lỗi định nghĩa)
+BACKUP_APP_PATH = r"C:\Users\ADMIN\Desktop\backupldplayer.exe"
 DISK_ACTIVITY_COUNTER = r'\LogicalDisk(C:)\% Disk Time'
-DISK_ACTIVITY_THRESHOLD = 5.0 
-STARTUP_DELAY_AFTER_BACKUP = 10 
-MAX_WAIT_TIME_DISK_CHECK = 3600 
+DISK_ACTIVITY_THRESHOLD = 5.0
+STARTUP_DELAY_AFTER_BACKUP = 10
+MAX_WAIT_TIME_DISK_CHECK = 3600
+EMURB_PATH = r"C:\Users\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\EmuRB.exe"
+INITIAL_COUNTDOWN_SECONDS = 30
 
-# --- CẤU HÌNH EMURB ---
-EMURB_PATH = r"C:\Users\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\EmuRB.exe" 
-# ĐÃ SỬA LỖI NAMEERROR BẰNG CÁCH ĐỊNH NGHĨA BIẾN NÀY
-#INITIAL_COUNTDOWN_SECONDS = 30 # Đặt giá trị mặc định, bạn có thể thay đổi
-# ==============================================================================
-# 2. CHỨC NĂNG HỖ TRỢ CHUNG (Đã rút gọn)
-# ==============================================================================
-# Giữ hàm này vì nó được dùng trong run_emurb_sequence
-def open_application(app_path): 
-    """Mở ứng dụng và trả về True/False."""
-    if not os.path.isfile(app_path):
-        print(f"❌ LỖI: Không tìm thấy file ứng dụng tại: {app_path}") 
-        return False
-    
-    subprocess.Popen([app_path], cwd=os.path.dirname(app_path))
-    return True
-# ==============================================================================
-# 3. CHUỖI TỰ ĐỘNG HÓA CHÍNH (Đã Chỉnh Sửa theo Yêu Cầu)
-# ==============================================================================
+
+def open_application(app_path):
+    if not os.path.isfile(app_path):
+        print(f"❌ LỖI: Không tìm thấy file ứng dụng tại: {app_path}")
+        return False
+
+    subprocess.Popen([app_path], cwd=os.path.dirname(app_path))
+    return True
+
 
 def run_modified_ldplayer_sequence():
-    """
-    Chỉ thực hiện phần 'Gọi lại ứng dụng' và 'Click cuối cùng' 
-    từ PHẦN 4 của hàm run_automation_sequence gốc.
-    """
-    print("\n[PHẦN KHỞI CHẠY ĐÃ SỬA] Bắt đầu gọi lại LDMultiplayer và Click cuối cùng...")
-    
-    # --- PHẦN 4: GỌI LẠI ỨNG DỤNG VÀ CLICK CUỐI CÙNG ---
-    
-    try:
-        print(f"Gọi lại ứng dụng LDMultiplayer: {LDPLAYER_MULTIPLAYER_PATH}")
-        subprocess.Popen(LDPLAYER_MULTIPLAYER_PATH)
-        time.sleep(5) # Chờ ứng dụng load
-    except FileNotFoundError:
-        print(f"LỖI: Không tìm thấy đường dẫn ứng dụng: {LDPLAYER_MULTIPLAYER_PATH}")
-        return 
+    print("\n[PHẦN KHỞI CHẠY ĐÃ SỬA] Bắt đầu gọi lại LDMultiplayer và Click cuối cùng...")
 
-    # Click theo tọa độ mới (Khởi chạy) - Đã thêm 1236, 272
-    CLICK_SEQUENCE_FINAL = [(650, 749), (651, 380), (783, 749), (798, 656), (1236, 272)]
-    for i, (x, y) in enumerate(CLICK_SEQUENCE_FINAL):
-        print(f"Click khởi chạy {i+1}: ({x}, {y})")
-        pyautogui.click(x, y)
-        time.sleep(1) 
+    try:
+        print(f"Gọi lại ứng dụng LDMultiplayer: {LDPLAYER_MULTIPLAYER_PATH}")
+        subprocess.Popen(LDPLAYER_MULTIPLAYER_PATH)
+        time.sleep(5)
+    except FileNotFoundError:
+        print(f"LỖI: Không tìm thấy đường dẫn ứng dụng: {LDPLAYER_MULTIPLAYER_PATH}")
+        return
 
-    print("\n[PHẦN KHỞI CHẠY ĐÃ SỬA KẾT THÚC] Đã hoàn thành quy trình LDPlayer.")
+    CLICK_SEQUENCE_FINAL = [
+        (650, 749),
+        (651, 380),
+        (783, 749),
+        (798, 656),
+        (1236, 272)
+    ]
 
+    for i, (x, y) in enumerate(CLICK_SEQUENCE_FINAL):
+        print(f"Click khởi chạy {i + 1}: ({x}, {y})")
+        pyautogui.click(x, y)
+        time.sleep(1)
 
-# ==============================================================================
-# 4. CHUỖI HÀNH ĐỘNG EMURB MỚI (Giữ nguyên)
-# ==============================================================================
+    print("\n[PHẦN KHỞI CHẠY ĐÃ SỬA KẾT THÚC] Đã hoàn thành quy trình LDPlayer.")
+
 
 def run_emurb_sequence():
-    
-    print("\n[BẮT ĐẦU PHẦN EMURB] Khởi động chuỗi hành động EmuRB.")
-    
-    # 1. Chờ countdown ban đầu
-    #time.sleep(INITIAL_COUNTDOWN_SECONDS) 
+    print("\n[BẮT ĐẦU PHẦN EMURB] Khởi động chuỗi hành động EmuRB.")
 
-    # SỬA LỖI NAMEERROR: Thay 'sleep(10)' bằng 'time.sleep(10)'
-    # LƯU Ý: Vòng lặp này có thể bị lỗi logic nếu INITIAL_COUNTDOWN_SECONDS < 10
-    # Ví dụ: Nếu INITIAL_COUNTDOWN_SECONDS = 5, vòng lặp sẽ không chạy.
-    # Nên dùng: for i in range(int(INITIAL_COUNTDOWN_SECONDS / 10) + 1): time.sleep(10)
-    # Tuy nhiên, tôi chỉ sửa lỗi cú pháp.
-    for i in range(INITIAL_COUNTDOWN_SECONDS, 0, -10):
-        print(f"\rCho: Con lai {i} s...", end='', flush=True) 
-        time.sleep(10) # Đã sửa từ sleep(10) thành time.sleep(10)
+    for i in range(INITIAL_COUNTDOWN_SECONDS, 0, -10):
+        print(f"\rChờ: Còn lại {i} s...", end='', flush=True)
+        time.sleep(10)
 
-    # 2. Mở EmuRB
-    if not open_application(EMURB_PATH):
-        return
+    if not open_application(EMURB_PATH):
+        return
 
-    # 3. Chờ 15s ứng dụng khởi động
-    time.sleep(15) 
-    
-    # Thao tác click để focus (theo tọa độ mới bạn cung cấp)
-    pyautogui.click(406, 192)
-    time.sleep(1)
-    pyautogui.click(406, 192)
-    time.sleep(2)
-    
-    # 4. Gửi phím 3 
-    pyautogui.press("3")
-    time.sleep(2)
-    
-    # 5. Gửi Enter 
-    pyautogui.press('enter')
-    
-    # 6. Chờ 20s
-    time.sleep(20)
+    time.sleep(15)
 
-    # 7. Gửi Enter
-    pyautogui.press('enter')
+    pyautogui.click(406, 192)
+    time.sleep(1)
+    pyautogui.click(406, 192)
+    time.sleep(2)
 
-    # 8. Gửi phím 1
-    pyautogui.press("1")
-    time.sleep(2)
-    
-    # Gửi Enter sau khi gửi phím 1
-    pyautogui.press('enter') 
-    time.sleep(5)
-    
-    # 9. Click chuột và chờ (Đã chuyển sang double click)
-    
+    pyautogui.press("3")
+    time.sleep(2)
 
-    pyautogui.click(630, 711)
-    time.sleep(1)
-    pyautogui.click(744, 699)
-    time.sleep(1)
-    pyautogui.click(744, 699)
-    time.sleep(2)
-    
-    pyautogui.press('enter')
-    time.sleep(40)
-    
-    pyautogui.press('enter') 
-    time.sleep(2)
-    
-    # Double click (1288, 305)
-    pyautogui.click(1288, 305)
-    time.sleep(2)
-    pyautogui.click(1288, 305)
-    time.sleep(2)
-    
-    # 10. Click để focus/chọn cửa sổ (lần 2)
-    pyautogui.click(595, 131)
-    time.sleep(2)
-    pyautogui.click(595, 131)
-    time.sleep(2)
+    pyautogui.press("enter")
+    time.sleep(20)
 
-    # 11. Gửi phím 2
-    pyautogui.press("2")
-    time.sleep(1)
+    pyautogui.press("enter")
 
-    # 12. Gửi Enter
-    pyautogui.press('enter')
+    pyautogui.press("1")
+    time.sleep(2)
 
-    print("\n[PHẦN EMURB KẾT THÚC] Chuỗi hành động EmuRB đã hoàn tất.")
+    pyautogui.press("enter")
+    time.sleep(5)
 
+    pyautogui.click(630, 711)
+    time.sleep(1)
+    pyautogui.click(744, 699)
+    time.sleep(1)
+    pyautogui.click(744, 699)
+    time.sleep(2)
 
-# ==============================================================================
-# MAIN EXECUTION
-# ==============================================================================
+    pyautogui.press("enter")
+    time.sleep(40)
+
+    pyautogui.press("enter")
+    time.sleep(2)
+
+    pyautogui.click(1288, 305)
+    time.sleep(2)
+    pyautogui.click(1288, 305)
+    time.sleep(2)
+
+    pyautogui.click(595, 131)
+    time.sleep(2)
+    pyautogui.click(595, 131)
+    time.sleep(2)
+
+    pyautogui.press("2")
+    time.sleep(1)
+
+    pyautogui.press("enter")
+
+    print("\n[PHẦN EMURB KẾT THÚC] Chuỗi hành động EmuRB đã hoàn tất.")
+
 
 if __name__ == "__main__":
-    
-    # Thực thi chuỗi LDPlayer/Backup đã chỉnh sửa
-    run_modified_ldplayer_sequence()
-    
-    # Thực thi chuỗi EmuRB mới
-    run_emurb_sequence()
-    
-    print("\n[KẾT THÚC] Toàn bộ quy trình tự động hóa đã hoàn tất.")
+    run_modified_ldplayer_sequence()
+    run_emurb_sequence()
+    print("\n[KẾT THÚC] Toàn bộ quy trình tự động hóa đã hoàn tất.")
