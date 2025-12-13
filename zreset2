@@ -75,7 +75,11 @@ def run_emurb_sequence():
     print("\n[BẮT ĐẦU PHẦN EMURB] Khởi động chuỗi hành động EmuRB.")
     
     # 1. Chờ countdown ban đầu
-    time.sleep(INITIAL_COUNTDOWN_SECONDS) 
+    #time.sleep(INITIAL_COUNTDOWN_SECONDS) 
+
+    for i in range(INITIAL_COUNTDOWN_SECONDS, 0, -10):
+        print(f"\rCho: Con lai {i} s...", end='', flush=True) 
+        sleep(10) 
 
     # 2. Mở EmuRB
     if not open_application(EMURB_PATH):
