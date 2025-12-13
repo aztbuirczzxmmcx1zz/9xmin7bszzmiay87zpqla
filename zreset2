@@ -115,7 +115,9 @@ def run_emurb_sequence():
     
     # 9. Click chuột và chờ (Đã chuyển sang double click)
     
-    # Double click (744, 699)
+
+    pyautogui.click(630, 711)
+    time.sleep(1)
     pyautogui.click(744, 699)
     time.sleep(1)
     pyautogui.click(744, 699)
@@ -134,9 +136,9 @@ def run_emurb_sequence():
     time.sleep(2)
     
     # 10. Click để focus/chọn cửa sổ (lần 2)
-    pyautogui.click(694, 61)
+    pyautogui.click(595, 131)
     time.sleep(2)
-    pyautogui.click(694, 61)
+    pyautogui.click(595, 131)
     time.sleep(2)
 
     # 11. Gửi phím 2
