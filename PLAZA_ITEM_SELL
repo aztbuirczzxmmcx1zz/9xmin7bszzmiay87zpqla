@@ -27,7 +27,8 @@ getgenv().Settings_autoplaza = {
 		{Name = "Exclusive Egg 57", Data = {Price = "120m"}},
 
 		{Name = "Titanic Pink Lucky Block", Data = {Price = "5.5b"}},
-       
+
+        {Name = "Titanic Vampire Agony", Data = {Price = "15.5b"}},
 
         {Name = "Huge Splash Angelus", Data = {Price = "20b"}},
         {Name = "Golden Huge Splash Angelus", Data = {Price = "22b"}},
