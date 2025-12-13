@@ -85,11 +85,9 @@ def run_emurb_sequence():
     time.sleep(15) 
     
     # Thao tác click để focus (theo tọa độ mới bạn cung cấp)
-    pyautogui.click(694, 61)
-    time.sleep(2)
-    pyautogui.press('enter')
-    time.sleep(2)
-    pyautogui.click(694, 91)
+    pyautogui.click(406, 192)
+    time.sleep(1)
+    pyautogui.click(406, 192)
     time.sleep(2)
     
     # 4. Gửi phím 3 
