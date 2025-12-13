@@ -167,7 +167,7 @@ def execute_single_action_sequence():
 
     # 4.5. Thuc hien double-click tai vi tri (X, Y)
     if not running: return
-    print(f"Thuc hien double-click tai toa do ({CLICK_X}, {CLICK_Y}).")
+    #print(f"Thuc hien double-click tai toa do ({CLICK_X}, {CLICK_Y}).")
     try:
         # pyautogui.click(CLICK_X, CLICK_Y, clicks=2, interval=0.25) # Cach khac
         pyautogui.doubleClick(CLICK_X, CLICK_Y)
