@@ -20,8 +20,8 @@ import ctypes
 import pyautogui # <--- DA THEM
 
 # Cau hinh duong dan
-DATA_FOLDER = r"C:\Users\ADMIN\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\ChangeAcc"
-EMURB_PATH = r"C:\Users\ADMIN\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\EmuRB.exe"
+DATA_FOLDER = r"C:\Users\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\ChangeAcc"
+EMURB_PATH = r"C:\Users\ADMIN\Downloads\Yummyemu\YummyEmuPlayer\EmuRB.exe"
 EMURB_PROCESS_NAME = "EmuRB.exe"
 
 # Bien kiem soat trang thai
